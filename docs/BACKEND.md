@@ -31,7 +31,7 @@ create extension if not exists "citext";
 do $$
 begin
   if not exists (select 1 from pg_type where typname = 'user_role') then
-    create type user_role as enum ('client', 'coach', 'nutritionist', 'merchant', 'admin');
+    create type user_role as enum ('admin', 'nutritionist', 'trainer', 'merchant', 'client');
   end if;
 end$$;
 
@@ -39,7 +39,7 @@ end$$;
 -- 1) PROFILES — extensão pública do auth.users
 --    1:1 com auth.users via PK = id (mesmo uuid)
 -- -------------------------------------------------------------------------
-create table if not exists public.user_profiles (
+create table if not exists public.profiles (
   id                uuid primary key references auth.users(id) on delete cascade,
   email             citext not null,
   full_name         text   not null default '',
@@ -58,15 +58,15 @@ create table if not exists public.user_profiles (
   updated_at        timestamptz not null default now()
 );
 
-create unique index if not exists user_profiles_email_idx
-  on public.user_profiles (email);
+create unique index if not exists profiles_email_idx
+  on public.profiles (email);
 
 -- -------------------------------------------------------------------------
 -- 2) DAILY TARGETS — metas dinâmicas (água, kcal, macros)
 --    Separado do profile pois muda em função do treino do dia
 -- -------------------------------------------------------------------------
 create table if not exists public.user_daily_targets (
-  user_id          uuid primary key references public.user_profiles(id) on delete cascade,
+  user_id          uuid primary key references public.profiles(id) on delete cascade,
   water_ml_goal    integer not null default 3000 check (water_ml_goal between 500 and 8000),
   kcal_goal        integer not null default 2400 check (kcal_goal between 800 and 6000),
   protein_g_goal   integer not null default 180,
@@ -85,9 +85,9 @@ begin
   return new;
 end$$;
 
-drop trigger if exists set_updated_at on public.user_profiles;
+drop trigger if exists set_updated_at on public.profiles;
 create trigger set_updated_at
-  before update on public.user_profiles
+  before update on public.profiles
   for each row execute function public.tg_set_updated_at();
 
 drop trigger if exists set_updated_at on public.user_daily_targets;
@@ -116,8 +116,17 @@ begin
   );
   v_avatar := new.raw_user_meta_data ->> 'avatar_url';
 
-  insert into public.user_profiles (id, email, full_name, avatar_url)
-  values (new.id, new.email, v_full_name, v_avatar)
+  -- role pode vir via metadata no signup (ex: { role: 'trainer' }).
+  -- 'admin' nunca é setado por aqui — promoção é manual.
+  declare v_role_raw text := new.raw_user_meta_data ->> 'role';
+  declare v_role public.user_role := case
+    when v_role_raw in ('nutritionist','trainer','merchant','client')
+      then v_role_raw::public.user_role
+    else 'client'::public.user_role
+  end;
+
+  insert into public.profiles (id, email, full_name, avatar_url, role)
+  values (new.id, new.email, v_full_name, v_avatar, v_role)
   on conflict (id) do nothing;
 
   insert into public.user_daily_targets (user_id)
@@ -135,18 +144,18 @@ create trigger on_auth_user_created
 -- =========================================================================
 -- RLS — Row Level Security
 -- =========================================================================
-alter table public.user_profiles      enable row level security;
+alter table public.profiles          enable row level security;
 alter table public.user_daily_targets enable row level security;
 
 -- Cada usuário lê/atualiza apenas seu próprio profile
-drop policy if exists "profiles_select_own" on public.user_profiles;
+drop policy if exists "profiles_select_own" on public.profiles;
 create policy "profiles_select_own"
-  on public.user_profiles for select
+  on public.profiles for select
   using (auth.uid() = id);
 
-drop policy if exists "profiles_update_own" on public.user_profiles;
+drop policy if exists "profiles_update_own" on public.profiles;
 create policy "profiles_update_own"
-  on public.user_profiles for update
+  on public.profiles for update
   using (auth.uid() = id)
   with check (auth.uid() = id);
 
@@ -182,7 +191,7 @@ select
   t.protein_g_goal,
   t.carbs_g_goal,
   t.fat_g_goal
-from public.user_profiles p
+from public.profiles p
 left join public.user_daily_targets t on t.user_id = p.id;
 
 -- Permite o cliente autenticado consultar a view (RLS das tabelas-base já filtra)
@@ -193,7 +202,7 @@ grant select on public.v_user_dashboard to authenticated;
 
 | Recurso | Para que serve |
 | --- | --- |
-| `user_profiles` (1:1 com `auth.users`) | Nome, avatar, role, fuso, locale, tema |
+| `profiles` (1:1 com `auth.users`) | Nome, avatar, role, fuso, locale, tema |
 | `user_daily_targets` | Metas diárias (água, kcal, macros) — mutáveis pela sinergia treino↔nutrição |
 | Trigger `handle_new_user` | Cria profile + targets automaticamente no signup (email/senha **e** OAuth) |
 | Trigger `set_updated_at` | Mantém `updated_at` consistente sem código no client |

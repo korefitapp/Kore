@@ -11,7 +11,7 @@ export default async function PersonalDashboard() {
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (!user) redirect("/login?next=/personal");
+  if (!user) redirect("/login?next=/dashboard/personal");
 
   return (
     <main className="mx-auto max-w-5xl px-6 py-8">

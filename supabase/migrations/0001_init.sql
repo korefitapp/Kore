@@ -1,18 +1,22 @@
 -- =====================================================================
 -- KORE — Initial schema
--- Idempotent: pode rodar várias vezes sem quebrar
+-- Idempotente: pode rodar várias vezes sem quebrar.
 -- =====================================================================
 
 -- Extensões -----------------------------------------------------------
 create extension if not exists "uuid-ossp";
 create extension if not exists pgcrypto;
 
--- Enums ---------------------------------------------------------------
+-- =====================================================================
+-- Enums
+-- Order: admin > nutritionist > trainer > merchant > client.
+-- Mantemos 'client' como default (B2C).
+-- =====================================================================
 do $$
 begin
   if not exists (select 1 from pg_type where typname = 'user_role') then
     create type public.user_role as enum (
-      'client', 'nutri', 'personal', 'shop', 'admin'
+      'admin', 'nutritionist', 'trainer', 'merchant', 'client'
     );
   end if;
 
@@ -22,9 +26,9 @@ begin
 end$$;
 
 -- =====================================================================
--- user_profiles  (1:1 com auth.users)
+-- profiles  (1:1 com auth.users)
 -- =====================================================================
-create table if not exists public.user_profiles (
+create table if not exists public.profiles (
   id            uuid primary key references auth.users(id) on delete cascade,
   full_name     text not null default '',
   display_name  text,
@@ -36,20 +40,20 @@ create table if not exists public.user_profiles (
   birthdate     date,
   phone         text,
   stripe_customer_id        text,
-  stripe_connect_account_id text,           -- só para nutri/personal/shop
+  stripe_connect_account_id text,           -- nutritionist/trainer/merchant
   metadata      jsonb not null default '{}'::jsonb,
   created_at    timestamptz not null default now(),
   updated_at    timestamptz not null default now()
 );
 
-create index if not exists user_profiles_role_idx on public.user_profiles(role);
-create index if not exists user_profiles_status_idx on public.user_profiles(status);
+create index if not exists profiles_role_idx   on public.profiles(role);
+create index if not exists profiles_status_idx on public.profiles(status);
 
 -- =====================================================================
 -- user_daily_targets  (metas dinâmicas; ajustadas pelo gasto do treino)
 -- =====================================================================
 create table if not exists public.user_daily_targets (
-  user_id           uuid primary key references public.user_profiles(id) on delete cascade,
+  user_id           uuid primary key references public.profiles(id) on delete cascade,
   water_ml          int not null default 3000   check (water_ml between 0 and 10000),
   kcal              int not null default 2400   check (kcal between 800 and 8000),
   protein_g         int not null default 180    check (protein_g >= 0),
@@ -72,9 +76,9 @@ begin
   return new;
 end$$;
 
-drop trigger if exists set_updated_at on public.user_profiles;
+drop trigger if exists set_updated_at on public.profiles;
 create trigger set_updated_at
-  before update on public.user_profiles
+  before update on public.profiles
   for each row execute function public.set_updated_at();
 
 drop trigger if exists set_updated_at on public.user_daily_targets;
@@ -83,9 +87,11 @@ create trigger set_updated_at
   for each row execute function public.set_updated_at();
 
 -- =====================================================================
--- handle_new_user: cria profile + targets quando alguém faz signup
+-- handle_new_user: cria profile + targets quando alguém faz signup.
 -- Funciona para email + OAuth (Google/Apple).
+-- Lê `role` de raw_user_meta_data se vier no signup; fallback 'client'.
 -- SECURITY DEFINER para atravessar RLS.
+-- 'admin' nunca é setado por aqui — promoção é manual (set_user_role).
 -- =====================================================================
 create or replace function public.handle_new_user()
 returns trigger
@@ -96,6 +102,8 @@ as $$
 declare
   v_full_name  text;
   v_avatar_url text;
+  v_role_raw   text;
+  v_role       public.user_role;
 begin
   v_full_name := coalesce(
     new.raw_user_meta_data->>'full_name',
@@ -104,8 +112,15 @@ begin
   );
   v_avatar_url := new.raw_user_meta_data->>'avatar_url';
 
-  insert into public.user_profiles (id, full_name, avatar_url)
-  values (new.id, v_full_name, v_avatar_url)
+  v_role_raw := new.raw_user_meta_data->>'role';
+  if v_role_raw in ('nutritionist', 'trainer', 'merchant', 'client') then
+    v_role := v_role_raw::public.user_role;
+  else
+    v_role := 'client'::public.user_role;
+  end if;
+
+  insert into public.profiles (id, full_name, avatar_url, role)
+  values (new.id, v_full_name, v_avatar_url, v_role)
   on conflict (id) do nothing;
 
   insert into public.user_daily_targets (user_id)
@@ -123,25 +138,28 @@ create trigger on_auth_user_created
 -- =====================================================================
 -- RLS — Row Level Security
 -- =====================================================================
-alter table public.user_profiles      enable row level security;
+alter table public.profiles           enable row level security;
 alter table public.user_daily_targets enable row level security;
 
 -- Profiles ------------------------------------------------------------
-drop policy if exists "profile: select own"  on public.user_profiles;
-drop policy if exists "profile: update own"  on public.user_profiles;
-drop policy if exists "profile: insert own"  on public.user_profiles;
+drop policy if exists "profile: select own"  on public.profiles;
+drop policy if exists "profile: update own"  on public.profiles;
+drop policy if exists "profile: insert own"  on public.profiles;
 
 create policy "profile: select own"
-  on public.user_profiles for select
+  on public.profiles for select
   using (auth.uid() = id);
 
+-- Usuário NÃO pode alterar a coluna `role` por si só — a migration
+-- futura vai adicionar uma função `set_user_role(uid, role)`
+-- SECURITY DEFINER chamada pelo admin ou pelo webhook do Stripe Connect.
 create policy "profile: update own"
-  on public.user_profiles for update
+  on public.profiles for update
   using (auth.uid() = id)
   with check (auth.uid() = id);
 
 create policy "profile: insert own"
-  on public.user_profiles for insert
+  on public.profiles for insert
   with check (auth.uid() = id);
 
 -- Targets -------------------------------------------------------------
@@ -186,11 +204,11 @@ select
   t.active_kcal_burn as target_active_kcal_burn,
   p.created_at,
   p.updated_at
-from public.user_profiles p
+from public.profiles p
 left join public.user_daily_targets t on t.user_id = p.id;
 
 comment on view public.v_user_dashboard is
-  'Payload base de /user/dashboard. RLS herdada de user_profiles/user_daily_targets.';
+  'Payload base de /user/dashboard. RLS herdada de profiles/user_daily_targets.';
 
 -- =====================================================================
 -- Grants — autenticado pode ler a view (RLS filtra)

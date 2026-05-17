@@ -11,7 +11,7 @@ export default async function ShopDashboard() {
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (!user) redirect("/login?next=/shop-admin");
+  if (!user) redirect("/login?next=/dashboard/shop");
 
   return (
     <main className="mx-auto max-w-5xl px-6 py-8">

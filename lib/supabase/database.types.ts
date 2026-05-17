@@ -15,17 +15,25 @@ export type Json =
   | { [key: string]: Json | undefined }
   | Json[];
 
+type UserRoleLiteral =
+  | "admin"
+  | "nutritionist"
+  | "trainer"
+  | "merchant"
+  | "client";
+type UserStatusLiteral = "active" | "paused" | "churned";
+
 export interface Database {
   public: {
     Tables: {
-      user_profiles: {
+      profiles: {
         Row: {
           id: string;
           full_name: string;
           display_name: string | null;
           avatar_url: string | null;
-          role: "client" | "nutri" | "personal" | "shop" | "admin";
-          status: "active" | "paused" | "churned";
+          role: UserRoleLiteral;
+          status: UserStatusLiteral;
           locale: string;
           timezone: string;
           birthdate: string | null;
@@ -36,10 +44,10 @@ export interface Database {
           created_at: string;
           updated_at: string;
         };
-        Insert: Partial<Database["public"]["Tables"]["user_profiles"]["Row"]> & {
+        Insert: Partial<Database["public"]["Tables"]["profiles"]["Row"]> & {
           id: string;
         };
-        Update: Partial<Database["public"]["Tables"]["user_profiles"]["Row"]>;
+        Update: Partial<Database["public"]["Tables"]["profiles"]["Row"]>;
         Relationships: [];
       };
       user_daily_targets: {
@@ -70,8 +78,8 @@ export interface Database {
           full_name: string;
           display_name: string | null;
           avatar_url: string | null;
-          role: "client" | "nutri" | "personal" | "shop" | "admin";
-          status: "active" | "paused" | "churned";
+          role: UserRoleLiteral;
+          status: UserStatusLiteral;
           locale: string;
           timezone: string;
           target_water_ml: number | null;
@@ -88,8 +96,8 @@ export interface Database {
     };
     Functions: Record<string, never>;
     Enums: {
-      user_role: "client" | "nutri" | "personal" | "shop" | "admin";
-      user_status: "active" | "paused" | "churned";
+      user_role: UserRoleLiteral;
+      user_status: UserStatusLiteral;
     };
     CompositeTypes: Record<string, never>;
   };

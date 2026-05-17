@@ -11,7 +11,7 @@ export default async function NutriDashboard() {
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (!user) redirect("/login?next=/nutri");
+  if (!user) redirect("/login?next=/dashboard/nutri");
 
   return (
     <main className="mx-auto max-w-5xl px-6 py-8">

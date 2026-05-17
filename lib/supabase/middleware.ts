@@ -1,11 +1,18 @@
 import { createServerClient, type CookieOptions } from "@supabase/ssr";
 import { type NextRequest, NextResponse } from "next/server";
 import type { Database } from "./database.types";
+import {
+  homePathForRole,
+  isAllowedRoute,
+  type UserRole,
+} from "@/lib/auth/rbac";
 
 /**
  * Mantém a sessão Supabase atualizada em cada request.
- * Chamado pelo middleware.ts do Next.js. Também aplica RBAC
- * via prefixos de rota.
+ * Chamado pelo middleware.ts do Next.js. Também aplica RBAC:
+ *  - Bloqueia não-autenticado em `/app` e `/dashboard/**`.
+ *  - Pós-login, redireciona o usuário pra rota canônica da sua role.
+ *  - Bloqueia acesso cruzado entre roles (ex: client em /dashboard/admin).
  */
 export async function updateSession(request: NextRequest) {
   let response = NextResponse.next({ request });
@@ -35,15 +42,9 @@ export async function updateSession(request: NextRequest) {
 
   const { pathname } = request.nextUrl;
 
-  const isAuthRoute =
-    pathname.startsWith("/login") ||
-    pathname.startsWith("/sign-up") ||
-    pathname.startsWith("/auth");
+  const isAuthPage = pathname === "/login" || pathname === "/sign-up";
   const isProtectedApp = pathname.startsWith("/app");
-  const isDashboard =
-    pathname.startsWith("/nutri") ||
-    pathname.startsWith("/personal") ||
-    pathname.startsWith("/shop-admin");
+  const isDashboard = pathname.startsWith("/dashboard");
 
   // Não autenticado tentando acessar área restrita
   if (!user && (isProtectedApp || isDashboard)) {
@@ -53,33 +54,30 @@ export async function updateSession(request: NextRequest) {
     return NextResponse.redirect(redirectUrl);
   }
 
-  // Autenticado em página de login → manda pra home autenticada
-  if (user && pathname === "/login") {
-    const redirectUrl = request.nextUrl.clone();
-    redirectUrl.pathname = "/app";
-    return NextResponse.redirect(redirectUrl);
-  }
-
-  // RBAC nos dashboards B2B
-  if (user && isDashboard) {
+  // Pós-login + RBAC cruzado
+  if (user && (isAuthPage || isProtectedApp || isDashboard)) {
     type RoleRow = { role: Database["public"]["Enums"]["user_role"] };
     const { data: profile } = await supabase
-      .from("user_profiles")
+      .from("profiles")
       .select("role")
       .eq("id", user.id)
       .maybeSingle<RoleRow>();
 
-    const role: Database["public"]["Enums"]["user_role"] =
-      profile?.role ?? "client";
-    const allowed =
-      (pathname.startsWith("/nutri") && role === "nutri") ||
-      (pathname.startsWith("/personal") && role === "personal") ||
-      (pathname.startsWith("/shop-admin") && role === "shop") ||
-      role === "admin";
+    const role: UserRole = (profile?.role as UserRole | undefined) ?? "client";
 
-    if (!allowed) {
+    // Usuário logado batendo em /login ou /sign-up → home da role
+    if (isAuthPage) {
       const redirectUrl = request.nextUrl.clone();
-      redirectUrl.pathname = "/app";
+      redirectUrl.pathname = homePathForRole(role);
+      redirectUrl.search = "";
+      return NextResponse.redirect(redirectUrl);
+    }
+
+    // RBAC cruzado: redireciona pra home da role se rota não for permitida.
+    if (!isAllowedRoute(role, pathname)) {
+      const redirectUrl = request.nextUrl.clone();
+      redirectUrl.pathname = homePathForRole(role);
+      redirectUrl.search = "";
       return NextResponse.redirect(redirectUrl);
     }
   }

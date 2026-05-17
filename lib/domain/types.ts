@@ -3,8 +3,10 @@
  * Reusados pelo app web e, futuramente, pelo Expo.
  */
 
-export type UserRole = "client" | "nutri" | "personal" | "shop" | "admin";
+export type { UserRole } from "@/lib/auth/rbac";
 export type UserStatus = "active" | "paused" | "churned";
+
+import type { UserRole } from "@/lib/auth/rbac";
 
 export interface DailyTargets {
   waterMl: number;
