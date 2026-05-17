@@ -1,0 +1,61 @@
+# Dependencies
+node_modules
+.pnp
+.pnp.js
+.yarn/install-state.gz
+
+# Testing
+coverage
+.nyc_output
+
+# Next.js
+.next
+out
+.swc
+
+# Production
+build
+dist
+
+# Misc
+.DS_Store
+*.pem
+Thumbs.db
+
+# Env
+.env
+.env.local
+.env*.local
+
+# Vercel
+.vercel
+
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+*.log
+logs
+
+# Editors
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea
+
+# Supabase
+**/supabase/.branches
+**/supabase/.temp
+supabase/.env
+
+# Stripe
+stripe-cli.log
+
+# OS
+.cache
+.parcel-cache
