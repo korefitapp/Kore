@@ -1,0 +1,50 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --radius: 0.75rem;
+    --kore-bg: 244 246 250;
+    --kore-card: 255 255 255;
+    --kore-ink: 15 23 42;
+    --kore-subink: 51 65 85;
+    --kore-muted: 100 116 139;
+    --kore-border: 226 232 240;
+    --kore-emerald: 16 185 129;
+    --kore-emerald-deep: 5 150 105;
+    --kore-emerald-soft: 209 250 229;
+  }
+
+  .dark {
+    --kore-bg: 9 13 22;
+    --kore-card: 17 24 39;
+    --kore-ink: 241 245 249;
+    --kore-subink: 203 213 225;
+    --kore-muted: 148 163 184;
+    --kore-border: 30 41 59;
+    --kore-emerald: 52 211 153;
+    --kore-emerald-deep: 16 185 129;
+    --kore-emerald-soft: 6 78 59;
+  }
+
+  html,
+  body {
+    background-color: rgb(var(--kore-bg));
+    color: rgb(var(--kore-ink));
+  }
+}
+
+@layer components {
+  .card {
+    @apply rounded-2xl border border-kore-border bg-kore-card shadow-kore-soft;
+  }
+  .btn-emerald {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-kore-emerald px-4 py-2.5 font-bold text-white shadow-kore-emerald transition active:scale-[0.98] hover:brightness-105;
+  }
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl border border-kore-border bg-kore-card px-3.5 py-2.5 font-semibold text-kore-subink transition hover:border-kore-emerald/60 hover:text-kore-ink;
+  }
+}
