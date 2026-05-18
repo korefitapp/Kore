@@ -8,15 +8,45 @@ import { StreakCalendar } from "./StreakCalendar";
 import { TrainingCard } from "./TrainingCard";
 import { WaterBar } from "./WaterBar";
 
+const WEEK_DAYS_PT = [
+  "Domingo",
+  "Segunda",
+  "Terça",
+  "Quarta",
+  "Quinta",
+  "Sexta",
+  "Sábado",
+];
+const MONTHS_PT = [
+  "Janeiro",
+  "Fevereiro",
+  "Março",
+  "Abril",
+  "Maio",
+  "Junho",
+  "Julho",
+  "Agosto",
+  "Setembro",
+  "Outubro",
+  "Novembro",
+  "Dezembro",
+];
+
+function formatTodayPt(): string {
+  const d = new Date();
+  const weekday = WEEK_DAYS_PT[d.getDay()] ?? "";
+  const day = d.getDate();
+  const month = MONTHS_PT[d.getMonth()] ?? "";
+  return `${weekday}, ${day} ${month}`;
+}
+
 export function HomeTab() {
   const user = useKore((s) => s.user);
   const theme = useKore((s) => s.theme);
   const toggleTheme = useKore((s) => s.toggleTheme);
 
-  const hour = new Date().getHours();
-  const greeting =
-    hour < 12 ? "Bom dia" : hour < 18 ? "Boa tarde" : "Boa noite";
   const firstName = user.name.split(" ")[0] ?? user.name;
+  const today = formatTodayPt();
 
   return (
     <motion.div
@@ -27,9 +57,11 @@ export function HomeTab() {
     >
       <header className="flex items-center justify-between gap-3">
         <div className="min-w-0">
-          <p className="text-xs text-muted">{greeting},</p>
+          <p className="text-xs text-muted">{today}</p>
           <h1 className="text-2xl font-extrabold text-kore tracking-tight truncate flex items-center gap-1.5">
-            {firstName} <span aria-hidden>👋</span>
+            <span>Olá,</span>
+            <span className="text-kore-emerald">{firstName}</span>
+            <span aria-hidden>👋</span>
           </h1>
         </div>
 
