@@ -18,7 +18,8 @@
     "supabase:stop": "supabase stop",
     "supabase:migrate": "supabase migration up",
     "supabase:reset": "supabase db reset",
-    "supabase:types": "supabase gen types typescript --local --schema public > lib/supabase/database.types.ts"
+    "supabase:types": "supabase gen types typescript --local --schema public > lib/supabase/database.types.ts",
+    "seed:users": "node scripts/seed-users.mjs"
   },
   "dependencies": {
     "@supabase/ssr": "^0.10.3",
