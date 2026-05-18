@@ -16,6 +16,8 @@
     --kore-emerald: 16 185 129;
     --kore-emerald-deep: 5 150 105;
     --kore-emerald-soft: 209 250 229;
+    --kore-water: 56 189 248;
+    --kore-water-deep: 14 165 233;
   }
 
   .dark {
@@ -28,12 +30,19 @@
     --kore-emerald: 52 211 153;
     --kore-emerald-deep: 16 185 129;
     --kore-emerald-soft: 6 78 59;
+    --kore-water: 56 189 248;
+    --kore-water-deep: 14 165 233;
   }
 
   html,
   body {
     background-color: rgb(var(--kore-bg));
     color: rgb(var(--kore-ink));
+    font-family:
+      "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+      "Helvetica Neue", Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
   }
 }
 
@@ -47,4 +56,46 @@
   .btn-ghost {
     @apply inline-flex items-center justify-center gap-2 rounded-xl border border-kore-border bg-kore-card px-3.5 py-2.5 font-semibold text-kore-subink transition hover:border-kore-emerald/60 hover:text-kore-ink;
   }
+  .chip {
+    @apply inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-bold;
+  }
+}
+
+@layer utilities {
+  .text-kore {
+    color: rgb(var(--kore-ink));
+  }
+  .text-muted {
+    color: rgb(var(--kore-muted));
+  }
+  .bg-kore-bg {
+    background-color: rgb(var(--kore-bg));
+  }
+  .border-kore {
+    border-color: rgb(var(--kore-border));
+  }
+  .ring-kore-emerald {
+    --tw-ring-color: rgb(var(--kore-emerald));
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollbar-hide {
+    scrollbar-width: none;
+  }
+}
+
+.liquid-wave {
+  background: linear-gradient(
+    180deg,
+    rgba(16, 185, 129, 0.85) 0%,
+    rgba(5, 150, 105, 1) 100%
+  );
+}
+.liquid-wave-water {
+  background: linear-gradient(
+    180deg,
+    rgba(56, 189, 248, 0.85) 0%,
+    rgba(14, 165, 233, 1) 100%
+  );
 }
