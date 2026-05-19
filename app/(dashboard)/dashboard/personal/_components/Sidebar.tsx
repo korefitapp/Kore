@@ -1,0 +1,170 @@
+"use client";
+
+import { motion } from "framer-motion";
+import {
+  BookOpen,
+  CalendarDays,
+  ChevronRight,
+  LayoutDashboard,
+  LifeBuoy,
+  MessageSquare,
+  Settings,
+  Users,
+  Wallet,
+} from "lucide-react";
+import { OWNER } from "./data";
+import { usePersonal } from "./store";
+import type { SidebarKey } from "./types";
+
+interface Item {
+  key: SidebarKey;
+  label: string;
+  Icon: typeof Users;
+  badge?: number;
+}
+
+const WORKSPACE: Item[] = [
+  { key: "overview", label: "Visão Geral", Icon: LayoutDashboard },
+  { key: "students", label: "Alunos", Icon: Users, badge: 28 },
+  { key: "library", label: "Biblioteca", Icon: BookOpen },
+  { key: "agenda", label: "Agenda", Icon: CalendarDays },
+  { key: "messages", label: "Mensagens", Icon: MessageSquare, badge: 7 },
+];
+
+const ACCOUNT: Item[] = [
+  { key: "finance", label: "Financeiro", Icon: Wallet },
+  { key: "settings", label: "Configurações", Icon: Settings },
+];
+
+export function Sidebar() {
+  const section = usePersonal((s) => s.section);
+  const setSection = usePersonal((s) => s.setSection);
+
+  return (
+    <aside className="hidden lg:flex flex-col w-[248px] flex-shrink-0 border-r border-kore-border bg-kore-card/60 backdrop-blur-sm">
+      <div className="px-5 pt-6 pb-5 flex items-center gap-3">
+        <div
+          className="w-10 h-10 rounded-2xl grid place-items-center text-white font-black text-base shadow-kore-emerald"
+          style={{
+            background:
+              "linear-gradient(135deg, rgb(var(--kore-emerald)) 0%, rgb(var(--kore-emerald-deep)) 100%)",
+          }}
+        >
+          K
+        </div>
+        <div className="leading-tight">
+          <p className="text-[10px] uppercase tracking-[0.18em] text-kore-muted font-bold">
+            Coach Dashboard
+          </p>
+          <p className="font-extrabold text-kore-ink text-lg tracking-tight">
+            KORE
+          </p>
+        </div>
+      </div>
+
+      <nav className="px-3 flex-1 overflow-y-auto">
+        <p className="px-3 mt-2 text-[10px] uppercase tracking-[0.18em] text-kore-muted font-bold mb-2">
+          Workspace
+        </p>
+        <ul className="space-y-1">
+          {WORKSPACE.map((it) => (
+            <NavItem
+              key={it.key}
+              item={it}
+              active={section === it.key}
+              onClick={() => setSection(it.key)}
+            />
+          ))}
+        </ul>
+
+        <p className="px-3 mt-6 text-[10px] uppercase tracking-[0.18em] text-kore-muted font-bold mb-2">
+          Conta
+        </p>
+        <ul className="space-y-1">
+          {ACCOUNT.map((it) => (
+            <NavItem
+              key={it.key}
+              item={it}
+              active={section === it.key}
+              onClick={() => setSection(it.key)}
+            />
+          ))}
+        </ul>
+      </nav>
+
+      <div className="p-3 space-y-3">
+        <button
+          type="button"
+          className="w-full flex items-center gap-2 text-xs font-semibold text-kore-muted hover:text-kore-ink px-3 py-2 rounded-xl hover:bg-kore-bg transition"
+        >
+          <LifeBuoy size={15} /> Centro de ajuda
+        </button>
+
+        <div className="rounded-2xl border border-kore-border bg-kore-bg/60 p-3 flex items-center gap-3">
+          <div className="w-10 h-10 rounded-xl bg-kore-emerald-soft text-2xl grid place-items-center flex-shrink-0">
+            {OWNER.avatar}
+          </div>
+          <div className="min-w-0 flex-1">
+            <p className="text-sm font-bold text-kore-ink truncate">
+              {OWNER.name}
+            </p>
+            <p className="text-[11px] text-kore-muted truncate">
+              {OWNER.registry}
+            </p>
+          </div>
+          <ChevronRight size={16} className="text-kore-muted" />
+        </div>
+      </div>
+    </aside>
+  );
+}
+
+function NavItem({
+  item,
+  active,
+  onClick,
+}: {
+  item: Item;
+  active: boolean;
+  onClick: () => void;
+}) {
+  const { Icon, label, badge } = item;
+  return (
+    <li>
+      <button
+        type="button"
+        onClick={onClick}
+        className={`relative w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition ${
+          active
+            ? "text-kore-ink bg-kore-emerald-soft"
+            : "text-kore-subink hover:text-kore-ink hover:bg-kore-bg"
+        }`}
+      >
+        {active && (
+          <motion.span
+            layoutId="personal-sidebar-active"
+            className="absolute left-0 top-1.5 bottom-1.5 w-[3px] rounded-r-full bg-kore-emerald"
+            transition={{ type: "spring", stiffness: 380, damping: 30 }}
+          />
+        )}
+        <Icon
+          size={17}
+          strokeWidth={2.2}
+          className={active ? "text-kore-emerald-deep" : ""}
+        />
+        <span className="flex-1 text-left">{label}</span>
+        {badge !== undefined && (
+          <span
+            className={`text-[10px] font-bold rounded-full px-2 py-0.5 ${
+              active
+                ? "bg-kore-emerald text-white"
+                : "bg-kore-bg text-kore-muted"
+            }`}
+          >
+            {badge}
+          </span>
+        )}
+      </button>
+    </li>
+  );
+}
