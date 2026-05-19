@@ -14,6 +14,7 @@ import {
   Users,
   Wallet,
 } from "lucide-react";
+import { MobileNavDrawer } from "@/components/MobileNavDrawer";
 import { SidebarUserCard } from "@/components/SidebarUserCard";
 import { OWNER } from "./data";
 import { useAdmin } from "./store";
@@ -41,11 +42,37 @@ const SECONDARY: Item[] = [
 ];
 
 export function Sidebar() {
-  const section = useAdmin((s) => s.section);
-  const setSection = useAdmin((s) => s.setSection);
-
   return (
     <aside className="hidden lg:flex flex-col w-[252px] flex-shrink-0 self-start sticky top-0 h-screen border-r border-kore-border bg-kore-card/60 backdrop-blur-sm">
+      <SidebarBody />
+    </aside>
+  );
+}
+
+export function MobileSidebar() {
+  const open = useAdmin((s) => s.mobileNavOpen);
+  const setOpen = useAdmin((s) => s.setMobileNavOpen);
+  return (
+    <MobileNavDrawer
+      open={open}
+      onClose={() => setOpen(false)}
+      label="Menu do Super Admin"
+    >
+      <SidebarBody onItemClick={() => setOpen(false)} />
+    </MobileNavDrawer>
+  );
+}
+
+function SidebarBody({ onItemClick }: { onItemClick?: () => void }) {
+  const section = useAdmin((s) => s.section);
+  const setSection = useAdmin((s) => s.setSection);
+  const handle = (k: SidebarKey) => {
+    setSection(k);
+    onItemClick?.();
+  };
+
+  return (
+    <>
       <div className="px-5 pt-6 pb-5 flex items-center gap-3">
         <div
           className="w-10 h-10 rounded-2xl grid place-items-center text-white font-black text-base shadow-kore-emerald"
@@ -76,7 +103,7 @@ export function Sidebar() {
               key={it.key}
               item={it}
               active={section === it.key}
-              onClick={() => setSection(it.key)}
+              onClick={() => handle(it.key)}
             />
           ))}
         </ul>
@@ -90,7 +117,7 @@ export function Sidebar() {
               key={it.key}
               item={it}
               active={section === it.key}
-              onClick={() => setSection(it.key)}
+              onClick={() => handle(it.key)}
             />
           ))}
         </ul>
@@ -116,7 +143,7 @@ export function Sidebar() {
           avatar={OWNER.avatar}
         />
       </div>
-    </aside>
+    </>
   );
 }
 

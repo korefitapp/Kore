@@ -12,6 +12,8 @@ interface NutriState {
   setPatientFilter: (f: PatientFilter) => void;
   patientQuery: string;
   setPatientQuery: (q: string) => void;
+  mobileNavOpen: boolean;
+  setMobileNavOpen: (v: boolean) => void;
 }
 
 export const useNutri = create<NutriState>((set) => ({
@@ -21,4 +23,6 @@ export const useNutri = create<NutriState>((set) => ({
   setPatientFilter: (f) => set({ patientFilter: f }),
   patientQuery: "",
   setPatientQuery: (q) => set({ patientQuery: q }),
+  mobileNavOpen: false,
+  setMobileNavOpen: (v) => set({ mobileNavOpen: v }),
 }));

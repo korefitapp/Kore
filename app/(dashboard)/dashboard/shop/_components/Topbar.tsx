@@ -1,12 +1,23 @@
 "use client";
 
-import { Bell, Plus, Search } from "lucide-react";
+import { Bell, Menu, Plus, Search } from "lucide-react";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { useShop } from "./store";
 
 export function Topbar() {
+  const setMobileNavOpen = useShop((s) => s.setMobileNavOpen);
   return (
-    <header className="sticky top-0 z-20 bg-kore-bg/85 backdrop-blur supports-[backdrop-filter]:bg-kore-bg/70 border-b border-kore-border">
-      <div className="flex items-center gap-3 px-6 lg:px-8 py-3.5">
+    <header className="sticky top-0 z-30 bg-kore-bg/85 backdrop-blur supports-[backdrop-filter]:bg-kore-bg/70 border-b border-kore-border">
+      <div className="flex items-center gap-2 sm:gap-3 px-3 sm:px-6 lg:px-8 py-3 sm:py-3.5">
+        <button
+          type="button"
+          onClick={() => setMobileNavOpen(true)}
+          aria-label="Abrir menu"
+          className="lg:hidden w-10 h-10 grid place-items-center rounded-xl border border-kore-border bg-kore-card text-kore-subink hover:border-kore-emerald/60 hover:text-kore-ink transition"
+        >
+          <Menu size={18} />
+        </button>
+
         <div className="hidden md:flex items-center gap-2 flex-1 max-w-md">
           <div className="relative w-full">
             <Search
@@ -24,8 +35,11 @@ export function Topbar() {
           </div>
         </div>
         <div className="flex-1 md:hidden" />
-        <div className="flex items-center gap-2">
-          <button type="button" className="btn-emerald text-sm px-4 py-2">
+        <div className="flex items-center gap-1.5 sm:gap-2">
+          <button
+            type="button"
+            className="btn-emerald text-sm px-3 sm:px-4 py-2"
+          >
             <Plus size={16} strokeWidth={2.8} />
             <span className="hidden sm:inline">Novo Produto</span>
             <span className="sm:hidden">Novo</span>

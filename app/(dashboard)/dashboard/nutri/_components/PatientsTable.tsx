@@ -90,7 +90,7 @@ export function PatientsTable() {
       </header>
 
       <div className="overflow-x-auto">
-        <table className="w-full text-sm">
+        <table className="w-full min-w-[720px] text-sm">
           <thead>
             <tr className="text-[10px] uppercase tracking-wider text-kore-muted font-bold bg-kore-bg/60 border-y border-kore-border">
               <th className="text-left font-bold py-2.5 px-5">Paciente</th>

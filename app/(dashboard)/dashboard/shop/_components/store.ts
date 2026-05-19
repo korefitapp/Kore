@@ -12,6 +12,8 @@ interface ShopState {
   setOrderFilter: (f: OrderFilter) => void;
   orderQuery: string;
   setOrderQuery: (q: string) => void;
+  mobileNavOpen: boolean;
+  setMobileNavOpen: (v: boolean) => void;
 }
 
 export const useShop = create<ShopState>((set) => ({
@@ -21,4 +23,6 @@ export const useShop = create<ShopState>((set) => ({
   setOrderFilter: (f) => set({ orderFilter: f }),
   orderQuery: "",
   setOrderQuery: (q) => set({ orderQuery: q }),
+  mobileNavOpen: false,
+  setMobileNavOpen: (v) => set({ mobileNavOpen: v }),
 }));

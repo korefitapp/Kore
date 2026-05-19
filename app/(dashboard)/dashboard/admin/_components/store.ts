@@ -9,6 +9,9 @@ interface AdminState {
 
   selectedProId: string | null;
   setSelectedProId: (id: string | null) => void;
+
+  mobileNavOpen: boolean;
+  setMobileNavOpen: (v: boolean) => void;
 }
 
 export const useAdmin = create<AdminState>((set) => ({
@@ -17,4 +20,7 @@ export const useAdmin = create<AdminState>((set) => ({
 
   selectedProId: null,
   setSelectedProId: (id) => set({ selectedProId: id }),
+
+  mobileNavOpen: false,
+  setMobileNavOpen: (v) => set({ mobileNavOpen: v }),
 }));
