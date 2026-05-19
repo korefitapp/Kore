@@ -4,7 +4,6 @@ import { motion } from "framer-motion";
 import {
   BookOpen,
   CalendarDays,
-  ChevronRight,
   LayoutDashboard,
   LifeBuoy,
   MessageSquare,
@@ -12,6 +11,7 @@ import {
   Users,
   Wallet,
 } from "lucide-react";
+import { SidebarUserCard } from "@/components/SidebarUserCard";
 import { OWNER } from "./data";
 import { usePersonal } from "./store";
 import type { SidebarKey } from "./types";
@@ -41,7 +41,7 @@ export function Sidebar() {
   const setSection = usePersonal((s) => s.setSection);
 
   return (
-    <aside className="hidden lg:flex flex-col w-[248px] flex-shrink-0 border-r border-kore-border bg-kore-card/60 backdrop-blur-sm">
+    <aside className="hidden lg:flex flex-col w-[248px] flex-shrink-0 self-start sticky top-0 h-screen border-r border-kore-border bg-kore-card/60 backdrop-blur-sm">
       <div className="px-5 pt-6 pb-5 flex items-center gap-3">
         <div
           className="w-10 h-10 rounded-2xl grid place-items-center text-white font-black text-base shadow-kore-emerald"
@@ -100,20 +100,11 @@ export function Sidebar() {
           <LifeBuoy size={15} /> Centro de ajuda
         </button>
 
-        <div className="rounded-2xl border border-kore-border bg-kore-bg/60 p-3 flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-kore-emerald-soft text-2xl grid place-items-center flex-shrink-0">
-            {OWNER.avatar}
-          </div>
-          <div className="min-w-0 flex-1">
-            <p className="text-sm font-bold text-kore-ink truncate">
-              {OWNER.name}
-            </p>
-            <p className="text-[11px] text-kore-muted truncate">
-              {OWNER.registry}
-            </p>
-          </div>
-          <ChevronRight size={16} className="text-kore-muted" />
-        </div>
+        <SidebarUserCard
+          name={OWNER.name}
+          subtitle={OWNER.registry}
+          avatar={OWNER.avatar}
+        />
       </div>
     </aside>
   );
