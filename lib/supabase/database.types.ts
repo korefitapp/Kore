@@ -23,7 +23,7 @@ type UserRoleLiteral =
   | "trainer"
   | "merchant"
   | "client";
-type UserStatusLiteral = "active" | "paused" | "churned";
+type UserStatusLiteral = "active" | "paused" | "churned" | "pending";
 
 export type Database = {
   __InternalSupabase: {
@@ -43,6 +43,9 @@ export type Database = {
           timezone: string;
           birthdate: string | null;
           phone: string | null;
+          cref: string | null;
+          crn: string | null;
+          cnpj: string | null;
           stripe_customer_id: string | null;
           stripe_connect_account_id: string | null;
           metadata: Json;
@@ -60,6 +63,9 @@ export type Database = {
           timezone?: string;
           birthdate?: string | null;
           phone?: string | null;
+          cref?: string | null;
+          crn?: string | null;
+          cnpj?: string | null;
           stripe_customer_id?: string | null;
           stripe_connect_account_id?: string | null;
           metadata?: Json;
@@ -77,6 +83,9 @@ export type Database = {
           timezone?: string;
           birthdate?: string | null;
           phone?: string | null;
+          cref?: string | null;
+          crn?: string | null;
+          cnpj?: string | null;
           stripe_customer_id?: string | null;
           stripe_connect_account_id?: string | null;
           metadata?: Json;
@@ -290,7 +299,12 @@ export type Database = {
         Relationships: [];
       };
     };
-    Functions: Record<string, never>;
+    Functions: {
+      email_for_phone: {
+        Args: { p_phone: string };
+        Returns: string | null;
+      };
+    };
     Enums: {
       user_role: UserRoleLiteral;
       user_status: UserStatusLiteral;

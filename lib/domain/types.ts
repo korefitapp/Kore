@@ -4,7 +4,7 @@
  */
 
 export type { UserRole } from "@/lib/auth/rbac";
-export type UserStatus = "active" | "paused" | "churned";
+export type UserStatus = "active" | "paused" | "churned" | "pending";
 
 import type { UserRole } from "@/lib/auth/rbac";
 
