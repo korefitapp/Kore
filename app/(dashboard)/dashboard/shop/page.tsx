@@ -1,5 +1,7 @@
 import { redirect } from "next/navigation";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { OWNER } from "./_components/data";
+import { ShopShell } from "./_components/ShopShell";
 
 export const metadata = {
   title: "Dashboard · Lojista",
@@ -13,17 +15,14 @@ export default async function ShopDashboard() {
 
   if (!user) redirect("/login?next=/dashboard/shop");
 
-  return (
-    <main className="mx-auto max-w-5xl px-6 py-8">
-      <p className="text-xs text-kore-muted">B2B · Lojista</p>
-      <h1 className="mt-1 text-3xl font-extrabold tracking-tight text-kore-ink">
-        Dashboard do Lojista
-      </h1>
-      <p className="mt-2 text-sm text-kore-muted">
-        🚧 Em construção. Próximas tasks: gestão de catálogo, controle de
-        estoque e Kanban de pedidos (Novo → Preparando → Entregue) via Stripe
-        Connect.
-      </p>
-    </main>
-  );
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("full_name")
+    .eq("id", user.id)
+    .maybeSingle();
+
+  const shopName =
+    profile?.full_name ?? user.email?.split("@")[0] ?? OWNER.name;
+
+  return <ShopShell shopName={shopName} />;
 }
