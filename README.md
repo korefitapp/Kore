@@ -39,7 +39,8 @@ app/
   (marketing)/        landing pública
   (auth)/             login / signup / recover
   app/                área autenticada (cliente final)
-  (dashboard)/        painéis B2B: /nutri, /personal, /shop (RBAC via middleware)
+  (dashboard)/        painéis B2B: /dashboard/admin, /dashboard/nutri,
+                      /dashboard/personal, /dashboard/shop (RBAC via middleware)
   api/                webhooks: /stripe, /n8n + endpoints internos
   auth/callback/      OAuth PKCE exchange
 lib/
