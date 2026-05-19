@@ -76,6 +76,11 @@ const admin = createClient(SUPABASE_URL, SERVICE_ROLE, {
  * @property {string} email
  * @property {string} fullName
  * @property {"admin"|"nutritionist"|"trainer"|"merchant"|"client"} role
+ * @property {string} [phone]
+ * @property {string} [cref]
+ * @property {string} [crn]
+ * @property {string} [cnpj]
+ * @property {"active"|"pending"|"paused"|"churned"} [status]
  */
 
 /** @type {SeedUser[]} */
@@ -84,26 +89,64 @@ const USERS = [
     email: "admin@kore.test",
     fullName: "Admin KORE",
     role: "admin",
+    phone: "11999990001",
+    status: "active",
   },
   {
     email: "nutri@kore.test",
     fullName: "Nutri Teste",
     role: "nutritionist",
+    phone: "11999990002",
+    crn: "CRN-3 12345",
+    status: "active",
   },
   {
     email: "personal@kore.test",
     fullName: "Personal Teste",
     role: "trainer",
+    phone: "11999990003",
+    cref: "010234-G/SP",
+    status: "active",
   },
   {
     email: "shop@kore.test",
     fullName: "Loja Teste",
     role: "merchant",
+    phone: "11999990004",
+    cnpj: "12.345.678/0001-99",
+    status: "active",
   },
   {
     email: "cliente@kore.test",
     fullName: "Cliente Teste",
     role: "client",
+    phone: "11999990005",
+    status: "active",
+  },
+  // Profissionais pendentes — popula a fila de aprovação do admin.
+  {
+    email: "pending-personal@kore.test",
+    fullName: "Lucas Andrade",
+    role: "trainer",
+    phone: "11999990010",
+    cref: "022876-G/RJ",
+    status: "pending",
+  },
+  {
+    email: "pending-nutri@kore.test",
+    fullName: "Mariana Souza",
+    role: "nutritionist",
+    phone: "11999990011",
+    crn: "CRN-2 04567",
+    status: "pending",
+  },
+  {
+    email: "pending-shop@kore.test",
+    fullName: "Loja Movimento Saúde",
+    role: "merchant",
+    phone: "11999990012",
+    cnpj: "45.678.901/0001-23",
+    status: "pending",
   },
 ];
 
@@ -136,15 +179,21 @@ async function upsertSeedUser(user) {
   // mandamos a role direto no metadata e o trigger cria o profile.
   const triggerRole = user.role === "admin" ? "client" : user.role;
 
+  const metadata = {
+    full_name: user.fullName,
+    role: triggerRole,
+    ...(user.phone ? { phone: user.phone } : {}),
+    ...(user.cref ? { cref: user.cref } : {}),
+    ...(user.crn ? { crn: user.crn } : {}),
+    ...(user.cnpj ? { cnpj: user.cnpj } : {}),
+  };
+
   let userId;
   if (existing) {
     const { data, error } = await admin.auth.admin.updateUserById(existing.id, {
       password: SEED_PASSWORD,
       email_confirm: true,
-      user_metadata: {
-        full_name: user.fullName,
-        role: triggerRole,
-      },
+      user_metadata: metadata,
     });
     if (error) throw error;
     userId = data.user.id;
@@ -154,10 +203,7 @@ async function upsertSeedUser(user) {
       email: user.email,
       password: SEED_PASSWORD,
       email_confirm: true,
-      user_metadata: {
-        full_name: user.fullName,
-        role: triggerRole,
-      },
+      user_metadata: metadata,
     });
     if (error) throw error;
     userId = data.user.id;
@@ -166,17 +212,19 @@ async function upsertSeedUser(user) {
 
   // Garante linha em profiles (trigger pode falhar silenciosamente se a
   // role já existir com valor diferente; service_role bypassa RLS).
+  const profileRow = {
+    id: userId,
+    full_name: user.fullName,
+    role: user.role,
+    status: user.status ?? "active",
+    ...(user.phone ? { phone: user.phone } : {}),
+    ...(user.cref ? { cref: user.cref } : {}),
+    ...(user.crn ? { crn: user.crn } : {}),
+    ...(user.cnpj ? { cnpj: user.cnpj } : {}),
+  };
   const { error: upsertErr } = await admin
     .from("profiles")
-    .upsert(
-      {
-        id: userId,
-        full_name: user.fullName,
-        role: user.role,
-        status: "active",
-      },
-      { onConflict: "id" },
-    );
+    .upsert(profileRow, { onConflict: "id" });
   if (upsertErr) throw upsertErr;
 
   // user_daily_targets também é criado pelo trigger; garantimos por idempotência.

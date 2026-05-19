@@ -1,20 +1,13 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { Check, ChevronRight, Eye, Filter, Loader2, X } from "lucide-react";
+import { useMemo, useState, useTransition } from "react";
 import {
-  Check,
-  ChevronRight,
-  Eye,
-  FileWarning,
-  Filter,
-  X,
-} from "lucide-react";
-import { useMemo, useState } from "react";
-import {
-  PENDING_PROFESSIONALS,
-  professionalKindLabel,
-  relativeSubmitted,
-} from "./data";
+  approveProfessionalAction,
+  rejectProfessionalAction,
+} from "@/lib/auth/actions";
+import { professionalKindLabel, relativeSubmitted } from "./data";
 import type {
   ApprovalStatus,
   PendingProfessional,
@@ -51,21 +44,21 @@ const FILTERS: { key: KindFilter; label: string }[] = [
   { key: "merchant", label: "Lojistas" },
 ];
 
-export function PendingProfessionals() {
+export function PendingProfessionals({
+  rows: initialRows,
+}: {
+  rows: PendingProfessional[];
+}) {
   const [kind, setKind] = useState<KindFilter>("all");
   const [decided, setDecided] = useState<
     Record<string, "approved" | "rejected" | undefined>
   >({});
 
   const rows = useMemo(() => {
-    return PENDING_PROFESSIONALS.filter((p) =>
+    return initialRows.filter((p) =>
       kind === "all" ? true : p.kind === kind,
     );
-  }, [kind]);
-
-  function decide(id: string, action: "approved" | "rejected") {
-    setDecided((prev) => ({ ...prev, [id]: action }));
-  }
+  }, [initialRows, kind]);
 
   return (
     <section className="card p-5">
@@ -75,8 +68,8 @@ export function PendingProfessionals() {
             Solicitações de novos profissionais
           </h2>
           <p className="text-xs text-kore-muted mt-0.5">
-            {rows.length} candidaturas · aprove ou peça documentação
-            complementar
+            {rows.length} candidatura{rows.length === 1 ? "" : "s"} · aprove ou
+            recuse para liberar o painel
           </p>
         </div>
         <div className="flex items-center gap-2">
@@ -111,46 +104,86 @@ export function PendingProfessionals() {
         })}
       </div>
 
-      <div className="overflow-x-auto -mx-5 px-5">
-        <table className="w-full min-w-[860px]">
-          <thead>
-            <tr className="text-[10px] uppercase tracking-[0.16em] text-kore-muted">
-              <th className="text-left font-bold py-2 pl-2">Candidato</th>
-              <th className="text-left font-bold py-2">Tipo</th>
-              <th className="text-left font-bold py-2">Registro</th>
-              <th className="text-left font-bold py-2">Cidade</th>
-              <th className="text-left font-bold py-2">Docs</th>
-              <th className="text-left font-bold py-2">Enviado</th>
-              <th className="text-left font-bold py-2">Status</th>
-              <th className="text-right font-bold py-2 pr-2">Ação</th>
-            </tr>
-          </thead>
-          <tbody>
-            {rows.map((p) => (
-              <Row
-                key={p.id}
-                p={p}
-                decided={decided[p.id]}
-                onDecide={(action) => decide(p.id, action)}
-              />
-            ))}
-          </tbody>
-        </table>
-      </div>
+      {rows.length === 0 ? (
+        <EmptyState />
+      ) : (
+        <div className="overflow-x-auto -mx-5 px-5">
+          <table className="w-full min-w-[860px]">
+            <thead>
+              <tr className="text-[10px] uppercase tracking-[0.16em] text-kore-muted">
+                <th className="text-left font-bold py-2 pl-2">Candidato</th>
+                <th className="text-left font-bold py-2">Tipo</th>
+                <th className="text-left font-bold py-2">Registro</th>
+                <th className="text-left font-bold py-2">Cidade</th>
+                <th className="text-left font-bold py-2">Docs</th>
+                <th className="text-left font-bold py-2">Enviado</th>
+                <th className="text-left font-bold py-2">Status</th>
+                <th className="text-right font-bold py-2 pr-2">Ação</th>
+              </tr>
+            </thead>
+            <tbody>
+              {rows.map((p) => (
+                <Row
+                  key={p.id}
+                  p={p}
+                  decided={decided[p.id]}
+                  onDecided={(action) =>
+                    setDecided((prev) => ({ ...prev, [p.id]: action }))
+                  }
+                />
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
     </section>
+  );
+}
+
+function EmptyState() {
+  return (
+    <div className="rounded-2xl border border-dashed border-kore-border bg-kore-bg/40 p-8 text-center">
+      <p className="text-sm font-bold text-kore-ink">
+        Nenhuma candidatura pendente
+      </p>
+      <p className="mt-1 text-xs text-kore-muted">
+        Quando profissionais criarem conta no KORE, eles aparecerão aqui para
+        aprovação.
+      </p>
+    </div>
   );
 }
 
 function Row({
   p,
   decided,
-  onDecide,
+  onDecided,
 }: {
   p: PendingProfessional;
   decided?: "approved" | "rejected";
-  onDecide: (action: "approved" | "rejected") => void;
+  onDecided: (action: "approved" | "rejected") => void;
 }) {
+  const [pending, startTransition] = useTransition();
+  const [error, setError] = useState<string | null>(null);
   const incomplete = p.documents < p.documentsTotal;
+
+  function approve() {
+    setError(null);
+    startTransition(async () => {
+      const res = await approveProfessionalAction(p.id);
+      if (!res.ok) setError(res.error ?? "Falha ao aprovar");
+      else onDecided("approved");
+    });
+  }
+  function reject() {
+    setError(null);
+    startTransition(async () => {
+      const res = await rejectProfessionalAction(p.id);
+      if (!res.ok) setError(res.error ?? "Falha ao recusar");
+      else onDecided("rejected");
+    });
+  }
+
   return (
     <tr className="border-t border-kore-border hover:bg-kore-bg/50 transition">
       <td className="py-3 pl-2">
@@ -165,7 +198,9 @@ function Row({
             <p className="font-bold text-sm text-kore-ink truncate">
               {p.name}
             </p>
-            <p className="text-[11px] text-kore-muted truncate">{p.id}</p>
+            <p className="text-[11px] text-kore-muted truncate font-mono">
+              {p.id.slice(0, 8)}
+            </p>
           </div>
         </div>
       </td>
@@ -175,10 +210,10 @@ function Row({
         </span>
       </td>
       <td className="py-3 text-sm font-mono text-kore-subink whitespace-nowrap">
-        {p.registry}
+        {p.registry || "—"}
       </td>
       <td className="py-3 text-sm text-kore-subink whitespace-nowrap">
-        {p.city}
+        {p.city || "—"}
       </td>
       <td className="py-3">
         <div className="flex items-center gap-2 min-w-[80px]">
@@ -206,7 +241,6 @@ function Row({
       </td>
       <td className="py-3">
         <span className={`chip ${STATUS_TINT[p.status]} whitespace-nowrap`}>
-          {p.status === "needs-info" && <FileWarning size={11} />}
           {STATUS_LABEL[p.status]}
         </span>
       </td>
@@ -225,8 +259,9 @@ function Row({
               <button
                 type="button"
                 aria-label="Recusar"
-                onClick={() => onDecide("rejected")}
-                className="w-8 h-8 grid place-items-center rounded-lg border border-kore-border bg-kore-card text-kore-muted hover:border-red-500/60 hover:text-red-600 transition"
+                onClick={reject}
+                disabled={pending}
+                className="w-8 h-8 grid place-items-center rounded-lg border border-kore-border bg-kore-card text-kore-muted hover:border-red-500/60 hover:text-red-600 transition disabled:opacity-50"
               >
                 <X size={14} />
               </button>
@@ -239,19 +274,30 @@ function Row({
               </button>
               <button
                 type="button"
-                onClick={() => onDecide("approved")}
-                className="h-8 inline-flex items-center gap-1.5 px-3 rounded-lg text-white text-xs font-bold shadow-kore-emerald active:scale-[0.98] transition"
+                onClick={approve}
+                disabled={pending}
+                className="h-8 inline-flex items-center gap-1.5 px-3 rounded-lg text-white text-xs font-bold shadow-kore-emerald active:scale-[0.98] transition disabled:opacity-60"
                 style={{
                   background:
                     "linear-gradient(135deg, rgb(var(--kore-emerald)) 0%, rgb(var(--kore-emerald-deep)) 100%)",
                 }}
               >
-                <Check size={13} strokeWidth={2.8} /> Aprovar
+                {pending ? (
+                  <Loader2 size={12} className="animate-spin" />
+                ) : (
+                  <Check size={13} strokeWidth={2.8} />
+                )}{" "}
+                Aprovar
                 <ChevronRight size={12} />
               </button>
             </>
           )}
         </div>
+        {error && (
+          <p className="mt-1 text-[10px] text-rose-600 dark:text-rose-300 text-right">
+            {error}
+          </p>
+        )}
       </td>
     </tr>
   );

@@ -7,8 +7,15 @@ import { KpiGrid } from "./KpiGrid";
 import { PendingProfessionals } from "./PendingProfessionals";
 import { CategoryShareChart, RevenueChart } from "./RevenueChart";
 import { RecentActivity } from "./RecentActivity";
+import type { PendingProfessional } from "./types";
 
-export function Overview({ adminName }: { adminName: string }) {
+export function Overview({
+  adminName,
+  pending,
+}: {
+  adminName: string;
+  pending: PendingProfessional[];
+}) {
   return (
     <div className="px-4 sm:px-6 lg:px-8 py-4 sm:py-6 space-y-4 sm:space-y-6 max-w-[1440px] mx-auto">
       <Header adminName={adminName} />
@@ -19,7 +26,7 @@ export function Overview({ adminName }: { adminName: string }) {
         <CategoryShareChart />
       </div>
 
-      <PendingProfessionals />
+      <PendingProfessionals rows={pending} />
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         <div className="lg:col-span-2">

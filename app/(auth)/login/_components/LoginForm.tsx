@@ -1,6 +1,6 @@
 "use client";
 
-import { Eye, EyeOff, Loader2, Lock, Mail } from "lucide-react";
+import { Eye, EyeOff, Loader2, Lock, User } from "lucide-react";
 import { useState, useTransition } from "react";
 import { useFormState, useFormStatus } from "react-dom";
 import {
@@ -40,13 +40,13 @@ export function LoginForm({
     <div className="space-y-5">
       <form action={action} className="space-y-4">
         <Field
-          id="email"
-          name="email"
-          type="email"
-          label="E-mail"
-          autoComplete="email"
-          icon={<Mail size={16} />}
-          placeholder="voce@email.com"
+          id="identifier"
+          name="identifier"
+          type="text"
+          label="E-mail ou celular"
+          autoComplete="username"
+          icon={<User size={16} />}
+          placeholder="voce@email.com ou (11) 99999-8888"
         />
         <Field
           id="password"
