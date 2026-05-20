@@ -11,7 +11,8 @@ export type UserRole =
   | "nutritionist"
   | "trainer"
   | "merchant"
-  | "client";
+  | "client"
+  | "patient";
 
 /**
  * Rota canônica pós-login para cada papel.
@@ -27,6 +28,7 @@ export function homePathForRole(role: UserRole): string {
     case "merchant":
       return "/dashboard/shop";
     case "client":
+    case "patient":
     default:
       return "/app";
   }
@@ -45,7 +47,7 @@ export function isAllowedRoute(role: UserRole, pathname: string): boolean {
   if (role === "admin") return true;
 
   if (pathname.startsWith("/app")) {
-    return role === "client";
+    return role === "client" || role === "patient";
   }
 
   if (pathname.startsWith("/dashboard/admin")) {
