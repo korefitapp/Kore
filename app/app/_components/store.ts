@@ -17,6 +17,8 @@ import type {
   UserProfile,
 } from "./types";
 
+export type ProfileView = "menu" | "health" | "orders" | "notifications" | "privacy" | "settings";
+
 export interface KoreState {
   online: boolean;
   user: UserProfile;
@@ -24,6 +26,9 @@ export interface KoreState {
 
   tab: Tab;
   setTab: (t: Tab) => void;
+
+  profileView: ProfileView;
+  setProfileView: (v: ProfileView) => void;
 
   theme: Theme;
   toggleTheme: () => void;
@@ -94,6 +99,9 @@ export const useKore = create<KoreState>((set) => ({
 
   tab: "home",
   setTab: (t) => set({ tab: t }),
+
+  profileView: "menu",
+  setProfileView: (v) => set({ profileView: v }),
 
   theme: "light",
   toggleTheme: () =>

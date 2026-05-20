@@ -22,7 +22,8 @@ type UserRoleLiteral =
   | "nutritionist"
   | "trainer"
   | "merchant"
-  | "client";
+  | "client"
+  | "patient";
 type UserStatusLiteral = "active" | "paused" | "churned" | "pending";
 
 export type Database = {

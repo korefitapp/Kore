@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { usePathname, useRouter } from "next/navigation";
 import {
   Apple,
   CalendarDays,
@@ -22,21 +23,22 @@ interface Item {
   key: SidebarKey;
   label: string;
   Icon: typeof Users;
+  href: string;
   badge?: number;
 }
 
 const WORKSPACE: Item[] = [
-  { key: "overview", label: "Visão Geral", Icon: LayoutDashboard },
-  { key: "patients", label: "Pacientes", Icon: Users, badge: 32 },
-  { key: "meal-plans", label: "Cardápios", Icon: Apple },
-  { key: "food-bank", label: "Banco de alimentos", Icon: Database },
-  { key: "consultations", label: "Consultas", Icon: CalendarDays },
-  { key: "messages", label: "Mensagens", Icon: MessageSquare, badge: 5 },
+  { key: "overview", label: "Visão Geral", Icon: LayoutDashboard, href: "/dashboard/nutri" },
+  { key: "patients", label: "Pacientes", Icon: Users, href: "/dashboard/nutri/patients", badge: 32 },
+  { key: "meal-plans", label: "Cardápios", Icon: Apple, href: "/dashboard/nutri/meal-plans" },
+  { key: "food-bank", label: "Banco de alimentos", Icon: Database, href: "/dashboard/nutri/food-database" },
+  { key: "consultations", label: "Consultas", Icon: CalendarDays, href: "/dashboard/nutri/appointments" },
+  { key: "messages", label: "Mensagens", Icon: MessageSquare, href: "/dashboard/nutri/messages", badge: 5 },
 ];
 
 const ACCOUNT: Item[] = [
-  { key: "finance", label: "Financeiro", Icon: Wallet },
-  { key: "settings", label: "Configurações", Icon: Settings },
+  { key: "finance", label: "Financeiro", Icon: Wallet, href: "/dashboard/nutri/financial" },
+  { key: "settings", label: "Configurações", Icon: Settings, href: "/dashboard/nutri/settings" },
 ];
 
 export function Sidebar() {
@@ -62,10 +64,20 @@ export function MobileSidebar() {
 }
 
 function SidebarBody({ onItemClick }: { onItemClick?: () => void }) {
-  const section = useNutri((s) => s.section);
+  const pathname = usePathname();
+  const router = useRouter();
   const setSection = useNutri((s) => s.setSection);
-  const handle = (k: SidebarKey) => {
-    setSection(k);
+
+  const isActive = (href: string) => {
+    if (href === "/dashboard/nutri") {
+      return pathname === "/dashboard/nutri";
+    }
+    return pathname.startsWith(href);
+  };
+
+  const handle = (item: Item) => {
+    setSection(item.key);
+    router.push(item.href);
     onItemClick?.();
   };
 
@@ -100,8 +112,8 @@ function SidebarBody({ onItemClick }: { onItemClick?: () => void }) {
             <NavItem
               key={it.key}
               item={it}
-              active={section === it.key}
-              onClick={() => handle(it.key)}
+              active={isActive(it.href)}
+              onClick={() => handle(it)}
             />
           ))}
         </ul>
@@ -114,8 +126,8 @@ function SidebarBody({ onItemClick }: { onItemClick?: () => void }) {
             <NavItem
               key={it.key}
               item={it}
-              active={section === it.key}
-              onClick={() => handle(it.key)}
+              active={isActive(it.href)}
+              onClick={() => handle(it)}
             />
           ))}
         </ul>

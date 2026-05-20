@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 import {
   BookOpen,
@@ -18,28 +20,28 @@ import { MobileNavDrawer } from "@/components/MobileNavDrawer";
 import { SidebarUserCard } from "@/components/SidebarUserCard";
 import { OWNER } from "./data";
 import { useShop } from "./store";
-import type { SidebarKey } from "./types";
 
 interface Item {
-  key: SidebarKey;
+  key: string;
   label: string;
+  href: string;
   Icon: typeof Package;
   badge?: number;
 }
 
 const WORKSPACE: Item[] = [
-  { key: "overview", label: "Visão Geral", Icon: LayoutDashboard },
-  { key: "orders", label: "Pedidos", Icon: ShoppingBag, badge: 12 },
-  { key: "products", label: "Produtos", Icon: BookOpen },
-  { key: "inventory", label: "Estoque", Icon: Boxes, badge: 6 },
-  { key: "promotions", label: "Promoções", Icon: Tag },
-  { key: "customers", label: "Clientes", Icon: Users },
-  { key: "messages", label: "Mensagens", Icon: MessageSquare, badge: 9 },
+  { key: "overview", label: "Visão Geral", href: "/dashboard/shop", Icon: LayoutDashboard },
+  { key: "orders", label: "Pedidos", href: "/dashboard/shop/orders", Icon: ShoppingBag, badge: 12 },
+  { key: "products", label: "Produtos", href: "/dashboard/shop/products", Icon: BookOpen },
+  { key: "inventory", label: "Estoque", href: "/dashboard/shop/inventory", Icon: Boxes, badge: 6 },
+  { key: "promotions", label: "Promoções", href: "/dashboard/shop/promotions", Icon: Tag },
+  { key: "customers", label: "Clientes", href: "/dashboard/shop/customers", Icon: Users },
+  { key: "messages", label: "Mensagens", href: "/dashboard/shop/messages", Icon: MessageSquare, badge: 9 },
 ];
 
 const ACCOUNT: Item[] = [
-  { key: "finance", label: "Financeiro", Icon: Wallet },
-  { key: "settings", label: "Configurações", Icon: Settings },
+  { key: "finance", label: "Financeiro", href: "/dashboard/shop/financial", Icon: Wallet },
+  { key: "settings", label: "Configurações", href: "/dashboard/shop/settings", Icon: Settings },
 ];
 
 export function Sidebar() {
@@ -65,11 +67,13 @@ export function MobileSidebar() {
 }
 
 function SidebarBody({ onItemClick }: { onItemClick?: () => void }) {
-  const section = useShop((s) => s.section);
-  const setSection = useShop((s) => s.setSection);
-  const handle = (k: SidebarKey) => {
-    setSection(k);
-    onItemClick?.();
+  const pathname = usePathname();
+
+  const isActive = (href: string) => {
+    if (href === "/dashboard/shop") {
+      return pathname === "/dashboard/shop";
+    }
+    return pathname.startsWith(href);
   };
 
   return (
@@ -103,8 +107,8 @@ function SidebarBody({ onItemClick }: { onItemClick?: () => void }) {
             <NavItem
               key={it.key}
               item={it}
-              active={section === it.key}
-              onClick={() => handle(it.key)}
+              active={isActive(it.href)}
+              onClick={onItemClick}
             />
           ))}
         </ul>
@@ -117,8 +121,8 @@ function SidebarBody({ onItemClick }: { onItemClick?: () => void }) {
             <NavItem
               key={it.key}
               item={it}
-              active={section === it.key}
-              onClick={() => handle(it.key)}
+              active={isActive(it.href)}
+              onClick={onItemClick}
             />
           ))}
         </ul>
@@ -149,13 +153,13 @@ function NavItem({
 }: {
   item: Item;
   active: boolean;
-  onClick: () => void;
+  onClick?: () => void;
 }) {
-  const { Icon, label, badge } = item;
+  const { Icon, label, badge, href } = item;
   return (
     <li>
-      <button
-        type="button"
+      <Link
+        href={href}
         onClick={onClick}
         className={`relative w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition ${
           active
@@ -187,7 +191,7 @@ function NavItem({
             {badge}
           </span>
         )}
-      </button>
+      </Link>
     </li>
   );
 }

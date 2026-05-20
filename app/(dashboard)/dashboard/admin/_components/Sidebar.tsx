@@ -1,6 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import {
   LayoutDashboard,
   LifeBuoy,
@@ -18,27 +20,27 @@ import { MobileNavDrawer } from "@/components/MobileNavDrawer";
 import { SidebarUserCard } from "@/components/SidebarUserCard";
 import { OWNER } from "./data";
 import { useAdmin } from "./store";
-import type { SidebarKey } from "./types";
 
 interface Item {
-  key: SidebarKey;
+  key: string;
   label: string;
+  href: string;
   Icon: typeof Users;
   badge?: number;
 }
 
 const PRIMARY: Item[] = [
-  { key: "overview", label: "Visão Geral", Icon: LayoutDashboard },
-  { key: "users", label: "Usuários", Icon: Users, badge: 8247 },
-  { key: "professionals", label: "Profissionais", Icon: UserCheck, badge: 23 },
-  { key: "marketplace", label: "Marketplace", Icon: Store },
-  { key: "disputes", label: "Disputas", Icon: ScaleIcon, badge: 4 },
+  { key: "overview", label: "Visão Geral", href: "/dashboard/admin", Icon: LayoutDashboard },
+  { key: "users", label: "Usuários", href: "/dashboard/admin/users", Icon: Users, badge: 8247 },
+  { key: "professionals", label: "Profissionais", href: "/dashboard/admin/professionals", Icon: UserCheck, badge: 23 },
+  { key: "marketplace", label: "Marketplace", href: "/dashboard/admin/marketplace", Icon: Store },
+  { key: "disputes", label: "Disputas", href: "/dashboard/admin/disputes", Icon: ScaleIcon, badge: 4 },
 ];
 
 const SECONDARY: Item[] = [
-  { key: "finance", label: "Financeiro", Icon: Wallet },
-  { key: "growth", label: "Growth", Icon: LineChart },
-  { key: "settings", label: "Configurações", Icon: Settings },
+  { key: "finance", label: "Financeiro", href: "/dashboard/admin/financial", Icon: Wallet },
+  { key: "growth", label: "Growth", href: "/dashboard/admin/growth", Icon: LineChart },
+  { key: "settings", label: "Configurações", href: "/dashboard/admin/settings", Icon: Settings },
 ];
 
 export function Sidebar() {
@@ -63,13 +65,14 @@ export function MobileSidebar() {
   );
 }
 
+function isActivePath(pathname: string, href: string) {
+  // "/dashboard/admin" should only match exactly, not all sub-routes
+  if (href === "/dashboard/admin") return pathname === "/dashboard/admin";
+  return pathname.startsWith(href);
+}
+
 function SidebarBody({ onItemClick }: { onItemClick?: () => void }) {
-  const section = useAdmin((s) => s.section);
-  const setSection = useAdmin((s) => s.setSection);
-  const handle = (k: SidebarKey) => {
-    setSection(k);
-    onItemClick?.();
-  };
+  const pathname = usePathname();
 
   return (
     <>
@@ -102,8 +105,8 @@ function SidebarBody({ onItemClick }: { onItemClick?: () => void }) {
             <NavItem
               key={it.key}
               item={it}
-              active={section === it.key}
-              onClick={() => handle(it.key)}
+              active={isActivePath(pathname, it.href)}
+              onClick={onItemClick}
             />
           ))}
         </ul>
@@ -116,8 +119,8 @@ function SidebarBody({ onItemClick }: { onItemClick?: () => void }) {
             <NavItem
               key={it.key}
               item={it}
-              active={section === it.key}
-              onClick={() => handle(it.key)}
+              active={isActivePath(pathname, it.href)}
+              onClick={onItemClick}
             />
           ))}
         </ul>
@@ -154,13 +157,13 @@ function NavItem({
 }: {
   item: Item;
   active: boolean;
-  onClick: () => void;
+  onClick?: () => void;
 }) {
-  const { Icon, label, badge } = item;
+  const { Icon, label, badge, href } = item;
   return (
     <li>
-      <button
-        type="button"
+      <Link
+        href={href}
         onClick={onClick}
         className={`relative w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition ${
           active
@@ -192,7 +195,7 @@ function NavItem({
             {badge > 999 ? `${(badge / 1000).toFixed(1)}k` : badge}
           </span>
         )}
-      </button>
+      </Link>
     </li>
   );
 }

@@ -22,6 +22,7 @@ const tabs: { id: Tab; label: string; Icon: typeof Home }[] = [
 export function BottomNav() {
   const tab = useKore((s) => s.tab);
   const setTab = useKore((s) => s.setTab);
+  const setProfileView = useKore((s) => s.setProfileView);
 
   return (
     <nav className="sticky bottom-0 left-0 right-0 z-30 bg-kore-card border-t border-kore">
@@ -31,7 +32,10 @@ export function BottomNav() {
           return (
             <button
               key={id}
-              onClick={() => setTab(id)}
+              onClick={() => {
+                setTab(id);
+                if (id === "perfil") setProfileView("menu");
+              }}
               className="relative flex flex-col items-center justify-center gap-1 py-1.5"
             >
               {active && (

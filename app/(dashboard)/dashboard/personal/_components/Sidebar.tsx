@@ -1,6 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import {
   BookOpen,
   CalendarDays,
@@ -20,21 +22,22 @@ import type { SidebarKey } from "./types";
 interface Item {
   key: SidebarKey;
   label: string;
+  href: string;
   Icon: typeof Users;
   badge?: number;
 }
 
 const WORKSPACE: Item[] = [
-  { key: "overview", label: "Visão Geral", Icon: LayoutDashboard },
-  { key: "students", label: "Alunos", Icon: Users, badge: 28 },
-  { key: "library", label: "Biblioteca", Icon: BookOpen },
-  { key: "agenda", label: "Agenda", Icon: CalendarDays },
-  { key: "messages", label: "Mensagens", Icon: MessageSquare, badge: 7 },
+  { key: "overview", label: "Visão Geral", href: "/dashboard/personal", Icon: LayoutDashboard },
+  { key: "students", label: "Alunos", href: "/dashboard/personal/students", Icon: Users, badge: 28 },
+  { key: "library", label: "Biblioteca", href: "/dashboard/personal/library", Icon: BookOpen },
+  { key: "agenda", label: "Agenda", href: "/dashboard/personal/agenda", Icon: CalendarDays },
+  { key: "messages", label: "Mensagens", href: "/dashboard/personal/messages", Icon: MessageSquare, badge: 7 },
 ];
 
 const ACCOUNT: Item[] = [
-  { key: "finance", label: "Financeiro", Icon: Wallet },
-  { key: "settings", label: "Configurações", Icon: Settings },
+  { key: "finance", label: "Financeiro", href: "/dashboard/personal/financial", Icon: Wallet },
+  { key: "settings", label: "Configurações", href: "/dashboard/personal/settings", Icon: Settings },
 ];
 
 export function Sidebar() {
@@ -60,8 +63,16 @@ export function MobileSidebar() {
 }
 
 function SidebarBody({ onItemClick }: { onItemClick?: () => void }) {
-  const section = usePersonal((s) => s.section);
+  const pathname = usePathname();
   const setSection = usePersonal((s) => s.setSection);
+
+  const isActive = (item: Item) => {
+    if (item.href === "/dashboard/personal") {
+      return pathname === "/dashboard/personal";
+    }
+    return pathname.startsWith(item.href);
+  };
+
   const handle = (k: SidebarKey) => {
     setSection(k);
     onItemClick?.();
@@ -98,7 +109,7 @@ function SidebarBody({ onItemClick }: { onItemClick?: () => void }) {
             <NavItem
               key={it.key}
               item={it}
-              active={section === it.key}
+              active={isActive(it)}
               onClick={() => handle(it.key)}
             />
           ))}
@@ -112,7 +123,7 @@ function SidebarBody({ onItemClick }: { onItemClick?: () => void }) {
             <NavItem
               key={it.key}
               item={it}
-              active={section === it.key}
+              active={isActive(it)}
               onClick={() => handle(it.key)}
             />
           ))}
@@ -146,11 +157,11 @@ function NavItem({
   active: boolean;
   onClick: () => void;
 }) {
-  const { Icon, label, badge } = item;
+  const { Icon, label, badge, href } = item;
   return (
     <li>
-      <button
-        type="button"
+      <Link
+        href={href}
         onClick={onClick}
         className={`relative w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition ${
           active
@@ -182,7 +193,7 @@ function NavItem({
             {badge}
           </span>
         )}
-      </button>
+      </Link>
     </li>
   );
 }
