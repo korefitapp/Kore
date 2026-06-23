@@ -29,8 +29,6 @@ export default async function LibraryPage() {
     console.error("Erro ao buscar exercícios:", error.message);
   }
 
-  revalidatePath('/dashboard/personal/library', 'page');
-
   return (
     <LibraryClient
       exercises={exercises ?? []}
