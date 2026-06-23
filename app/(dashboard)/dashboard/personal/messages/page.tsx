@@ -17,13 +17,13 @@ export default async function MessagesPage() {
 
   if (!user) redirect("/login?next=/dashboard/personal/messages");
 
-  // Tentar buscar perfis de alunos (contacts) do Supabase
+  // Tentar buscar perfis de alunos vinculados
   const { data: profiles, error: profilesError } = await (
     supabase as SupabaseClient
   )
     .from("profiles" as any)
-    .select("id, full_name, avatar_url, role")
-    .eq("role", "student")
+    .select("id, full_name, avatar_url, phone")
+    .eq("coach_id", user.id)
     .order("full_name", { ascending: true });
 
   if (profilesError) {
@@ -46,13 +46,25 @@ export default async function MessagesPage() {
     console.error("Erro ao buscar mensagens:", messagesError.message);
   }
 
+  // Buscar status da instância do WhatsApp
+  const { data: whatsappInstance } = await (
+    supabase as SupabaseClient
+  )
+    .from("whatsapp_instances" as any)
+    .select("status, qr_code_base64")
+    .eq("professional_id", user.id)
+    .single();
+
   return (
     <MessagesClient
       currentUserId={user.id}
+      initialInstanceStatus={whatsappInstance?.status || "disconnected"}
+      initialQrCode={whatsappInstance?.qr_code_base64 || null}
       profiles={(profiles ?? []).map((p) => ({
         id: p.id as string,
         full_name: p.full_name as string | null,
         avatar_url: p.avatar_url as string | null,
+        phone: p.phone as string | null,
       }))}
       messages={(messages ?? []).map((m) => ({
         id: m.id as string,

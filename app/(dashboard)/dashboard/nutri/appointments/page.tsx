@@ -26,12 +26,25 @@ export default async function AppointmentsPage() {
   const endOfWeek = new Date(startOfWeek);
   endOfWeek.setDate(startOfWeek.getDate() + 7);
 
+  // Buscar pacientes para o select
+  const { data: clientsData } = await (supabase as SupabaseClient)
+    .from("professional_clients")
+    .select("client:profiles!client_id(id, full_name, avatar_url)")
+    .eq("professional_id", user.id);
+
+  const patients = (clientsData || []).map((c: any) => ({
+    id: c.client?.id,
+    name: c.client?.full_name,
+    avatar: c.client?.avatar_url,
+  }));
+
   // Query real na tabela appointments do Supabase
   const { data: appointments, error } = await (supabase as SupabaseClient)
     .from("appointments" as any)
-    .select(
-      "id, title, type, status, start_time, end_time, notes, professional_id, client_id, client_name, client_avatar_url"
-    )
+    .select(`
+      id, title, modality, focus, status, start_time, end_time, notes, client_id,
+      client:profiles!client_id(id, full_name, avatar_url)
+    `)
     .eq("professional_id", user.id)
     .gte("start_time", startOfWeek.toISOString())
     .lt("start_time", endOfWeek.toISOString())
@@ -43,17 +56,19 @@ export default async function AppointmentsPage() {
 
   return (
     <AppointmentsPageClient
-      appointments={(appointments ?? []).map((a) => ({
+      patients={patients}
+      appointments={(appointments ?? []).map((a: any) => ({
         id: a.id as string,
         title: a.title as string | null,
-        type: a.type as string | null,
+        focus: a.focus as string | null,
+        modality: a.modality as string | null,
         status: a.status as string | null,
         start_time: a.start_time as string,
         end_time: a.end_time as string | null,
         notes: a.notes as string | null,
-        client_id: a.client_id as string | null,
-        client_name: a.client_name as string | null,
-        client_avatar_url: a.client_avatar_url as string | null,
+        client_id: a.client?.id as string | null,
+        client_name: a.client?.full_name as string | null,
+        client_avatar_url: a.client?.avatar_url as string | null,
       }))}
     />
   );

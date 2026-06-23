@@ -1,5 +1,9 @@
 "use client";
 
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { motion, AnimatePresence } from "framer-motion";
+import { Modal } from "@/components/ui/modal";
 import {
   ArrowDownRight,
   ArrowUpRight,
@@ -7,11 +11,14 @@ import {
   MessageCircle,
   MoreHorizontal,
   Search,
+  Trash2,
 } from "lucide-react";
 import { Area, AreaChart, ResponsiveContainer, YAxis } from "recharts";
-import { PATIENTS, statusLabel } from "./data";
+import { statusLabel } from "./data";
 import { useNutri, type PatientFilter } from "./store";
 import type { Patient } from "./types";
+import { EditPatientModal } from "./EditPatientModal";
+import { deletePatient } from "@/app/actions/nutri-actions";
 
 const FILTERS: { key: PatientFilter; label: string }[] = [
   { key: "all", label: "Todos" },
@@ -20,20 +27,17 @@ const FILTERS: { key: PatientFilter; label: string }[] = [
   { key: "atencao", label: "Atenção" },
 ];
 
-export function PatientsTable() {
+export function PatientsTable({ patients = [] }: { patients?: any[] }) {
   const filter = useNutri((s) => s.patientFilter);
   const setFilter = useNutri((s) => s.setPatientFilter);
   const query = useNutri((s) => s.patientQuery);
   const setQuery = useNutri((s) => s.setPatientQuery);
 
-  const filtered = PATIENTS.filter((p) => {
+  const filtered = patients.filter((p: any) => {
     if (filter !== "all" && p.status !== filter) return false;
     if (query.trim()) {
       const q = query.trim().toLowerCase();
-      if (
-        !p.name.toLowerCase().includes(q) &&
-        !p.goal.toLowerCase().includes(q)
-      ) {
+      if (!p.client?.full_name?.toLowerCase().includes(q)) {
         return false;
       }
     }
@@ -48,7 +52,7 @@ export function PatientsTable() {
             Pacientes ativos
           </h2>
           <p className="text-xs text-kore-muted mt-0.5">
-            {PATIENTS.length} no plano · {filtered.length} filtrados
+            {patients.length} no plano · {filtered.length} filtrados
           </p>
         </div>
         <div className="flex items-center gap-2 flex-wrap">
@@ -104,20 +108,19 @@ export function PatientsTable() {
               <th className="text-right font-bold py-2.5 px-5 w-20" />
             </tr>
           </thead>
-          <tbody>
-            {filtered.map((p) => (
-              <PatientRow key={p.id} patient={p} />
-            ))}
-            {filtered.length === 0 && (
-              <tr>
-                <td
-                  colSpan={7}
-                  className="py-10 px-5 text-center text-sm text-kore-muted"
-                >
-                  Nenhum paciente corresponde ao filtro atual.
-                </td>
-              </tr>
-            )}
+          <tbody className="divide-y divide-kore-border bg-kore-card">
+            <AnimatePresence>
+              {filtered.map((p: any) => (
+                <PatientRow key={p.client?.id} patient={p} />
+              ))}
+              {filtered.length === 0 && (
+                <tr>
+                  <td colSpan={7} className="text-center py-8 text-kore-muted text-sm">
+                    Nenhum paciente encontrado.
+                  </td>
+                </tr>
+              )}
+            </AnimatePresence>
           </tbody>
         </table>
       </div>
@@ -125,107 +128,207 @@ export function PatientsTable() {
   );
 }
 
-function PatientRow({ patient }: { patient: Patient }) {
+function PatientRow({ patient: p }: { patient: any }) {
+  const router = useRouter();
+  const [editOpen, setEditOpen] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [deleteOpen, setDeleteOpen] = useState(false);
+
+  const handleDelete = async (e?: React.MouseEvent) => {
+    if (e) e.stopPropagation();
+    setIsDeleting(true);
+    try {
+      await deletePatient(p.client?.id);
+      alert("Paciente excluído com sucesso.");
+      router.refresh();
+    } catch (error) {
+      alert("Erro ao excluir paciente.");
+    } finally {
+      setIsDeleting(false);
+    }
+  };
+
+  const patient = {
+    id: p.id,
+    name: p.client?.full_name || "Paciente",
+    avatar: p.client?.avatar_url || "👤",
+    plan: p.plan_name || "Sem plano",
+    planExpiresInDays: 14,
+    adherence8w: [100, 100],
+    adherenceCurrent: 100,
+    weightDeltaKg: 0,
+    lastWeighIn: "N/A",
+    status: p.status,
+    goal: "Geral",
+    unreadMessages: 0,
+  };
+
   const losingWeight = patient.weightDeltaKg <= 0;
   const planExpiringSoon = patient.planExpiresInDays <= 14;
   const sparkData = patient.adherence8w.map((v, i) => ({ i, v }));
-  const tone = sparklineTone(patient);
+  const tone = sparklineTone(patient as Patient);
   const status = patient.status;
   const goalWantsLoss =
     patient.goal === "Emagrecimento" || patient.goal === "Recomposição";
   const deltaPositive = goalWantsLoss ? losingWeight : !losingWeight;
 
   return (
-    <tr className="border-b border-kore-border last:border-b-0 cursor-pointer hover:bg-kore-bg/60 transition group">
-      <td className="py-3 px-5">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-kore-emerald-soft text-xl grid place-items-center flex-shrink-0">
-            {patient.avatar}
+    <>
+      <EditPatientModal open={editOpen} onOpenChange={setEditOpen} patient={{ ...p.client, ...p.client?.metadata }} />
+      
+      <tr 
+        onClick={() => setEditOpen(true)}
+        className="group relative hover:bg-kore-bg/40 transition duration-300 ease-in-out cursor-pointer border-b border-kore-border last:border-b-0"
+      >
+        <td className="py-3.5 px-5">
+          <div className="flex items-center gap-3">
+            <div className="h-9 w-9 rounded-full bg-kore-emerald/10 flex items-center justify-center text-kore-emerald font-bold border border-kore-emerald/20 flex-shrink-0 relative overflow-hidden group-hover:scale-105 transition">
+              {patient.name.charAt(0)}
+              {patient.unreadMessages > 0 && (
+                <div className="absolute top-0 right-0 w-2.5 h-2.5 bg-rose-500 rounded-full border-2 border-white shadow-sm" />
+              )}
+            </div>
+            <div>
+              <div className="font-extrabold text-kore-ink group-hover:text-kore-emerald transition truncate max-w-[140px]">
+                {patient.name}
+              </div>
+              <div className="text-[11px] text-kore-muted flex items-center gap-1 font-medium">
+                {patient.goal}
+              </div>
+            </div>
           </div>
-          <div className="min-w-0">
-            <p className="font-bold text-kore-ink text-sm truncate flex items-center gap-1.5">
-              {patient.name}
-              {patient.unreadMessages ? (
-                <span className="inline-flex items-center gap-0.5 text-[10px] font-bold text-sky-600 dark:text-sky-300">
-                  <MessageCircle size={11} fill="currentColor" />
-                  {patient.unreadMessages}
-                </span>
-              ) : null}
-            </p>
-            <p className="text-[11px] text-kore-muted truncate">
-              {patient.goal}
-            </p>
+        </td>
+
+        <td className="py-3.5 px-3">
+          <div className="font-semibold text-kore-ink/90 text-sm">{patient.plan}</div>
+          {planExpiringSoon ? (
+            <div className="text-[10px] text-rose-500 font-bold bg-rose-50 px-1.5 py-0.5 rounded-sm inline-block mt-0.5">
+              Expira em {patient.planExpiresInDays} dias
+            </div>
+          ) : (
+            <div className="text-[10px] text-kore-muted font-medium mt-0.5">
+              Ativo
+            </div>
+          )}
+        </td>
+
+        <td className="py-3.5 px-3 w-32">
+          <div className="flex items-end gap-2">
+            <div style={{ height: 36, width: "100%" }}>
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart data={sparkData}>
+                  <defs>
+                    <linearGradient id="colorAdherence" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="#10B981" stopOpacity={0.3} />
+                      <stop offset="95%" stopColor="#10B981" stopOpacity={0} />
+                    </linearGradient>
+                  </defs>
+                  <YAxis domain={[0, 100]} hide />
+                  <Area
+                    type="monotone"
+                    dataKey="v"
+                    stroke="#10B981"
+                    strokeWidth={2}
+                    fillOpacity={1}
+                    fill="url(#colorAdherence)"
+                    isAnimationActive={false}
+                  />
+                </AreaChart>
+              </ResponsiveContainer>
+            </div>
+            <div className="text-xs font-bold text-kore-emerald">
+              {patient.adherenceCurrent}%
+            </div>
           </div>
-        </div>
-      </td>
-      <td className="py-3 px-3">
-        <p className="text-xs font-semibold text-kore-ink">{patient.plan}</p>
-        <p
-          className={`text-[11px] font-medium ${
-            planExpiringSoon
-              ? "text-amber-600 dark:text-amber-300"
-              : "text-kore-muted"
-          }`}
-        >
-          vence em {patient.planExpiresInDays}d
-        </p>
-      </td>
-      <td className="py-3 px-3">
-        <div className="flex items-center gap-3">
-          <div className="w-28">
-            <Sparkline data={sparkData} tone={tone} />
-          </div>
-          <p
-            className={`text-sm font-bold tabular-nums ${
-              tone === "rose"
-                ? "text-rose-600 dark:text-rose-300"
-                : "text-kore-ink"
+        </td>
+
+        <td className="py-3.5 px-3 text-right">
+          <div
+            className={`inline-flex items-center gap-0.5 text-xs font-bold px-2 py-0.5 rounded-md ${
+              losingWeight
+                ? "bg-kore-emerald/10 text-kore-emerald"
+                : "bg-rose-50 text-rose-600"
             }`}
           >
-            {patient.adherenceCurrent}%
-          </p>
-        </div>
-      </td>
-      <td className="py-3 px-3 text-right">
-        <p
-          className={`inline-flex items-center gap-0.5 text-xs font-bold tabular-nums ${
-            deltaPositive
-              ? "text-emerald-600 dark:text-emerald-300"
-              : "text-rose-600 dark:text-rose-300"
-          }`}
-        >
-          {patient.weightDeltaKg <= 0 ? (
-            <ArrowDownRight size={12} strokeWidth={2.8} />
-          ) : (
-            <ArrowUpRight size={12} strokeWidth={2.8} />
-          )}
-          {patient.weightDeltaKg > 0 ? "+" : ""}
-          {patient.weightDeltaKg.toFixed(1)} kg
-        </p>
-      </td>
-      <td className="py-3 px-3 text-xs text-kore-subink whitespace-nowrap">
-        {patient.lastWeighIn}
-      </td>
-      <td className="py-3 px-3">
-        <StatusChip status={status} />
-      </td>
-      <td className="py-3 px-5 text-right">
-        <div className="inline-flex items-center gap-1.5 text-kore-muted">
-          <button
-            type="button"
-            aria-label="Mais ações"
-            className="w-7 h-7 grid place-items-center rounded-lg hover:bg-kore-bg hover:text-kore-ink transition"
-            onClick={(e) => e.stopPropagation()}
+            {losingWeight ? (
+              <ArrowDownRight size={14} />
+            ) : (
+              <ArrowUpRight size={14} />
+            )}
+            {Math.abs(patient.weightDeltaKg)}kg
+          </div>
+        </td>
+
+        <td className="py-3.5 px-3">
+          <div className="text-sm font-semibold text-kore-ink">
+            {patient.lastWeighIn}
+          </div>
+        </td>
+
+        <td className="py-3.5 px-3">
+          <span
+            className={`inline-flex items-center px-2 py-1 rounded-md text-[10px] font-bold tracking-wide uppercase ${
+              patient.status === "em-dia"
+                ? "bg-kore-emerald/10 text-kore-emerald"
+                : patient.status === "reavaliar"
+                ? "bg-amber-100/50 text-amber-700"
+                : "bg-rose-50 text-rose-600"
+            }`}
           >
-            <MoreHorizontal size={15} />
-          </button>
-          <ChevronRight
-            size={15}
-            className="opacity-0 group-hover:opacity-100 transition"
-          />
-        </div>
-      </td>
-    </tr>
+            {statusLabel[patient.status as keyof typeof statusLabel]}
+          </span>
+        </td>
+
+        <td className="py-3.5 px-5 text-right w-32">
+          <div className="flex items-center justify-end gap-2">
+            <button
+              onClick={(e) => {
+                e.stopPropagation(); // Evita abrir o modal de edição ao clicar no botão "Ver Perfil"
+                router.push(`/dashboard/nutri/patients/${patient.id}`);
+              }}
+              className="text-xs font-bold text-kore-emerald hover:text-white bg-kore-emerald/10 hover:bg-kore-emerald px-3 py-1.5 rounded-lg transition"
+            >
+              Ver
+            </button>
+            
+            <div onClick={(e) => e.stopPropagation()}>
+              <button
+                onClick={() => setDeleteOpen(true)}
+                className="p-1.5 text-rose-500 hover:bg-rose-50 rounded-lg transition cursor-pointer"
+                title="Excluir Paciente"
+                disabled={isDeleting}
+              >
+                <Trash2 size={16} />
+              </button>
+
+              <Modal
+                isOpen={deleteOpen}
+                onClose={() => setDeleteOpen(false)}
+                title="Tem certeza absoluta?"
+                description="Esta ação não pode ser desfeita. Isso removerá o vínculo deste paciente da sua clínica e do seu painel."
+              >
+                <div className="pt-2 flex justify-end gap-2">
+                  <button
+                    onClick={() => setDeleteOpen(false)}
+                    disabled={isDeleting}
+                    className="px-4 py-2 rounded-xl text-sm font-bold text-kore-muted hover:text-kore-ink transition"
+                  >
+                    Cancelar
+                  </button>
+                  <button
+                    onClick={() => handleDelete()}
+                    disabled={isDeleting}
+                    className="px-6 py-2 rounded-xl bg-rose-500 hover:bg-rose-600 text-white font-bold text-sm shadow-lg shadow-rose-500/30 transition active:scale-95"
+                  >
+                    {isDeleting ? "Excluindo..." : "Sim, Excluir"}
+                  </button>
+                </div>
+              </Modal>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </>
   );
 }
 

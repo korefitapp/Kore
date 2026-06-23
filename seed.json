@@ -1,0 +1,1696 @@
+[
+  {
+    "name": "Supino Reto com Barra",
+    "target_muscle_group": "Peito",
+    "equipment": "Barra livre",
+    "mechanic": "Composto",
+    "category": "Musculação"
+  },
+  {
+    "name": "Supino Reto com Halteres",
+    "target_muscle_group": "Peito",
+    "equipment": "Halteres",
+    "mechanic": "Composto",
+    "category": "Musculação"
+  },
+  {
+    "name": "Supino Inclinado com Barra",
+    "target_muscle_group": "Peito",
+    "equipment": "Barra livre",
+    "mechanic": "Composto",
+    "category": "Musculação"
+  },
+  {
+    "name": "Supino Inclinado com Halteres",
+    "target_muscle_group": "Peito",
+    "equipment": "Halteres",
+    "mechanic": "Composto",
+    "category": "Musculação"
+  },
+  {
+    "name": "Supino Declinado com Barra",
+    "target_muscle_group": "Peito",
+    "equipment": "Barra livre",
+    "mechanic": "Composto",
+    "category": "Musculação"
+  },
+  {
+    "name": "Supino Declinado com Halteres",
+    "target_muscle_group": "Peito",
+    "equipment": "Halteres",
+    "mechanic": "Composto",
+    "category": "Musculação"
+  },
+  {
+    "name": "Crucifixo Reto com Halteres",
+    "target_muscle_group": "Peito",
+    "equipment": "Halteres",
+    "mechanic": "Isolado",
+    "category": "Musculação"
+  },
+  {
+    "name": "Crucifixo Inclinado com Halteres",
+    "target_muscle_group": "Peito",
+    "equipment": "Halteres",
+    "mechanic": "Isolado",
+    "category": "Musculação"
+  },
+  {
+    "name": "Crossover Alto na Polia",
+    "target_muscle_group": "Peito",
+    "equipment": "Polia",
+    "mechanic": "Isolado",
+    "category": "Musculação"
+  },
+  {
+    "name": "Crossover Baixo na Polia",
+    "target_muscle_group": "Peito",
+    "equipment": "Polia",
+    "mechanic": "Isolado",
+    "category": "Musculação"
+  },
+  {
+    "name": "Peck Deck (Voador)",
+    "target_muscle_group": "Peito",
+    "equipment": "Máquina",
+    "mechanic": "Isolado",
+    "category": "Musculação"
+  },
+  {
+    "name": "Chest Press Articulado (Máquina)",
+    "target_muscle_group": "Peito",
+    "equipment": "Máquina",
+    "mechanic": "Composto",
+    "category": "Musculação"
+  },
+  {
+    "name": "Flexão de Braços (Push-Up)",
+    "target_muscle_group": "Peito",
+    "equipment": "Peso corporal",
+    "mechanic": "Composto",
+    "category": "Musculação"
+  },
+  {
+    "name": "Flexão de Braços Inclinada",
+    "target_muscle_group": "Peito",
+    "equipment": "Peso corporal",
+    "mechanic": "Composto",
+    "category": "Musculação"
+  },
+  {
+    "name": "Flexão de Braços Declinada",
+    "target_muscle_group": "Peito",
+    "equipment": "Peso corporal",
+    "mechanic": "Composto",
+    "category": "Musculação"
+  },
+  {
+    "name": "Pull Over com Halter",
+    "target_muscle_group": "Peito",
+    "equipment": "Halteres",
+    "mechanic": "Composto",
+    "category": "Musculação"
+  },
+  {
+    "name": "Crucifixo Reto na Polia",
+    "target_muscle_group": "Peito",
+    "equipment": "Polia",
+    "mechanic": "Isolado",
+    "category": "Musculação"
+  },
+  {
+    "name": "Crucifixo Inclinado na Polia",
+    "target_muscle_group": "Peito",
+    "equipment": "Polia",
+    "mechanic": "Isolado",
+    "category": "Musculação"
+  },
+  {
+    "name": "Supino Reto na Máquina Smith",
+    "target_muscle_group": "Peito",
+    "equipment": "Barra guiada",
+    "mechanic": "Composto",
+    "category": "Musculação"
+  },
+  {
+    "name": "Supino Inclinado na Máquina Smith",
+    "target_muscle_group": "Peito",
+    "equipment": "Barra guiada",
+    "mechanic": "Composto",
+    "category": "Musculação"
+  },
+  {
+    "name": "Puxada Frontal Pronada",
+    "target_muscle_group": "Costas",
+    "equipment": "Polia",
+    "mechanic": "Composto",
+    "category": "Musculação"
+  },
+  {
+    "name": "Puxada Frontal Supinada",
+    "target_muscle_group": "Costas",
+    "equipment": "Polia",
+    "mechanic": "Composto",
+    "category": "Musculação"
+  },
+  {
+    "name": "Puxada Frontal com Triângulo (Neutra)",
+    "target_muscle_group": "Costas",
+    "equipment": "Polia",
+    "mechanic": "Composto",
+    "category": "Musculação"
+  },
+  {
+    "name": "Puxada Por Trás",
+    "target_muscle_group": "Costas",
+    "equipment": "Polia",
+    "mechanic": "Composto",
+    "category": "Musculação"
+  },
+  {
+    "name": "Remada Curvada com Barra Pronada",
+    "target_muscle_group": "Costas",
+    "equipment": "Barra livre",
+    "mechanic": "Composto",
+    "category": "Musculação"
+  },
+  {
+    "name": "Remada Curvada com Barra Supinada",
+    "target_muscle_group": "Costas",
+    "equipment": "Barra livre",
+    "mechanic": "Composto",
+    "category": "Musculação"
+  },
+  {
+    "name": "Remada Unilateral com Halter (Serrote)",
+    "target_muscle_group": "Costas",
+    "equipment": "Halteres",
+    "mechanic": "Composto",
+    "category": "Musculação"
+  },
+  {
+    "name": "Remada Baixa na Polia com Triângulo",
+    "target_muscle_group": "Costas",
+    "equipment": "Polia",
+    "mechanic": "Composto",
+    "category": "Musculação"
+  },
+  {
+    "name": "Remada Baixa na Polia com Barra (Pronada)",
+    "target_muscle_group": "Costas",
+    "equipment": "Polia",
+    "mechanic": "Composto",
+    "category": "Musculação"
+  },
+  {
+    "name": "Remada Cavalo (Barra T)",
+    "target_muscle_group": "Costas",
+    "equipment": "Barra livre",
+    "mechanic": "Composto",
+    "category": "Musculação"
+  },
+  {
+    "name": "Remada Articulada (Máquina)",
+    "target_muscle_group": "Costas",
+    "equipment": "Máquina",
+    "mechanic": "Composto",
+    "category": "Musculação"
+  },
+  {
+    "name": "Pulldown na Polia Alta com Corda",
+    "target_muscle_group": "Costas",
+    "equipment": "Polia",
+    "mechanic": "Isolado",
+    "category": "Musculação"
+  },
+  {
+    "name": "Pulldown na Polia Alta com Barra",
+    "target_muscle_group": "Costas",
+    "equipment": "Polia",
+    "mechanic": "Isolado",
+    "category": "Musculação"
+  },
+  {
+    "name": "Levantamento Terra (Deadlift)",
+    "target_muscle_group": "Costas",
+    "equipment": "Barra livre",
+    "mechanic": "Composto",
+    "category": "Musculação"
+  },
+  {
+    "name": "Barra Fixa Pronada (Pull-Up)",
+    "target_muscle_group": "Costas",
+    "equipment": "Peso corporal",
+    "mechanic": "Composto",
+    "category": "Musculação"
+  },
+  {
+    "name": "Barra Fixa Supinada (Chin-Up)",
+    "target_muscle_group": "Costas",
+    "equipment": "Peso corporal",
+    "mechanic": "Composto",
+    "category": "Musculação"
+  },
+  {
+    "name": "Hiperextensão Lombar (Banco Romano)",
+    "target_muscle_group": "Costas",
+    "equipment": "Peso corporal",
+    "mechanic": "Isolado",
+    "category": "Musculação"
+  },
+  {
+    "name": "Remada Unilateral na Polia Baixa",
+    "target_muscle_group": "Costas",
+    "equipment": "Polia",
+    "mechanic": "Composto",
+    "category": "Musculação"
+  },
+  {
+    "name": "Crucifixo Inverso com Halteres",
+    "target_muscle_group": "Costas",
+    "equipment": "Halteres",
+    "mechanic": "Isolado",
+    "category": "Musculação"
+  },
+  {
+    "name": "Crucifixo Inverso na Máquina (Peck Deck Inverso)",
+    "target_muscle_group": "Costas",
+    "equipment": "Máquina",
+    "mechanic": "Isolado",
+    "category": "Musculação"
+  },
+  {
+    "name": "Agachamento Livre com Barra",
+    "target_muscle_group": "Pernas",
+    "equipment": "Barra livre",
+    "mechanic": "Composto",
+    "category": "Musculação"
+  },
+  {
+    "name": "Agachamento Frontal (Front Squat)",
+    "target_muscle_group": "Pernas",
+    "equipment": "Barra livre",
+    "mechanic": "Composto",
+    "category": "Musculação"
+  },
+  {
+    "name": "Agachamento na Máquina Smith",
+    "target_muscle_group": "Pernas",
+    "equipment": "Barra guiada",
+    "mechanic": "Composto",
+    "category": "Musculação"
+  },
+  {
+    "name": "Agachamento Hack",
+    "target_muscle_group": "Pernas",
+    "equipment": "Máquina",
+    "mechanic": "Composto",
+    "category": "Musculação"
+  },
+  {
+    "name": "Leg Press 45º",
+    "target_muscle_group": "Pernas",
+    "equipment": "Máquina",
+    "mechanic": "Composto",
+    "category": "Musculação"
+  },
+  {
+    "name": "Leg Press Horizontal",
+    "target_muscle_group": "Pernas",
+    "equipment": "Máquina",
+    "mechanic": "Composto",
+    "category": "Musculação"
+  },
+  {
+    "name": "Cadeira Extensora",
+    "target_muscle_group": "Pernas",
+    "equipment": "Máquina",
+    "mechanic": "Isolado",
+    "category": "Musculação"
+  },
+  {
+    "name": "Mesa Flexora",
+    "target_muscle_group": "Pernas",
+    "equipment": "Máquina",
+    "mechanic": "Isolado",
+    "category": "Musculação"
+  },
+  {
+    "name": "Cadeira Flexora",
+    "target_muscle_group": "Pernas",
+    "equipment": "Máquina",
+    "mechanic": "Isolado",
+    "category": "Musculação"
+  },
+  {
+    "name": "Flexora Vertical (Em pé)",
+    "target_muscle_group": "Pernas",
+    "equipment": "Máquina",
+    "mechanic": "Isolado",
+    "category": "Musculação"
+  },
+  {
+    "name": "Levantamento Terra Stiff com Barra",
+    "target_muscle_group": "Pernas",
+    "equipment": "Barra livre",
+    "mechanic": "Composto",
+    "category": "Musculação"
+  },
+  {
+    "name": "Levantamento Terra Stiff com Halteres",
+    "target_muscle_group": "Pernas",
+    "equipment": "Halteres",
+    "mechanic": "Composto",
+    "category": "Musculação"
+  },
+  {
+    "name": "Afundo com Halteres",
+    "target_muscle_group": "Pernas",
+    "equipment": "Halteres",
+    "mechanic": "Composto",
+    "category": "Musculação"
+  },
+  {
+    "name": "Afundo na Máquina Smith",
+    "target_muscle_group": "Pernas",
+    "equipment": "Barra guiada",
+    "mechanic": "Composto",
+    "category": "Musculação"
+  },
+  {
+    "name": "Avanço (Passada) com Halteres",
+    "target_muscle_group": "Pernas",
+    "equipment": "Halteres",
+    "mechanic": "Composto",
+    "category": "Musculação"
+  },
+  {
+    "name": "Agachamento Búlgaro com Halteres",
+    "target_muscle_group": "Pernas",
+    "equipment": "Halteres",
+    "mechanic": "Composto",
+    "category": "Musculação"
+  },
+  {
+    "name": "Agachamento Sumô com Halter",
+    "target_muscle_group": "Pernas",
+    "equipment": "Halteres",
+    "mechanic": "Composto",
+    "category": "Musculação"
+  },
+  {
+    "name": "Elevação Pélvica com Barra (Hip Thrust)",
+    "target_muscle_group": "Pernas",
+    "equipment": "Barra livre",
+    "mechanic": "Composto",
+    "category": "Musculação"
+  },
+  {
+    "name": "Elevação Pélvica na Máquina",
+    "target_muscle_group": "Pernas",
+    "equipment": "Máquina",
+    "mechanic": "Composto",
+    "category": "Musculação"
+  },
+  {
+    "name": "Cadeira Abdutora",
+    "target_muscle_group": "Pernas",
+    "equipment": "Máquina",
+    "mechanic": "Isolado",
+    "category": "Musculação"
+  },
+  {
+    "name": "Cadeira Adutora",
+    "target_muscle_group": "Pernas",
+    "equipment": "Máquina",
+    "mechanic": "Isolado",
+    "category": "Musculação"
+  },
+  {
+    "name": "Glúteo na Polia Baixa (Coice)",
+    "target_muscle_group": "Pernas",
+    "equipment": "Polia",
+    "mechanic": "Isolado",
+    "category": "Musculação"
+  },
+  {
+    "name": "Glúteo na Máquina",
+    "target_muscle_group": "Pernas",
+    "equipment": "Máquina",
+    "mechanic": "Isolado",
+    "category": "Musculação"
+  },
+  {
+    "name": "Gêmeos em Pé (Panturrilha na Máquina)",
+    "target_muscle_group": "Pernas",
+    "equipment": "Máquina",
+    "mechanic": "Isolado",
+    "category": "Musculação"
+  },
+  {
+    "name": "Gêmeos Sentado (Panturrilha Cavalinho)",
+    "target_muscle_group": "Pernas",
+    "equipment": "Máquina",
+    "mechanic": "Isolado",
+    "category": "Musculação"
+  },
+  {
+    "name": "Panturrilha no Leg Press 45º",
+    "target_muscle_group": "Pernas",
+    "equipment": "Máquina",
+    "mechanic": "Isolado",
+    "category": "Musculação"
+  },
+  {
+    "name": "Panturrilha Livre em Pé",
+    "target_muscle_group": "Pernas",
+    "equipment": "Peso corporal",
+    "mechanic": "Isolado",
+    "category": "Musculação"
+  },
+  {
+    "name": "Desenvolvimento com Halteres",
+    "target_muscle_group": "Ombros",
+    "equipment": "Halteres",
+    "mechanic": "Composto",
+    "category": "Musculação"
+  },
+  {
+    "name": "Desenvolvimento Militar com Barra",
+    "target_muscle_group": "Ombros",
+    "equipment": "Barra livre",
+    "mechanic": "Composto",
+    "category": "Musculação"
+  },
+  {
+    "name": "Desenvolvimento na Máquina",
+    "target_muscle_group": "Ombros",
+    "equipment": "Máquina",
+    "mechanic": "Composto",
+    "category": "Musculação"
+  },
+  {
+    "name": "Desenvolvimento Arnold (Arnold Press)",
+    "target_muscle_group": "Ombros",
+    "equipment": "Halteres",
+    "mechanic": "Composto",
+    "category": "Musculação"
+  },
+  {
+    "name": "Elevação Lateral com Halteres",
+    "target_muscle_group": "Ombros",
+    "equipment": "Halteres",
+    "mechanic": "Isolado",
+    "category": "Musculação"
+  },
+  {
+    "name": "Elevação Lateral na Polia Baixa",
+    "target_muscle_group": "Ombros",
+    "equipment": "Polia",
+    "mechanic": "Isolado",
+    "category": "Musculação"
+  },
+  {
+    "name": "Elevação Lateral na Máquina",
+    "target_muscle_group": "Ombros",
+    "equipment": "Máquina",
+    "mechanic": "Isolado",
+    "category": "Musculação"
+  },
+  {
+    "name": "Elevação Frontal com Halteres",
+    "target_muscle_group": "Ombros",
+    "equipment": "Halteres",
+    "mechanic": "Isolado",
+    "category": "Musculação"
+  },
+  {
+    "name": "Elevação Frontal com Barra",
+    "target_muscle_group": "Ombros",
+    "equipment": "Barra livre",
+    "mechanic": "Isolado",
+    "category": "Musculação"
+  },
+  {
+    "name": "Elevação Frontal na Polia Alta (Corda)",
+    "target_muscle_group": "Ombros",
+    "equipment": "Polia",
+    "mechanic": "Isolado",
+    "category": "Musculação"
+  },
+  {
+    "name": "Elevação Frontal com Anilha",
+    "target_muscle_group": "Ombros",
+    "equipment": "Anilha",
+    "mechanic": "Isolado",
+    "category": "Musculação"
+  },
+  {
+    "name": "Crucifixo Inverso na Polia Alta",
+    "target_muscle_group": "Ombros",
+    "equipment": "Polia",
+    "mechanic": "Isolado",
+    "category": "Musculação"
+  },
+  {
+    "name": "Encolhimento de Ombros com Halteres",
+    "target_muscle_group": "Ombros",
+    "equipment": "Halteres",
+    "mechanic": "Isolado",
+    "category": "Musculação"
+  },
+  {
+    "name": "Encolhimento de Ombros com Barra",
+    "target_muscle_group": "Ombros",
+    "equipment": "Barra livre",
+    "mechanic": "Isolado",
+    "category": "Musculação"
+  },
+  {
+    "name": "Remada Alta com Barra",
+    "target_muscle_group": "Ombros",
+    "equipment": "Barra livre",
+    "mechanic": "Composto",
+    "category": "Musculação"
+  },
+  {
+    "name": "Remada Alta na Polia Baixa",
+    "target_muscle_group": "Ombros",
+    "equipment": "Polia",
+    "mechanic": "Composto",
+    "category": "Musculação"
+  },
+  {
+    "name": "Rosca Direta com Barra Reta",
+    "target_muscle_group": "Bíceps",
+    "equipment": "Barra livre",
+    "mechanic": "Isolado",
+    "category": "Musculação"
+  },
+  {
+    "name": "Rosca Direta com Barra W",
+    "target_muscle_group": "Bíceps",
+    "equipment": "Barra livre",
+    "mechanic": "Isolado",
+    "category": "Musculação"
+  },
+  {
+    "name": "Rosca Direta com Halteres",
+    "target_muscle_group": "Bíceps",
+    "equipment": "Halteres",
+    "mechanic": "Isolado",
+    "category": "Musculação"
+  },
+  {
+    "name": "Rosca Alternada com Halteres",
+    "target_muscle_group": "Bíceps",
+    "equipment": "Halteres",
+    "mechanic": "Isolado",
+    "category": "Musculação"
+  },
+  {
+    "name": "Rosca Martelo Alternada",
+    "target_muscle_group": "Bíceps",
+    "equipment": "Halteres",
+    "mechanic": "Isolado",
+    "category": "Musculação"
+  },
+  {
+    "name": "Rosca Martelo Simultânea",
+    "target_muscle_group": "Bíceps",
+    "equipment": "Halteres",
+    "mechanic": "Isolado",
+    "category": "Musculação"
+  },
+  {
+    "name": "Rosca Scott com Barra W",
+    "target_muscle_group": "Bíceps",
+    "equipment": "Banco Scott / Barra",
+    "mechanic": "Isolado",
+    "category": "Musculação"
+  },
+  {
+    "name": "Rosca Scott com Halter (Unilateral)",
+    "target_muscle_group": "Bíceps",
+    "equipment": "Banco Scott / Halter",
+    "mechanic": "Isolado",
+    "category": "Musculação"
+  },
+  {
+    "name": "Rosca Scott na Máquina",
+    "target_muscle_group": "Bíceps",
+    "equipment": "Máquina",
+    "mechanic": "Isolado",
+    "category": "Musculação"
+  },
+  {
+    "name": "Rosca Concentrada com Halter",
+    "target_muscle_group": "Bíceps",
+    "equipment": "Halteres",
+    "mechanic": "Isolado",
+    "category": "Musculação"
+  },
+  {
+    "name": "Rosca Inclinada com Halteres (Banco 45º)",
+    "target_muscle_group": "Bíceps",
+    "equipment": "Halteres",
+    "mechanic": "Isolado",
+    "category": "Musculação"
+  },
+  {
+    "name": "Rosca Direta na Polia Baixa (Barra)",
+    "target_muscle_group": "Bíceps",
+    "equipment": "Polia",
+    "mechanic": "Isolado",
+    "category": "Musculação"
+  },
+  {
+    "name": "Rosca Martelo na Polia Baixa (Corda)",
+    "target_muscle_group": "Bíceps",
+    "equipment": "Polia",
+    "mechanic": "Isolado",
+    "category": "Musculação"
+  },
+  {
+    "name": "Rosca Inversa com Barra W",
+    "target_muscle_group": "Bíceps",
+    "equipment": "Barra livre",
+    "mechanic": "Isolado",
+    "category": "Musculação"
+  },
+  {
+    "name": "Rosca Inversa na Polia",
+    "target_muscle_group": "Bíceps",
+    "equipment": "Polia",
+    "mechanic": "Isolado",
+    "category": "Musculação"
+  },
+  {
+    "name": "Flexão de Punho com Barra (Antebraço)",
+    "target_muscle_group": "Bíceps",
+    "equipment": "Barra livre",
+    "mechanic": "Isolado",
+    "category": "Musculação"
+  },
+  {
+    "name": "Tríceps Pulldown na Polia (Barra Reta)",
+    "target_muscle_group": "Tríceps",
+    "equipment": "Polia",
+    "mechanic": "Isolado",
+    "category": "Musculação"
+  },
+  {
+    "name": "Tríceps Pulldown na Polia (Barra V)",
+    "target_muscle_group": "Tríceps",
+    "equipment": "Polia",
+    "mechanic": "Isolado",
+    "category": "Musculação"
+  },
+  {
+    "name": "Tríceps Corda na Polia Alta",
+    "target_muscle_group": "Tríceps",
+    "equipment": "Polia",
+    "mechanic": "Isolado",
+    "category": "Musculação"
+  },
+  {
+    "name": "Tríceps Testa com Barra W",
+    "target_muscle_group": "Tríceps",
+    "equipment": "Barra livre",
+    "mechanic": "Isolado",
+    "category": "Musculação"
+  },
+  {
+    "name": "Tríceps Testa com Halteres",
+    "target_muscle_group": "Tríceps",
+    "equipment": "Halteres",
+    "mechanic": "Isolado",
+    "category": "Musculação"
+  },
+  {
+    "name": "Tríceps Francês com Halter (Bilateral)",
+    "target_muscle_group": "Tríceps",
+    "equipment": "Halteres",
+    "mechanic": "Isolado",
+    "category": "Musculação"
+  },
+  {
+    "name": "Tríceps Francês Unilateral com Halter",
+    "target_muscle_group": "Tríceps",
+    "equipment": "Halteres",
+    "mechanic": "Isolado",
+    "category": "Musculação"
+  },
+  {
+    "name": "Tríceps Francês na Polia Baixa (Corda)",
+    "target_muscle_group": "Tríceps",
+    "equipment": "Polia",
+    "mechanic": "Isolado",
+    "category": "Musculação"
+  },
+  {
+    "name": "Tríceps Coice com Halter (Kickback)",
+    "target_muscle_group": "Tríceps",
+    "equipment": "Halteres",
+    "mechanic": "Isolado",
+    "category": "Musculação"
+  },
+  {
+    "name": "Tríceps Coice na Polia Baixa",
+    "target_muscle_group": "Tríceps",
+    "equipment": "Polia",
+    "mechanic": "Isolado",
+    "category": "Musculação"
+  },
+  {
+    "name": "Mergulho em Bancos (Dips)",
+    "target_muscle_group": "Tríceps",
+    "equipment": "Peso corporal",
+    "mechanic": "Composto",
+    "category": "Musculação"
+  },
+  {
+    "name": "Mergulho nas Paralelas",
+    "target_muscle_group": "Tríceps",
+    "equipment": "Peso corporal",
+    "mechanic": "Composto",
+    "category": "Musculação"
+  },
+  {
+    "name": "Supino Fechado (Close-Grip Bench Press)",
+    "target_muscle_group": "Tríceps",
+    "equipment": "Barra livre",
+    "mechanic": "Composto",
+    "category": "Musculação"
+  },
+  {
+    "name": "Tríceps Máquina (Pushdown Máquina)",
+    "target_muscle_group": "Tríceps",
+    "equipment": "Máquina",
+    "mechanic": "Isolado",
+    "category": "Musculação"
+  },
+  {
+    "name": "Abdominal Crunch Supra Solo",
+    "target_muscle_group": "Core",
+    "equipment": "Peso corporal",
+    "mechanic": "Isolado",
+    "category": "Core"
+  },
+  {
+    "name": "Abdominal Infra Solo (Elevação de Pernas)",
+    "target_muscle_group": "Core",
+    "equipment": "Peso corporal",
+    "mechanic": "Isolado",
+    "category": "Core"
+  },
+  {
+    "name": "Abdominal Bicicleta (Air Bike Crunch)",
+    "target_muscle_group": "Core",
+    "equipment": "Peso corporal",
+    "mechanic": "Composto",
+    "category": "Core"
+  },
+  {
+    "name": "Abdominal Remador (Sit-Up)",
+    "target_muscle_group": "Core",
+    "equipment": "Peso corporal",
+    "mechanic": "Composto",
+    "category": "Core"
+  },
+  {
+    "name": "Abdominal na Polia Alta (Kneeling Cable Crunch)",
+    "target_muscle_group": "Core",
+    "equipment": "Polia",
+    "mechanic": "Isolado",
+    "category": "Core"
+  },
+  {
+    "name": "Prancha Isométrica Frontal",
+    "target_muscle_group": "Core",
+    "equipment": "Peso corporal",
+    "mechanic": "Isométrico",
+    "category": "Core"
+  },
+  {
+    "name": "Prancha Lateral Isométrica",
+    "target_muscle_group": "Core",
+    "equipment": "Peso corporal",
+    "mechanic": "Isométrico",
+    "category": "Core"
+  },
+  {
+    "name": "Abdominal Infra Suspenso na Barra Fixa",
+    "target_muscle_group": "Core",
+    "equipment": "Peso corporal",
+    "mechanic": "Composto",
+    "category": "Core"
+  },
+  {
+    "name": "Abdominal Declinado no Banco",
+    "target_muscle_group": "Core",
+    "equipment": "Banco declinado",
+    "mechanic": "Isolado",
+    "category": "Core"
+  },
+  {
+    "name": "Twist Russo (Russian Twist) com Carga",
+    "target_muscle_group": "Core",
+    "equipment": "Halteres/Anilha",
+    "mechanic": "Isolado",
+    "category": "Core"
+  },
+  {
+    "name": "Abdominal Rodney (Ab Wheel Rollout)",
+    "target_muscle_group": "Core",
+    "equipment": "Roda abdominal",
+    "mechanic": "Composto",
+    "category": "Core"
+  },
+  {
+    "name": "Prancha Isométrica com Toque no Ombro",
+    "target_muscle_group": "Core",
+    "equipment": "Peso corporal",
+    "mechanic": "Isométrico",
+    "category": "Core"
+  },
+  {
+    "name": "Super-Homem Isométrico (Superman)",
+    "target_muscle_group": "Core",
+    "equipment": "Peso corporal",
+    "mechanic": "Isométrico",
+    "category": "Core"
+  },
+  {
+    "name": "Perdigueiro Dinâmico (Bird Dog)",
+    "target_muscle_group": "Core",
+    "equipment": "Peso corporal",
+    "mechanic": "Isolado",
+    "category": "Core"
+  },
+  {
+    "name": "V-Up (Abdominal Canivete)",
+    "target_muscle_group": "Core",
+    "equipment": "Peso corporal",
+    "mechanic": "Composto",
+    "category": "Core"
+  },
+  {
+    "name": "Kettlebell Swing Tradicional",
+    "target_muscle_group": "Full Body",
+    "equipment": "Kettlebell",
+    "mechanic": "Composto",
+    "category": "Funcional"
+  },
+  {
+    "name": "Agachamento Goblet com Kettlebell",
+    "target_muscle_group": "Pernas",
+    "equipment": "Kettlebell",
+    "mechanic": "Composto",
+    "category": "Funcional"
+  },
+  {
+    "name": "Burpee Tradicional",
+    "target_muscle_group": "Full Body",
+    "equipment": "Peso corporal",
+    "mechanic": "Composto",
+    "category": "Funcional"
+  },
+  {
+    "name": "Thruster com Halteres",
+    "target_muscle_group": "Full Body",
+    "equipment": "Halteres",
+    "mechanic": "Composto",
+    "category": "Funcional"
+  },
+  {
+    "name": "Thruster com Barra",
+    "target_muscle_group": "Full Body",
+    "equipment": "Barra livre",
+    "mechanic": "Composto",
+    "category": "Funcional"
+  },
+  {
+    "name": "Wall Ball Shot",
+    "target_muscle_group": "Full Body",
+    "equipment": "Medicine Ball",
+    "mechanic": "Composto",
+    "category": "Funcional"
+  },
+  {
+    "name": "Box Jump (Salto na Caixa)",
+    "target_muscle_group": "Pernas",
+    "equipment": "Caixa pliométrica",
+    "mechanic": "Composto",
+    "category": "Funcional"
+  },
+  {
+    "name": "Mountain Climber (Alpinista)",
+    "target_muscle_group": "Core",
+    "equipment": "Peso corporal",
+    "mechanic": "Composto",
+    "category": "Funcional"
+  },
+  {
+    "name": "Corda Naval - Ondas Simultâneas",
+    "target_muscle_group": "Braços/Core",
+    "equipment": "Corda naval",
+    "mechanic": "Composto",
+    "category": "Funcional"
+  },
+  {
+    "name": "Corda Naval - Ondas Alternadas",
+    "target_muscle_group": "Braços/Core",
+    "equipment": "Corda naval",
+    "mechanic": "Composto",
+    "category": "Funcional"
+  },
+  {
+    "name": "Farmer's Walk (Caminhada do Fazendeiro)",
+    "target_muscle_group": "Full Body",
+    "equipment": "Halteres",
+    "mechanic": "Composto",
+    "category": "Funcional"
+  },
+  {
+    "name": "Slamball (Arremesso de Bola ao Solo)",
+    "target_muscle_group": "Full Body",
+    "equipment": "Slam Ball",
+    "mechanic": "Composto",
+    "category": "Funcional"
+  },
+  {
+    "name": "Devil Press com Halteres",
+    "target_muscle_group": "Full Body",
+    "equipment": "Halteres",
+    "mechanic": "Composto",
+    "category": "Funcional"
+  },
+  {
+    "name": "Man Maker com Halteres",
+    "target_muscle_group": "Full Body",
+    "equipment": "Halteres",
+    "mechanic": "Composto",
+    "category": "Funcional"
+  },
+  {
+    "name": "Arremesso de Medicine Ball na Parede",
+    "target_muscle_group": "Braços/Core",
+    "equipment": "Medicine Ball",
+    "mechanic": "Composto",
+    "category": "Funcional"
+  },
+  {
+    "name": "Levantamento Turco (Turkish Get-Up)",
+    "target_muscle_group": "Full Body",
+    "equipment": "Kettlebell",
+    "mechanic": "Composto",
+    "category": "Funcional"
+  },
+  {
+    "name": "Clean and Press com Halteres",
+    "target_muscle_group": "Full Body",
+    "equipment": "Halteres",
+    "mechanic": "Composto",
+    "category": "Funcional"
+  },
+  {
+    "name": "Agachamento Salto (Jump Squat)",
+    "target_muscle_group": "Pernas",
+    "equipment": "Peso corporal",
+    "mechanic": "Composto",
+    "category": "Funcional"
+  },
+  {
+    "name": "Avanço Salto (Jumping Lunges)",
+    "target_muscle_group": "Pernas",
+    "equipment": "Peso corporal",
+    "mechanic": "Composto",
+    "category": "Funcional"
+  },
+  {
+    "name": "Bear Crawl (Caminhada do Urso)",
+    "target_muscle_group": "Full Body",
+    "equipment": "Peso corporal",
+    "mechanic": "Composto",
+    "category": "Funcional"
+  },
+  {
+    "name": "Corrida Contínua em Esteira",
+    "target_muscle_group": "Cardio",
+    "equipment": "Esteira",
+    "mechanic": "Composto",
+    "category": "Cardio"
+  },
+  {
+    "name": "Corrida Intervalada (Tiros na Esteira)",
+    "target_muscle_group": "Cardio",
+    "equipment": "Esteira",
+    "mechanic": "Composto",
+    "category": "Cardio"
+  },
+  {
+    "name": "Caminhada Acelerada com Inclinação",
+    "target_muscle_group": "Cardio",
+    "equipment": "Esteira",
+    "mechanic": "Composto",
+    "category": "Cardio"
+  },
+  {
+    "name": "Trote Regenerativo na Esteira",
+    "target_muscle_group": "Cardio",
+    "equipment": "Esteira",
+    "mechanic": "Composto",
+    "category": "Cardio"
+  },
+  {
+    "name": "Remo Ergômetro (Rowing Machine)",
+    "target_muscle_group": "Cardio",
+    "equipment": "Remo",
+    "mechanic": "Composto",
+    "category": "Cardio"
+  },
+  {
+    "name": "Air Bike (Assault Bike) de Alta Intensidade",
+    "target_muscle_group": "Cardio",
+    "equipment": "Air Bike",
+    "mechanic": "Composto",
+    "category": "Cardio"
+  },
+  {
+    "name": "Bicicleta Ergométrica Estacionária",
+    "target_muscle_group": "Cardio",
+    "equipment": "Bike Ergométrica",
+    "mechanic": "Composto",
+    "category": "Cardio"
+  },
+  {
+    "name": "Simulador de Escadas (Stairmaster)",
+    "target_muscle_group": "Cardio",
+    "equipment": "Simulador de Escada",
+    "mechanic": "Composto",
+    "category": "Cardio"
+  },
+  {
+    "name": "Elíptico (Transport)",
+    "target_muscle_group": "Cardio",
+    "equipment": "Elíptico",
+    "mechanic": "Composto",
+    "category": "Cardio"
+  },
+  {
+    "name": "Polichinelo Tradicional",
+    "target_muscle_group": "Cardio",
+    "equipment": "Peso corporal",
+    "mechanic": "Composto",
+    "category": "Cardio"
+  },
+  {
+    "name": "Salto de Corda Simples",
+    "target_muscle_group": "Cardio",
+    "equipment": "Corda de pular",
+    "mechanic": "Composto",
+    "category": "Cardio"
+  },
+  {
+    "name": "Salto de Corda Duplo (Double Under)",
+    "target_muscle_group": "Cardio",
+    "equipment": "Corda de pular",
+    "mechanic": "Composto",
+    "category": "Cardio"
+  },
+  {
+    "name": "Skipping Baixo Isométrico",
+    "target_muscle_group": "Cardio",
+    "equipment": "Peso corporal",
+    "mechanic": "Composto",
+    "category": "Cardio"
+  },
+  {
+    "name": "Skipping Alto (Corrida no Lugar)",
+    "target_muscle_group": "Cardio",
+    "equipment": "Peso corporal",
+    "mechanic": "Composto",
+    "category": "Cardio"
+  },
+  {
+    "name": "Anfersen (Corrida tocando calcanhar no glúteo)",
+    "target_muscle_group": "Cardio",
+    "equipment": "Peso corporal",
+    "mechanic": "Composto",
+    "category": "Cardio"
+  },
+  {
+    "name": "Deslocamento Lateral Veloz",
+    "target_muscle_group": "Cardio",
+    "equipment": "Nenhum",
+    "mechanic": "Composto",
+    "category": "Cardio"
+  },
+  {
+    "name": "Polichinelo Estilo Tesoura",
+    "target_muscle_group": "Cardio",
+    "equipment": "Peso corporal",
+    "mechanic": "Composto",
+    "category": "Cardio"
+  },
+  {
+    "name": "Pedalada em Giro Livre (Spinning)",
+    "target_muscle_group": "Cardio",
+    "equipment": "Bike de Spinning",
+    "mechanic": "Composto",
+    "category": "Cardio"
+  },
+  {
+    "name": "Corrida Ritmada de Rua (Tempo Run)",
+    "target_muscle_group": "Cardio",
+    "equipment": "Nenhum",
+    "mechanic": "Composto",
+    "category": "Corrida"
+  },
+  {
+    "name": "Tiro de Corrida plano de 100m",
+    "target_muscle_group": "Cardio",
+    "equipment": "Nenhum",
+    "mechanic": "Composto",
+    "category": "Corrida"
+  },
+  {
+    "name": "Tiro de Corrida plano de 400m",
+    "target_muscle_group": "Cardio",
+    "equipment": "Nenhum",
+    "mechanic": "Composto",
+    "category": "Corrida"
+  },
+  {
+    "name": "Tiro de Corrida plano de 1000m (Fartlek)",
+    "target_muscle_group": "Cardio",
+    "equipment": "Nenhum",
+    "mechanic": "Composto",
+    "category": "Corrida"
+  },
+  {
+    "name": "Tiro em Subida de Rampa Acentuada",
+    "target_muscle_group": "Cardio",
+    "equipment": "Nenhum",
+    "mechanic": "Composto",
+    "category": "Corrida"
+  },
+  {
+    "name": "Corrida de Longa Distância (Longão de Rua)",
+    "target_muscle_group": "Cardio",
+    "equipment": "Nenhum",
+    "mechanic": "Composto",
+    "category": "Corrida"
+  },
+  {
+    "name": "Educativo de Corrida - Hopserlauf",
+    "target_muscle_group": "Cardio",
+    "equipment": "Peso corporal",
+    "mechanic": "Composto",
+    "category": "Corrida"
+  },
+  {
+    "name": "Educativo de Corrida - Kick-Out",
+    "target_muscle_group": "Cardio",
+    "equipment": "Peso corporal",
+    "mechanic": "Composto",
+    "category": "Corrida"
+  },
+  {
+    "name": "Corrida em Escadaria Pública",
+    "target_muscle_group": "Cardio",
+    "equipment": "Nenhum",
+    "mechanic": "Composto",
+    "category": "Corrida"
+  },
+  {
+    "name": "Corrida de Recuperação Ativa (Trote de Rua)",
+    "target_muscle_group": "Cardio",
+    "equipment": "Nenhum",
+    "mechanic": "Composto",
+    "category": "Corrida"
+  },
+  {
+    "name": "Gato-Camelo (Cat-Cow Stretch)",
+    "target_muscle_group": "Mobilidade",
+    "equipment": "Peso corporal",
+    "mechanic": "Isolado",
+    "category": "Mobilidade"
+  },
+  {
+    "name": "Mobilidade de Quadril - Posição 90/90",
+    "target_muscle_group": "Mobilidade",
+    "equipment": "Peso corporal",
+    "mechanic": "Isolado",
+    "category": "Mobilidade"
+  },
+  {
+    "name": "Mobilidade Torácica em Quatro Apoios",
+    "target_muscle_group": "Mobilidade",
+    "equipment": "Peso corporal",
+    "mechanic": "Isolado",
+    "category": "Mobilidade"
+  },
+  {
+    "name": "Alongamento de Isquiotibiais em Pé",
+    "target_muscle_group": "Alongamento",
+    "equipment": "Peso corporal",
+    "mechanic": "Isolado",
+    "category": "Mobilidade"
+  },
+  {
+    "name": "Alongamento de Flexores de Quadril (Ajoelhado)",
+    "target_muscle_group": "Alongamento",
+    "equipment": "Peso corporal",
+    "mechanic": "Isolado",
+    "category": "Mobilidade"
+  },
+  {
+    "name": "Agachamento Profundo Isométrico (Deep Squat)",
+    "target_muscle_group": "Mobilidade",
+    "equipment": "Peso corporal",
+    "mechanic": "Isométrico",
+    "category": "Mobilidade"
+  },
+  {
+    "name": "Supino com Halteres no Banco Inclinado 30º",
+    "target_muscle_group": "Peito",
+    "equipment": "Halteres",
+    "mechanic": "Composto",
+    "category": "Musculação"
+  },
+  {
+    "name": "Supino Máquina Convergente",
+    "target_muscle_group": "Peito",
+    "equipment": "Máquina",
+    "mechanic": "Composto",
+    "category": "Musculação"
+  },
+  {
+    "name": "Crucifixo Inclinado com Cabo",
+    "target_muscle_group": "Peito",
+    "equipment": "Polia",
+    "mechanic": "Isolado",
+    "category": "Musculação"
+  },
+  {
+    "name": "Flexão de Braços com Pegada Fechada",
+    "target_muscle_group": "Peito",
+    "equipment": "Máquina",
+    "mechanic": "Composto",
+    "category": "Musculação"
+  },
+  {
+    "name": "Fly Inclinado na Máquina",
+    "target_muscle_group": "Peito",
+    "equipment": "Máquina",
+    "mechanic": "Composto",
+    "category": "Musculação"
+  },
+  {
+    "name": "Supino Reto com Pegada Inversa",
+    "target_muscle_group": "Peito",
+    "equipment": "Máquina",
+    "mechanic": "Composto",
+    "category": "Musculação"
+  },
+  {
+    "name": "Remada Unilateral com Cabo (Polia)",
+    "target_muscle_group": "Costas",
+    "equipment": "Polia",
+    "mechanic": "Composto",
+    "category": "Musculação"
+  },
+  {
+    "name": "Puxada Frontal com Pegada Aberta Neutra",
+    "target_muscle_group": "Costas",
+    "equipment": "Máquina",
+    "mechanic": "Composto",
+    "category": "Musculação"
+  },
+  {
+    "name": "Remada Neutra no Banco Inclinado",
+    "target_muscle_group": "Costas",
+    "equipment": "Máquina",
+    "mechanic": "Composto",
+    "category": "Musculação"
+  },
+  {
+    "name": "Puxada no Cabo com Braços Estendidos",
+    "target_muscle_group": "Costas",
+    "equipment": "Polia",
+    "mechanic": "Composto",
+    "category": "Musculação"
+  },
+  {
+    "name": "Remada Articulada Unilateral",
+    "target_muscle_group": "Costas",
+    "equipment": "Máquina",
+    "mechanic": "Composto",
+    "category": "Musculação"
+  },
+  {
+    "name": "Barra Fixa com Carga Extra",
+    "target_muscle_group": "Costas",
+    "equipment": "Barra livre",
+    "mechanic": "Composto",
+    "category": "Musculação"
+  },
+  {
+    "name": "Agachamento Zercher",
+    "target_muscle_group": "Pernas",
+    "equipment": "Máquina",
+    "mechanic": "Composto",
+    "category": "Musculação"
+  },
+  {
+    "name": "Agachamento Safety Bar",
+    "target_muscle_group": "Pernas",
+    "equipment": "Máquina",
+    "mechanic": "Composto",
+    "category": "Musculação"
+  },
+  {
+    "name": "Passada Atrás (Reverse Lunge)",
+    "target_muscle_group": "Pernas",
+    "equipment": "Máquina",
+    "mechanic": "Composto",
+    "category": "Musculação"
+  },
+  {
+    "name": "Stiff Unilateral com Halter",
+    "target_muscle_group": "Pernas",
+    "equipment": "Halteres",
+    "mechanic": "Composto",
+    "category": "Musculação"
+  },
+  {
+    "name": "Elevação Pélvica Unilateral Solo",
+    "target_muscle_group": "Pernas",
+    "equipment": "Máquina",
+    "mechanic": "Isolado",
+    "category": "Musculação"
+  },
+  {
+    "name": "Abdução de Quadril com Elástico Miniband",
+    "target_muscle_group": "Pernas",
+    "equipment": "Máquina",
+    "mechanic": "Composto",
+    "category": "Musculação"
+  },
+  {
+    "name": "Extensão de Quadril de Quatro Apoios",
+    "target_muscle_group": "Pernas",
+    "equipment": "Máquina",
+    "mechanic": "Composto",
+    "category": "Musculação"
+  },
+  {
+    "name": "Agachamento Isométrico na Parede",
+    "target_muscle_group": "Pernas",
+    "equipment": "Máquina",
+    "mechanic": "Isolado",
+    "category": "Musculação"
+  },
+  {
+    "name": "Gêmeos Sentado Unilateral",
+    "target_muscle_group": "Pernas",
+    "equipment": "Máquina",
+    "mechanic": "Composto",
+    "category": "Musculação"
+  },
+  {
+    "name": "Panturrilha no Smith com Bloco",
+    "target_muscle_group": "Pernas",
+    "equipment": "Máquina",
+    "mechanic": "Composto",
+    "category": "Musculação"
+  },
+  {
+    "name": "Crucifixo Inverso no Cabo Unilateral",
+    "target_muscle_group": "Ombros",
+    "equipment": "Polia",
+    "mechanic": "Isolado",
+    "category": "Musculação"
+  },
+  {
+    "name": "Elevação Lateral Inclinado no Banco 45º",
+    "target_muscle_group": "Ombros",
+    "equipment": "Máquina",
+    "mechanic": "Isolado",
+    "category": "Musculação"
+  },
+  {
+    "name": "Face Pull na Polia Alta com Corda",
+    "target_muscle_group": "Ombros",
+    "equipment": "Polia",
+    "mechanic": "Composto",
+    "category": "Musculação"
+  },
+  {
+    "name": "Elevação Frontal Alternada com Halteres",
+    "target_muscle_group": "Ombros",
+    "equipment": "Halteres",
+    "mechanic": "Isolado",
+    "category": "Musculação"
+  },
+  {
+    "name": "Desenvolvimento Halter com Rotação Pronada",
+    "target_muscle_group": "Ombros",
+    "equipment": "Halteres",
+    "mechanic": "Composto",
+    "category": "Musculação"
+  },
+  {
+    "name": "Encolhimento por Trás com Barra",
+    "target_muscle_group": "Ombros",
+    "equipment": "Barra livre",
+    "mechanic": "Composto",
+    "category": "Musculação"
+  },
+  {
+    "name": "Rosca Inclinada Alternada no Banco 45º",
+    "target_muscle_group": "Bíceps",
+    "equipment": "Máquina",
+    "mechanic": "Isolado",
+    "category": "Musculação"
+  },
+  {
+    "name": "Rosca Aranha (Spider Curl) com Barra W",
+    "target_muscle_group": "Bíceps",
+    "equipment": "Barra livre",
+    "mechanic": "Isolado",
+    "category": "Musculação"
+  },
+  {
+    "name": "Rosca Zottman com Halteres",
+    "target_muscle_group": "Bíceps",
+    "equipment": "Halteres",
+    "mechanic": "Isolado",
+    "category": "Musculação"
+  },
+  {
+    "name": "Rosca Martelo com Cabo na Polia Baixa",
+    "target_muscle_group": "Bíceps",
+    "equipment": "Polia",
+    "mechanic": "Isolado",
+    "category": "Musculação"
+  },
+  {
+    "name": "Rosca Scott Unilateral na Polia",
+    "target_muscle_group": "Bíceps",
+    "equipment": "Polia",
+    "mechanic": "Isolado",
+    "category": "Musculação"
+  },
+  {
+    "name": "Rosca 21 com Barra W",
+    "target_muscle_group": "Bíceps",
+    "equipment": "Barra livre",
+    "mechanic": "Isolado",
+    "category": "Musculação"
+  },
+  {
+    "name": "Tríceps Coice Unilateral no Cabo",
+    "target_muscle_group": "Tríceps",
+    "equipment": "Polia",
+    "mechanic": "Isolado",
+    "category": "Musculação"
+  },
+  {
+    "name": "Tríceps Testa na Polia Baixa com Barra W",
+    "target_muscle_group": "Tríceps",
+    "equipment": "Polia",
+    "mechanic": "Isolado",
+    "category": "Musculação"
+  },
+  {
+    "name": "Tríceps Extensão Acima da Cabeça com Halter",
+    "target_muscle_group": "Tríceps",
+    "equipment": "Halteres",
+    "mechanic": "Isolado",
+    "category": "Musculação"
+  },
+  {
+    "name": "Flexão de Braços Diamante",
+    "target_muscle_group": "Tríceps",
+    "equipment": "Máquina",
+    "mechanic": "Composto",
+    "category": "Musculação"
+  },
+  {
+    "name": "Tríceps Pulldown Unilateral Inverso na Polia",
+    "target_muscle_group": "Tríceps",
+    "equipment": "Polia",
+    "mechanic": "Isolado",
+    "category": "Musculação"
+  },
+  {
+    "name": "Prancha Isométrica RKC",
+    "target_muscle_group": "Core",
+    "equipment": "Máquina",
+    "mechanic": "Composto",
+    "category": "Core"
+  },
+  {
+    "name": "Abdominal Infra no Banco Inclinado",
+    "target_muscle_group": "Core",
+    "equipment": "Máquina",
+    "mechanic": "Composto",
+    "category": "Core"
+  },
+  {
+    "name": "Prancha Lateral Dinâmica com Elevação de Quadril",
+    "target_muscle_group": "Core",
+    "equipment": "Máquina",
+    "mechanic": "Isolado",
+    "category": "Core"
+  },
+  {
+    "name": "Abdominal Canivete Unilateral",
+    "target_muscle_group": "Core",
+    "equipment": "Máquina",
+    "mechanic": "Composto",
+    "category": "Core"
+  },
+  {
+    "name": "Prancha Isométrica de Três Apoios",
+    "target_muscle_group": "Core",
+    "equipment": "Máquina",
+    "mechanic": "Composto",
+    "category": "Core"
+  },
+  {
+    "name": "Abdominal Crunch na Máquina",
+    "target_muscle_group": "Core",
+    "equipment": "Máquina",
+    "mechanic": "Composto",
+    "category": "Core"
+  },
+  {
+    "name": "Carregamento Mala (Suitcase Carry)",
+    "target_muscle_group": "Core",
+    "equipment": "Máquina",
+    "mechanic": "Composto",
+    "category": "Core"
+  },
+  {
+    "name": "Prancha Isométrica com Extensão de Quadril",
+    "target_muscle_group": "Core",
+    "equipment": "Máquina",
+    "mechanic": "Composto",
+    "category": "Core"
+  },
+  {
+    "name": "Clean com Sandbag",
+    "target_muscle_group": "Full Body",
+    "equipment": "Máquina",
+    "mechanic": "Composto",
+    "category": "Funcional"
+  },
+  {
+    "name": "Snatch Unilateral com Halter",
+    "target_muscle_group": "Full Body",
+    "equipment": "Halteres",
+    "mechanic": "Composto",
+    "category": "Funcional"
+  },
+  {
+    "name": "Turkish Get-Up com Halter",
+    "target_muscle_group": "Full Body",
+    "equipment": "Halteres",
+    "mechanic": "Composto",
+    "category": "Funcional"
+  },
+  {
+    "name": "Agachamento Overhead com Bastão",
+    "target_muscle_group": "Full Body",
+    "equipment": "Máquina",
+    "mechanic": "Composto",
+    "category": "Funcional"
+  },
+  {
+    "name": "Salto na Caixa Coordenado",
+    "target_muscle_group": "Full Body",
+    "equipment": "Máquina",
+    "mechanic": "Composto",
+    "category": "Funcional"
+  },
+  {
+    "name": "Arremesso Rotacional de Medicine Ball",
+    "target_muscle_group": "Full Body",
+    "equipment": "Máquina",
+    "mechanic": "Composto",
+    "category": "Funcional"
+  },
+  {
+    "name": "Burpee com Salto Sobre a Barra",
+    "target_muscle_group": "Full Body",
+    "equipment": "Barra livre",
+    "mechanic": "Composto",
+    "category": "Funcional"
+  },
+  {
+    "name": "Sprints Intermitentes de 30s",
+    "target_muscle_group": "Full Body",
+    "equipment": "Máquina",
+    "mechanic": "Composto",
+    "category": "Cardio"
+  },
+  {
+    "name": "Pedalada de Carga em Subida de Spinning",
+    "target_muscle_group": "Full Body",
+    "equipment": "Máquina",
+    "mechanic": "Composto",
+    "category": "Cardio"
+  },
+  {
+    "name": "Caminhada Rápida em Esteira Plana",
+    "target_muscle_group": "Full Body",
+    "equipment": "Máquina",
+    "mechanic": "Composto",
+    "category": "Cardio"
+  },
+  {
+    "name": "Salto de Corda Estilo Boxeador",
+    "target_muscle_group": "Full Body",
+    "equipment": "Máquina",
+    "mechanic": "Composto",
+    "category": "Cardio"
+  },
+  {
+    "name": "Pular Corda Cruzando os Braços (Criss-Cross)",
+    "target_muscle_group": "Full Body",
+    "equipment": "Máquina",
+    "mechanic": "Composto",
+    "category": "Cardio"
+  },
+  {
+    "name": "Skipping Alto com Toque no Calcanhar",
+    "target_muscle_group": "Full Body",
+    "equipment": "Máquina",
+    "mechanic": "Composto",
+    "category": "Cardio"
+  }
+]

@@ -10,7 +10,12 @@ import {
   Send,
   Smile,
   Video,
+  QrCode,
+  Smartphone,
+  RefreshCw,
 } from "lucide-react";
+import { createSupabaseBrowserClient } from "@/lib/supabase/client";
+import { connectWhatsAppInstance, sendWhatsAppMessage } from "@/app/actions/whatsapp-actions";
 import { MobileSidebar, Sidebar } from "../../_components/Sidebar";
 import { Topbar } from "../../_components/Topbar";
 
@@ -19,6 +24,7 @@ interface Profile {
   id: string;
   full_name: string | null;
   avatar_url: string | null;
+  phone?: string | null;
 }
 
 interface Message {
@@ -353,10 +359,14 @@ function formatDateSeparator(iso: string): string {
 /* ── Component ──────────────────────────────────────────────── */
 export function MessagesClient({
   currentUserId,
+  initialInstanceStatus,
+  initialQrCode,
   profiles: serverProfiles,
   messages: serverMessages,
 }: {
   currentUserId: string;
+  initialInstanceStatus: string;
+  initialQrCode: string | null;
   profiles: Profile[];
   messages: Message[];
 }) {
@@ -364,6 +374,12 @@ export function MessagesClient({
   const profiles = serverProfiles.length > 0 ? serverProfiles : MOCK_PROFILES;
   const allMessages = serverMessages.length > 0 ? serverMessages : MOCK_MESSAGES;
   const onlineIds = MOCK_ONLINE_IDS;
+
+  const supabase = createSupabaseBrowserClient();
+  const [instanceStatus, setInstanceStatus] = useState<string>(initialInstanceStatus);
+  const [qrCode, setQrCode] = useState<string | null>(initialQrCode);
+  const [isConnecting, setIsConnecting] = useState(false);
+  const [isSending, setIsSending] = useState(false);
 
   const [selectedContactId, setSelectedContactId] = useState<string | null>(
     null,
@@ -373,6 +389,59 @@ export function MessagesClient({
   const [localMessages, setLocalMessages] = useState<Message[]>(allMessages);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  // Realtime Supabase Setup
+  useEffect(() => {
+    const messagesChannel = supabase
+      .channel("realtime:messages")
+      .on(
+        "postgres_changes",
+        { event: "INSERT", schema: "public", table: "messages" },
+        (payload) => {
+          const newMsg = payload.new as Message;
+          if (newMsg.sender_id === currentUserId || newMsg.receiver_id === currentUserId) {
+            setLocalMessages((prev) => {
+              if (prev.some((m) => m.id === newMsg.id || (m.content === newMsg.content && m.created_at === newMsg.created_at))) return prev;
+              return [...prev, newMsg];
+            });
+          }
+        }
+      )
+      .subscribe();
+
+    const instanceChannel = supabase
+      .channel("realtime:whatsapp_instances")
+      .on(
+        "postgres_changes",
+        { event: "UPDATE", schema: "public", table: "whatsapp_instances", filter: `professional_id=eq.${currentUserId}` },
+        (payload) => {
+          const newData = payload.new;
+          if (newData.status) setInstanceStatus(newData.status);
+          if (newData.qr_code_base64) setQrCode(newData.qr_code_base64);
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(messagesChannel);
+      supabase.removeChannel(instanceChannel);
+    };
+  }, [currentUserId, supabase]);
+
+  const handleConnectWhatsApp = async () => {
+    setIsConnecting(true);
+    try {
+      const res = await connectWhatsAppInstance();
+      if (res.qrCode) {
+        setQrCode(res.qrCode);
+      }
+      setInstanceStatus("connecting");
+    } catch (err: any) {
+      alert("Erro ao conectar: " + err.message);
+    } finally {
+      setIsConnecting(false);
+    }
+  };
 
   // Build contacts with metadata
   const contacts: ContactWithMeta[] = useMemo(() => {
@@ -477,21 +546,38 @@ export function MessagesClient({
     }
   }, [selectedContactId]);
 
-  const handleSendMessage = useCallback(() => {
-    if (!newMessage.trim() || !selectedContactId) return;
+  const handleSendMessage = useCallback(async () => {
+    if (!newMessage.trim() || !selectedContactId || isSending) return;
 
-    const msg: Message = {
+    const contact = profiles.find(p => p.id === selectedContactId);
+    if (!contact || !contact.phone) {
+      alert("Este aluno não tem um número de telefone registado.");
+      return;
+    }
+
+    const textToSend = newMessage.trim();
+    const tempMsg: Message = {
       id: `local-${Date.now()}`,
       sender_id: currentUserId,
       receiver_id: selectedContactId,
-      content: newMessage.trim(),
+      content: textToSend,
       created_at: new Date().toISOString(),
       read_at: null,
     };
 
-    setLocalMessages((prev) => [...prev, msg]);
+    setLocalMessages((prev) => [...prev, tempMsg]);
     setNewMessage("");
-  }, [newMessage, selectedContactId, currentUserId]);
+    setIsSending(true);
+
+    try {
+      await sendWhatsAppMessage(selectedContactId, contact.phone, textToSend);
+    } catch (error: any) {
+      alert("Falha ao enviar mensagem: " + error.message);
+      setLocalMessages((prev) => prev.filter((m) => m.id !== tempMsg.id));
+    } finally {
+      setIsSending(false);
+    }
+  }, [newMessage, selectedContactId, currentUserId, profiles, isSending]);
 
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent) => {
@@ -512,11 +598,11 @@ export function MessagesClient({
   }, []);
 
   return (
-    <div className="min-h-screen flex bg-kore-bg text-kore-ink">
+    <div className="h-screen flex bg-kore-bg text-kore-ink overflow-hidden">
       <Sidebar />
       <MobileSidebar />
 
-      <div className="flex-1 min-w-0 flex flex-col">
+      <div className="flex-1 min-w-0 flex flex-col h-full overflow-hidden">
         <Topbar />
 
         <main className="flex-1 flex flex-col overflow-hidden">
@@ -565,7 +651,7 @@ export function MessagesClient({
               </div>
 
               {/* Contact List */}
-              <div className="flex-1 overflow-y-auto">
+              <div className="flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-kore-border hover:scrollbar-thumb-kore-emerald/50">
                 {sortedContacts.length > 0 ? (
                   sortedContacts.map((contact) => (
                     <button
@@ -663,7 +749,52 @@ export function MessagesClient({
                 !selectedContactId ? "hidden lg:flex" : "flex"
               }`}
             >
-              {selectedContact ? (
+              {(instanceStatus === "disconnected" || instanceStatus === "connecting") ? (
+                <div className="flex-1 flex flex-col items-center justify-center p-6 bg-kore-bg/40">
+                  <div className="max-w-sm w-full bg-kore-card border border-kore-border rounded-3xl p-8 flex flex-col items-center text-center shadow-kore-soft">
+                    <div className="w-16 h-16 rounded-2xl bg-emerald-50 dark:bg-emerald-900/20 grid place-items-center mb-6">
+                      <Smartphone size={32} className="text-emerald-600" />
+                    </div>
+
+                    <h2 className="text-xl font-extrabold tracking-tight mb-2">
+                      Conecte o seu WhatsApp
+                    </h2>
+                    <p className="text-xs text-kore-muted mb-6 leading-relaxed">
+                      Para conversar com os seus alunos diretamente pelo KORE, vincule o seu número.
+                    </p>
+
+                    {qrCode ? (
+                      <div className="bg-white p-3 rounded-2xl mb-6 shadow-sm border border-black/5">
+                        <img src={qrCode} alt="WhatsApp QR Code" className="w-40 h-40 mx-auto" />
+                        <p className="text-[10px] text-kore-muted font-medium mt-2 text-center">
+                          Leia o código com o seu WhatsApp
+                        </p>
+                      </div>
+                    ) : (
+                      <div className="w-40 h-40 bg-kore-bg border-2 border-dashed border-kore-border rounded-2xl mb-6 grid place-items-center">
+                        <QrCode size={40} className="text-kore-muted/50" />
+                      </div>
+                    )}
+
+                    <button
+                      onClick={handleConnectWhatsApp}
+                      disabled={isConnecting}
+                      className="w-full btn-emerald py-3 flex items-center justify-center gap-2 text-sm"
+                    >
+                      {isConnecting ? (
+                        <>
+                          <RefreshCw size={16} className="animate-spin" />
+                          A gerar...
+                        </>
+                      ) : (
+                        <>
+                          {qrCode ? "Gerar Novo Código" : "Gerar QR Code"}
+                        </>
+                      )}
+                    </button>
+                  </div>
+                </div>
+              ) : selectedContact ? (
                 <>
                   {/* Chat Header */}
                   <div className="flex items-center gap-3 px-4 py-3 border-b border-kore-border bg-kore-card/40">
@@ -734,7 +865,7 @@ export function MessagesClient({
                   </div>
 
                   {/* Messages Area */}
-                  <div className="flex-1 overflow-y-auto px-4 py-4 space-y-1">
+                  <div className="flex-1 overflow-y-auto px-4 py-4 space-y-1 scrollbar-thin scrollbar-thumb-kore-border hover:scrollbar-thumb-kore-emerald/50">
                     {messagesByDate.map((group) => (
                       <div key={group.date}>
                         {/* Date separator */}
@@ -840,15 +971,19 @@ export function MessagesClient({
                       <button
                         type="button"
                         onClick={handleSendMessage}
-                        disabled={!newMessage.trim()}
+                        disabled={!newMessage.trim() || isSending}
                         aria-label="Enviar mensagem"
                         className={`w-10 h-10 grid place-items-center rounded-xl transition flex-shrink-0 ${
-                          newMessage.trim()
+                          newMessage.trim() && !isSending
                             ? "bg-kore-emerald text-white hover:brightness-110 shadow-kore-emerald"
                             : "bg-kore-bg border border-kore-border text-kore-muted cursor-not-allowed"
                         }`}
                       >
-                        <Send size={18} />
+                        {isSending ? (
+                          <RefreshCw size={18} className="animate-spin" />
+                        ) : (
+                          <Send size={18} />
+                        )}
                       </button>
                     </div>
                   </div>

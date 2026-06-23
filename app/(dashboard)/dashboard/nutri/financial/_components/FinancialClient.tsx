@@ -29,126 +29,17 @@ export interface Transaction {
   status: TransactionStatus;
 }
 
-/* ── Mock Data ──────────────────────────────────────────────── */
-const MOCK_TRANSACTIONS: Transaction[] = [
-  {
-    id: "TX-1024",
-    created_at: "2026-05-19T14:30:00Z",
-    patient_name: "Ana Carolina Silva",
-    description: "Plano Trimestral — Consulta + Acompanhamento",
-    gross_amount: 897.0,
-    net_amount: 807.3,
-    status: "concluido",
-  },
-  {
-    id: "TX-1023",
-    created_at: "2026-05-18T10:15:00Z",
-    patient_name: "Bruno Costa Oliveira",
-    description: "Consulta Avulsa — Avaliação Nutricional",
-    gross_amount: 189.0,
-    net_amount: 170.1,
-    status: "concluido",
-  },
-  {
-    id: "TX-1022",
-    created_at: "2026-05-18T09:00:00Z",
-    patient_name: "Camila Ferreira Santos",
-    description: "Plano Semestral — Emagrecimento Saudável",
-    gross_amount: 1494.0,
-    net_amount: 1344.6,
-    status: "pendente",
-  },
-  {
-    id: "TX-1021",
-    created_at: "2026-05-17T16:45:00Z",
-    patient_name: "Diego Almeida Lima",
-    description: "Consulta Avulsa — Intolerância Alimentar",
-    gross_amount: 189.0,
-    net_amount: 170.1,
-    status: "concluido",
-  },
-  {
-    id: "TX-1020",
-    created_at: "2026-05-16T11:20:00Z",
-    patient_name: "Elena Rodrigues Pereira",
-    description: "Plano Mensal — Nutrição Esportiva",
-    gross_amount: 349.0,
-    net_amount: 314.1,
-    status: "concluido",
-  },
-  {
-    id: "TX-1019",
-    created_at: "2026-05-15T08:00:00Z",
-    patient_name: "Felipe Souza Martins",
-    description: "Plano Trimestral — Ganho de Massa Muscular",
-    gross_amount: 897.0,
-    net_amount: 807.3,
-    status: "recusado",
-  },
-  {
-    id: "TX-1018",
-    created_at: "2026-05-14T15:30:00Z",
-    patient_name: "Gabriela Mendes Rocha",
-    description: "Plano Mensal — Nutrição Gestacional",
-    gross_amount: 399.0,
-    net_amount: 359.1,
-    status: "concluido",
-  },
-  {
-    id: "TX-1017",
-    created_at: "2026-05-13T12:00:00Z",
-    patient_name: "Hugo Nascimento Barbosa",
-    description: "Plano Anual — Acompanhamento Completo",
-    gross_amount: 3588.0,
-    net_amount: 3229.2,
-    status: "concluido",
-  },
-  {
-    id: "TX-1016",
-    created_at: "2026-05-12T09:45:00Z",
-    patient_name: "Isabela Rocha Costa",
-    description: "Consulta Avulsa — Revisão de Plano Alimentar",
-    gross_amount: 149.0,
-    net_amount: 134.1,
-    status: "concluido",
-  },
-  {
-    id: "TX-1015",
-    created_at: "2026-05-10T17:00:00Z",
-    patient_name: "João Pedro Almeida",
-    description: "Plano Mensal — Controle de Diabetes",
-    gross_amount: 399.0,
-    net_amount: 359.1,
-    status: "pendente",
-  },
-  {
-    id: "TX-1014",
-    created_at: "2026-05-08T14:10:00Z",
-    patient_name: "Karina Lopes Ferreira",
-    description: "Plano Trimestral — Reeducação Alimentar",
-    gross_amount: 897.0,
-    net_amount: 807.3,
-    status: "concluido",
-  },
-  {
-    id: "TX-1013",
-    created_at: "2026-05-05T10:30:00Z",
-    patient_name: "Lucas Mendes Souza",
-    description: "Consulta Avulsa — Pós-operatório Bariátrica",
-    gross_amount: 249.0,
-    net_amount: 224.1,
-    status: "concluido",
-  },
-];
+export interface MetricsData {
+  grossRevenue: number;
+  netRevenue: number;
+  pendingAmount: number;
+  pendingCount: number;
+}
 
-const MOCK_REVENUE_BY_MONTH: { month: string; value: number }[] = [
-  { month: "Dez", value: 8200 },
-  { month: "Jan", value: 9400 },
-  { month: "Fev", value: 7800 },
-  { month: "Mar", value: 11200 },
-  { month: "Abr", value: 10500 },
-  { month: "Mai", value: 12800 },
-];
+export interface ChartData {
+  month: string;
+  value: number;
+}
 
 /* ── Helpers ────────────────────────────────────────────────── */
 function formatBRL(value: number): string {
@@ -172,28 +63,28 @@ function formatShortId(id: string): string {
 }
 
 function getStatusConfig(status: TransactionStatus) {
-  switch (status) {
-    case "concluido":
-      return {
-        label: "Concluído",
-        bg: "bg-emerald-50 dark:bg-emerald-900/20",
-        text: "text-emerald-700 dark:text-emerald-400",
-        dot: "bg-emerald-500",
-      };
-    case "pendente":
-      return {
-        label: "Pendente",
-        bg: "bg-amber-50 dark:bg-amber-900/20",
-        text: "text-amber-700 dark:text-amber-400",
-        dot: "bg-amber-500",
-      };
-    case "recusado":
-      return {
-        label: "Recusado",
-        bg: "bg-rose-50 dark:bg-rose-900/20",
-        text: "text-rose-700 dark:text-rose-400",
-        dot: "bg-rose-500",
-      };
+  const normalizedStatus = String(status).toLowerCase();
+  if (["concluido", "approved", "completed"].includes(normalizedStatus)) {
+    return {
+      label: "Concluído",
+      bg: "bg-emerald-50 dark:bg-emerald-900/20",
+      text: "text-emerald-700 dark:text-emerald-400",
+      dot: "bg-emerald-500",
+    };
+  } else if (["pendente", "pending"].includes(normalizedStatus)) {
+    return {
+      label: "Pendente",
+      bg: "bg-amber-50 dark:bg-amber-900/20",
+      text: "text-amber-700 dark:text-amber-400",
+      dot: "bg-amber-500",
+    };
+  } else {
+    return {
+      label: "Recusado",
+      bg: "bg-rose-50 dark:bg-rose-900/20",
+      text: "text-rose-700 dark:text-rose-400",
+      dot: "bg-rose-500",
+    };
   }
 }
 
@@ -319,49 +210,16 @@ function BarChart({
 
 /* ── Main Component ─────────────────────────────────────────── */
 export function FinancialClient({
-  transactions: serverTransactions,
+  transactions,
+  metrics,
+  chartData,
 }: {
   transactions: Transaction[];
+  metrics: MetricsData;
+  chartData: ChartData[];
 }) {
-  const transactions =
-    serverTransactions.length > 0 ? serverTransactions : MOCK_TRANSACTIONS;
-  const revenueData = MOCK_REVENUE_BY_MONTH;
-
   const [searchQuery, setSearchQuery] = useState("");
-  const [statusFilter, setStatusFilter] = useState<
-    TransactionStatus | "all"
-  >("all");
-
-  // Calculate metrics
-  const metrics = useMemo(() => {
-    const now = new Date();
-    const currentMonth = now.getMonth();
-    const currentYear = now.getFullYear();
-
-    const monthTransactions = transactions.filter((t) => {
-      const d = new Date(t.created_at);
-      return (
-        d.getMonth() === currentMonth &&
-        d.getFullYear() === currentYear &&
-        t.status !== "recusado"
-      );
-    });
-
-    const grossRevenue = monthTransactions.reduce(
-      (acc, t) => acc + t.gross_amount,
-      0,
-    );
-    const netRevenue = monthTransactions.reduce(
-      (acc, t) => acc + t.net_amount,
-      0,
-    );
-
-    const pendingAmount = transactions
-      .filter((t) => t.status === "pendente")
-      .reduce((acc, t) => acc + t.net_amount, 0);
-
-    return { grossRevenue, netRevenue, pendingAmount };
-  }, [transactions]);
+  const [statusFilter, setStatusFilter] = useState<string>("all");
 
   // Filter transactions
   const filteredTransactions = useMemo(() => {
@@ -373,7 +231,10 @@ export function FinancialClient({
         t.id.toLowerCase().includes(searchQuery.toLowerCase());
 
       const matchesStatus =
-        statusFilter === "all" || t.status === statusFilter;
+        statusFilter === "all" || 
+        (statusFilter === "concluido" && ["concluido", "approved", "completed"].includes(String(t.status).toLowerCase())) ||
+        (statusFilter === "pendente" && ["pendente", "pending"].includes(String(t.status).toLowerCase())) ||
+        (statusFilter === "recusado" && ["recusado", "rejected", "declined"].includes(String(t.status).toLowerCase()));
 
       return matchesSearch && matchesStatus;
     });
@@ -476,7 +337,7 @@ export function FinancialClient({
                 <div className="flex items-center gap-1 mt-3">
                   <ArrowDownRight size={14} className="text-amber-500" />
                   <span className="text-xs font-bold text-amber-600">
-                    {transactions.filter((t) => t.status === "pendente").length}{" "}
+                    {metrics.pendingCount}{" "}
                     transações
                   </span>
                   <span className="text-xs text-kore-muted ml-1">
@@ -543,7 +404,13 @@ export function FinancialClient({
                   </div>
                 </div>
               </div>
-              <BarChart data={revenueData} height={220} />
+              {chartData.length > 0 ? (
+                <BarChart data={chartData} height={220} />
+              ) : (
+                <div className="h-[220px] w-full flex items-center justify-center border border-dashed border-kore-border rounded-xl">
+                  <p className="text-sm text-kore-muted">Dados insuficientes para gerar o gráfico</p>
+                </div>
+              )}
             </div>
 
             {/* ── Transactions Table ───────────────────────────── */}

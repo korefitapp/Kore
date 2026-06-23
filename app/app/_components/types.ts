@@ -17,6 +17,7 @@ export interface FoodItem {
   protein: number;
   carbs: number;
   fat: number;
+  consumed?: boolean;
 }
 
 export interface Meal {

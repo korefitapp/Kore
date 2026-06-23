@@ -20,13 +20,16 @@ const FILTERS: { key: StudentFilter; label: string }[] = [
   { key: "atencao", label: "Atenção" },
 ];
 
-export function StudentsTable() {
+export function StudentsTable({ students = [] }: { students?: Student[] }) {
   const filter = usePersonal((s) => s.studentFilter);
   const setFilter = usePersonal((s) => s.setStudentFilter);
   const query = usePersonal((s) => s.studentQuery);
   const setQuery = usePersonal((s) => s.setStudentQuery);
 
-  const filtered = STUDENTS.filter((s) => {
+  // Use props if available, otherwise fallback to mock data
+  const sourceData = students.length > 0 ? students : STUDENTS;
+
+  const filtered = sourceData.filter((s) => {
     if (filter !== "all" && s.status !== filter) return false;
     if (query.trim()) {
       const q = query.trim().toLowerCase();
@@ -48,7 +51,7 @@ export function StudentsTable() {
             Alunos ativos
           </h2>
           <p className="text-xs text-kore-muted mt-0.5">
-            {STUDENTS.length} no plano · {filtered.length} filtrados
+            {sourceData.length} no plano · {filtered.length} filtrados
           </p>
         </div>
         <div className="flex items-center gap-2 flex-wrap">

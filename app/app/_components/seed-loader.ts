@@ -37,7 +37,7 @@ export async function loadAppSeed(): Promise<AppSeed> {
       supabase
         .from("meal_logs")
         .select(
-          "id, slot, name, emoji, target_time, consumed, meal_log_items(id, name, kcal, protein_g, carbs_g, fat_g)",
+          "id, slot, name, emoji, target_time, consumed, meal_log_items(id, name, kcal, protein_g, carbs_g, fat_g, consumed)",
         )
         .eq("user_id", user.id)
         .eq("log_date", todayISO())
@@ -73,6 +73,7 @@ export async function loadAppSeed(): Promise<AppSeed> {
           protein_g: number;
           carbs_g: number;
           fat_g: number;
+          consumed: boolean;
         }[]
       | null;
   };
@@ -93,6 +94,7 @@ export async function loadAppSeed(): Promise<AppSeed> {
             protein: it.protein_g,
             carbs: it.carbs_g,
             fat: it.fat_g,
+            consumed: !!it.consumed,
           })),
         }))
       : FALLBACK_MEALS;

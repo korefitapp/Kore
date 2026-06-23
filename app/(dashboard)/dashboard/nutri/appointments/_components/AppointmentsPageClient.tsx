@@ -9,15 +9,19 @@ import {
   PlayCircle,
   Plus,
   RotateCcw,
+  Video,
+  MapPin
 } from "lucide-react";
 import { MobileSidebar, Sidebar } from "../../_components/Sidebar";
 import { Topbar } from "../../_components/Topbar";
+import { CreateAppointmentModal } from "./CreateAppointmentModal";
 
 /* ── Types ──────────────────────────────────────────────────── */
 interface Appointment {
   id: string;
   title: string | null;
-  type: string | null;
+  focus?: string | null;
+  modality?: string | null;
   status: string | null;
   start_time: string;
   end_time: string | null;
@@ -84,79 +88,30 @@ const DEFAULT_STATUS_BADGE = {
     "bg-amber-50 text-amber-700 dark:bg-amber-500/12 dark:text-amber-300 ring-1 ring-inset ring-amber-200/70 dark:ring-amber-500/30",
 };
 
-/* ── Mock Data ──────────────────────────────────────────────── */
-function generateMockAppointments(): Appointment[] {
-  const now = new Date();
-  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-  const dayOfWeek = today.getDay();
-
-  const monday = new Date(today);
-  monday.setDate(today.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1));
-
-  const names = [
-    "Ana Carolina Silva",
-    "Bruno Costa Oliveira",
-    "Camila Ferreira Santos",
-    "Diego Almeida Lima",
-    "Elena Rodrigues Pereira",
-    "Felipe Souza Martins",
-    "Gabriela Mendes Rocha",
-    "Hugo Nascimento Barbosa",
-    "Isabela Carvalho Dias",
-    "João Pedro Araújo",
-    "Karina Lopes Ribeiro",
-    "Lucas Gomes Monteiro",
-  ];
-
-  const slots = [
-    { day: 0, hour: 8, name: 0, type: "primeira", status: "confirmada" },
-    { day: 0, hour: 9, name: 1, type: "retorno", status: "confirmada" },
-    { day: 0, hour: 10, name: 2, type: "acompanhamento", status: "pendente" },
-    { day: 0, hour: 14, name: 3, type: "avaliacao", status: "confirmada" },
-    { day: 0, hour: 16, name: 4, type: "retorno", status: "confirmada" },
-    { day: 1, hour: 8, name: 5, type: "primeira", status: "confirmada" },
-    { day: 1, hour: 10, name: 6, type: "acompanhamento", status: "pendente" },
-    { day: 1, hour: 14, name: 7, type: "retorno", status: "cancelada" },
-    { day: 1, hour: 16, name: 8, type: "avaliacao", status: "confirmada" },
-    { day: 2, hour: 9, name: 9, type: "primeira", status: "confirmada" },
-    { day: 2, hour: 10, name: 10, type: "retorno", status: "confirmada" },
-    { day: 2, hour: 14, name: 0, type: "acompanhamento", status: "pendente" },
-    { day: 2, hour: 15, name: 11, type: "avaliacao", status: "confirmada" },
-    { day: 3, hour: 8, name: 1, type: "retorno", status: "confirmada" },
-    { day: 3, hour: 9, name: 2, type: "primeira", status: "pendente" },
-    { day: 3, hour: 11, name: 3, type: "acompanhamento", status: "confirmada" },
-    { day: 3, hour: 14, name: 4, type: "avaliacao", status: "cancelada" },
-    { day: 3, hour: 16, name: 5, type: "retorno", status: "confirmada" },
-    { day: 4, hour: 8, name: 6, type: "primeira", status: "confirmada" },
-    { day: 4, hour: 10, name: 7, type: "acompanhamento", status: "confirmada" },
-    { day: 4, hour: 14, name: 8, type: "retorno", status: "pendente" },
-    { day: 4, hour: 15, name: 9, type: "avaliacao", status: "confirmada" },
-    { day: 5, hour: 9, name: 10, type: "primeira", status: "confirmada" },
-    { day: 5, hour: 10, name: 11, type: "retorno", status: "confirmada" },
-    { day: 5, hour: 14, name: 0, type: "acompanhamento", status: "pendente" },
-  ];
-
-  return slots.map((s, i) => {
-    const start = new Date(monday);
-    start.setDate(monday.getDate() + s.day);
-    start.setHours(s.hour, 0, 0, 0);
-    const end = new Date(start);
-    end.setMinutes(50);
-
-    return {
-      id: `mock-${i + 1}`,
-      title: null,
-      type: s.type,
-      status: s.status,
-      start_time: start.toISOString(),
-      end_time: end.toISOString(),
-      notes: null,
-      client_id: `client-${s.name}`,
-      client_name: names[s.name] ?? null,
-      client_avatar_url: null,
-    };
-  });
+function getStatusBadge(status: string | null) {
+  if (!status) return DEFAULT_STATUS_BADGE;
+  return STATUS_BADGE[status.toLowerCase()] ?? DEFAULT_STATUS_BADGE;
 }
+
+function getTypeBadge(focus: string | null) {
+  if (!focus) return DEFAULT_TYPE_BADGE;
+  const f = focus.toLowerCase();
+  if (f.includes('primeira')) return TYPE_BADGE.primeira;
+  if (f.includes('retorno')) return TYPE_BADGE.retorno;
+  if (f.includes('acompanhamento')) return TYPE_BADGE.acompanhamento;
+  if (f.includes('avalia')) return TYPE_BADGE.avaliacao;
+  return { label: focus, colors: DEFAULT_TYPE_BADGE.colors };
+}
+
+function getModalityBadge(modality: string | null) {
+  if (!modality) return null;
+  const m = modality.toLowerCase();
+  if (m.includes('online')) {
+    return { label: "Online", icon: <Video size={10} className="mr-1" />, colors: "bg-blue-50 text-blue-700 dark:bg-blue-500/12 dark:text-blue-300 ring-1 ring-inset ring-blue-200/70 dark:ring-blue-500/30" };
+  }
+  return { label: "Presencial", icon: <MapPin size={10} className="mr-1" />, colors: "bg-slate-50 text-slate-700 dark:bg-slate-500/12 dark:text-slate-300 ring-1 ring-inset ring-slate-200/70 dark:ring-slate-500/30" };
+}
+
 
 /* ── Helpers ────────────────────────────────────────────────── */
 function getWeekDates(base: Date): Date[] {
@@ -197,25 +152,19 @@ function getInitials(name: string | null): string {
   return (first.charAt(0) + last.charAt(0)).toUpperCase();
 }
 
-/* ── Component ──────────────────────────────────────────────── */
 export function AppointmentsPageClient({
-  appointments: serverAppointments,
+  appointments,
+  patients,
 }: {
   appointments: Appointment[];
+  patients: { id: string; name: string; avatar: string }[];
 }) {
   const [weekOffset, setWeekOffset] = useState(0);
   const [selectedDay, setSelectedDay] = useState<Date>(() => new Date());
   const [expandedId, setExpandedId] = useState<string | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const today = useMemo(() => new Date(), []);
 
-  // Use mock if server returned nothing
-  const appointments = useMemo(
-    () =>
-      serverAppointments.length > 0
-        ? serverAppointments
-        : generateMockAppointments(),
-    [serverAppointments],
-  );
 
   const baseDate = useMemo(() => {
     const d = new Date(today);
@@ -256,15 +205,7 @@ export function AppointmentsPageClient({
     return map;
   }, [appointments, weekDates]);
 
-  const getStatusBadge = (status: string | null) => {
-    if (!status) return DEFAULT_STATUS_BADGE;
-    return STATUS_BADGE[status.toLowerCase()] ?? DEFAULT_STATUS_BADGE;
-  };
 
-  const getTypeBadge = (type: string | null) => {
-    if (!type) return DEFAULT_TYPE_BADGE;
-    return TYPE_BADGE[type.toLowerCase()] ?? DEFAULT_TYPE_BADGE;
-  };
 
   // Consultas de hoje (para sidebar)
   const todayAppointments = useMemo(
@@ -306,6 +247,7 @@ export function AppointmentsPageClient({
             </div>
 
             <button
+              onClick={() => setIsModalOpen(true)}
               type="button"
               className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-bold text-white bg-kore-emerald hover:brightness-110 transition shadow-kore-emerald self-start sm:self-auto"
             >
@@ -316,179 +258,245 @@ export function AppointmentsPageClient({
 
           {/* ── Week Navigator ───────────────────────────────── */}
           <div className="flex items-center justify-between">
-            <button
-              type="button"
-              onClick={() => setWeekOffset((o) => o - 1)}
-              className="p-2 rounded-lg hover:bg-kore-card transition text-kore-muted hover:text-kore-ink"
-            >
-              <ChevronLeft size={18} />
-            </button>
-            <p className="text-sm font-bold text-kore-ink">
-              {weekStart.toLocaleDateString("pt-BR", {
-                day: "2-digit",
-                month: "short",
-              })}{" "}
-              –{" "}
-              {weekEnd.toLocaleDateString("pt-BR", {
-                day: "2-digit",
-                month: "short",
-                year: "numeric",
-              })}
-            </p>
-            <button
-              type="button"
-              onClick={() => setWeekOffset((o) => o + 1)}
-              className="p-2 rounded-lg hover:bg-kore-card transition text-kore-muted hover:text-kore-ink"
-            >
-              <ChevronRight size={18} />
-            </button>
+            <h2 className="text-xl sm:text-2xl font-extrabold text-kore-ink tracking-tight capitalize">
+              {weekStart.toLocaleDateString("pt-BR", { month: "long" })}{" "}
+              <span className="text-kore-muted font-medium">
+                {weekStart.getFullYear()}
+              </span>
+            </h2>
+
+            <div className="flex items-center gap-1 sm:gap-2 bg-kore-card border border-kore-border/60 p-1 rounded-xl shadow-sm">
+              <button
+                type="button"
+                onClick={() => setWeekOffset((o) => o - 1)}
+                className="p-1.5 sm:p-2 rounded-lg hover:bg-kore-bg text-kore-muted hover:text-kore-ink transition"
+              >
+                <ChevronLeft size={18} />
+              </button>
+              <button
+                type="button"
+                onClick={() => setWeekOffset(0)}
+                className="px-2 sm:px-4 py-1.5 sm:py-2 text-[11px] sm:text-xs font-bold text-kore-ink hover:bg-kore-bg rounded-lg transition whitespace-nowrap"
+              >
+                {weekStart.getDate()} {weekStart.toLocaleDateString("pt-BR", { month: "short" })} 
+                {" – "}
+                {weekEnd.getDate()} {weekEnd.toLocaleDateString("pt-BR", { month: "short" })}
+              </button>
+              <button
+                type="button"
+                onClick={() => setWeekOffset((o) => o + 1)}
+                className="p-1.5 sm:p-2 rounded-lg hover:bg-kore-bg text-kore-muted hover:text-kore-ink transition"
+              >
+                <ChevronRight size={18} />
+              </button>
+            </div>
           </div>
 
           {/* ── Two-column layout ────────────────────────────── */}
-          <div className="grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-6">
-            {/* ── Weekly Calendar ────────────────────────────── */}
-            <div className="rounded-2xl border border-kore-border bg-kore-card/60 backdrop-blur-sm overflow-hidden">
-              {/* Day headers */}
-              <div className="grid grid-cols-7 border-b border-kore-border">
+          <div className="grid grid-cols-1 xl:grid-cols-[1fr_380px] gap-8">
+            {/* ── Daily Calendar View ────────────────────────────── */}
+            <div className="rounded-3xl border border-kore-border bg-kore-card shadow-sm overflow-hidden flex flex-col">
+              
+              {/* Day Tabs (Week Grid) */}
+              <div className="grid grid-cols-7 border-b border-kore-border/60 bg-kore-bg/30">
                 {weekDates.map((d, idx) => {
                   const isToday = isSameDay(d, today);
                   const isSelected = isSameDay(d, selectedDay);
                   const dayAppts = appointmentsByDay[idx];
                   const count = dayAppts ? dayAppts.length : 0;
+                  
                   return (
                     <button
                       key={idx}
                       type="button"
                       onClick={() => setSelectedDay(d)}
-                      className={`flex flex-col items-center gap-1 py-3 px-1 sm:px-3 transition relative ${
-                        isSelected
-                          ? "bg-kore-emerald-soft"
-                          : "hover:bg-kore-bg"
+                      className={`flex flex-col items-center justify-center gap-1 sm:gap-2 py-4 px-1 sm:px-2 transition relative group ${
+                        isSelected ? "bg-kore-bg" : "hover:bg-kore-bg/50"
                       }`}
                     >
-                      {isToday && (
+                      {isSelected && (
                         <span
                           aria-hidden
-                          className="absolute top-0 inset-x-0 h-[3px] bg-kore-emerald rounded-b-full"
+                          className="absolute top-0 inset-x-0 h-1 bg-kore-emerald"
                         />
                       )}
+                      
                       <span
                         className={`text-[10px] sm:text-xs font-bold uppercase tracking-wider ${
-                          isToday
-                            ? "text-kore-emerald-deep"
-                            : "text-kore-muted"
+                          isSelected
+                            ? "text-kore-emerald"
+                            : isToday ? "text-kore-ink" : "text-kore-muted"
                         }`}
                       >
                         {DAY_LABELS[idx]}
                       </span>
-                      <span
-                        className={`text-base sm:text-lg font-extrabold ${
-                          isToday
-                            ? "text-kore-emerald-deep"
-                            : "text-kore-ink"
-                        }`}
-                      >
+                      
+                      <div className={`w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center text-sm sm:text-base font-extrabold transition-all duration-300 ${
+                        isSelected 
+                          ? "bg-kore-emerald text-white shadow-md shadow-emerald-500/20 scale-110" 
+                          : isToday 
+                            ? "bg-kore-emerald/10 text-kore-emerald-deep"
+                            : "text-kore-ink group-hover:bg-kore-border/30"
+                      }`}>
                         {d.getDate()}
-                      </span>
-                      {count > 0 && (
-                        <span className="flex gap-0.5">
-                          {Array.from({ length: Math.min(count, 3) }).map(
-                            (_, i) => (
-                              <span
-                                key={i}
-                                className="w-1.5 h-1.5 rounded-full bg-kore-emerald"
-                              />
-                            ),
-                          )}
-                        </span>
-                      )}
+                      </div>
+
+                      <div className="h-2 flex items-center justify-center gap-0.5 mt-1">
+                        {count > 0 ? (
+                          Array.from({ length: Math.min(count, 3) }).map((_, i) => (
+                            <span
+                              key={i}
+                              className={`w-1.5 h-1.5 rounded-full ${isSelected ? "bg-kore-emerald" : "bg-kore-muted/50"}`}
+                            />
+                          ))
+                        ) : (
+                          <span className="w-1.5 h-1.5 rounded-full bg-transparent" />
+                        )}
+                      </div>
                     </button>
                   );
                 })}
               </div>
 
-              {/* Time grid */}
-              <div className="max-h-[520px] overflow-y-auto">
-                {HOURS.map((hour) => {
-                  const selectedDayIdx = weekDates.findIndex((d) =>
-                    isSameDay(d, selectedDay),
-                  );
-                  const dayKey = selectedDayIdx >= 0 ? selectedDayIdx : 0;
-                  const dayList = appointmentsByDay[dayKey];
-                  const hourAppts = (dayList ?? []).filter((a) => {
-                    return new Date(a.start_time).getHours() === hour;
-                  });
+              {/* Time grid (Daily Timeline) */}
+              <div className="flex-1 overflow-y-auto max-h-[600px] p-2 sm:p-4 bg-kore-bg/20 relative">
+                
+                {/* Current Time Indicator (Only if selected day is today) */}
+                {isSameDay(selectedDay, today) && (
+                  <div 
+                    className="absolute left-0 right-0 border-t-2 border-red-500/70 z-10 pointer-events-none flex items-center"
+                    style={{ 
+                      top: `${Math.max(0, ((today.getHours() - 7) * 80) + (today.getMinutes() / 60 * 80) + 16)}px` // 80px per hour + 16px padding
+                    }}
+                  >
+                    <div className="w-2 h-2 rounded-full bg-red-500 -ml-1 shadow-[0_0_8px_rgba(239,68,68,0.6)]"></div>
+                  </div>
+                )}
 
-                  return (
-                    <div
-                      key={hour}
-                      className="grid grid-cols-[60px_1fr] border-b border-kore-border/50 min-h-[56px]"
-                    >
-                      <div className="flex items-start justify-end pr-3 pt-1">
-                        <span className="text-[10px] font-bold text-kore-muted tabular-nums">
-                          {formatHour(hour)}
-                        </span>
-                      </div>
-                      <div className="border-l border-kore-border/50 px-2 py-1 space-y-1">
-                        {hourAppts.map((appt) => {
-                          const statusBadge = getStatusBadge(appt.status);
-                          const typeBadge = getTypeBadge(appt.type);
-                          return (
-                            <div
-                              key={appt.id}
-                              className="flex items-center gap-2 px-2 py-1.5 rounded-lg bg-kore-emerald-soft/50 border border-kore-emerald/20 text-xs"
-                            >
-                              <span className="font-bold text-kore-ink truncate flex-1">
-                                {appt.client_name ??
-                                  appt.title ??
-                                  "Consulta"}
-                              </span>
-                              <span
-                                className={`inline-flex items-center px-1.5 py-0.5 rounded-full text-[9px] font-bold ${typeBadge.colors}`}
+                <div className="space-y-0">
+                  {HOURS.map((hour) => {
+                    const selectedDayIdx = weekDates.findIndex((d) =>
+                      isSameDay(d, selectedDay),
+                    );
+                    const dayKey = selectedDayIdx >= 0 ? selectedDayIdx : 0;
+                    const dayList = appointmentsByDay[dayKey];
+                    const hourAppts = (dayList ?? []).filter((a) => {
+                      return new Date(a.start_time).getHours() === hour;
+                    });
+
+                    return (
+                      <div
+                        key={hour}
+                        className="flex min-h-[80px] group relative"
+                      >
+                        {/* Hour Label */}
+                        <div className="w-16 flex-shrink-0 flex items-start justify-end pr-4 pt-2 border-r border-kore-border/40">
+                          <span className="text-[11px] font-bold text-kore-muted tabular-nums group-hover:text-kore-ink transition-colors">
+                            {formatHour(hour)}
+                          </span>
+                        </div>
+                        
+                        {/* Grid Line */}
+                        <div className="absolute left-16 right-0 top-0 border-t border-dashed border-kore-border/30 group-hover:border-kore-border/60 transition-colors z-0"></div>
+
+                        {/* Appointments Area */}
+                        <div className="flex-1 pl-4 pr-2 pt-2 pb-2 relative z-0 flex flex-col gap-2">
+                          {hourAppts.map((appt) => {
+                            const statusBadge = getStatusBadge(appt.status);
+                            const typeBadge = getTypeBadge(appt.focus);
+                            const modalityBadge = getModalityBadge(appt.modality);
+                            
+                            return (
+                              <div
+                                key={appt.id}
+                                className="group/card relative flex flex-col gap-2 p-3 sm:p-4 rounded-2xl border border-kore-border/50 bg-white dark:bg-kore-bg shadow-sm hover:shadow-md hover:border-kore-emerald/30 transition-all cursor-pointer"
                               >
-                                {typeBadge.label}
-                              </span>
-                              <span
-                                className={`inline-flex items-center px-1.5 py-0.5 rounded-full text-[9px] font-bold ${statusBadge.colors}`}
-                              >
-                                {statusBadge.label}
-                              </span>
-                            </div>
-                          );
-                        })}
+                                <div className="absolute left-0 top-0 bottom-0 w-1.5 rounded-l-2xl bg-kore-emerald"></div>
+                                
+                                <div className="flex items-start justify-between gap-4">
+                                  <div className="flex items-center gap-3">
+                                    <div className="w-10 h-10 rounded-full bg-kore-bg border border-kore-border overflow-hidden grid place-items-center flex-shrink-0">
+                                      {appt.client_avatar_url ? (
+                                        <img src={appt.client_avatar_url} alt="" className="w-full h-full object-cover" />
+                                      ) : (
+                                        <span className="text-xs font-bold text-kore-ink">
+                                          {getInitials(appt.client_name)}
+                                        </span>
+                                      )}
+                                    </div>
+                                    <div>
+                                      <h3 className="font-bold text-sm text-kore-ink line-clamp-1">
+                                        {appt.client_name ?? appt.title ?? "Consulta"}
+                                      </h3>
+                                      <div className="flex items-center gap-1.5 text-xs text-kore-muted mt-0.5">
+                                        <Clock size={12} />
+                                        <span className="font-medium tabular-nums">
+                                          {formatTime(appt.start_time)}
+                                          {appt.end_time && ` - ${formatTime(appt.end_time)}`}
+                                        </span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  
+                                  <div className="flex flex-col items-end gap-1.5 flex-shrink-0">
+                                    <span className={`inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-bold tracking-wide ${statusBadge.colors}`}>
+                                      {statusBadge.label}
+                                    </span>
+                                    <div className="flex items-center gap-1">
+                                      <span className={`inline-flex items-center px-2 py-0.5 rounded-md text-[9px] font-bold uppercase tracking-wider ${typeBadge.colors}`}>
+                                        {typeBadge.label}
+                                      </span>
+                                      {modalityBadge && (
+                                        <span className={`inline-flex items-center px-1.5 py-0.5 rounded-md text-[9px] font-bold uppercase tracking-wider ${modalityBadge.colors}`}>
+                                          {modalityBadge.icon}
+                                          {modalityBadge.label}
+                                        </span>
+                                      )}
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </div>
                       </div>
-                    </div>
-                  );
-                })}
+                    );
+                  })}
+                </div>
               </div>
             </div>
 
             {/* ── Right Sidebar: Consultas de Hoje ────────────── */}
-            <aside className="rounded-2xl border border-kore-border bg-kore-card/60 backdrop-blur-sm p-4 space-y-4 self-start">
-              <div className="flex items-center justify-between">
-                <h2 className="text-sm font-extrabold text-kore-ink">
-                  Consultas de Hoje
-                </h2>
-                <span className="text-xs font-bold text-kore-muted">
-                  {todayAppointments.length} agenda
-                  {todayAppointments.length !== 1 ? "s" : ""}
-                </span>
+            <aside className="rounded-3xl border border-kore-border bg-kore-card p-5 sm:p-6 space-y-6 self-start shadow-sm">
+              <div className="flex items-center justify-between border-b border-kore-border/50 pb-4">
+                <div>
+                  <h2 className="text-base font-extrabold text-kore-ink">
+                    Consultas de Hoje
+                  </h2>
+                  <p className="text-xs font-medium text-kore-muted mt-1">
+                    {todayAppointments.length} agendamento{todayAppointments.length !== 1 ? "s" : ""}
+                  </p>
+                </div>
+                <div className="w-10 h-10 rounded-full bg-kore-bg flex items-center justify-center text-kore-emerald">
+                  <CalendarDays size={18} />
+                </div>
               </div>
 
               {todayAppointments.length > 0 ? (
                 <div className="space-y-3">
                   {todayAppointments.map((appt) => {
                     const statusBadge = getStatusBadge(appt.status);
-                    const typeBadge = getTypeBadge(appt.type);
-                    const isExpanded = expandedId === appt.id;
+                    const typeBadge = getTypeBadge(appt.focus);
+                    const modalityBadge = getModalityBadge(appt.modality);
+                    
                     return (
                       <div
                         key={appt.id}
-                        className="p-3 rounded-xl bg-kore-bg/80 border border-kore-border/50 hover:border-kore-emerald/30 transition"
+                        className="p-4 rounded-2xl bg-kore-bg/50 border border-kore-border hover:border-kore-emerald/40 hover:shadow-md transition-all group/sidebar"
                       >
                         <div className="flex items-start gap-3">
                           {/* Avatar */}
-                          <div className="flex-shrink-0 w-10 h-10 rounded-full bg-kore-emerald/10 grid place-items-center overflow-hidden">
+                          <div className="flex-shrink-0 w-10 h-10 rounded-full bg-kore-emerald/10 grid place-items-center overflow-hidden border border-kore-emerald/20">
                             {appt.client_avatar_url ? (
                               <img
                                 src={appt.client_avatar_url}
@@ -508,7 +516,7 @@ export function AppointmentsPageClient({
                                 appt.title ??
                                 "Paciente"}
                             </p>
-                            <div className="flex items-center gap-2 text-[11px] text-kore-muted">
+                            <div className="flex items-center gap-2 text-[11px] text-kore-muted pb-1">
                               <Clock size={11} />
                               <span className="font-semibold tabular-nums">
                                 {formatTime(appt.start_time)}
@@ -518,34 +526,41 @@ export function AppointmentsPageClient({
                             </div>
                             <div className="flex items-center gap-1.5 flex-wrap">
                               <span
-                                className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold ${typeBadge.colors}`}
-                              >
-                                {typeBadge.label}
-                              </span>
-                              <span
-                                className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold ${statusBadge.colors}`}
+                                className={`inline-flex items-center px-2 py-0.5 rounded-md text-[9px] font-bold tracking-wider uppercase ${statusBadge.colors}`}
                               >
                                 {statusBadge.label}
                               </span>
+                              <span
+                                className={`inline-flex items-center px-2 py-0.5 rounded-md text-[9px] font-bold tracking-wider uppercase ${typeBadge.colors}`}
+                              >
+                                {typeBadge.label}
+                              </span>
+                              {modalityBadge && (
+                                <span
+                                  className={`inline-flex items-center px-1.5 py-0.5 rounded-md text-[9px] font-bold tracking-wider uppercase ${modalityBadge.colors}`}
+                                >
+                                  {modalityBadge.icon}
+                                  {modalityBadge.label}
+                                </span>
+                              )}
                             </div>
                           </div>
                         </div>
 
                         {/* Quick actions */}
-                        <div className="mt-3 flex items-center gap-2">
+                        <div className="mt-4 flex items-center gap-2 pt-3 border-t border-kore-border/50">
                           <button
                             type="button"
-                            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-bold text-white bg-kore-emerald hover:brightness-110 transition shadow-sm"
+                            className="flex-1 inline-flex justify-center items-center gap-1.5 px-3 py-2 rounded-xl text-[11px] font-bold text-white bg-kore-emerald hover:bg-emerald-600 transition shadow-sm"
                           >
-                            <PlayCircle size={12} />
-                            Iniciar Atendimento
+                            <PlayCircle size={14} />
+                            Iniciar
                           </button>
                           <button
                             type="button"
-                            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-bold text-kore-subink bg-kore-card border border-kore-border hover:border-kore-emerald/30 hover:text-kore-ink transition"
+                            className="inline-flex items-center justify-center w-10 h-10 rounded-xl text-kore-subink bg-kore-bg hover:bg-kore-card border border-kore-border hover:border-kore-border/80 transition"
                           >
-                            <RotateCcw size={12} />
-                            Reagendar
+                            <RotateCcw size={14} />
                           </button>
                         </div>
                       </div>
@@ -573,6 +588,12 @@ export function AppointmentsPageClient({
           </div>
         </main>
       </div>
+
+      <CreateAppointmentModal
+        open={isModalOpen}
+        onOpenChange={setIsModalOpen}
+        patients={patients}
+      />
     </div>
   );
 }

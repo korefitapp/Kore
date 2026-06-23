@@ -1,35 +1,34 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import {
   ChevronRight,
   Eye,
   Search,
   Users,
+  Trash2,
 } from "lucide-react";
 import { MobileSidebar, Sidebar } from "../../_components/Sidebar";
 import { Topbar } from "../../_components/Topbar";
+import { Modal } from "@/components/ui/modal";
+import { EditPatientModal } from "../../_components/EditPatientModal";
+import { deletePatient } from "@/app/actions/nutri-actions";
+import { PatientFilters } from "./PatientFilters";
 
 /* ── Types ──────────────────────────────────────────────────── */
 interface PatientRow {
   id: string;
   full_name: string;
   display_name: string | null;
-  avatar_url: string | null;
   status: string;
   created_at: string;
   metadata: Record<string, unknown> | null;
+  auth_user_id?: string | null;
 }
 
-type FilterKey = "all" | "em-dia" | "reavaliar" | "atencao";
 
-const FILTERS: { key: FilterKey; label: string }[] = [
-  { key: "all", label: "Todos" },
-  { key: "em-dia", label: "Em dia" },
-  { key: "reavaliar", label: "Reavaliar" },
-  { key: "atencao", label: "Atenção" },
-];
 
 /* ── Helpers ────────────────────────────────────────────────── */
 function formatDate(iso: string) {
@@ -57,7 +56,7 @@ function getLastConsultation(_patient: PatientRow): string {
 
 /** Objetivo mock — quando existir campo goal no metadata */
 function getGoal(patient: PatientRow): string {
-  const goal = patient.metadata?.goal;
+  const goal = patient.metadata?.fitness_goal || patient.metadata?.goal;
   if (typeof goal === "string") return goal;
   return "Não definido";
 }
@@ -98,15 +97,9 @@ export function PatientsPageClient({
 }: {
   patients: PatientRow[];
 }) {
-  const [filter, setFilter] = useState<FilterKey>("all");
   const [query, setQuery] = useState("");
 
   const filtered = patients.filter((p) => {
-    const patientStatus = getPatientStatus(p);
-
-    // Filter logic
-    if (filter !== "all" && patientStatus !== filter) return false;
-
     // Search logic
     if (query.trim()) {
       const q = query.trim().toLowerCase();
@@ -160,28 +153,7 @@ export function PatientsPageClient({
               />
             </div>
 
-            <div className="flex items-center bg-kore-bg rounded-xl p-0.5 border border-kore-border">
-              {FILTERS.map((f) => (
-                <button
-                  key={f.key}
-                  type="button"
-                  onClick={() => setFilter(f.key)}
-                  className={`relative px-3 py-1.5 text-xs font-bold rounded-lg transition ${
-                    filter === f.key
-                      ? "text-kore-ink"
-                      : "text-kore-muted hover:text-kore-ink"
-                  }`}
-                >
-                  {filter === f.key && (
-                    <span
-                      aria-hidden
-                      className="absolute inset-0 bg-kore-card rounded-lg shadow-kore-soft"
-                    />
-                  )}
-                  <span className="relative">{f.label}</span>
-                </button>
-              ))}
-            </div>
+            <PatientFilters />
           </div>
 
           {/* ── Table ────────────────────────────────────────── */}
@@ -218,7 +190,7 @@ export function PatientsPageClient({
                         colSpan={6}
                         className="py-12 px-5 text-center text-sm text-kore-muted"
                       >
-                        Nenhum paciente corresponde ao filtro atual.
+                        Nenhum paciente encontrado com o status selecionado.
                       </td>
                     </tr>
                   )}
@@ -234,6 +206,11 @@ export function PatientsPageClient({
 
 /* ── Row ────────────────────────────────────────────────────── */
 function PatientRow({ patient }: { patient: PatientRow }) {
+  const router = useRouter();
+  const [editOpen, setEditOpen] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [deleteOpen, setDeleteOpen] = useState(false);
+
   const name = patient.display_name ?? patient.full_name;
   const initials = name
     .split(" ")
@@ -245,49 +222,113 @@ function PatientRow({ patient }: { patient: PatientRow }) {
   const lastConsultation = getLastConsultation(patient);
   const patientStatus = getPatientStatus(patient);
 
+  const handleDelete = async (e?: React.MouseEvent) => {
+    if (e) e.stopPropagation();
+    setIsDeleting(true);
+    try {
+      await deletePatient(patient.id);
+      alert("Paciente excluído com sucesso.");
+      router.refresh();
+    } catch (error) {
+      alert("Erro ao excluir paciente.");
+    } finally {
+      setIsDeleting(false);
+    }
+  };
+
   return (
-    <tr className="border-b border-kore-border last:border-b-0 cursor-pointer hover:bg-kore-bg/60 transition group">
-      <td className="py-3 px-5">
-        <div className="flex items-center gap-3">
-          {patient.avatar_url ? (
-            <img
-              src={patient.avatar_url}
-              alt={name}
-              className="w-10 h-10 rounded-xl object-cover flex-shrink-0"
-            />
-          ) : (
-            <div className="w-10 h-10 rounded-xl bg-kore-emerald-soft text-sm font-bold grid place-items-center flex-shrink-0 text-kore-emerald-deep">
-              {initials}
+    <>
+      <EditPatientModal open={editOpen} onOpenChange={setEditOpen} patient={{ ...patient, ...patient.metadata }} />
+      <tr 
+        onClick={() => setEditOpen(true)}
+        className="border-b border-kore-border last:border-b-0 cursor-pointer hover:bg-kore-bg/60 transition group"
+      >
+        <td className="py-3 px-5">
+          <div className="flex items-center gap-3">
+            {patient.avatar_url ? (
+              <img
+                src={patient.avatar_url}
+                alt={name}
+                className="w-10 h-10 rounded-xl object-cover flex-shrink-0"
+              />
+            ) : (
+              <div className="w-10 h-10 rounded-xl bg-kore-emerald-soft text-sm font-bold grid place-items-center flex-shrink-0 text-kore-emerald-deep">
+                {initials}
+              </div>
+            )}
+            <div className="min-w-0">
+              <p className="font-bold text-kore-ink text-sm truncate">{name}</p>
             </div>
-          )}
-          <div className="min-w-0">
-            <p className="font-bold text-kore-ink text-sm truncate">{name}</p>
           </div>
-        </div>
-      </td>
-      <td className="py-3 px-3">
-        <span className="text-xs font-semibold text-kore-subink">{goal}</span>
-      </td>
-      <td className="py-3 px-3 text-xs text-kore-subink whitespace-nowrap">
-        {lastConsultation}
-      </td>
-      <td className="py-3 px-3 text-xs text-kore-subink whitespace-nowrap">
-        {formatDate(patient.created_at)}
-      </td>
-      <td className="py-3 px-3">
-        <StatusBadge status={patientStatus} />
-      </td>
-      <td className="py-3 px-5 text-right">
-        <Link
-          href={`/dashboard/nutri/patients/${patient.id}`}
-          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold text-kore-emerald-deep bg-kore-emerald-soft hover:bg-kore-emerald hover:text-white transition opacity-70 group-hover:opacity-100"
-        >
-          <Eye size={13} />
-          Ver Perfil
-          <ChevronRight size={12} />
-        </Link>
-      </td>
-    </tr>
+        </td>
+        <td className="py-3 px-3">
+          <span className="text-xs font-semibold text-kore-subink">{goal}</span>
+        </td>
+        <td className="py-3 px-3 text-xs text-kore-subink whitespace-nowrap">
+          {lastConsultation}
+        </td>
+        <td className="py-3 px-3 text-xs text-kore-subink whitespace-nowrap">
+          {formatDate(patient.created_at)}
+        </td>
+        <td className="py-3 px-3">
+          {patient.auth_user_id === null ? (
+            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-amber-100 text-amber-700 ring-1 ring-inset ring-amber-200">
+              <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse mr-1" />
+              AGUARDANDO ATIVAÇÃO
+            </span>
+          ) : (
+            <StatusBadge status={patientStatus} />
+          )}
+        </td>
+        <td className="py-3 px-5 text-right w-32">
+          <div className="flex items-center justify-end gap-2">
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                router.push(`/dashboard/nutri/patients/${patient.id}`);
+              }}
+              className="text-xs font-bold text-kore-emerald hover:text-white bg-kore-emerald/10 hover:bg-kore-emerald px-3 py-1.5 rounded-lg transition"
+            >
+              Ver
+            </button>
+            <div onClick={(e) => e.stopPropagation()}>
+              <button
+                onClick={() => setDeleteOpen(true)}
+                className="p-1.5 text-rose-500 hover:bg-rose-50 rounded-lg transition cursor-pointer"
+                title="Excluir Paciente"
+                disabled={isDeleting}
+              >
+                <Trash2 size={16} />
+              </button>
+
+              <Modal
+                isOpen={deleteOpen}
+                onClose={() => setDeleteOpen(false)}
+                title="Tem certeza absoluta?"
+                description="Esta ação não pode ser desfeita. Isso removerá o vínculo deste paciente da sua clínica e do seu painel."
+              >
+                <div className="pt-2 flex justify-end gap-2">
+                  <button
+                    onClick={() => setDeleteOpen(false)}
+                    disabled={isDeleting}
+                    className="px-4 py-2 rounded-xl text-sm font-bold text-kore-muted hover:text-kore-ink transition"
+                  >
+                    Cancelar
+                  </button>
+                  <button
+                    onClick={() => handleDelete()}
+                    disabled={isDeleting}
+                    className="px-6 py-2 rounded-xl bg-rose-500 hover:bg-rose-600 text-white font-bold text-sm shadow-lg shadow-rose-500/30 transition active:scale-95"
+                  >
+                    {isDeleting ? "Excluindo..." : "Sim, Excluir"}
+                  </button>
+                </div>
+              </Modal>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </>
   );
 }
 

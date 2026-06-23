@@ -7,6 +7,8 @@ import {
   Plus,
   Search,
   Trash2,
+  ChevronLeft,
+  ChevronRight
 } from "lucide-react";
 import { MobileSidebar, Sidebar } from "../../_components/Sidebar";
 import { Topbar } from "../../_components/Topbar";
@@ -19,15 +21,15 @@ type Category =
   | "frutas-verduras"
   | "suplementos";
 
-interface FoodItem {
+interface RealFoodItem {
   id: string;
   name: string;
-  category: Category;
-  portion: string;
+  base_amount: number;
   kcal: number;
   protein_g: number;
   carbs_g: number;
   fat_g: number;
+  created_by: string | null;
 }
 
 const CATEGORY_FILTERS: { key: Category | "all"; label: string }[] = [
@@ -35,7 +37,6 @@ const CATEGORY_FILTERS: { key: Category | "all"; label: string }[] = [
   { key: "proteinas", label: "Proteínas" },
   { key: "carboidratos", label: "Carboidratos" },
   { key: "gorduras", label: "Gorduras" },
-  { key: "frutas-verduras", label: "Frutas e Verduras" },
   { key: "suplementos", label: "Suplementos" },
 ];
 
@@ -60,76 +61,72 @@ const CATEGORY_COLORS: Record<Category, string> = {
     "bg-violet-50 text-violet-700 dark:bg-violet-500/12 dark:text-violet-300 ring-1 ring-inset ring-violet-200/70 dark:ring-violet-500/30",
 };
 
-/* ── Mock Data ──────────────────────────────────────────────── */
-const MOCK_FOODS: FoodItem[] = [
-  // Proteínas
-  { id: "f-001", name: "Peito de Frango Grelhado", category: "proteinas", portion: "100g", kcal: 165, protein_g: 31, carbs_g: 0, fat_g: 3.6 },
-  { id: "f-002", name: "Patinha de Frango Cozida", category: "proteinas", portion: "100g", kcal: 147, protein_g: 27, carbs_g: 0, fat_g: 3.2 },
-  { id: "f-003", name: "Filé de Tilápia Grelhado", category: "proteinas", portion: "100g", kcal: 128, protein_g: 26, carbs_g: 0, fat_g: 2.7 },
-  { id: "f-004", name: "Almoceira Bovina Magra", category: "proteinas", portion: "100g", kcal: 250, protein_g: 26, carbs_g: 0, fat_g: 15 },
-  { id: "f-005", name: "Ovo de Galinha Cozido", category: "proteinas", portion: "1 un (50g)", kcal: 78, protein_g: 6.3, carbs_g: 0.6, fat_g: 5.3 },
-  { id: "f-006", name: "Clara de Ovo Pasteurizada", category: "proteinas", portion: "100g", kcal: 52, protein_g: 10.9, carbs_g: 0.7, fat_g: 0.2 },
-  { id: "f-007", name: "Atum Enlatado em Água", category: "proteinas", portion: "100g", kcal: 116, protein_g: 25.5, carbs_g: 0, fat_g: 0.8 },
-  { id: "f-008", name: "Salmão Grelhado", category: "proteinas", portion: "100g", kcal: 208, protein_g: 20, carbs_g: 0, fat_g: 13.4 },
-  { id: "f-009", name: "Carne Moída Patinho", category: "proteinas", portion: "100g", kcal: 176, protein_g: 21.5, carbs_g: 0, fat_g: 9.5 },
-  { id: "f-010", name: "Queijo Cottage", category: "proteinas", portion: "100g", kcal: 98, protein_g: 11, carbs_g: 3.4, fat_g: 4.3 },
+/* ── Inferência de Categoria ────────────────────────────────── */
+function inferFoodCategory(name: string, protein: number, carbs: number, fat: number): Category {
+  // Exceção: Suplementos (identificados por palavras-chave)
+  const n = name.toLowerCase();
+  if (
+    n.includes("whey") ||
+    n.includes("creatina") ||
+    n.includes("pré-treino") ||
+    n.includes("pre-treino") ||
+    n.includes("blend") ||
+    n.includes("hipercalórico") ||
+    n.includes("hipercalorico") ||
+    n.includes("maltodextrina") ||
+    n.includes("albumina") ||
+    n.includes("waxy maize") ||
+    n.includes("barra de proteína")
+  ) {
+    return "suplementos";
+  }
 
-  // Carboidratos
-  { id: "f-011", name: "Arroz Integral Cozido", category: "carboidratos", portion: "100g", kcal: 123, protein_g: 2.7, carbs_g: 25.8, fat_g: 1 },
-  { id: "f-012", name: "Arroz Branco Cozido", category: "carboidratos", portion: "100g", kcal: 130, protein_g: 2.7, carbs_g: 28.2, fat_g: 0.3 },
-  { id: "f-013", name: "Batata Doce Cozida", category: "carboidratos", portion: "100g", kcal: 86, protein_g: 1.6, carbs_g: 20.1, fat_g: 0.1 },
-  { id: "f-014", name: "Batata Inglesa Cozida", category: "carboidratos", portion: "100g", kcal: 77, protein_g: 2, carbs_g: 17.5, fat_g: 0.1 },
-  { id: "f-015", name: "Aveia em Flocos", category: "carboidratos", portion: "100g", kcal: 389, protein_g: 16.9, carbs_g: 66.3, fat_g: 6.9 },
-  { id: "f-016", name: "Macarrão Integral Cozido", category: "carboidratos", portion: "100g", kcal: 124, protein_g: 5.3, carbs_g: 24.5, fat_g: 0.5 },
-  { id: "f-017", name: "Pão Integral Fatiado", category: "carboidratos", portion: "1 fatia (30g)", kcal: 69, protein_g: 3.6, carbs_g: 11.4, fat_g: 1.2 },
-  { id: "f-018", name: "Mandioca Cozida", category: "carboidratos", portion: "100g", kcal: 160, protein_g: 1.2, carbs_g: 38.1, fat_g: 0.3 },
-  { id: "f-019", name: "Quinoa Cozida", category: "carboidratos", portion: "100g", kcal: 120, protein_g: 4.4, carbs_g: 21.3, fat_g: 1.9 },
-  { id: "f-020", name: "Banana Prata", category: "carboidratos", portion: "1 un (100g)", kcal: 99, protein_g: 1.1, carbs_g: 25.8, fat_g: 0.1 },
+  // Calculamos as calorias provenientes de cada macro para ver qual domina
+  const pKcal = protein * 4;
+  const cKcal = carbs * 4;
+  const fKcal = fat * 9;
 
-  // Gorduras
-  { id: "f-021", name: "Azeite de Oliva Extra Virgem", category: "gorduras", portion: "1 col. sopa (13ml)", kcal: 112, protein_g: 0, carbs_g: 0, fat_g: 12.6 },
-  { id: "f-022", name: "Abacate", category: "gorduras", portion: "100g", kcal: 160, protein_g: 2, carbs_g: 8.5, fat_g: 14.7 },
-  { id: "f-023", name: "Amêndoas", category: "gorduras", portion: "30g", kcal: 173, protein_g: 6.3, carbs_g: 5.6, fat_g: 14.9 },
-  { id: "f-024", name: "Castanha-do-Pará", category: "gorduras", portion: "30g", kcal: 204, protein_g: 4.4, carbs_g: 3.5, fat_g: 20.5 },
-  { id: "f-025", name: "Pasta de Amendoim Natural", category: "gorduras", portion: "1 col. sopa (16g)", kcal: 98, protein_g: 4, carbs_g: 3.4, fat_g: 8.2 },
-  { id: "f-026", name: "Óleo de Coco", category: "gorduras", portion: "1 col. sopa (13ml)", kcal: 116, protein_g: 0, carbs_g: 0, fat_g: 12.8 },
-  { id: "f-027", name: "Chia", category: "gorduras", portion: "20g", kcal: 97, protein_g: 3.3, carbs_g: 8.4, fat_g: 6.1 },
-
-  // Frutas e Verduras
-  { id: "f-028", name: "Brócolis Cozido", category: "frutas-verduras", portion: "100g", kcal: 35, protein_g: 2.4, carbs_g: 7.2, fat_g: 0.4 },
-  { id: "f-029", name: "Espinafre Refogado", category: "frutas-verduras", portion: "100g", kcal: 23, protein_g: 2.9, carbs_g: 3.6, fat_g: 0.4 },
-  { id: "f-030", name: "Couve-flor Cozida", category: "frutas-verduras", portion: "100g", kcal: 23, protein_g: 1.8, carbs_g: 4.5, fat_g: 0.1 },
-  { id: "f-031", name: "Tomate Cru", category: "frutas-verduras", portion: "100g", kcal: 18, protein_g: 0.9, carbs_g: 3.9, fat_g: 0.2 },
-  { id: "f-032", name: "Alface Americana", category: "frutas-verduras", portion: "100g", kcal: 14, protein_g: 1.3, carbs_g: 2.3, fat_g: 0.2 },
-  { id: "f-033", name: "Maçã com Casca", category: "frutas-verduras", portion: "1 un (150g)", kcal: 78, protein_g: 0.4, carbs_g: 20.6, fat_g: 0.3 },
-  { id: "f-034", name: "Laranja Pera", category: "frutas-verduras", portion: "1 un (150g)", kcal: 63, protein_g: 1.2, carbs_g: 15.5, fat_g: 0.2 },
-  { id: "f-035", name: "Mamão Papaia", category: "frutas-verduras", portion: "100g", kcal: 43, protein_g: 0.5, carbs_g: 10.8, fat_g: 0.1 },
-  { id: "f-036", name: "Cenoura Crua", category: "frutas-verduras", portion: "100g", kcal: 41, protein_g: 0.9, carbs_g: 9.6, fat_g: 0.2 },
-  { id: "f-037", name: "Beterraba Cozida", category: "frutas-verduras", portion: "100g", kcal: 49, protein_g: 1.6, carbs_g: 10.8, fat_g: 0.1 },
-
-  // Suplementos
-  { id: "f-038", name: "Whey Protein Isolado", category: "suplementos", portion: "1 scoop (30g)", kcal: 120, protein_g: 27, carbs_g: 1.5, fat_g: 0.5 },
-  { id: "f-039", name: "Whey Protein Concentrado", category: "suplementos", portion: "1 scoop (30g)", kcal: 124, protein_g: 24, carbs_g: 3, fat_g: 1.5 },
-  { id: "f-040", name: "Creatina Monohidratada", category: "suplementos", portion: "5g", kcal: 0, protein_g: 0, carbs_g: 0, fat_g: 0 },
-  { id: "f-041", name: "Albumina em Pó", category: "suplementos", portion: "2 scoop (30g)", kcal: 114, protein_g: 24, carbs_g: 1.8, fat_g: 0.6 },
-  { id: "f-042", name: "Hipercalórico", category: "suplementos", portion: "3 scoop (100g)", kcal: 378, protein_g: 16, carbs_g: 70, fat_g: 4.5 },
-  { id: "f-043", name: "BCAA em Pó", category: "suplementos", portion: "5g", kcal: 20, protein_g: 5, carbs_g: 0, fat_g: 0 },
-  { id: "f-044", name: "Maltodextrina", category: "suplementos", portion: "30g", kcal: 117, protein_g: 0, carbs_g: 29.2, fat_g: 0 },
-];
+  if (pKcal >= cKcal && pKcal >= fKcal) return "proteinas";
+  if (cKcal >= pKcal && cKcal >= fKcal) return "carboidratos";
+  return "gorduras";
+}
 
 /* ── Component ──────────────────────────────────────────────── */
-export function FoodDatabasePageClient() {
+export function FoodDatabasePageClient({ initialFoods }: { initialFoods: RealFoodItem[] }) {
   const [filter, setFilter] = useState<Category | "all">("all");
   const [query, setQuery] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 50;
 
-  const filtered = MOCK_FOODS.filter((f) => {
-    if (filter !== "all" && f.category !== filter) return false;
+  // Enriquecer os itens reais com a categoria inferida
+  const enrichedFoods = initialFoods.map(food => ({
+    ...food,
+    inferredCategory: inferFoodCategory(food.name, food.protein_g, food.carbs_g, food.fat_g)
+  }));
+
+  const filtered = enrichedFoods.filter((f) => {
+    if (filter !== "all" && f.inferredCategory !== filter) return false;
     if (query.trim()) {
       const q = query.trim().toLowerCase();
       if (!f.name.toLowerCase().includes(q)) return false;
     }
     return true;
   });
+
+  // Paginação Client-Side (super rápida porque a lista tá na memória)
+  const totalPages = Math.ceil(filtered.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const paginatedFoods = filtered.slice(startIndex, startIndex + itemsPerPage);
+
+  // Reseta a paginação se o filtro ou busca mudar
+  const handleQueryChange = (q: string) => {
+    setQuery(q);
+    setCurrentPage(1);
+  };
+  const handleFilterChange = (f: Category | "all") => {
+    setFilter(f);
+    setCurrentPage(1);
+  };
 
   return (
     <div className="min-h-screen flex bg-kore-bg text-kore-ink">
@@ -151,14 +148,14 @@ export function FoodDatabasePageClient() {
                   Banco de Alimentos
                 </h1>
                 <p className="text-sm text-kore-muted mt-0.5">
-                  {MOCK_FOODS.length} alimentos cadastrados · {filtered.length}{" "}
-                  exibidos
+                  {initialFoods.length} alimentos cadastrados · {filtered.length} filtrados
                 </p>
               </div>
             </div>
             <button
               type="button"
               className="btn-emerald text-sm px-4 py-2.5 inline-flex items-center gap-2 self-start sm:self-auto"
+              onClick={() => alert("Função de Cadastrar Alimento conectada à Server Action 'createFood(foodData)' pendente de UI. O created_by será definido como ID da Nutri.")}
             >
               <Plus size={16} strokeWidth={2.8} />
               Cadastrar Alimento
@@ -175,7 +172,7 @@ export function FoodDatabasePageClient() {
               <input
                 placeholder="Buscar alimento…"
                 value={query}
-                onChange={(e) => setQuery(e.target.value)}
+                onChange={(e) => handleQueryChange(e.target.value)}
                 className="w-full pl-9 pr-3 py-2 rounded-xl bg-kore-card border border-kore-border text-sm font-medium text-kore-ink placeholder-kore-muted focus:outline-none focus:border-kore-emerald transition"
               />
             </div>
@@ -185,7 +182,7 @@ export function FoodDatabasePageClient() {
                 <button
                   key={f.key}
                   type="button"
-                  onClick={() => setFilter(f.key)}
+                  onClick={() => handleFilterChange(f.key)}
                   className={`relative px-3 py-1.5 text-xs font-bold rounded-lg whitespace-nowrap transition ${
                     filter === f.key
                       ? "text-kore-ink"
@@ -205,7 +202,7 @@ export function FoodDatabasePageClient() {
           </div>
 
           {/* ── Table ────────────────────────────────────────── */}
-          <section className="rounded-2xl border border-kore-border bg-kore-card/60 backdrop-blur-sm overflow-hidden">
+          <section className="rounded-2xl border border-kore-border bg-kore-card/60 backdrop-blur-sm overflow-hidden flex flex-col">
             <div className="overflow-x-auto">
               <table className="w-full min-w-[820px] text-sm">
                 <thead>
@@ -214,7 +211,7 @@ export function FoodDatabasePageClient() {
                       Alimento
                     </th>
                     <th className="text-left font-bold py-3 px-3">
-                      Categoria
+                      Categoria (Inferida)
                     </th>
                     <th className="text-left font-bold py-3 px-3">
                       Porção
@@ -237,10 +234,10 @@ export function FoodDatabasePageClient() {
                   </tr>
                 </thead>
                 <tbody>
-                  {filtered.map((food) => (
+                  {paginatedFoods.map((food) => (
                     <FoodRow key={food.id} food={food} />
                   ))}
-                  {filtered.length === 0 && (
+                  {paginatedFoods.length === 0 && (
                     <tr>
                       <td
                         colSpan={8}
@@ -253,6 +250,31 @@ export function FoodDatabasePageClient() {
                 </tbody>
               </table>
             </div>
+
+            {/* ── Paginação ────────────────────────────────────── */}
+            {totalPages > 1 && (
+              <div className="flex items-center justify-between px-5 py-3 border-t border-kore-border bg-kore-bg/30">
+                <p className="text-xs text-kore-muted">
+                  Página <span className="font-bold text-kore-ink">{currentPage}</span> de <span className="font-bold text-kore-ink">{totalPages}</span>
+                </p>
+                <div className="flex gap-1">
+                  <button
+                    disabled={currentPage === 1}
+                    onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                    className="p-1.5 rounded-lg text-kore-subink hover:bg-kore-card disabled:opacity-50 disabled:pointer-events-none transition"
+                  >
+                    <ChevronLeft size={16} />
+                  </button>
+                  <button
+                    disabled={currentPage === totalPages}
+                    onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                    className="p-1.5 rounded-lg text-kore-subink hover:bg-kore-card disabled:opacity-50 disabled:pointer-events-none transition"
+                  >
+                    <ChevronRight size={16} />
+                  </button>
+                </div>
+              </div>
+            )}
           </section>
         </main>
       </div>
@@ -261,53 +283,70 @@ export function FoodDatabasePageClient() {
 }
 
 /* ── Row ────────────────────────────────────────────────────── */
-function FoodRow({ food }: { food: FoodItem }) {
+function formatMacro(val: any) {
+  if (val == null) return "0";
+  return Number(val).toLocaleString("pt-BR", { maximumFractionDigits: 3 });
+}
+
+function FoodRow({ food }: { food: any }) {
   return (
     <tr className="border-b border-kore-border last:border-b-0 hover:bg-kore-bg/60 transition group">
       <td className="py-3 px-5">
-        <p className="font-bold text-kore-ink text-sm">{food.name}</p>
+        <div className="flex flex-col">
+          <p className="font-bold text-kore-ink text-sm leading-tight">{food.name}</p>
+          {!food.created_by && (
+            <span className="text-[10px] text-kore-muted uppercase tracking-wider mt-0.5">Global (TACO)</span>
+          )}
+          {food.created_by && (
+            <span className="text-[10px] text-emerald-600 dark:text-emerald-400 font-medium uppercase tracking-wider mt-0.5">Personalizado</span>
+          )}
+        </div>
       </td>
       <td className="py-3 px-3">
         <span
-          className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider ${CATEGORY_COLORS[food.category]}`}
+          className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider ${CATEGORY_COLORS[food.inferredCategory as Category]}`}
         >
-          {CATEGORY_LABELS[food.category]}
+          {CATEGORY_LABELS[food.inferredCategory as Category]}
         </span>
       </td>
       <td className="py-3 px-3 text-xs text-kore-subink font-semibold whitespace-nowrap">
-        {food.portion}
+        {food.base_amount}g
       </td>
       <td className="py-3 px-3 text-right tabular-nums">
         <span className="text-sm font-extrabold text-emerald-600 dark:text-emerald-400">
-          {food.kcal}
+          {formatMacro(food.kcal)}
         </span>
       </td>
       <td className="py-3 px-3 text-right tabular-nums">
-        <span className="text-sm font-bold text-kore-ink">{food.protein_g}g</span>
+        <span className="text-sm font-bold text-kore-ink">{formatMacro(food.protein_g)}g</span>
       </td>
       <td className="py-3 px-3 text-right tabular-nums">
-        <span className="text-sm font-bold text-kore-ink">{food.carbs_g}g</span>
+        <span className="text-sm font-bold text-kore-ink">{formatMacro(food.carbs_g)}g</span>
       </td>
       <td className="py-3 px-3 text-right tabular-nums">
-        <span className="text-sm font-bold text-kore-ink">{food.fat_g}g</span>
+        <span className="text-sm font-bold text-kore-ink">{formatMacro(food.fat_g)}g</span>
       </td>
       <td className="py-3 px-5 text-right">
-        <div className="inline-flex items-center gap-1 opacity-0 group-hover:opacity-100 transition">
-          <button
-            type="button"
-            aria-label="Editar alimento"
-            className="w-7 h-7 rounded-lg grid place-items-center text-kore-subink hover:text-kore-emerald-deep hover:bg-kore-emerald-soft transition"
-          >
-            <Edit3 size={13} />
-          </button>
-          <button
-            type="button"
-            aria-label="Excluir alimento"
-            className="w-7 h-7 rounded-lg grid place-items-center text-kore-subink hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-500/10 transition"
-          >
-            <Trash2 size={13} />
-          </button>
-        </div>
+        {food.created_by ? (
+           <div className="inline-flex items-center gap-1 opacity-0 group-hover:opacity-100 transition">
+             <button
+               type="button"
+               aria-label="Editar alimento"
+               className="w-7 h-7 rounded-lg grid place-items-center text-kore-subink hover:text-kore-emerald-deep hover:bg-kore-emerald-soft transition"
+             >
+               <Edit3 size={13} />
+             </button>
+             <button
+               type="button"
+               aria-label="Excluir alimento"
+               className="w-7 h-7 rounded-lg grid place-items-center text-kore-subink hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-500/10 transition"
+             >
+               <Trash2 size={13} />
+             </button>
+           </div>
+        ) : (
+          <span className="text-[10px] text-kore-muted uppercase font-semibold">Somente Leitura</span>
+        )}
       </td>
     </tr>
   );

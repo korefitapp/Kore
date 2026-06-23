@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { usePathname, useRouter } from "next/navigation";
 import {
@@ -15,6 +16,7 @@ import {
 } from "lucide-react";
 import { MobileNavDrawer } from "@/components/MobileNavDrawer";
 import { SidebarUserCard } from "@/components/SidebarUserCard";
+import { HelpCenterModal } from "../../personal/_components/HelpCenterModal";
 import { OWNER } from "./data";
 import { useNutri } from "./store";
 import type { SidebarKey } from "./types";
@@ -27,14 +29,7 @@ interface Item {
   badge?: number;
 }
 
-const WORKSPACE: Item[] = [
-  { key: "overview", label: "Visão Geral", Icon: LayoutDashboard, href: "/dashboard/nutri" },
-  { key: "patients", label: "Pacientes", Icon: Users, href: "/dashboard/nutri/patients", badge: 32 },
-  { key: "meal-plans", label: "Cardápios", Icon: Apple, href: "/dashboard/nutri/meal-plans" },
-  { key: "food-bank", label: "Banco de alimentos", Icon: Database, href: "/dashboard/nutri/food-database" },
-  { key: "consultations", label: "Consultas", Icon: CalendarDays, href: "/dashboard/nutri/appointments" },
-  { key: "messages", label: "Mensagens", Icon: MessageSquare, href: "/dashboard/nutri/messages", badge: 5 },
-];
+import { getNutriPatients } from "@/app/actions/nutri-actions";
 
 const ACCOUNT: Item[] = [
   { key: "finance", label: "Financeiro", Icon: Wallet, href: "/dashboard/nutri/financial" },
@@ -67,6 +62,21 @@ function SidebarBody({ onItemClick }: { onItemClick?: () => void }) {
   const pathname = usePathname();
   const router = useRouter();
   const setSection = useNutri((s) => s.setSection);
+  const [helpOpen, setHelpOpen] = useState(false);
+  const [patientCount, setPatientCount] = useState<number | undefined>(undefined);
+
+  useEffect(() => {
+    getNutriPatients().then(p => setPatientCount(p.length)).catch(() => {});
+  }, []);
+
+  const WORKSPACE: Item[] = [
+    { key: "overview", label: "Visão Geral", Icon: LayoutDashboard, href: "/dashboard/nutri" },
+    { key: "patients", label: "Pacientes", Icon: Users, href: "/dashboard/nutri/patients", badge: patientCount },
+    { key: "meal-plans", label: "Cardápios", Icon: Apple, href: "/dashboard/nutri/meal-plans" },
+    { key: "food-bank", label: "Banco de alimentos", Icon: Database, href: "/dashboard/nutri/food-database" },
+    { key: "consultations", label: "Consultas", Icon: CalendarDays, href: "/dashboard/nutri/appointments" },
+    { key: "messages", label: "Mensagens", Icon: MessageSquare, href: "/dashboard/nutri/messages", badge: 5 },
+  ];
 
   const isActive = (href: string) => {
     if (href === "/dashboard/nutri") {
@@ -136,6 +146,7 @@ function SidebarBody({ onItemClick }: { onItemClick?: () => void }) {
       <div className="p-3 space-y-3">
         <button
           type="button"
+          onClick={() => setHelpOpen(true)}
           className="w-full flex items-center gap-2 text-xs font-semibold text-kore-muted hover:text-kore-ink px-3 py-2 rounded-xl hover:bg-kore-bg transition"
         >
           <LifeBuoy size={15} /> Centro de ajuda
@@ -147,6 +158,8 @@ function SidebarBody({ onItemClick }: { onItemClick?: () => void }) {
           avatar={OWNER.avatar}
         />
       </div>
+
+      <HelpCenterModal isOpen={helpOpen} onClose={() => setHelpOpen(false)} />
     </>
   );
 }

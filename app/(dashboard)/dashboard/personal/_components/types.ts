@@ -9,7 +9,7 @@ export type SidebarKey =
 
 export type PlanKind = "Mensal" | "Trimestral" | "Semestral" | "Anual";
 
-export type StudentStatus = "em-dia" | "renovar" | "atencao";
+export type StudentStatus = "em-dia" | "renovar" | "atencao" | "aguardando";
 
 export interface Student {
   id: string;

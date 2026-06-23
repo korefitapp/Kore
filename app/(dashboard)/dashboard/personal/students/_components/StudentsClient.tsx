@@ -20,6 +20,8 @@ interface StudentRow {
   status: string;
   created_at: string;
   metadata: Record<string, unknown> | null;
+  email?: string;
+  workout_plans?: any[];
 }
 
 type FilterKey = "all" | "atencao" | "em-dia" | "faltantes";
@@ -41,7 +43,10 @@ function formatDate(iso: string) {
 }
 
 /** Aderência mock — quando existir tabela de sessões, buscar real */
-function getAdherence(_student: StudentRow): number {
+function getAdherence(_student: StudentRow): number | string {
+  const plans = _student.workout_plans?.filter((p: any) => p.is_active) || [];
+  if (plans.length === 0) return "-";
+
   // TODO: calcular a partir de workout_logs quando existir
   const seed = _student.id.charCodeAt(0) % 10;
   return Math.min(100, Math.max(30, 55 + seed * 5));
@@ -49,6 +54,9 @@ function getAdherence(_student: StudentRow): number {
 
 /** Último treino mock */
 function getLastWorkout(_student: StudentRow): string {
+  const plans = _student.workout_plans?.filter((p: any) => p.is_active) || [];
+  if (plans.length === 0) return "Sem registo";
+
   // TODO: buscar da tabela workout_logs quando existir
   const options = [
     "Hoje",
@@ -64,10 +72,15 @@ function getLastWorkout(_student: StudentRow): string {
 }
 
 /** Plano mock — quando existir campo plan no metadata */
-function getPlan(student: StudentRow): string {
-  const plan = student.metadata?.plan;
-  if (typeof plan === "string") return plan;
-  return "Mensal";
+function getPlan(student: StudentRow): React.ReactNode | string {
+  const plans = student.workout_plans?.filter((p: any) => p.is_active) || [];
+  if (plans.length > 0) return plans[0].name;
+
+  return (
+    <span className="bg-kore-bg border border-kore-border text-kore-muted px-2 py-1 rounded-md text-[10px] font-bold uppercase tracking-wide">
+      Aguardando Treino
+    </span>
+  );
 }
 
 /** Status de pagamento mock */
@@ -104,9 +117,11 @@ export function StudentsClient({ students }: { students: StudentRow[] }) {
     const payment = getPaymentStatus(s);
     const lastWorkout = getLastWorkout(s);
 
+    if (filter === "all" && !query.trim()) return true;
+
     // Filter logic
-    if (filter === "atencao" && adherence >= 70) return false;
-    if (filter === "em-dia" && (adherence < 70 || payment !== "em-dia")) return false;
+    if (filter === "atencao" && typeof adherence === "number" && adherence >= 70) return false;
+    if (filter === "em-dia" && ((typeof adherence === "number" && adherence < 70) || payment !== "em-dia")) return false;
     if (
       filter === "faltantes" &&
       !lastWorkout.startsWith("Há") &&
@@ -117,7 +132,7 @@ export function StudentsClient({ students }: { students: StudentRow[] }) {
     // Search logic
     if (query.trim()) {
       const q = query.trim().toLowerCase();
-      const name = (s.display_name ?? s.full_name).toLowerCase();
+      const name = (s.full_name || s.display_name || s.email || "Aluno sem nome").toLowerCase();
       if (!name.includes(q)) return false;
     }
 
@@ -144,7 +159,7 @@ export function StudentsClient({ students }: { students: StudentRow[] }) {
                   Meus Alunos
                 </h1>
                 <p className="text-sm text-kore-muted mt-0.5">
-                  {students.length} alunos vinculados · {filtered.length}{" "}
+                  {students?.length || 0} alunos vinculados · {filtered.length}{" "}
                   filtrados
                 </p>
               </div>
@@ -240,7 +255,7 @@ export function StudentsClient({ students }: { students: StudentRow[] }) {
 
 /* ── Row ────────────────────────────────────────────────────── */
 function StudentRow({ student }: { student: StudentRow }) {
-  const name = student.display_name ?? student.full_name;
+  const name = student.full_name || student.display_name || student.email || "Aluno sem nome";
   const initials = name
     .split(" ")
     .map((w) => w[0])
@@ -276,31 +291,35 @@ function StudentRow({ student }: { student: StudentRow }) {
         <span className="text-xs font-semibold text-kore-ink">{plan}</span>
       </td>
       <td className="py-3 px-3">
-        <div className="flex items-center gap-2">
-          <div className="w-16 h-1.5 rounded-full bg-kore-bg overflow-hidden">
-            <div
-              className={`h-full rounded-full transition-all ${
+        {typeof adherence === "number" ? (
+          <div className="flex items-center gap-2">
+            <div className="w-16 h-1.5 rounded-full bg-kore-bg overflow-hidden">
+              <div
+                className={`h-full rounded-full transition-all ${
+                  adherence >= 70
+                    ? "bg-emerald-500"
+                    : adherence >= 50
+                      ? "bg-amber-500"
+                      : "bg-rose-500"
+                }`}
+                style={{ width: `${adherence}%` }}
+              />
+            </div>
+            <span
+              className={`text-sm font-bold tabular-nums ${
                 adherence >= 70
-                  ? "bg-emerald-500"
+                  ? "text-emerald-600 dark:text-emerald-300"
                   : adherence >= 50
-                    ? "bg-amber-500"
-                    : "bg-rose-500"
+                    ? "text-amber-600 dark:text-amber-300"
+                    : "text-rose-600 dark:text-rose-300"
               }`}
-              style={{ width: `${adherence}%` }}
-            />
+            >
+              {adherence}%
+            </span>
           </div>
-          <span
-            className={`text-sm font-bold tabular-nums ${
-              adherence >= 70
-                ? "text-emerald-600 dark:text-emerald-300"
-                : adherence >= 50
-                  ? "text-amber-600 dark:text-amber-300"
-                  : "text-rose-600 dark:text-rose-300"
-            }`}
-          >
-            {adherence}%
-          </span>
-        </div>
+        ) : (
+          <span className="text-sm font-bold text-kore-muted tabular-nums">{adherence}</span>
+        )}
       </td>
       <td className="py-3 px-3 text-xs text-kore-subink whitespace-nowrap">
         {lastWorkout}

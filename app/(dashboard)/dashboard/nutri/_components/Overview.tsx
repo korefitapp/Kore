@@ -8,27 +8,27 @@ import { MealPlansToBuild } from "./MealPlansToBuild";
 import { PatientsTable } from "./PatientsTable";
 import { WeeklyMacrosChart } from "./WeeklyMacrosChart";
 
-export function Overview({ nutriName }: { nutriName: string }) {
+export function Overview({ nutriName, dashboardData }: { nutriName: string, dashboardData: any }) {
   return (
     <div className="px-4 sm:px-6 lg:px-8 py-4 sm:py-6 space-y-4 sm:space-y-6 max-w-[1440px] mx-auto">
-      <Header nutriName={nutriName} />
-      <KpiGrid />
+      <Header nutriName={nutriName} patientsCount={dashboardData.patients?.length || 0} />
+      <KpiGrid dashboardData={dashboardData} />
 
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
         <div className="xl:col-span-2 space-y-6">
-          <PatientsTable />
+          <PatientsTable patients={dashboardData.patients} />
           <WeeklyMacrosChart />
         </div>
         <div className="space-y-6">
-          <AgendaToday />
-          <MealPlansToBuild />
+          <AgendaToday appointments={dashboardData.appointmentsToday} />
+          <MealPlansToBuild mealPlans={dashboardData.mealPlans} />
         </div>
       </div>
     </div>
   );
 }
 
-function Header({ nutriName }: { nutriName: string }) {
+function Header({ nutriName, patientsCount }: { nutriName: string, patientsCount: number }) {
   const hour = new Date().getHours();
   const greeting =
     hour < 12 ? "Bom dia" : hour < 18 ? "Boa tarde" : "Boa noite";
@@ -46,11 +46,11 @@ function Header({ nutriName }: { nutriName: string }) {
           {greeting}, {firstName} 👋
         </p>
         <h1 className="text-3xl font-extrabold text-kore-ink tracking-tight mt-0.5">
-          Você tem <span className="text-kore-emerald-deep">5 pacientes</span>{" "}
-          aguardando reavaliação esta semana
+          Você tem <span className="text-kore-emerald-deep">{patientsCount} pacientes</span>{" "}
+          ativos
         </h1>
         <p className="text-sm text-kore-muted mt-1">
-          Resumo da operação · 32 pacientes ativos ·{" "}
+          Resumo da operação · {patientsCount} pacientes ativos ·{" "}
           <span className="font-semibold text-kore-subink">⭐ 4.96</span> de
           avaliação média
         </p>

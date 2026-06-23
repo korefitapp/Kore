@@ -7,13 +7,20 @@ import {
   useTransform,
 } from "framer-motion";
 import { useEffect } from "react";
-import { selectConsumedKcal, useKore } from "../store";
+import { useKore } from "../store";
+import type { Meal } from "../types";
 
-export function KcalHero() {
+export function KcalHero({ meals = [] }: { meals?: Meal[] }) {
   const goal = useKore((s) => s.kcalGoal);
-  const consumed = useKore(selectConsumedKcal);
-  const remaining = Math.max(0, goal - consumed);
-  const pct = Math.min(100, (consumed / goal) * 100);
+  const targetMacros = useKore((s) => s.macrosGoal);
+  
+  const consumedKcal = meals.flatMap((m) => m.items).filter((it) => it.consumed).reduce((acc, it) => acc + it.kcal, 0);
+  const consumedProtein = meals.flatMap((m) => m.items).filter((it) => it.consumed).reduce((acc, it) => acc + it.protein, 0);
+  const consumedCarbs = meals.flatMap((m) => m.items).filter((it) => it.consumed).reduce((acc, it) => acc + it.carbs, 0);
+  const consumedFat = meals.flatMap((m) => m.items).filter((it) => it.consumed).reduce((acc, it) => acc + it.fat, 0);
+
+  const remaining = Math.max(0, goal - consumedKcal);
+  const pct = Math.min(100, (goal > 0 ? (consumedKcal / goal) * 100 : 0));
 
   const target = useMotionValue(pct);
   const spring = useSpring(target, { stiffness: 110, damping: 18, mass: 1.1 });
@@ -24,14 +31,14 @@ export function KcalHero() {
 
   return (
     <section className="rounded-3xl bg-kore-card border border-kore p-5 shadow-sm overflow-hidden relative">
-      <div className="flex items-start justify-between">
-        <div>
+      <div className="flex flex-row items-start justify-between gap-4">
+        <div className="flex-shrink-0">
           <p className="text-xs uppercase tracking-wider text-muted font-semibold">
             Calorias do dia
           </p>
-          <h2 className="text-[40px] leading-none font-extrabold text-kore mt-1 tabular-nums">
-            {Math.round(consumed)}
-            <span className="text-lg text-muted font-medium"> / {goal}</span>
+          <h2 className="text-[36px] sm:text-[40px] leading-none font-extrabold text-kore mt-1 tabular-nums">
+            {Math.round(consumedKcal)}
+            <span className="text-base sm:text-lg text-muted font-medium"> / {goal}</span>
           </h2>
           <p className="text-sm text-muted mt-1">
             Restam{" "}
@@ -41,22 +48,60 @@ export function KcalHero() {
             kcal
           </p>
         </div>
-        <motion.div
-          key={pct >= 100 ? "done" : "wip"}
-          initial={{ scale: 0.8, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          className="rounded-2xl bg-emerald-50 dark:bg-emerald-500/10 px-3 py-2 text-right"
-        >
-          <p className="text-[10px] uppercase font-bold text-kore-emerald">
-            Progresso
-          </p>
-          <p className="text-2xl font-extrabold text-kore tabular-nums">
-            {pct.toFixed(0)}%
-          </p>
-        </motion.div>
+
+        {/* Macros Verticais */}
+        <div className="flex flex-col gap-2.5 w-full max-w-[140px] pt-1">
+          {/* Protein */}
+          <div className="space-y-1">
+            <div className="flex justify-between items-center text-[10px] sm:text-xs">
+              <span className="font-semibold text-kore">Proteína</span>
+              <span className="text-muted tabular-nums">{Math.round(consumedProtein)}/{Math.round(targetMacros?.protein || 0)}g</span>
+            </div>
+            <div className="h-1.5 w-full rounded-full bg-pink-100 dark:bg-pink-950 overflow-hidden">
+              <motion.div 
+                initial={{ width: 0 }}
+                animate={{ width: `${Math.min(100, (consumedProtein / (targetMacros?.protein || 1)) * 100)}%` }}
+                transition={{ type: "spring", bounce: 0, duration: 0.8 }}
+                className="h-full bg-pink-500 rounded-full" 
+              />
+            </div>
+          </div>
+          
+          {/* Carbs */}
+          <div className="space-y-1">
+            <div className="flex justify-between items-center text-[10px] sm:text-xs">
+              <span className="font-semibold text-kore">Carbo</span>
+              <span className="text-muted tabular-nums">{Math.round(consumedCarbs)}/{Math.round(targetMacros?.carbs || 0)}g</span>
+            </div>
+            <div className="h-1.5 w-full rounded-full bg-yellow-100 dark:bg-yellow-900/40 overflow-hidden">
+              <motion.div 
+                initial={{ width: 0 }}
+                animate={{ width: `${Math.min(100, (consumedCarbs / (targetMacros?.carbs || 1)) * 100)}%` }}
+                transition={{ type: "spring", bounce: 0, duration: 0.8 }}
+                className="h-full bg-yellow-400 rounded-full" 
+              />
+            </div>
+          </div>
+
+          {/* Fat */}
+          <div className="space-y-1">
+            <div className="flex justify-between items-center text-[10px] sm:text-xs">
+              <span className="font-semibold text-kore">Gordura</span>
+              <span className="text-muted tabular-nums">{Math.round(consumedFat)}/{Math.round(targetMacros?.fat || 0)}g</span>
+            </div>
+            <div className="h-1.5 w-full rounded-full bg-purple-100 dark:bg-purple-950 overflow-hidden">
+              <motion.div 
+                initial={{ width: 0 }}
+                animate={{ width: `${Math.min(100, (consumedFat / (targetMacros?.fat || 1)) * 100)}%` }}
+                transition={{ type: "spring", bounce: 0, duration: 0.8 }}
+                className="h-full bg-purple-400 rounded-full" 
+              />
+            </div>
+          </div>
+        </div>
       </div>
 
-      <div className="mt-4 h-5 rounded-full bg-kore-bg border border-kore overflow-hidden relative">
+      <div className="mt-5 h-4 sm:h-5 rounded-full bg-kore-bg border border-kore overflow-hidden relative">
         <motion.div
           style={{ width: widthStyle }}
           className="h-full liquid-wave relative"

@@ -22,8 +22,8 @@ export default async function MessagesPage() {
     supabase as SupabaseClient
   )
     .from("profiles" as any)
-    .select("id, full_name, avatar_url")
-    .eq("role", "patient");
+    .select("id, full_name, avatar_url, phone")
+    .eq("metadata->>nutritionist_id", user.id);
 
   if (profilesError) {
     console.error("Erro ao buscar perfis:", profilesError.message);
@@ -42,13 +42,25 @@ export default async function MessagesPage() {
     console.error("Erro ao buscar mensagens:", messagesError.message);
   }
 
+  // Buscar status da instância do WhatsApp
+  const { data: whatsappInstance } = await (
+    supabase as SupabaseClient
+  )
+    .from("whatsapp_instances" as any)
+    .select("status, qr_code_base64")
+    .eq("professional_id", user.id)
+    .single();
+
   return (
     <MessagesClient
       currentUserId={user.id}
+      initialInstanceStatus={whatsappInstance?.status || "disconnected"}
+      initialQrCode={whatsappInstance?.qr_code_base64 || null}
       profiles={(profiles ?? []).map((p) => ({
         id: p.id as string,
         full_name: p.full_name as string | null,
         avatar_url: p.avatar_url as string | null,
+        phone: p.phone as string | null,
       }))}
       messages={(messages ?? []).map((m) => ({
         id: m.id as string,

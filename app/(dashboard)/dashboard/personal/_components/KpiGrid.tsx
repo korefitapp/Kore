@@ -1,13 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import {
-  Activity,
-  CalendarClock,
-  MessageSquareWarning,
-  TrendingDown,
-} from "lucide-react";
-import { KPIS } from "./data";
+import { Activity, CalendarClock, MessageSquareWarning, TrendingDown } from "lucide-react";
 import type { KpiTone, PersonalKpi } from "./types";
 
 const ICONS = {
@@ -26,10 +20,45 @@ const TONES: Record<KpiTone, string> = {
     "bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-300 ring-emerald-200/70 dark:ring-emerald-500/30",
 };
 
-export function KpiGrid() {
+export function KpiGrid({ kpis }: { kpis?: any }) {
+  const dynamicKpis: PersonalKpi[] = [
+    {
+      id: "expiring",
+      icon: "calendar-clock",
+      value: kpis?.expiringPlans ?? 0,
+      label: "Treinos vencendo",
+      hint: "Alunos com planos a expirar < 12 dias",
+      tone: "amber",
+    },
+    {
+      id: "low-adherence",
+      icon: "trending-down",
+      value: kpis?.lowAdherence ?? 0,
+      label: "Aderência baixa",
+      hint: "Alunos abaixo de 75% de foco",
+      tone: "rose",
+    },
+    {
+      id: "unread",
+      icon: "message-warning",
+      value: kpis?.unreadMessages ?? 0,
+      label: "Mensagens não lidas",
+      hint: "A aguardar resposta",
+      tone: "sky",
+    },
+    {
+      id: "reviews",
+      icon: "activity",
+      value: kpis?.scheduledReviews ?? 0,
+      label: "Sessões agendadas",
+      hint: "Agendamentos esta semana",
+      tone: "emerald",
+    },
+  ];
+
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-      {KPIS.map((kpi, i) => (
+      {dynamicKpis.map((kpi, i) => (
         <KpiTile key={kpi.id} kpi={kpi} index={i} />
       ))}
     </div>

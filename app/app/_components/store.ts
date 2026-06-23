@@ -48,6 +48,7 @@ export interface KoreState {
 
   meals: Meal[];
   toggleMeal: (mealId: string) => void;
+  toggleMealItem: (mealId: string, itemId: string) => void;
 
   exercises: Exercise[];
   activeExerciseId: string | null;
@@ -141,9 +142,27 @@ export const useKore = create<KoreState>((set) => ({
   meals: fallback.meals,
   toggleMeal: (mealId) =>
     set((s) => {
-      const meals = s.meals.map((m) =>
-        m.id === mealId ? { ...m, consumed: !m.consumed } : m,
-      );
+      const meals = s.meals.map((m) => {
+        if (m.id !== mealId) return m;
+        const nextConsumed = !m.consumed;
+        return {
+          ...m,
+          consumed: nextConsumed,
+          items: m.items.map((it) => ({ ...it, consumed: nextConsumed })),
+        };
+      });
+      return { meals, macros: macrosFromMeals(meals) };
+    }),
+  toggleMealItem: (mealId, itemId) =>
+    set((s) => {
+      const meals = s.meals.map((m) => {
+        if (m.id !== mealId) return m;
+        const updatedItems = m.items.map((it) =>
+          it.id === itemId ? { ...it, consumed: !it.consumed } : it,
+        );
+        const allConsumed = updatedItems.length > 0 && updatedItems.every((it) => it.consumed);
+        return { ...m, items: updatedItems, consumed: allConsumed };
+      });
       return { meals, macros: macrosFromMeals(meals) };
     }),
 

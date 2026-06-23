@@ -1,0 +1,5474 @@
+[
+  {
+    "id": "1e738175-af67-4506-8505-5aa1016f01a9",
+    "name": "Whey Protein Concentrado (80%)",
+    "kcal": 400,
+    "protein_g": 80,
+    "carbs_g": 9,
+    "fat_g": 6,
+    "base_amount": 100
+  },
+  {
+    "id": "af043ca0-bf4f-47db-b26e-568df0752ed5",
+    "name": "Whey Protein Isolado (90%)",
+    "kcal": 370,
+    "protein_g": 90,
+    "carbs_g": 2,
+    "fat_g": 0,
+    "base_amount": 100
+  },
+  {
+    "id": "445ba9e2-9094-48c5-917c-35a505f14c33",
+    "name": "Blend de Proteínas (Whey, Albumina, Soja)",
+    "kcal": 380,
+    "protein_g": 60,
+    "carbs_g": 20,
+    "fat_g": 5,
+    "base_amount": 100
+  },
+  {
+    "id": "536affad-f4ee-4b16-bef6-9487d281fbd4",
+    "name": "Creatina Monohidratada",
+    "kcal": 0,
+    "protein_g": 0,
+    "carbs_g": 0,
+    "fat_g": 0,
+    "base_amount": 100
+  },
+  {
+    "id": "e4945962-61e4-49e0-83b7-49a910941a8e",
+    "name": "Fórmula Pré-Treino",
+    "kcal": 15,
+    "protein_g": 0,
+    "carbs_g": 3.5,
+    "fat_g": 0,
+    "base_amount": 100
+  },
+  {
+    "id": "f53813b5-1c08-4b90-b41d-c715b178af83",
+    "name": "Maltodextrina",
+    "kcal": 390,
+    "protein_g": 0,
+    "carbs_g": 98,
+    "fat_g": 0,
+    "base_amount": 100
+  },
+  {
+    "id": "381d3413-d54f-4ab1-befc-ea1486a3d8ce",
+    "name": "Waxy Maize",
+    "kcal": 350,
+    "protein_g": 0,
+    "carbs_g": 88,
+    "fat_g": 0,
+    "base_amount": 100
+  },
+  {
+    "id": "b32e58c1-aa29-4621-a1bc-7228d0af3eac",
+    "name": "Hipercalórico (Mass Gainer)",
+    "kcal": 380,
+    "protein_g": 15,
+    "carbs_g": 80,
+    "fat_g": 1,
+    "base_amount": 100
+  },
+  {
+    "id": "5313fba3-888a-4ba3-86c2-53a52bd1b70b",
+    "name": "Albumina (Clara de Ovo em Pó)",
+    "kcal": 350,
+    "protein_g": 78,
+    "carbs_g": 5,
+    "fat_g": 0,
+    "base_amount": 100
+  },
+  {
+    "id": "228f6dd5-886f-45e8-acc0-264e8bb25541",
+    "name": "Barra de Proteína (Padrão)",
+    "kcal": 350,
+    "protein_g": 30,
+    "carbs_g": 35,
+    "fat_g": 10,
+    "base_amount": 100
+  },
+  {
+    "id": "e4b02cec-b6da-4d25-9069-ce5b84dc9efd",
+    "name": "Pasta de Amendoim Integral",
+    "kcal": 590,
+    "protein_g": 25,
+    "carbs_g": 20,
+    "fat_g": 50,
+    "base_amount": 100
+  },
+  {
+    "id": "74ea43a9-963e-4b5b-b178-cbbb48ce9a30",
+    "name": "Arroz, integral, cozido",
+    "kcal": 123.5348925,
+    "protein_g": 2.58825,
+    "carbs_g": 25.80975,
+    "fat_g": 1.00033333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "cbc0d714-29f9-40ee-b02c-8f9f825dc38b",
+    "name": "Arroz, integral, cru",
+    "kcal": 359.678002032609,
+    "protein_g": 7.32328586956522,
+    "carbs_g": 77.4507141304348,
+    "fat_g": 1.86483333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "88f23ef7-09b1-4695-846c-77247dac7722",
+    "name": "Arroz, tipo 1, cozido",
+    "kcal": 128.258485666667,
+    "protein_g": 2.52081666666667,
+    "carbs_g": 28.05985,
+    "fat_g": 0.227,
+    "base_amount": 100
+  },
+  {
+    "id": "d97684cc-36d2-4c66-8069-486d05782acf",
+    "name": "Arroz, tipo 1, cru",
+    "kcal": 357.789273115942,
+    "protein_g": 7.15853985507246,
+    "carbs_g": 78.7595434782609,
+    "fat_g": 0.335,
+    "base_amount": 100
+  },
+  {
+    "id": "7f133394-654d-4340-832d-87def2050f2d",
+    "name": "Arroz, tipo 2, cozido",
+    "kcal": 130.119648333333,
+    "protein_g": 2.56841666666667,
+    "carbs_g": 28.1925833333333,
+    "fat_g": 0.361666666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "6133e7f4-7161-4602-a928-04809b04c4dc",
+    "name": "Arroz, tipo 2, cru",
+    "kcal": 358.116761456522,
+    "protein_g": 7.24188297101449,
+    "carbs_g": 78.8814503623188,
+    "fat_g": 0.2755,
+    "base_amount": 100
+  },
+  {
+    "id": "73409b01-f61a-406b-8c84-1a1ff2b24ca9",
+    "name": "Aveia, flocos, crua",
+    "kcal": 393.822689449275,
+    "protein_g": 13.9210260869565,
+    "carbs_g": 66.6356405797102,
+    "fat_g": 8.49666666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "01f40545-f03a-4a4d-8930-ce3bfd7dd168",
+    "name": "Biscoito, doce, maisena",
+    "kcal": 442.819390144928,
+    "protein_g": 8.07252173913043,
+    "carbs_g": 75.2341449275362,
+    "fat_g": 11.9666666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "e2d4f55c-5169-4d6d-ada6-33c4982d531f",
+    "name": "Biscoito, doce, recheado com chocolate",
+    "kcal": 471.824779710145,
+    "protein_g": 6.39721739130435,
+    "carbs_g": 70.5494492753623,
+    "fat_g": 19.5833333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "c545280a-50a2-4c26-a75a-c26fd7838eb6",
+    "name": "Biscoito, doce, recheado com morango",
+    "kcal": 471.174736231884,
+    "protein_g": 5.71982608695652,
+    "carbs_g": 71.0135072463768,
+    "fat_g": 19.5733333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "28af4372-5b69-40fc-9f22-1484b318f59c",
+    "name": "Biscoito, doce, wafer, recheado de chocolate",
+    "kcal": 502.456857971014,
+    "protein_g": 5.56452173913044,
+    "carbs_g": 67.5354782608696,
+    "fat_g": 24.6733333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "ae21215d-79ac-4bb6-b21b-dba7188066b7",
+    "name": "Biscoito, doce, wafer, recheado de morango",
+    "kcal": 513.446182608696,
+    "protein_g": 4.51704347826087,
+    "carbs_g": 67.3529565217391,
+    "fat_g": 26.4,
+    "base_amount": 100
+  },
+  {
+    "id": "61c7f252-2a92-4512-947f-cea7596d3e47",
+    "name": "Biscoito, salgado, cream cracker",
+    "kcal": 431.73228115942,
+    "protein_g": 10.0551304347826,
+    "carbs_g": 68.7315362318841,
+    "fat_g": 14.4366666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "4bed312f-10b8-4e35-9705-5de80e06902b",
+    "name": "Bolo, mistura para",
+    "kcal": 418.633333333333,
+    "protein_g": 6.15942028985507,
+    "carbs_g": 84.7139130434783,
+    "fat_g": 6.12666666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "f76c66b8-f7bf-4739-a507-a496e802dc23",
+    "name": "Bolo, pronto, aipim",
+    "kcal": 323.851666666667,
+    "protein_g": 4.41666666666667,
+    "carbs_g": 47.864,
+    "fat_g": 12.7476666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "7d225144-d29d-442c-af92-08f391ae9e4d",
+    "name": "Bolo, pronto, chocolate",
+    "kcal": 410.013666666667,
+    "protein_g": 6.22291666666667,
+    "carbs_g": 54.71775,
+    "fat_g": 18.4723333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "b762173f-8326-4914-883e-82f06d2132e6",
+    "name": "Bolo, pronto, coco",
+    "kcal": 333.437666666667,
+    "protein_g": 5.66666666666667,
+    "carbs_g": 52.276,
+    "fat_g": 11.2963333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "78c7e41d-4060-41c3-b405-12c15630116d",
+    "name": "Bolo, pronto, milho",
+    "kcal": 311.387,
+    "protein_g": 4.80416666666667,
+    "carbs_g": 45.1088333333333,
+    "fat_g": 12.415,
+    "base_amount": 100
+  },
+  {
+    "id": "13053764-2514-4eac-8335-3ee46d2319f1",
+    "name": "Canjica, branca, crua",
+    "kcal": 357.60259,
+    "protein_g": 7.2,
+    "carbs_g": 78.061,
+    "fat_g": 0.971,
+    "base_amount": 100
+  },
+  {
+    "id": "0a252c69-2622-4967-8374-07bcd03562a7",
+    "name": "Canjica, com leite integral",
+    "kcal": 112.456777220465,
+    "protein_g": 2.36060004234314,
+    "carbs_g": 23.6277332909902,
+    "fat_g": 1.24433333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "ca217de0-d148-4a12-9220-3f3ef01bc385",
+    "name": "Cereais, milho, flocos, com sal",
+    "kcal": 369.59975,
+    "protein_g": 7.29166666666667,
+    "carbs_g": 80.835,
+    "fat_g": 1.60333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "d043e17e-7a38-4932-ba8e-454f41896c05",
+    "name": "Cereais, milho, flocos, sem sal",
+    "kcal": 363.338316666667,
+    "protein_g": 6.875,
+    "carbs_g": 80.4483333333333,
+    "fat_g": 1.18333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "ceba91d6-3ee0-43a0-9cfc-9a4a7ffa8192",
+    "name": "Cereais, mingau, milho, infantil",
+    "kcal": 394.42752173913,
+    "protein_g": 6.43115942028986,
+    "carbs_g": 87.2655072463768,
+    "fat_g": 1.09333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "e39239a8-a6cc-4704-917f-4b344076dfdc",
+    "name": "Cereais, mistura para vitamina, trigo, cevada e aveia",
+    "kcal": 381.133333333333,
+    "protein_g": 8.89583333333333,
+    "carbs_g": 81.6175,
+    "fat_g": 2.12,
+    "base_amount": 100
+  },
+  {
+    "id": "4e75abcb-81a8-48c5-88bb-3f7feb0776fa",
+    "name": "Cereal matinal, milho",
+    "kcal": 365.354163768116,
+    "protein_g": 7.15579710144928,
+    "carbs_g": 83.8242028985507,
+    "fat_g": 0.956666666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "3e92714a-2e7a-4ec5-9f70-e87af8f92f70",
+    "name": "Cereal matinal, milho, açúcar",
+    "kcal": 376.555253623188,
+    "protein_g": 4.74275362318841,
+    "carbs_g": 88.8405797101449,
+    "fat_g": 0.666666666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "947338a1-2ac3-4c79-aa06-7f40113dd922",
+    "name": "Creme de arroz, pó",
+    "kcal": 386.001190336398,
+    "protein_g": 7.02694977474213,
+    "carbs_g": 83.8693835585912,
+    "fat_g": 1.226,
+    "base_amount": 100
+  },
+  {
+    "id": "d3538972-0fa7-4759-99fa-78cf7af0012b",
+    "name": "Creme de milho, pó",
+    "kcal": 333.034192670544,
+    "protein_g": 4.82083333333333,
+    "carbs_g": 86.1485,
+    "fat_g": 1.63933333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "6a5309ee-b432-478c-839f-6896692089a0",
+    "name": "Curau, milho verde",
+    "kcal": 78.4338183136559,
+    "protein_g": 2.36060004234314,
+    "carbs_g": 13.9443999576569,
+    "fat_g": 1.637,
+    "base_amount": 100
+  },
+  {
+    "id": "4b17fa12-51b0-4dc6-83a9-c994bb8a8b64",
+    "name": "Curau, milho verde, mistura para",
+    "kcal": 402.286577435315,
+    "protein_g": 2.22291666666667,
+    "carbs_g": 79.8164166666667,
+    "fat_g": 13.3713333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "0b684787-8db5-458e-a327-a4249a5a90d4",
+    "name": "Farinha, de arroz, enriquecida",
+    "kcal": 363.056480181224,
+    "protein_g": 1.26933329264323,
+    "carbs_g": 85.5040000406901,
+    "fat_g": 0.3,
+    "base_amount": 100
+  },
+  {
+    "id": "baa56048-1a8c-4b35-9575-fc517f1dc3b0",
+    "name": "Farinha, de centeio, integral",
+    "kcal": 335.777662799327,
+    "protein_g": 12.515066502889,
+    "carbs_g": 73.2982668304443,
+    "fat_g": 1.75333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "2d0886c3-e41f-491e-be7b-25b8ee65c1ce",
+    "name": "Farinha, de milho, amarela",
+    "kcal": 350.58693322738,
+    "protein_g": 7.1875,
+    "carbs_g": 79.0791666666667,
+    "fat_g": 1.46666666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "6f5db8bd-6cd1-4549-93c1-e1fb75bebe92",
+    "name": "Farinha, de rosca",
+    "kcal": 370.578096666667,
+    "protein_g": 11.3809996191661,
+    "carbs_g": 75.7856666666667,
+    "fat_g": 1.46333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "9dc2fb0a-0c4e-4338-a442-f83de4d4a633",
+    "name": "Farinha, de trigo",
+    "kcal": 360.472978550725,
+    "protein_g": 9.79078260869565,
+    "carbs_g": 75.0925507246377,
+    "fat_g": 1.36666666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "3712dbe5-e676-4fe5-b612-83992faa8cbc",
+    "name": "Farinha, láctea, de cereais",
+    "kcal": 414.850517391304,
+    "protein_g": 11.8791304347826,
+    "carbs_g": 77.7708695652174,
+    "fat_g": 5.79,
+    "base_amount": 100
+  },
+  {
+    "id": "c32b7505-ff1b-438f-8fb0-38194d21d63f",
+    "name": "Lasanha, massa fresca, cozida",
+    "kcal": 163.763666666667,
+    "protein_g": 5.8125,
+    "carbs_g": 32.5221666666667,
+    "fat_g": 1.15833333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "2eb4c6a3-4d20-4062-b036-97b18cc41906",
+    "name": "Lasanha, massa fresca, crua",
+    "kcal": 220.305666666667,
+    "protein_g": 7.00833333333333,
+    "carbs_g": 45.0583333333333,
+    "fat_g": 1.33766666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "3946bb9a-b0c3-4a2c-ab6a-65b64d6e5e84",
+    "name": "Macarrão, instantâneo",
+    "kcal": 435.864780533333,
+    "protein_g": 8.79168,
+    "carbs_g": 62.4316533333333,
+    "fat_g": 17.2366666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "984a0c93-8355-4e87-b9a7-b750bc952d8a",
+    "name": "Macarrão, trigo, cru",
+    "kcal": 371.122613043478,
+    "protein_g": 9.99565217391304,
+    "carbs_g": 77.944347826087,
+    "fat_g": 1.30333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "dc79c6fb-8b99-4ce1-97ab-de8ad6b0e315",
+    "name": "Macarrão, trigo, cru, com ovos",
+    "kcal": 370.567113333333,
+    "protein_g": 10.3208,
+    "carbs_g": 76.6225333333334,
+    "fat_g": 1.97,
+    "base_amount": 100
+  },
+  {
+    "id": "745e6a1b-069f-4f8f-b0d9-82b0a9579a3a",
+    "name": "Milho, amido, cru",
+    "kcal": 361.366823878261,
+    "protein_g": 0.597826086956522,
+    "carbs_g": 87.1488439130435,
+    "fat_g": 0,
+    "base_amount": 100
+  },
+  {
+    "id": "1c958cde-c979-46d5-ba50-e17800edefa0",
+    "name": "Milho, fubá, cru",
+    "kcal": 353.482268115942,
+    "protein_g": 7.21376811594203,
+    "carbs_g": 78.8728985507246,
+    "fat_g": 1.90333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "1464f743-2463-4850-ab1a-623b42e6425f",
+    "name": "Milho, verde, cru",
+    "kcal": 138.166565,
+    "protein_g": 6.58958333333333,
+    "carbs_g": 28.55575,
+    "fat_g": 0.609,
+    "base_amount": 100
+  },
+  {
+    "id": "61a85d7d-0df7-463e-b8e9-2bbba25e2a5a",
+    "name": "Milho, verde, enlatado, drenado",
+    "kcal": 97.5648942028985,
+    "protein_g": 3.22826086956522,
+    "carbs_g": 17.1350724637681,
+    "fat_g": 2.35333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "71c5a1b0-d2b0-4677-880f-f6fe7d8ecc1a",
+    "name": "Mingau tradicional, pó",
+    "kcal": 373.421466666667,
+    "protein_g": 0.583333333333333,
+    "carbs_g": 89.3366666666667,
+    "fat_g": 0.37,
+    "base_amount": 100
+  },
+  {
+    "id": "905cb2f0-ce11-4d69-91a5-1411915f10c8",
+    "name": "Pamonha, barra para cozimento, pré-cozida",
+    "kcal": 171.219111666667,
+    "protein_g": 2.55208333333333,
+    "carbs_g": 30.6849166666667,
+    "fat_g": 4.84966666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "e04d131b-e850-4a11-93cd-ca32f371c4bf",
+    "name": "Pão, aveia, forma",
+    "kcal": 343.085366666667,
+    "protein_g": 12.35,
+    "carbs_g": 59.5666666666667,
+    "fat_g": 5.69333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "9e3df8ad-e835-46b1-a50c-01b11e3306a4",
+    "name": "Pão, de soja",
+    "kcal": 308.726323333333,
+    "protein_g": 11.343,
+    "carbs_g": 56.5103333333333,
+    "fat_g": 3.58,
+    "base_amount": 100
+  },
+  {
+    "id": "a41efcbd-f18a-4961-9245-dcab0f6a434b",
+    "name": "Pão, glúten, forma",
+    "kcal": 252.99403,
+    "protein_g": 11.9509996000926,
+    "carbs_g": 44.119,
+    "fat_g": 2.72666666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "7bab78a4-fd18-4838-98db-b250ec6f7906",
+    "name": "Pão, milho, forma",
+    "kcal": 292.01349,
+    "protein_g": 8.303,
+    "carbs_g": 56.397,
+    "fat_g": 3.11,
+    "base_amount": 100
+  },
+  {
+    "id": "80773458-ed5d-4014-a512-c02a915e079d",
+    "name": "Pão, trigo, forma, integral",
+    "kcal": 253.193618333333,
+    "protein_g": 9.42516666666667,
+    "carbs_g": 49.9415,
+    "fat_g": 3.65333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "040e780f-aee2-4943-a304-373ea82c475f",
+    "name": "Pão, trigo, francês",
+    "kcal": 299.810150434783,
+    "protein_g": 7.9535652173913,
+    "carbs_g": 58.6464347826087,
+    "fat_g": 3.10333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "0ef4450d-de1e-417e-b79a-2447b3d588e9",
+    "name": "Pão, trigo, sovado",
+    "kcal": 310.96494,
+    "protein_g": 8.398,
+    "carbs_g": 61.452,
+    "fat_g": 2.84,
+    "base_amount": 100
+  },
+  {
+    "id": "9a46e186-bc08-4e8b-b45e-4b4312aca28d",
+    "name": "Pastel, de carne, cru",
+    "kcal": 288.70207151599,
+    "protein_g": 10.7406996405919,
+    "carbs_g": 42.0166336927414,
+    "fat_g": 8.793,
+    "base_amount": 100
+  },
+  {
+    "id": "81029141-ca9c-4844-a2d9-771c1c921921",
+    "name": "Pastel, de carne, frito",
+    "kcal": 388.374651624968,
+    "protein_g": 10.1041996618907,
+    "carbs_g": 43.7678003381093,
+    "fat_g": 20.1366666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "cfc45216-a4c7-45a0-9e12-581a8379b134",
+    "name": "Pastel, de queijo, cru",
+    "kcal": 308.474433887374,
+    "protein_g": 9.853399670283,
+    "carbs_g": 45.9479336630503,
+    "fat_g": 9.63466666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "e420894f-5e0f-4bcb-82dc-973d7978e15f",
+    "name": "Pastel, de queijo, frito",
+    "kcal": 422.112080039319,
+    "protein_g": 8.70959970855713,
+    "carbs_g": 48.1327336247762,
+    "fat_g": 22.6703333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "88817580-7215-478f-bafe-c0c85ccdfe7a",
+    "name": "Pastel, massa, crua",
+    "kcal": 310.202514333333,
+    "protein_g": 6.9027,
+    "carbs_g": 57.3796333333333,
+    "fat_g": 5.477,
+    "base_amount": 100
+  },
+  {
+    "id": "ebea620e-e51b-4679-8e95-411fb238d191",
+    "name": "Pastel, massa, frita",
+    "kcal": 569.672459333333,
+    "protein_g": 6.0192,
+    "carbs_g": 49.3431333333333,
+    "fat_g": 40.8603333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "1903888f-b9d7-4d9b-88a8-991e637ebf75",
+    "name": "Pipoca, com óleo de soja, sem sal",
+    "kcal": 448.334261847198,
+    "protein_g": 9.92708333333334,
+    "carbs_g": 70.3125833333333,
+    "fat_g": 15.941,
+    "base_amount": 100
+  },
+  {
+    "id": "cf25bcd4-ca11-42ce-8853-4de2712bcef4",
+    "name": "Polenta, pré-cozida",
+    "kcal": 102.741166666667,
+    "protein_g": 2.29166666666667,
+    "carbs_g": 23.3116666666667,
+    "fat_g": 0.303333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "f476e1fd-98ba-4085-a8ea-81b16ac300f8",
+    "name": "Torrada, pão francês",
+    "kcal": 377.422283,
+    "protein_g": 10.5241,
+    "carbs_g": 74.5559,
+    "fat_g": 3.301,
+    "base_amount": 100
+  },
+  {
+    "id": "70d33d67-b41c-4607-b9de-c4777201cdf7",
+    "name": "Abóbora, cabotian, cozida",
+    "kcal": 48.0437425,
+    "protein_g": 1.44375,
+    "carbs_g": 10.7609166666667,
+    "fat_g": 0.729333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "7d648a79-9147-4fff-afe3-b2e98a438334",
+    "name": "Abóbora, cabotian, crua",
+    "kcal": 38.5992942028986,
+    "protein_g": 1.7463768115942,
+    "carbs_g": 8.36028985507247,
+    "fat_g": 0.536666666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "6d05e216-a379-4a02-9bc5-30d33833e532",
+    "name": "Abóbora, menina brasileira, crua",
+    "kcal": 13.6056739130435,
+    "protein_g": 0.608695652173913,
+    "carbs_g": 3.30130434782609,
+    "fat_g": 0,
+    "base_amount": 100
+  },
+  {
+    "id": "e42ef13e-c91e-4335-bafb-df574bf31297",
+    "name": "Abóbora, moranga, crua",
+    "kcal": 12.364436231884,
+    "protein_g": 0.960144927536232,
+    "carbs_g": 2.66652173913043,
+    "fat_g": 0.06,
+    "base_amount": 100
+  },
+  {
+    "id": "fd17a317-b89a-4265-94ef-7a87bcf1d0ca",
+    "name": "Abóbora, moranga, refogada",
+    "kcal": 29.0038220317562,
+    "protein_g": 0.39375,
+    "carbs_g": 5.98191666666666,
+    "fat_g": 0.799,
+    "base_amount": 100
+  },
+  {
+    "id": "2a49e321-f3f0-47a1-a663-05c84744954f",
+    "name": "Abóbora, pescoço, crua",
+    "kcal": 24.4662679497004,
+    "protein_g": 0.670833333333333,
+    "carbs_g": 6.12283333333334,
+    "fat_g": 0.116,
+    "base_amount": 100
+  },
+  {
+    "id": "1ca2914e-3bb8-451b-ab87-bdf809e9c7fa",
+    "name": "Abobrinha, italiana, cozida",
+    "kcal": 15.03852,
+    "protein_g": 1.125,
+    "carbs_g": 2.97700000000001,
+    "fat_g": 0.199,
+    "base_amount": 100
+  },
+  {
+    "id": "bdacdcc2-f929-4782-8528-3a0162fc0515",
+    "name": "Abobrinha, italiana, crua",
+    "kcal": 19.2791260869565,
+    "protein_g": 1.14130434782609,
+    "carbs_g": 4.29202898550724,
+    "fat_g": 0.14,
+    "base_amount": 100
+  },
+  {
+    "id": "7e2fdf6f-5853-4426-94ec-1cfcae4a9b4c",
+    "name": "Abobrinha, italiana, refogada",
+    "kcal": 24.4296021876534,
+    "protein_g": 1.06875,
+    "carbs_g": 4.18691666666666,
+    "fat_g": 0.821333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "621a6ae2-3349-44e5-bbb0-b5b3c410ed10",
+    "name": "Abobrinha, paulista, crua",
+    "kcal": 30.8107022288163,
+    "protein_g": 0.639583333333333,
+    "carbs_g": 7.86742,
+    "fat_g": 0.139,
+    "base_amount": 100
+  },
+  {
+    "id": "2b330969-25e2-4850-ba57-e5dfbd762e20",
+    "name": "Acelga, crua",
+    "kcal": 20.9423424999999,
+    "protein_g": 1.44375,
+    "carbs_g": 4.63091666666666,
+    "fat_g": 0.106,
+    "base_amount": 100
+  },
+  {
+    "id": "344884c3-d002-4a36-aa1b-3b8e2673f11c",
+    "name": "Agrião, cru",
+    "kcal": 16.5788014492753,
+    "protein_g": 2.68840579710145,
+    "carbs_g": 2.25159420289854,
+    "fat_g": 0.236666666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "c2531197-2e42-493b-81cf-38bcf4c2fe6b",
+    "name": "Aipo, cru",
+    "kcal": 19.0914566449706,
+    "protein_g": 0.758333333333333,
+    "carbs_g": 4.27233333333335,
+    "fat_g": 0.069,
+    "base_amount": 100
+  },
+  {
+    "id": "3e0eff43-ac71-41a3-96f4-d5dcf74a5477",
+    "name": "Alface, americana, crua",
+    "kcal": 8.79490323686605,
+    "protein_g": 0.608333333333333,
+    "carbs_g": 1.74533333333335,
+    "fat_g": 0.129,
+    "base_amount": 100
+  },
+  {
+    "id": "07832301-1e1f-404e-9ec3-c54bbdc30036",
+    "name": "Alface, crespa, crua",
+    "kcal": 10.6808565217392,
+    "protein_g": 1.34782608695652,
+    "carbs_g": 1.69550724637683,
+    "fat_g": 0.16,
+    "base_amount": 100
+  },
+  {
+    "id": "06da4f6b-1b2b-4453-b9dd-8a668e2c7da9",
+    "name": "Alface, lisa, crua",
+    "kcal": 13.8209014492753,
+    "protein_g": 1.68840579710145,
+    "carbs_g": 2.42826086956522,
+    "fat_g": 0.123333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "175af69e-697e-4098-ac89-0b482188569d",
+    "name": "Alface, roxa, crua",
+    "kcal": 12.716997363468,
+    "protein_g": 0.90625,
+    "carbs_g": 2.49341666666666,
+    "fat_g": 0.191666666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "f4f3b529-6dcf-4c92-822d-53ce7c5cb1c9",
+    "name": "Alfavaca, crua",
+    "kcal": 29.1836130810579,
+    "protein_g": 2.65833333333333,
+    "carbs_g": 5.241,
+    "fat_g": 0.476333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "d19278e4-4f84-4dc0-b74b-a1791b5f9ade",
+    "name": "Alho, cru",
+    "kcal": 113.12987826087,
+    "protein_g": 7.01086956521739,
+    "carbs_g": 23.9057971014493,
+    "fat_g": 0.22,
+    "base_amount": 100
+  },
+  {
+    "id": "962bbc66-e118-4cbc-bca9-efdece05e766",
+    "name": "Alho-poró, cru",
+    "kcal": 31.5079193532467,
+    "protein_g": 1.4125,
+    "carbs_g": 6.87816666666667,
+    "fat_g": 0.139666666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "1fb6c868-9304-41d4-ac84-0cfc29c1d151",
+    "name": "Almeirão, cru",
+    "kcal": 18.0344289855072,
+    "protein_g": 1.76811594202899,
+    "carbs_g": 3.33521739130435,
+    "fat_g": 0.216666666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "c98c6342-ea33-4dee-a85a-bbe1c0e7931d",
+    "name": "Almeirão, refogado",
+    "kcal": 65.0819108288685,
+    "protein_g": 1.70416666666667,
+    "carbs_g": 5.70149999999999,
+    "fat_g": 4.847,
+    "base_amount": 100
+  },
+  {
+    "id": "31e0ff5c-5160-40c6-a653-fbf125482be0",
+    "name": "Batata, baroa, cozida",
+    "kcal": 80.1197625,
+    "protein_g": 0.852083333333333,
+    "carbs_g": 18.9475833333333,
+    "fat_g": 0.166333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "e4e78ced-3b98-490c-b808-691181117ef8",
+    "name": "Batata, baroa, crua",
+    "kcal": 100.984923188406,
+    "protein_g": 1.04710144927536,
+    "carbs_g": 23.9828985507246,
+    "fat_g": 0.17,
+    "base_amount": 100
+  },
+  {
+    "id": "284ee98b-e0f1-439a-8dc5-98712e2e1064",
+    "name": "Batata, doce, cozida",
+    "kcal": 76.7596105034352,
+    "protein_g": 0.641666666666667,
+    "carbs_g": 18.4223333333333,
+    "fat_g": 0.087666666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "9d37cc85-db9b-4150-b38e-b35275675ac9",
+    "name": "Batata, doce, crua",
+    "kcal": 118.241375362319,
+    "protein_g": 1.25724637681159,
+    "carbs_g": 28.1960869565217,
+    "fat_g": 0.133333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "9431b817-119c-403e-89b9-e5399d94d0e5",
+    "name": "Batata, frita, tipo chips, industrializada",
+    "kcal": 542.73467338419,
+    "protein_g": 5.58333333333333,
+    "carbs_g": 51.2223333333333,
+    "fat_g": 36.615,
+    "base_amount": 100
+  },
+  {
+    "id": "47d6a02a-9da2-4076-8f00-36bdb74fe3d0",
+    "name": "Batata, inglesa, cozida",
+    "kcal": 51.5884766362707,
+    "protein_g": 1.16458333333333,
+    "carbs_g": 11.94375,
+    "fat_g": 0,
+    "base_amount": 100
+  },
+  {
+    "id": "eccb9300-a580-407b-9189-b8c09a4d4039",
+    "name": "Batata, inglesa, crua",
+    "kcal": 64.3702260869565,
+    "protein_g": 1.77173913043478,
+    "carbs_g": 14.6882608695652,
+    "fat_g": 0,
+    "base_amount": 100
+  },
+  {
+    "id": "9a406667-e0db-4024-853f-945fb0e78511",
+    "name": "Batata, inglesa, frita",
+    "kcal": 267.157422502041,
+    "protein_g": 4.96666666666667,
+    "carbs_g": 35.6403333333333,
+    "fat_g": 13.1086666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "399c07e8-dbc9-4731-ab0c-4c542392ecf2",
+    "name": "Batata, inglesa, sauté",
+    "kcal": 67.8879361506303,
+    "protein_g": 1.29166666666667,
+    "carbs_g": 14.093,
+    "fat_g": 0.896333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "c6f948d5-07f8-48e8-8ea1-7c371e01fa0d",
+    "name": "Berinjela, cozida",
+    "kcal": 18.8452855568131,
+    "protein_g": 0.677083333333333,
+    "carbs_g": 4.46825,
+    "fat_g": 0.148333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "91e4db78-e328-4a3a-aef3-e157b8aeb10f",
+    "name": "Berinjela, crua",
+    "kcal": 19.6277536231884,
+    "protein_g": 1.22101449275362,
+    "carbs_g": 4.42898550724637,
+    "fat_g": 0.1,
+    "base_amount": 100
+  },
+  {
+    "id": "f50cdaaa-7da7-44bb-baf5-62882190a09b",
+    "name": "Beterraba, cozida",
+    "kcal": 32.1543243314028,
+    "protein_g": 1.29375,
+    "carbs_g": 7.23491666666666,
+    "fat_g": 0.092666666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "9b8fa300-d8d3-4efd-8c45-357c16d6e3a7",
+    "name": "Beterraba, crua",
+    "kcal": 48.8285086956522,
+    "protein_g": 1.94565217391304,
+    "carbs_g": 11.1110144927536,
+    "fat_g": 0.09,
+    "base_amount": 100
+  },
+  {
+    "id": "944d7ab5-c603-44ee-b9fa-a43f05ec4c75",
+    "name": "Biscoito, polvilho doce",
+    "kcal": 437.549,
+    "protein_g": 1.29166666666667,
+    "carbs_g": 80.5353333333333,
+    "fat_g": 12.249,
+    "base_amount": 100
+  },
+  {
+    "id": "51c3e318-fc10-4317-9df1-387c4408267e",
+    "name": "Brócolis, cozido",
+    "kcal": 24.6361631113688,
+    "protein_g": 2.13333333333333,
+    "carbs_g": 4.36666666666666,
+    "fat_g": 0.459,
+    "base_amount": 100
+  },
+  {
+    "id": "83e508ab-4d64-4e00-8568-888075f8e63a",
+    "name": "Brócolis, cru",
+    "kcal": 25.495131884058,
+    "protein_g": 3.64492753623188,
+    "carbs_g": 4.02507246376812,
+    "fat_g": 0.266666666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "888f9474-9e7d-45dd-b2d3-374b3686f6ce",
+    "name": "Cará, cozido",
+    "kcal": 77.5849133333334,
+    "protein_g": 1.52916666666667,
+    "carbs_g": 18.8525,
+    "fat_g": 0.112333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "8787df28-60f8-4ebb-84d3-4f839a8b5be3",
+    "name": "Cará, cru",
+    "kcal": 95.6331347826087,
+    "protein_g": 2.28260869565217,
+    "carbs_g": 22.9540579710145,
+    "fat_g": 0.136666666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "310215e7-cdd2-489c-a961-e38aaa8b4a26",
+    "name": "Caruru, cru",
+    "kcal": 34.03162971735,
+    "protein_g": 3.2,
+    "carbs_g": 5.97399999999999,
+    "fat_g": 0.585,
+    "base_amount": 100
+  },
+  {
+    "id": "a7f83e57-a24e-424f-9f99-700f4c5ac822",
+    "name": "Catalonha, crua",
+    "kcal": 23.8884122573733,
+    "protein_g": 1.86875,
+    "carbs_g": 4.75224999999999,
+    "fat_g": 0.282333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "f3768544-9c96-45b8-ad3c-342c112ed0b8",
+    "name": "Catalonha, refogada",
+    "kcal": 63.4492691488266,
+    "protein_g": 1.95,
+    "carbs_g": 4.80933333333334,
+    "fat_g": 4.80566666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "0fc9555f-4021-4ac1-baaa-505e496aa688",
+    "name": "Cebola, crua",
+    "kcal": 39.4200463768116,
+    "protein_g": 1.71014492753623,
+    "carbs_g": 8.8531884057971,
+    "fat_g": 0.08,
+    "base_amount": 100
+  },
+  {
+    "id": "b7669d67-44bd-46f4-bfac-3e170efa1734",
+    "name": "Cebolinha, crua",
+    "kcal": 19.5158855072464,
+    "protein_g": 1.86594202898551,
+    "carbs_g": 3.37072463768117,
+    "fat_g": 0.35,
+    "base_amount": 100
+  },
+  {
+    "id": "445d036c-ae93-480a-a173-5bbf3b341aeb",
+    "name": "Cenoura, cozida",
+    "kcal": 29.8617777101596,
+    "protein_g": 0.847916666666667,
+    "carbs_g": 6.68674999999999,
+    "fat_g": 0.218333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "66a0f191-f65d-4431-927d-47e15efed128",
+    "name": "Cenoura, crua",
+    "kcal": 34.1353884057971,
+    "protein_g": 1.32246376811594,
+    "carbs_g": 7.66,
+    "fat_g": 0.173333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "2297aa0c-b3d4-4c6f-9d8c-eb7eef988534",
+    "name": "Chicória, crua",
+    "kcal": 13.8371202898551,
+    "protein_g": 1.13768115942029,
+    "carbs_g": 2.85333333333334,
+    "fat_g": 0.143333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "c3f4099a-7fa1-488e-9c78-442ba4b3ca97",
+    "name": "Chuchu, cozido",
+    "kcal": 18.539790531377,
+    "protein_g": 0.414583333333333,
+    "carbs_g": 4.79341666666667,
+    "fat_g": 0,
+    "base_amount": 100
+  },
+  {
+    "id": "252e5f49-d383-4b65-8f3b-d104a19af574",
+    "name": "Chuchu, cru",
+    "kcal": 16.9789188405797,
+    "protein_g": 0.699275362318841,
+    "carbs_g": 4.13739130434783,
+    "fat_g": 0.06,
+    "base_amount": 100
+  },
+  {
+    "id": "4d915eab-fd74-4686-9b41-40107741d952",
+    "name": "Coentro, folhas desidratadas",
+    "kcal": 309.070746804476,
+    "protein_g": 20.875,
+    "carbs_g": 47.955,
+    "fat_g": 10.3866666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "e473afd5-0051-421b-b6b0-4428f06a8674",
+    "name": "Couve, manteiga, crua",
+    "kcal": 27.0566971014493,
+    "protein_g": 2.8731884057971,
+    "carbs_g": 4.33347826086956,
+    "fat_g": 0.546666666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "e4319284-cfe8-42cb-8188-fa79829cd789",
+    "name": "Couve, manteiga, refogada",
+    "kcal": 90.3448154261112,
+    "protein_g": 1.66666666666667,
+    "carbs_g": 8.70766666666667,
+    "fat_g": 6.594,
+    "base_amount": 100
+  },
+  {
+    "id": "40c75a4e-ebd4-4b5b-87d7-897b30dd256f",
+    "name": "Couve-flor, crua",
+    "kcal": 22.5633492753623,
+    "protein_g": 1.90579710144928,
+    "carbs_g": 4.51753623188406,
+    "fat_g": 0.213333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "ca5fd16f-e452-425e-b1b5-b97554d34411",
+    "name": "Couve-flor, cozida",
+    "kcal": 19.1141406147282,
+    "protein_g": 1.23958333333333,
+    "carbs_g": 3.87541666666668,
+    "fat_g": 0.269333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "1f40bd20-3e9d-4952-9baf-6b4fac4ae891",
+    "name": "Espinafre, Nova Zelândia, cru",
+    "kcal": 16.0956942028985,
+    "protein_g": 1.9963768115942,
+    "carbs_g": 2.5736231884058,
+    "fat_g": 0.243333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "f3ba7006-f5e8-47c5-bc72-e309a8f3cda1",
+    "name": "Espinafre, Nova Zelândia, refogado",
+    "kcal": 67.253651750664,
+    "protein_g": 2.71875,
+    "carbs_g": 4.23858333333334,
+    "fat_g": 5.43466666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "fac4fd3d-bf97-454d-8f84-af116c567fd7",
+    "name": "Farinha, de mandioca, crua",
+    "kcal": 360.869698550725,
+    "protein_g": 1.55434782608696,
+    "carbs_g": 87.8989855072464,
+    "fat_g": 0.276666666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "53d2fefc-8a4d-4954-8bcf-3cd15f81ba9e",
+    "name": "Farinha, de mandioca, torrada",
+    "kcal": 365.268975,
+    "protein_g": 1.22916666666667,
+    "carbs_g": 89.1941666666667,
+    "fat_g": 0.286666666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "acc1c614-49a5-45ec-acdf-96ed7dae8741",
+    "name": "Farinha, de puba",
+    "kcal": 360.179774879932,
+    "protein_g": 1.61666666666667,
+    "carbs_g": 87.2853333333333,
+    "fat_g": 0.469,
+    "base_amount": 100
+  },
+  {
+    "id": "64ea8abe-7a9d-46fd-8877-6c2fa599bbcf",
+    "name": "Fécula, de mandioca",
+    "kcal": 330.850558333333,
+    "protein_g": 0.520833333333333,
+    "carbs_g": 81.1491666666667,
+    "fat_g": 0.283333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "7b6de77f-a510-4ff7-92ef-6ba158c7d0b4",
+    "name": "Feijão, broto, cru",
+    "kcal": 38.7232363754113,
+    "protein_g": 4.16666666666667,
+    "carbs_g": 7.75833333333333,
+    "fat_g": 0.102666666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "c1cbff33-fd96-4fbc-b82f-fad5319b9746",
+    "name": "Inhame, cru",
+    "kcal": 96.699831884058,
+    "protein_g": 2.05072463768116,
+    "carbs_g": 23.2326086956522,
+    "fat_g": 0.213333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "102ac4eb-6412-47d6-84a9-99285c7bf95a",
+    "name": "Jiló, cru",
+    "kcal": 27.3651434782609,
+    "protein_g": 1.40217391304348,
+    "carbs_g": 6.19115942028986,
+    "fat_g": 0.22,
+    "base_amount": 100
+  },
+  {
+    "id": "0cf02e74-4642-4332-8896-2362b47f24bc",
+    "name": "Jurubeba, crua",
+    "kcal": 125.811635,
+    "protein_g": 4.4125,
+    "carbs_g": 23.0591666666667,
+    "fat_g": 3.90966666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "e9fc80c2-a6ff-4d6a-8cc6-de36e038f6d7",
+    "name": "Mandioca, cozida",
+    "kcal": 125.35825,
+    "protein_g": 0.575,
+    "carbs_g": 30.09,
+    "fat_g": 0.298333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "35b35509-64e6-4f8d-ab9c-6094dbc7faf5",
+    "name": "Mandioca, crua",
+    "kcal": 151.416956521739,
+    "protein_g": 1.1304347826087,
+    "carbs_g": 36.1695652173913,
+    "fat_g": 0.3,
+    "base_amount": 100
+  },
+  {
+    "id": "18a136fc-8696-49f1-8124-57ab07205a8c",
+    "name": "Mandioca, farofa, temperada",
+    "kcal": 405.693941666667,
+    "protein_g": 2.0625,
+    "carbs_g": 80.3041666666667,
+    "fat_g": 9.12,
+    "base_amount": 100
+  },
+  {
+    "id": "598081e9-0081-441a-80a5-f9b7f93b1302",
+    "name": "Mandioca, frita",
+    "kcal": 300.05524338915,
+    "protein_g": 1.38125,
+    "carbs_g": 50.2514166666667,
+    "fat_g": 11.195,
+    "base_amount": 100
+  },
+  {
+    "id": "525d97f3-71d1-4967-89dc-9a953951bebc",
+    "name": "Manjericão, cru",
+    "kcal": 21.1476768115942,
+    "protein_g": 1.98550724637681,
+    "carbs_g": 3.64449275362319,
+    "fat_g": 0.393333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "0f76a2f6-7154-4448-9c6e-8f48964fa13a",
+    "name": "Maxixe, cru",
+    "kcal": 13.7472360869565,
+    "protein_g": 1.39130434782609,
+    "carbs_g": 2.72869565217391,
+    "fat_g": 0.073,
+    "base_amount": 100
+  },
+  {
+    "id": "32a86a53-cc4a-4346-8401-d657a4d05b48",
+    "name": "Mostarda, folha, crua",
+    "kcal": 18.1073890521725,
+    "protein_g": 2.11041666666667,
+    "carbs_g": 3.23658333333333,
+    "fat_g": 0.167666666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "ba01e280-b649-418f-9696-fc181a135374",
+    "name": "Nhoque, batata, cozido",
+    "kcal": 180.775273993413,
+    "protein_g": 5.85833333333333,
+    "carbs_g": 36.78,
+    "fat_g": 1.94333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "51832fc8-f8ce-40d2-bceb-70615704353e",
+    "name": "Nabo, cru",
+    "kcal": 18.1866246376812,
+    "protein_g": 1.20289855072464,
+    "carbs_g": 4.14710144927538,
+    "fat_g": 0.053333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "fb1b56d9-b43a-4872-aa55-d21cc7e069bf",
+    "name": "Palmito, Juçara, em conserva",
+    "kcal": 23.1997164340813,
+    "protein_g": 1.79166666666667,
+    "carbs_g": 4.32833333333333,
+    "fat_g": 0.403333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "86ab3a6e-4d14-4340-87ba-82824f2ed511",
+    "name": "Palmito, pupunha, em conserva",
+    "kcal": 29.4319633333333,
+    "protein_g": 2.45833333333333,
+    "carbs_g": 5.509,
+    "fat_g": 0.45,
+    "base_amount": 100
+  },
+  {
+    "id": "159880fd-76bf-42ad-8166-f052e0327648",
+    "name": "Pão, de queijo, assado",
+    "kcal": 363.077913333333,
+    "protein_g": 5.12083333333333,
+    "carbs_g": 34.2415,
+    "fat_g": 24.5673333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "b4d3b4a1-dd55-4567-9efc-041fe4a6359f",
+    "name": "Pão, de queijo, cru",
+    "kcal": 294.538,
+    "protein_g": 3.648,
+    "carbs_g": 38.512,
+    "fat_g": 13.9886666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "8f8620c0-b31f-4931-8a80-1b25f3081234",
+    "name": "Pepino, cru",
+    "kcal": 9.53369130434782,
+    "protein_g": 0.869565217391304,
+    "carbs_g": 2.03710144927535,
+    "fat_g": 0,
+    "base_amount": 100
+  },
+  {
+    "id": "1dd67624-f265-4d1a-a3c9-d3da913eccf4",
+    "name": "Pimentão, amarelo, cru",
+    "kcal": 27.9274594202899,
+    "protein_g": 1.22463768115942,
+    "carbs_g": 5.96202898550725,
+    "fat_g": 0.436666666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "b2de096c-6775-49a9-9fa5-0aeb49e44b5c",
+    "name": "Pimentão, verde, cru",
+    "kcal": 21.2858811594203,
+    "protein_g": 1.05072463768116,
+    "carbs_g": 4.89260869565218,
+    "fat_g": 0.15,
+    "base_amount": 100
+  },
+  {
+    "id": "9d5e24f6-3bf9-4449-ae8c-be6f8fc69eab",
+    "name": "Pimentão, vermelho, cru",
+    "kcal": 23.281363768116,
+    "protein_g": 1.03985507246377,
+    "carbs_g": 5.46681159420291,
+    "fat_g": 0.146666666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "4edccc14-a305-43f3-a91f-774dc46ec562",
+    "name": "Polvilho, doce",
+    "kcal": 351.226733333333,
+    "protein_g": 0.43,
+    "carbs_g": 86.7733333333333,
+    "fat_g": 0,
+    "base_amount": 100
+  },
+  {
+    "id": "a20e8284-f6c7-4f91-a103-e5520ff953df",
+    "name": "Quiabo, cru",
+    "kcal": 29.9392621500691,
+    "protein_g": 1.91875,
+    "carbs_g": 6.37391666666667,
+    "fat_g": 0.299,
+    "base_amount": 100
+  },
+  {
+    "id": "e5469734-5b85-4a25-83fb-a943b14782e0",
+    "name": "Rabanete, cru",
+    "kcal": 13.7381260869565,
+    "protein_g": 1.39130434782609,
+    "carbs_g": 2.72536231884058,
+    "fat_g": 0.073333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "f62aca56-097a-4b5e-a5c7-fb74d6950d66",
+    "name": "Repolho, branco, cru",
+    "kcal": 17.1188028985507,
+    "protein_g": 0.876811594202899,
+    "carbs_g": 3.85985507246377,
+    "fat_g": 0.143333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "d73a9f4f-51b0-4653-9604-02be69038929",
+    "name": "Repolho, roxo, cru",
+    "kcal": 30.9075029543241,
+    "protein_g": 1.90833333333333,
+    "carbs_g": 7.204,
+    "fat_g": 0.063666666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "5a2a69d4-62c7-4f4a-9f8c-50ec63f27bf0",
+    "name": "Repolho, roxo, refogado",
+    "kcal": 41.7735252897143,
+    "protein_g": 1.80208333333333,
+    "carbs_g": 7.56158333333333,
+    "fat_g": 1.24033333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "0892f1d3-6ffd-4a64-9053-c2490c45473b",
+    "name": "Rúcula, crua",
+    "kcal": 13.1332566072941,
+    "protein_g": 1.76666666666667,
+    "carbs_g": 2.21966666666666,
+    "fat_g": 0.107333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "4d0f9a19-f594-438a-95b3-862f99435724",
+    "name": "Salsa, crua",
+    "kcal": 33.4241115942029,
+    "protein_g": 3.25724637681159,
+    "carbs_g": 5.70608695652174,
+    "fat_g": 0.61,
+    "base_amount": 100
+  },
+  {
+    "id": "f97b8c10-3467-4c3f-b1da-487e395607d7",
+    "name": "Seleta de legumes, enlatada",
+    "kcal": 56.5337724637681,
+    "protein_g": 3.42028985507246,
+    "carbs_g": 12.6697101449275,
+    "fat_g": 0.353333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "d8d1a8e8-bf05-4185-99fb-8dd5edab9a4c",
+    "name": "Serralha, crua",
+    "kcal": 30.3979341666666,
+    "protein_g": 2.67291666666667,
+    "carbs_g": 4.94675,
+    "fat_g": 0.742666666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "2e9de909-1b47-43fe-8a39-834f841c169c",
+    "name": "Taioba, crua",
+    "kcal": 34.2089183333333,
+    "protein_g": 2.89583333333333,
+    "carbs_g": 5.43049999999999,
+    "fat_g": 0.926666666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "04f8965d-52cb-40a0-a5e4-4d610b2ac7e2",
+    "name": "Tomate, com semente, cru",
+    "kcal": 15.3351565217392,
+    "protein_g": 1.09782608695652,
+    "carbs_g": 3.13884057971015,
+    "fat_g": 0.173333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "13c0b645-654d-4da5-b1aa-074aed5e09fe",
+    "name": "Tomate, extrato",
+    "kcal": 60.9334336521739,
+    "protein_g": 2.43478260869565,
+    "carbs_g": 14.9586173913043,
+    "fat_g": 0.19,
+    "base_amount": 100
+  },
+  {
+    "id": "610bff92-7538-4a15-bac5-7a4e8d601f41",
+    "name": "Tomate, molho industrializado",
+    "kcal": 38.4465494604906,
+    "protein_g": 1.375,
+    "carbs_g": 7.71166666666668,
+    "fat_g": 0.903333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "98fb8392-4519-4d87-98cb-5dfb32930abe",
+    "name": "Tomate, purê",
+    "kcal": 27.9368797101449,
+    "protein_g": 1.36231884057971,
+    "carbs_g": 6.89434782608695,
+    "fat_g": 0,
+    "base_amount": 100
+  },
+  {
+    "id": "7fa0d933-c2aa-4657-a4d5-7daa517bc8ce",
+    "name": "Tomate, salada",
+    "kcal": 20.5469091666666,
+    "protein_g": 0.810416666666667,
+    "carbs_g": 5.11791666666666,
+    "fat_g": 0,
+    "base_amount": 100
+  },
+  {
+    "id": "351c7bdd-92a9-4276-af65-d1a46f9355bd",
+    "name": "Vagem, crua",
+    "kcal": 24.8983579710145,
+    "protein_g": 1.78623188405797,
+    "carbs_g": 5.34710144927536,
+    "fat_g": 0.173333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "fe8ac479-f6c1-4c79-9b7f-28168a87669c",
+    "name": "Abacate, cru",
+    "kcal": 96.1547086956522,
+    "protein_g": 1.23913043478261,
+    "carbs_g": 6.0308695652174,
+    "fat_g": 8.39666666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "18b34075-0382-43fd-8695-21195294069a",
+    "name": "Abacaxi, cru",
+    "kcal": 48.3222130434782,
+    "protein_g": 0.858695652173913,
+    "carbs_g": 12.3346376811594,
+    "fat_g": 0.123333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "1c71015d-bca3-438b-b3e4-7c35b9c82cd7",
+    "name": "Abacaxi, polpa, congelada",
+    "kcal": 30.5917991943359,
+    "protein_g": 0.466666666666667,
+    "carbs_g": 7.79866666666666,
+    "fat_g": 0.113333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "67f3bfcf-1665-4ce4-a053-c28b7978e1fe",
+    "name": "Abiu, cru",
+    "kcal": 62.4240984085401,
+    "protein_g": 0.833333333333333,
+    "carbs_g": 14.927,
+    "fat_g": 0.703333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "3f31c47f-daf7-4c90-a855-6fee782195d4",
+    "name": "Açaí, polpa, com xarope de guaraná e glucose",
+    "kcal": 110.29759,
+    "protein_g": 0.720833333333333,
+    "carbs_g": 21.4551666666667,
+    "fat_g": 3.66033333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "d9dcc18b-4d8e-4ce8-bbb7-d67c685898cf",
+    "name": "Açaí, polpa, congelada",
+    "kcal": 58.0453688728213,
+    "protein_g": 0.797916666666667,
+    "carbs_g": 6.20841666666667,
+    "fat_g": 3.94433333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "5f5847cd-fd64-4fc9-99b7-79feb3fda4a9",
+    "name": "Acerola, crua",
+    "kcal": 33.46227,
+    "protein_g": 0.90625,
+    "carbs_g": 7.96641666666667,
+    "fat_g": 0.207666666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "e40b7c38-9ebb-44ec-8edc-a25cf1253f1e",
+    "name": "Acerola, polpa, congelada",
+    "kcal": 21.9368,
+    "protein_g": 0.591666666666667,
+    "carbs_g": 5.54133333333333,
+    "fat_g": 0,
+    "base_amount": 100
+  },
+  {
+    "id": "a37745a4-bf1e-4138-876a-fb3420af92ba",
+    "name": "Ameixa, calda, enlatada",
+    "kcal": 182.84662,
+    "protein_g": 0.408333333333333,
+    "carbs_g": 46.8926666666667,
+    "fat_g": 0,
+    "base_amount": 100
+  },
+  {
+    "id": "87b79615-6977-4414-8f5f-1588264106b6",
+    "name": "Ameixa, crua",
+    "kcal": 52.5424826086957,
+    "protein_g": 0.771739130434783,
+    "carbs_g": 13.8515942028986,
+    "fat_g": 0,
+    "base_amount": 100
+  },
+  {
+    "id": "05f0a79b-8833-4cee-8d29-3a9a58393e5a",
+    "name": "Ameixa, em calda, enlatada, drenada",
+    "kcal": 177.359185315371,
+    "protein_g": 1.025,
+    "carbs_g": 47.658,
+    "fat_g": 0.280333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "265b4a61-93f0-4e59-8511-4721e91e8cbe",
+    "name": "Atemóia, crua",
+    "kcal": 96.9715874479214,
+    "protein_g": 0.970833333333333,
+    "carbs_g": 25.3321666666667,
+    "fat_g": 0.300333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "e055e7d4-b30d-42f5-b8ac-0f6e78e5d5f6",
+    "name": "Banana, da terra, crua",
+    "kcal": 128.024452173913,
+    "protein_g": 1.43478260869565,
+    "carbs_g": 33.6652173913044,
+    "fat_g": 0.24,
+    "base_amount": 100
+  },
+  {
+    "id": "627185f5-404d-46e2-839a-1f8bde14cbc0",
+    "name": "Banana, doce em barra",
+    "kcal": 280.105192550639,
+    "protein_g": 2.16875,
+    "carbs_g": 75.6665833333333,
+    "fat_g": 0.05,
+    "base_amount": 100
+  },
+  {
+    "id": "9cfc0b34-fc6f-4279-aa6f-15a0e1d3b426",
+    "name": "Banana, figo, crua",
+    "kcal": 105.08265,
+    "protein_g": 1.13125,
+    "carbs_g": 27.8044166666667,
+    "fat_g": 0.141666666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "a6863b71-f2b6-46bd-b613-082b7903ba53",
+    "name": "Banana, maçã, crua",
+    "kcal": 86.8053304347826,
+    "protein_g": 1.7536231884058,
+    "carbs_g": 22.3363768115942,
+    "fat_g": 0.06,
+    "base_amount": 100
+  },
+  {
+    "id": "a143889c-3c84-4f26-aa1c-9ad412db5012",
+    "name": "Banana, nanica, crua",
+    "kcal": 91.528847826087,
+    "protein_g": 1.39855072463768,
+    "carbs_g": 23.848115942029,
+    "fat_g": 0.116666666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "83052568-c164-4de6-847b-2b93ae13cead",
+    "name": "Banana, ouro, crua",
+    "kcal": 112.366047826087,
+    "protein_g": 1.48188405797101,
+    "carbs_g": 29.3414492753623,
+    "fat_g": 0.21,
+    "base_amount": 100
+  },
+  {
+    "id": "e0d03df9-fcc4-40ed-8897-04fcc7f5fb9b",
+    "name": "Banana, pacova, crua",
+    "kcal": 77.9095279250741,
+    "protein_g": 1.22708333333333,
+    "carbs_g": 20.3125833333333,
+    "fat_g": 0.079,
+    "base_amount": 100
+  },
+  {
+    "id": "00c1a205-5ab7-4bc3-aa23-d3bf90b42413",
+    "name": "Banana, prata, crua",
+    "kcal": 98.2497021739131,
+    "protein_g": 1.26811594202899,
+    "carbs_g": 25.956884057971,
+    "fat_g": 0.065,
+    "base_amount": 100
+  },
+  {
+    "id": "d0c17b87-9597-4172-8910-198e9870f533",
+    "name": "Cacau, cru",
+    "kcal": 74.29148,
+    "protein_g": 0.954166666666667,
+    "carbs_g": 19.4111666666667,
+    "fat_g": 0.144,
+    "base_amount": 100
+  },
+  {
+    "id": "997dd3de-8603-4c1a-b9b8-9e81aeaa13a0",
+    "name": "Cajá-Manga, cru",
+    "kcal": 45.5809687737227,
+    "protein_g": 1.27916666666667,
+    "carbs_g": 11.4341666666667,
+    "fat_g": 0,
+    "base_amount": 100
+  },
+  {
+    "id": "21997026-28d3-4a4f-a0dd-bb1903652e2e",
+    "name": "Cajá, polpa, congelada",
+    "kcal": 26.3322693110506,
+    "protein_g": 0.589583333333333,
+    "carbs_g": 6.37441666666666,
+    "fat_g": 0.167666666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "8e27fcad-81a5-42d3-9ab5-8db36b0441ba",
+    "name": "Caju, cru",
+    "kcal": 43.0650685217391,
+    "protein_g": 0.971014492753623,
+    "carbs_g": 10.2889888405797,
+    "fat_g": 0.33,
+    "base_amount": 100
+  },
+  {
+    "id": "a5ad2e8f-78cf-4624-9f1b-17a97b9816d0",
+    "name": "Caju, polpa, congelada",
+    "kcal": 36.56868,
+    "protein_g": 0.48125,
+    "carbs_g": 9.35074999999999,
+    "fat_g": 0.154,
+    "base_amount": 100
+  },
+  {
+    "id": "f0385489-1994-41f3-b4e4-18d92ceb065f",
+    "name": "Caju, suco concentrado, envasado",
+    "kcal": 45.1086266666667,
+    "protein_g": 0.404166666666667,
+    "carbs_g": 10.7338333333333,
+    "fat_g": 0.2,
+    "base_amount": 100
+  },
+  {
+    "id": "aa5963d0-a6c5-4ed5-988d-1d0f96c75346",
+    "name": "Caqui, chocolate, cru",
+    "kcal": 71.3500181116462,
+    "protein_g": 0.35625,
+    "carbs_g": 19.32575,
+    "fat_g": 0.069333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "b5d15f08-15fd-4e68-8aca-e13fddf11554",
+    "name": "Carambola, crua",
+    "kcal": 45.7408887934287,
+    "protein_g": 0.870833333333333,
+    "carbs_g": 11.4815,
+    "fat_g": 0.177,
+    "base_amount": 100
+  },
+  {
+    "id": "f39004bc-a09b-4685-b40a-ef8df936c10a",
+    "name": "Ciriguela, crua",
+    "kcal": 75.59411,
+    "protein_g": 1.39791666666667,
+    "carbs_g": 18.8574166666667,
+    "fat_g": 0.359666666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "7aedfa1a-d760-45e1-aa10-4ccbbcd5d07d",
+    "name": "Cupuaçu, cru",
+    "kcal": 49.4225587743719,
+    "protein_g": 1.16041666666667,
+    "carbs_g": 10.4335833333333,
+    "fat_g": 0.951333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "73e899a8-cc89-4a29-9f8c-1196100ccf0e",
+    "name": "Cupuaçu, polpa, congelada",
+    "kcal": 48.79689,
+    "protein_g": 0.84375,
+    "carbs_g": 11.3869166666667,
+    "fat_g": 0.593666666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "2b9488db-46fc-45be-9305-672fa0803010",
+    "name": "Figo, cru",
+    "kcal": 41.4471260869565,
+    "protein_g": 0.967391304347826,
+    "carbs_g": 10.2459420289855,
+    "fat_g": 0.156666666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "b9aad51d-4be9-4cb4-b23f-8cdb599d9dea",
+    "name": "Figo, enlatado, em calda",
+    "kcal": 184.360717391304,
+    "protein_g": 0.561594202898551,
+    "carbs_g": 50.3384057971015,
+    "fat_g": 0.15,
+    "base_amount": 100
+  },
+  {
+    "id": "d157be80-b576-48ea-8e85-81dfe5a7527b",
+    "name": "Fruta-pão, crua",
+    "kcal": 67.04562,
+    "protein_g": 1.08125,
+    "carbs_g": 17.1744166666667,
+    "fat_g": 0.189333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "2d7cb8ff-a70a-43ff-8e0b-f38ae75b71a3",
+    "name": "Goiaba, branca, com casca, crua",
+    "kcal": 51.737747826087,
+    "protein_g": 0.898550724637681,
+    "carbs_g": 12.4014492753623,
+    "fat_g": 0.486666666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "851c5db1-617f-4221-9e4e-121b9cc59f0d",
+    "name": "Goiaba, doce em pasta",
+    "kcal": 268.959826086957,
+    "protein_g": 0.579710144927536,
+    "carbs_g": 74.1236231884058,
+    "fat_g": 0,
+    "base_amount": 100
+  },
+  {
+    "id": "6fed2b49-7fda-49e9-9a37-6ce6cf9bbb65",
+    "name": "Goiaba, doce, cascão",
+    "kcal": 285.587792439004,
+    "protein_g": 0.414583333333333,
+    "carbs_g": 78.70275,
+    "fat_g": 0.103333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "5bb57091-7afc-4df2-9cbb-229f582ec2e1",
+    "name": "Goiaba, vermelha, com casca, crua",
+    "kcal": 54.1699304347826,
+    "protein_g": 1.08695652173913,
+    "carbs_g": 13.0097101449275,
+    "fat_g": 0.44,
+    "base_amount": 100
+  },
+  {
+    "id": "5d8f1882-b685-498b-b8e2-1e0d3ca7333a",
+    "name": "Graviola, crua",
+    "kcal": 61.6218983766636,
+    "protein_g": 0.845833333333333,
+    "carbs_g": 15.8395,
+    "fat_g": 0.21,
+    "base_amount": 100
+  },
+  {
+    "id": "db90da49-8751-4ec2-afc5-94d2ca234b99",
+    "name": "Graviola, polpa, congelada",
+    "kcal": 38.27387,
+    "protein_g": 0.566666666666667,
+    "carbs_g": 9.78266666666666,
+    "fat_g": 0.137666666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "20b2f751-82ff-47d9-ad6f-0882f84d073f",
+    "name": "Jabuticaba, crua",
+    "kcal": 58.05315,
+    "protein_g": 0.6125,
+    "carbs_g": 15.2558333333333,
+    "fat_g": 0.128333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "28a23362-9f93-4d83-9ea7-f981a81bee66",
+    "name": "Jaca, crua",
+    "kcal": 87.92035,
+    "protein_g": 1.40208333333333,
+    "carbs_g": 22.4975833333333,
+    "fat_g": 0.265,
+    "base_amount": 100
+  },
+  {
+    "id": "1a44feea-a496-4fac-be90-2118feb88051",
+    "name": "Jambo, cru",
+    "kcal": 26.9123,
+    "protein_g": 0.885416666666667,
+    "carbs_g": 6.49425,
+    "fat_g": 0.066666666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "a94777b0-2088-4b4e-9236-acd658158148",
+    "name": "Jamelão, cru",
+    "kcal": 41.0097089167039,
+    "protein_g": 0.545833333333333,
+    "carbs_g": 10.6271666666667,
+    "fat_g": 0.109666666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "6317b713-1403-4aff-b40c-2f1533180766",
+    "name": "Kiwi, cru",
+    "kcal": 51.1363304347826,
+    "protein_g": 1.33695652173913,
+    "carbs_g": 11.4997101449275,
+    "fat_g": 0.626666666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "c9501899-32e7-4b47-a75d-b3b5a04ef9b1",
+    "name": "Laranja, baía, crua",
+    "kcal": 45.4381173913043,
+    "protein_g": 0.978260869565218,
+    "carbs_g": 11.4684057971015,
+    "fat_g": 0.103333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "a76339cb-06d5-4f82-86c5-c9fa5f85de31",
+    "name": "Laranja, baía, suco",
+    "kcal": 36.6494826086956,
+    "protein_g": 0.652173913043478,
+    "carbs_g": 8.69782608695652,
+    "fat_g": 0,
+    "base_amount": 100
+  },
+  {
+    "id": "adec67d7-b646-48b2-828e-683de5a06e5b",
+    "name": "Laranja, da terra, crua",
+    "kcal": 51.4711286392808,
+    "protein_g": 1.07708333333333,
+    "carbs_g": 12.8605833333333,
+    "fat_g": 0.185666666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "a3ebf9b4-83a4-4a39-9a03-7aa6a6d07f1c",
+    "name": "Laranja, da terra, suco",
+    "kcal": 40.9560073108673,
+    "protein_g": 0.666666666666667,
+    "carbs_g": 9.57333333333334,
+    "fat_g": 0.142,
+    "base_amount": 100
+  },
+  {
+    "id": "2d2c2cc1-1d42-4e1e-9d10-44be354ca9a5",
+    "name": "Laranja, lima, crua",
+    "kcal": 45.7010387806296,
+    "protein_g": 1.05625,
+    "carbs_g": 11.53375,
+    "fat_g": 0.075333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "91ae50f2-4c1b-400f-9750-2c3490f720cc",
+    "name": "Laranja, lima, suco",
+    "kcal": 39.3360939441324,
+    "protein_g": 0.714583333333333,
+    "carbs_g": 9.16741666666668,
+    "fat_g": 0.119333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "c5b3d8d1-b9c8-472b-9f8c-37737d4e4ab5",
+    "name": "Laranja, pêra, crua",
+    "kcal": 36.7737652173913,
+    "protein_g": 1.04347826086957,
+    "carbs_g": 8.94652173913044,
+    "fat_g": 0.126666666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "8fff2d29-0751-4ab8-b829-94d888bcf424",
+    "name": "Laranja, pêra, suco",
+    "kcal": 32.7097536231884,
+    "protein_g": 0.739130434782609,
+    "carbs_g": 7.55420289855072,
+    "fat_g": 0.073333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "ad7185fb-d586-40c2-9f69-1d351f84de66",
+    "name": "Laranja, valência, crua",
+    "kcal": 46.109628783385,
+    "protein_g": 0.766666666666667,
+    "carbs_g": 11.723,
+    "fat_g": 0.159,
+    "base_amount": 100
+  },
+  {
+    "id": "188182d2-8b9a-492e-8109-77e6291eb001",
+    "name": "Laranja, valência, suco",
+    "kcal": 36.1963505876859,
+    "protein_g": 0.483333333333333,
+    "carbs_g": 8.554,
+    "fat_g": 0.124333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "0cbe27bf-5866-43c7-a372-1643b610cfe1",
+    "name": "Limão, cravo, suco",
+    "kcal": 14.1037333993117,
+    "protein_g": 0.325,
+    "carbs_g": 5.24666666666666,
+    "fat_g": 0,
+    "base_amount": 100
+  },
+  {
+    "id": "dbbed1aa-4d76-44a8-9290-85c0ad773349",
+    "name": "Limão, galego, suco",
+    "kcal": 22.2250434782609,
+    "protein_g": 0.565217391304348,
+    "carbs_g": 7.32144927536232,
+    "fat_g": 0.066666666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "c4406968-bc54-48d3-9289-c2d868196aff",
+    "name": "Limão, tahiti, cru",
+    "kcal": 31.8181534301639,
+    "protein_g": 0.939583333333333,
+    "carbs_g": 11.0844166666667,
+    "fat_g": 0.14,
+    "base_amount": 100
+  },
+  {
+    "id": "099c8875-0e1d-4768-85d5-e66efe80a3d3",
+    "name": "Maçã, Argentina, com casca, crua",
+    "kcal": 62.5318183662891,
+    "protein_g": 0.225,
+    "carbs_g": 16.588,
+    "fat_g": 0.246,
+    "base_amount": 100
+  },
+  {
+    "id": "44c672f8-a0b1-4df5-8c4e-6906333ed1ee",
+    "name": "Maçã, Fuji, com casca, crua",
+    "kcal": 55.5152000000001,
+    "protein_g": 0.286666666666667,
+    "carbs_g": 15.1533333333333,
+    "fat_g": 0,
+    "base_amount": 100
+  },
+  {
+    "id": "b59d86aa-66bf-477b-b401-a30c492833db",
+    "name": "Macaúba, crua",
+    "kcal": 404.281876666667,
+    "protein_g": 2.0829,
+    "carbs_g": 13.9454333333333,
+    "fat_g": 40.6566666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "4211c887-e394-47f9-8813-fc41f58d12e4",
+    "name": "Mamão, doce em calda, drenado",
+    "kcal": 195.627474821786,
+    "protein_g": 0.19375,
+    "carbs_g": 54.0035833333333,
+    "fat_g": 0.067333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "05cdb456-037f-42fb-ab5c-fecd933f41dd",
+    "name": "Mamão, Formosa, cru",
+    "kcal": 45.3407478260869,
+    "protein_g": 0.815217391304348,
+    "carbs_g": 11.5547826086956,
+    "fat_g": 0.12,
+    "base_amount": 100
+  },
+  {
+    "id": "508f151e-33f7-4b69-aab1-31c9c7a54434",
+    "name": "Mamão, Papaia, cru",
+    "kcal": 40.1567689422966,
+    "protein_g": 0.45625,
+    "carbs_g": 10.43975,
+    "fat_g": 0.124333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "f79c0f6c-783d-4cd0-bc6f-dd2c83674cec",
+    "name": "Mamão verde, doce em calda, drenado",
+    "kcal": 209.376254458904,
+    "protein_g": 0.316666666666667,
+    "carbs_g": 57.6366666666667,
+    "fat_g": 0.098,
+    "base_amount": 100
+  },
+  {
+    "id": "d681608c-5125-4a79-9501-36bba285e54b",
+    "name": "Manga, Haden, crua",
+    "kcal": 63.5003183387915,
+    "protein_g": 0.408333333333333,
+    "carbs_g": 16.6626666666667,
+    "fat_g": 0.256,
+    "base_amount": 100
+  },
+  {
+    "id": "f1d0d238-1d67-4117-95b4-e3d9b0ce43ba",
+    "name": "Manga, Palmer, crua",
+    "kcal": 72.4867380916873,
+    "protein_g": 0.410416666666667,
+    "carbs_g": 19.35225,
+    "fat_g": 0.172,
+    "base_amount": 100
+  },
+  {
+    "id": "e2104a6f-9574-4407-8ed4-8a596e465540",
+    "name": "Manga, polpa, congelada",
+    "kcal": 48.30588,
+    "protein_g": 0.38125,
+    "carbs_g": 12.5184166666667,
+    "fat_g": 0.234,
+    "base_amount": 100
+  },
+  {
+    "id": "75383fde-f6c1-425e-82ec-b0031bf94feb",
+    "name": "Manga, Tommy Atkins, crua",
+    "kcal": 50.6921826086956,
+    "protein_g": 0.855072463768116,
+    "carbs_g": 12.7715942028985,
+    "fat_g": 0.22,
+    "base_amount": 100
+  },
+  {
+    "id": "47d0c28d-72df-40e1-affa-0413b0ba2dc9",
+    "name": "Maracujá, cru",
+    "kcal": 68.4395086956521,
+    "protein_g": 1.98913043478261,
+    "carbs_g": 12.2642028985507,
+    "fat_g": 2.10333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "20f2f1cb-d170-4766-942c-9d5dbdfe9c44",
+    "name": "Maracujá, polpa, congelada",
+    "kcal": 38.7597,
+    "protein_g": 0.8125,
+    "carbs_g": 9.59749999999999,
+    "fat_g": 0.176666666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "daabbaf3-6715-42a5-b3e4-b82174e19e4c",
+    "name": "Maracujá, suco concentrado, envasado",
+    "kcal": 41.96732,
+    "protein_g": 0.766666666666667,
+    "carbs_g": 9.63599999999999,
+    "fat_g": 0.193333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "cd46a23b-30a4-4c44-9739-4c20525ece7b",
+    "name": "Melancia, crua",
+    "kcal": 32.6066260869565,
+    "protein_g": 0.884057971014493,
+    "carbs_g": 8.13927536231884,
+    "fat_g": 0,
+    "base_amount": 100
+  },
+  {
+    "id": "c2efca9e-87d1-4276-bcb1-018bf16af16a",
+    "name": "Melão, cru",
+    "kcal": 29.3693913043478,
+    "protein_g": 0.677536231884058,
+    "carbs_g": 7.52579710144927,
+    "fat_g": 0,
+    "base_amount": 100
+  },
+  {
+    "id": "3da53dc1-8e2c-4073-9708-3ffaa0447645",
+    "name": "Mexerica, Murcote, crua",
+    "kcal": 57.5927784746488,
+    "protein_g": 0.883333333333333,
+    "carbs_g": 14.862,
+    "fat_g": 0.134,
+    "base_amount": 100
+  },
+  {
+    "id": "7cb86682-09c4-406b-8fbc-4d72cd48c1bf",
+    "name": "Mexerica, Rio, crua",
+    "kcal": 36.8713500000001,
+    "protein_g": 0.65,
+    "carbs_g": 9.33700000000001,
+    "fat_g": 0.128333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "a7a600f6-3255-493b-999a-159875be5da7",
+    "name": "Morango, cru",
+    "kcal": 30.1479173913044,
+    "protein_g": 0.894927536231884,
+    "carbs_g": 6.81840579710146,
+    "fat_g": 0.31,
+    "base_amount": 100
+  },
+  {
+    "id": "eafd786b-c988-4efd-b943-3bb040a38072",
+    "name": "Nêspera, crua",
+    "kcal": 42.5391988681952,
+    "protein_g": 0.308333333333333,
+    "carbs_g": 11.5286666666667,
+    "fat_g": 0,
+    "base_amount": 100
+  },
+  {
+    "id": "6ceb2fa5-2f95-4767-b827-aa1f107e2cc7",
+    "name": "Pequi, cru",
+    "kcal": 204.96677,
+    "protein_g": 2.33541666666667,
+    "carbs_g": 12.9729166666667,
+    "fat_g": 17.971,
+    "base_amount": 100
+  },
+  {
+    "id": "fd212ff4-61ec-45af-995c-eed3e50b11dd",
+    "name": "Pêra, Park, crua",
+    "kcal": 60.58859,
+    "protein_g": 0.235416666666667,
+    "carbs_g": 16.0749166666667,
+    "fat_g": 0.230333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "919e1bc9-6e3f-47d8-b09c-6f72178e8168",
+    "name": "Pêra, Williams, crua",
+    "kcal": 53.3090478260869,
+    "protein_g": 0.565217391304348,
+    "carbs_g": 14.0247826086956,
+    "fat_g": 0.11,
+    "base_amount": 100
+  },
+  {
+    "id": "a6ef0232-6252-4438-ad5a-f2605a639883",
+    "name": "Pêssego, Aurora, cru",
+    "kcal": 36.3275990245342,
+    "protein_g": 0.825,
+    "carbs_g": 9.32100000000001,
+    "fat_g": 0,
+    "base_amount": 100
+  },
+  {
+    "id": "f2e45c30-2e84-4d78-ab64-34112ac03a3e",
+    "name": "Pêssego, enlatado, em calda",
+    "kcal": 63.1424347826087,
+    "protein_g": 0.706521739130435,
+    "carbs_g": 16.8801449275362,
+    "fat_g": 0,
+    "base_amount": 100
+  },
+  {
+    "id": "ce0243f7-4bf3-460d-8789-cfce370a5c60",
+    "name": "Pinha, crua",
+    "kcal": 88.4735276668668,
+    "protein_g": 1.48541666666667,
+    "carbs_g": 22.4479166666667,
+    "fat_g": 0.319,
+    "base_amount": 100
+  },
+  {
+    "id": "89c7b7f0-1d70-482f-9b3e-7de5818a90cd",
+    "name": "Pitanga, crua",
+    "kcal": 41.41553,
+    "protein_g": 0.929166666666667,
+    "carbs_g": 10.2441666666667,
+    "fat_g": 0.169,
+    "base_amount": 100
+  },
+  {
+    "id": "8e89ee0f-07d3-4507-b6c1-04d3eaf486ef",
+    "name": "Pitanga, polpa, congelada",
+    "kcal": 19.1054595023592,
+    "protein_g": 0.285416666666667,
+    "carbs_g": 4.75858333333333,
+    "fat_g": 0.121333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "7e6792bc-45cc-4d09-a14c-e145505b2c91",
+    "name": "Romã, crua",
+    "kcal": 55.739,
+    "protein_g": 0.404166666666667,
+    "carbs_g": 15.1058333333333,
+    "fat_g": 0,
+    "base_amount": 100
+  },
+  {
+    "id": "15576c4d-a658-4f03-b939-2bdeeeea3360",
+    "name": "Tamarindo, cru",
+    "kcal": 275.695642694414,
+    "protein_g": 3.20625,
+    "carbs_g": 72.53175,
+    "fat_g": 0.455,
+    "base_amount": 100
+  },
+  {
+    "id": "f27860b8-e4c2-4eb9-ac9b-7d444764ff1b",
+    "name": "Tangerina, Poncã, crua",
+    "kcal": 37.8306,
+    "protein_g": 0.847826086956522,
+    "carbs_g": 9.60999999999999,
+    "fat_g": 0.073333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "2851924c-ba0a-4d41-965b-b354abf656d2",
+    "name": "Tangerina, Poncã, suco",
+    "kcal": 36.1088,
+    "protein_g": 0.521739130434783,
+    "carbs_g": 8.8,
+    "fat_g": 0,
+    "base_amount": 100
+  },
+  {
+    "id": "ecec1fd1-ee34-4761-bf45-599b30fa4331",
+    "name": "Tucumã, cru",
+    "kcal": 262.015195072393,
+    "protein_g": 2.09375,
+    "carbs_g": 26.4745833333333,
+    "fat_g": 19.0766666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "a8f55c98-5a87-4ccf-a7f0-a91616211a42",
+    "name": "Umbu, cru",
+    "kcal": 37.01669,
+    "protein_g": 0.841666666666667,
+    "carbs_g": 9.39533333333333,
+    "fat_g": 0,
+    "base_amount": 100
+  },
+  {
+    "id": "153fb021-657b-43a0-a18b-b76ca5d60adc",
+    "name": "Umbu, polpa, congelada",
+    "kcal": 33.94329,
+    "protein_g": 0.5125,
+    "carbs_g": 8.78683333333333,
+    "fat_g": 0.070333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "9b59efe1-6bcb-4ae9-be85-996e0e01d549",
+    "name": "Uva, Itália, crua",
+    "kcal": 52.8731000000001,
+    "protein_g": 0.746376811594203,
+    "carbs_g": 13.5733333333333,
+    "fat_g": 0.203333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "98c74346-29af-4d9f-a194-19c59978e8cd",
+    "name": "Uva, Rubi, crua",
+    "kcal": 49.06129,
+    "protein_g": 0.608333333333333,
+    "carbs_g": 12.6953333333333,
+    "fat_g": 0.157,
+    "base_amount": 100
+  },
+  {
+    "id": "8d9856e0-206e-49eb-9f03-63318643433f",
+    "name": "Uva, suco concentrado, envasado",
+    "kcal": 57.65536,
+    "protein_g": 0,
+    "carbs_g": 14.708,
+    "fat_g": 0,
+    "base_amount": 100
+  },
+  {
+    "id": "7df39f24-6f01-4a0b-8221-93ea2b952b6b",
+    "name": "Azeite, de dendê",
+    "kcal": 884,
+    "protein_g": 0,
+    "carbs_g": 0,
+    "fat_g": 100,
+    "base_amount": 100
+  },
+  {
+    "id": "acaf43cc-d00b-4135-973a-de916c027ad4",
+    "name": "Azeite, de oliva, extra virgem",
+    "kcal": 884,
+    "protein_g": 0,
+    "carbs_g": 0,
+    "fat_g": 100,
+    "base_amount": 100
+  },
+  {
+    "id": "e3a41554-0619-487e-89b0-246cc5d04730",
+    "name": "Manteiga, com sal",
+    "kcal": 725.968926845999,
+    "protein_g": 0.41470000743866,
+    "carbs_g": 0.063299992561333,
+    "fat_g": 82.361,
+    "base_amount": 100
+  },
+  {
+    "id": "1505af1a-c7e2-4ca3-b983-e1d507dbcfd8",
+    "name": "Manteiga, sem sal",
+    "kcal": 757.540460725997,
+    "protein_g": 0.395560007095337,
+    "carbs_g": 0,
+    "fat_g": 86.0393333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "9f4ea143-1c26-449d-8129-641d7e3efb99",
+    "name": "Margarina, com óleo hidrogenado, com sal (65% de lipídeos)",
+    "kcal": 596.119516956329,
+    "protein_g": 0,
+    "carbs_g": 0,
+    "fat_g": 67.4343333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "f6b40c7b-dfe2-423e-b655-5bb2b1440ec5",
+    "name": "Margarina, com óleo hidrogenado, sem sal (80% de lipídeos)",
+    "kcal": 722.525625804901,
+    "protein_g": 0,
+    "carbs_g": 0,
+    "fat_g": 81.7336666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "a4778fe4-e3c7-4677-ac56-a1c78f7f5a1b",
+    "name": "Margarina, com óleo interesterificado, com sal (65%de lipídeos)",
+    "kcal": 594.451693333333,
+    "protein_g": 0,
+    "carbs_g": 0,
+    "fat_g": 67.2456666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "7872217a-e2be-4036-b398-1a2c711a274e",
+    "name": "Margarina, com óleo interesterificado, sem sal (65% de lipídeos)",
+    "kcal": 593.13749023819,
+    "protein_g": 0,
+    "carbs_g": 0,
+    "fat_g": 67.097,
+    "base_amount": 100
+  },
+  {
+    "id": "570e687c-4c2a-4637-a279-209eb1cf7df2",
+    "name": "Óleo, de babaçu",
+    "kcal": 884,
+    "protein_g": 0,
+    "carbs_g": 0,
+    "fat_g": 100,
+    "base_amount": 100
+  },
+  {
+    "id": "731315f3-45fa-4c1b-9c48-5f18c67e3378",
+    "name": "Óleo, de canola",
+    "kcal": 884,
+    "protein_g": 0,
+    "carbs_g": 0,
+    "fat_g": 100,
+    "base_amount": 100
+  },
+  {
+    "id": "c08b7625-5e65-465f-842b-0d1ee9761735",
+    "name": "Óleo, de girassol",
+    "kcal": 884,
+    "protein_g": 0,
+    "carbs_g": 0,
+    "fat_g": 100,
+    "base_amount": 100
+  },
+  {
+    "id": "d2b3fb0f-188c-4e6a-91d3-26e11a995807",
+    "name": "Óleo, de milho",
+    "kcal": 884,
+    "protein_g": 0,
+    "carbs_g": 0,
+    "fat_g": 100,
+    "base_amount": 100
+  },
+  {
+    "id": "972bbae4-e54c-411d-82f9-e909071f77a0",
+    "name": "Óleo, de pequi",
+    "kcal": 884,
+    "protein_g": 0,
+    "carbs_g": 0,
+    "fat_g": 100,
+    "base_amount": 100
+  },
+  {
+    "id": "2e58ecc3-31a5-47b7-8745-5fbbc920b36c",
+    "name": "Óleo, de soja",
+    "kcal": 884,
+    "protein_g": 0,
+    "carbs_g": 0,
+    "fat_g": 100,
+    "base_amount": 100
+  },
+  {
+    "id": "2dc11799-5ff5-4fec-ad7b-dad2fea4376e",
+    "name": "Abadejo, filé, congelado, assado",
+    "kcal": 111.615503451188,
+    "protein_g": 23.525,
+    "carbs_g": 0,
+    "fat_g": 1.23766666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "de7f4f3b-415c-4168-ae2f-c8c10b4bf34d",
+    "name": "Abadejo, filé, congelado,cozido",
+    "kcal": 91.1035483955542,
+    "protein_g": 19.3458333333333,
+    "carbs_g": 0,
+    "fat_g": 0.942,
+    "base_amount": 100
+  },
+  {
+    "id": "9850c642-5955-4add-8e53-fc52f228baa8",
+    "name": "Abadejo, filé, congelado, cru",
+    "kcal": 59.1130332485835,
+    "protein_g": 13.0833333333333,
+    "carbs_g": 0,
+    "fat_g": 0.36,
+    "base_amount": 100
+  },
+  {
+    "id": "41096b0d-5539-4b3a-9d58-400434702880",
+    "name": "Abadejo, filé, congelado, grelhado",
+    "kcal": 129.643525902867,
+    "protein_g": 27.6104166666667,
+    "carbs_g": 0,
+    "fat_g": 1.30233333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "96f9237f-fd93-479f-a02f-bbe964684174",
+    "name": "Atum, conserva em óleo",
+    "kcal": 165.910560578903,
+    "protein_g": 26.1875,
+    "carbs_g": 0,
+    "fat_g": 5.99666666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "dd44f487-be31-456a-8949-649cfdeb207f",
+    "name": "Atum, fresco, cru",
+    "kcal": 117.501,
+    "protein_g": 25.68,
+    "carbs_g": 0,
+    "fat_g": 0.87,
+    "base_amount": 100
+  },
+  {
+    "id": "63f120cf-144f-4748-91a8-184ccff3bf0e",
+    "name": "Bacalhau, salgado, cru",
+    "kcal": 135.892966666667,
+    "protein_g": 29.0366666666667,
+    "carbs_g": 0,
+    "fat_g": 1.32,
+    "base_amount": 100
+  },
+  {
+    "id": "aac34025-a16a-425e-aafe-8f39e759e418",
+    "name": "Bacalhau, salgado, refogado",
+    "kcal": 139.66070105354,
+    "protein_g": 23.9791666666667,
+    "carbs_g": 1.22416666666668,
+    "fat_g": 3.60666666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "c7b6c113-937f-4d15-aaad-1565b7340855",
+    "name": "Cação, posta, com farinha de trigo, frita",
+    "kcal": 208.332743725975,
+    "protein_g": 24.9520833333333,
+    "carbs_g": 3.10058333333333,
+    "fat_g": 9.95433333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "0cb2100c-c27b-4799-a625-a4c154143262",
+    "name": "Cação, posta, cozida",
+    "kcal": 116.014480687658,
+    "protein_g": 25.5895833333333,
+    "carbs_g": 0,
+    "fat_g": 0.748,
+    "base_amount": 100
+  },
+  {
+    "id": "75a55128-fede-42a1-8136-53e693354bee",
+    "name": "Cação, posta, crua",
+    "kcal": 83.3330250195662,
+    "protein_g": 17.8541666666667,
+    "carbs_g": 0,
+    "fat_g": 0.786666666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "1ff34c02-3bce-487b-9688-9ac37179e307",
+    "name": "Camarão, Rio Grande, grande, cozido",
+    "kcal": 90.0136800963084,
+    "protein_g": 18.9666666666667,
+    "carbs_g": 0,
+    "fat_g": 1.00066666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "2b584890-fadd-4ecc-9956-5a5bf44b5da8",
+    "name": "Camarão, Rio Grande, grande, cru",
+    "kcal": 47.1834367054304,
+    "protein_g": 9.99166666666667,
+    "carbs_g": 0,
+    "fat_g": 0.501,
+    "base_amount": 100
+  },
+  {
+    "id": "ad5b2d86-7d56-498d-beaf-243737784f95",
+    "name": "Camarão, Sete Barbas, sem cabeça, com casca, frito",
+    "kcal": 231.246153850873,
+    "protein_g": 18.3875,
+    "carbs_g": 2.87983333333333,
+    "fat_g": 15.6203333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "69cb0cdc-99e6-465a-b47c-2e585b8b1bbd",
+    "name": "Caranguejo, cozido",
+    "kcal": 82.7215015078386,
+    "protein_g": 18.4791666666667,
+    "carbs_g": 0,
+    "fat_g": 0.423,
+    "base_amount": 100
+  },
+  {
+    "id": "85672763-8c02-4ab8-92e4-5dfdd4b6e12a",
+    "name": "Corimba, cru",
+    "kcal": 128.1554,
+    "protein_g": 17.3666666666667,
+    "carbs_g": -0.026666666666666,
+    "fat_g": 5.98666666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "edd0a10d-aac9-4ed7-b191-5f939efe1faf",
+    "name": "Corimbatá, assado",
+    "kcal": 261.452439410567,
+    "protein_g": 19.8979166666667,
+    "carbs_g": 0,
+    "fat_g": 19.5663333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "0074cce9-5673-41d0-93ea-1fc12e2b997f",
+    "name": "Corimbatá, cozido",
+    "kcal": 238.696104867339,
+    "protein_g": 20.13125,
+    "carbs_g": 0,
+    "fat_g": 16.933,
+    "base_amount": 100
+  },
+  {
+    "id": "ab3c0d48-2597-4c7a-ab72-8e7d1ccf5331",
+    "name": "Corvina de água doce, crua",
+    "kcal": 101.009033333333,
+    "protein_g": 18.9166666666667,
+    "carbs_g": 0,
+    "fat_g": 2.24333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "b8165b94-6113-44d4-a42c-d841663de2d7",
+    "name": "Corvina do mar, crua",
+    "kcal": 94,
+    "protein_g": 18.57,
+    "carbs_g": 0,
+    "fat_g": 1.58333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "8908d1af-9f05-4170-a378-1ac4f0417658",
+    "name": "Corvina grande, assada",
+    "kcal": 146.528141125361,
+    "protein_g": 26.7666666666667,
+    "carbs_g": 0,
+    "fat_g": 3.57366666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "54ae7f5f-2d4b-4230-a1c2-cc6c2c06112a",
+    "name": "Corvina grande, cozida",
+    "kcal": 100.078124552965,
+    "protein_g": 23.4375,
+    "carbs_g": 0,
+    "fat_g": 2.56266666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "536c9b04-6bbf-4923-8e62-aa9b164aed57",
+    "name": "Dourada de água doce, fresca",
+    "kcal": 131.20831472377,
+    "protein_g": 18.8104166666667,
+    "carbs_g": 0,
+    "fat_g": 5.64166666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "6df435f5-4de0-49ae-9e85-dff87a63914f",
+    "name": "Lambari, congelado, cru",
+    "kcal": 130.840311009487,
+    "protein_g": 16.8125,
+    "carbs_g": 0,
+    "fat_g": 6.54666666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "11dd1f6a-30db-40db-992a-91a302be1a63",
+    "name": "Lambari, congelado, frito",
+    "kcal": 326.868399886608,
+    "protein_g": 28.425,
+    "carbs_g": 0,
+    "fat_g": 22.782,
+    "base_amount": 100
+  },
+  {
+    "id": "407d25a3-1ead-43d6-9157-4a72c1e929da",
+    "name": "Lambari, fresco,cru",
+    "kcal": 151.598346503218,
+    "protein_g": 15.6520833333333,
+    "carbs_g": 0,
+    "fat_g": 9.39733333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "8db96a18-021a-4b7f-b3c7-1c28ddaf6c28",
+    "name": "Manjuba, com farinha de trigo, frita",
+    "kcal": 343.550458723068,
+    "protein_g": 23.45,
+    "carbs_g": 10.2403333333333,
+    "fat_g": 22.593,
+    "base_amount": 100
+  },
+  {
+    "id": "4f980f77-90ab-4eae-95db-26ec31350213",
+    "name": "Manjuba, frita",
+    "kcal": 349.325231455366,
+    "protein_g": 30.1395833333333,
+    "carbs_g": 0,
+    "fat_g": 24.46,
+    "base_amount": 100
+  },
+  {
+    "id": "9f5ba2c1-6557-4477-92aa-ba1e45d11cd1",
+    "name": "Merluza, filé, assado",
+    "kcal": 121.910218333333,
+    "protein_g": 26.6041666666667,
+    "carbs_g": 0,
+    "fat_g": 0.921333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "7fa1922b-2471-4ca0-81f3-3a24ac91c22b",
+    "name": "Merluza, filé, cru",
+    "kcal": 89.1308666666667,
+    "protein_g": 16.6066666666667,
+    "carbs_g": 0,
+    "fat_g": 2.02,
+    "base_amount": 100
+  },
+  {
+    "id": "bd68f5d0-d143-45d8-8cd1-1bb2668149f2",
+    "name": "Merluza, filé, frito",
+    "kcal": 191.627478375832,
+    "protein_g": 26.9291666666667,
+    "carbs_g": 0,
+    "fat_g": 8.49666666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "db2cd1c9-f972-4fe8-bf7d-801859614482",
+    "name": "Pescada, branca, crua",
+    "kcal": 110.8763,
+    "protein_g": 16.2633333333333,
+    "carbs_g": 0,
+    "fat_g": 4.59333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "36788197-633a-4534-b43c-cf59ecdc98eb",
+    "name": "Pescada, branca, frita",
+    "kcal": 223.039732369304,
+    "protein_g": 27.35625,
+    "carbs_g": 0,
+    "fat_g": 11.777,
+    "base_amount": 100
+  },
+  {
+    "id": "5f8cb1e6-00b4-48e8-814c-b3b62b78bafd",
+    "name": "Pescada, filé, com farinha de trigo, frito",
+    "kcal": 283.425214431961,
+    "protein_g": 21.4354166666667,
+    "carbs_g": 5.03325000000001,
+    "fat_g": 19.115,
+    "base_amount": 100
+  },
+  {
+    "id": "62b0552a-494d-4923-aa82-a72ba9c7ad86",
+    "name": "Pescada, filé, cru",
+    "kcal": 107.205566666667,
+    "protein_g": 16.65,
+    "carbs_g": 0,
+    "fat_g": 4.00333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "37c4a27a-98bd-4e04-b3ed-faae380ddf86",
+    "name": "Pescada, filé, frito",
+    "kcal": 154.270025,
+    "protein_g": 28.5875,
+    "carbs_g": 0,
+    "fat_g": 3.57,
+    "base_amount": 100
+  },
+  {
+    "id": "c9f57f66-ba4c-45e8-b9c3-d468417ed1c7",
+    "name": "Pescada, filé, molho escabeche",
+    "kcal": 141.958322875023,
+    "protein_g": 11.75,
+    "carbs_g": 5.01533333333334,
+    "fat_g": 8.024,
+    "base_amount": 100
+  },
+  {
+    "id": "6b7020f9-46b1-4b1d-b8bc-801c84276359",
+    "name": "Pescadinha, crua",
+    "kcal": 76.4089083333333,
+    "protein_g": 15.4791666666667,
+    "carbs_g": 0,
+    "fat_g": 1.14333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "2c0dabe2-bbaf-4b5d-88da-a8cf774a86a8",
+    "name": "Pintado, assado",
+    "kcal": 191.559141127586,
+    "protein_g": 36.45,
+    "carbs_g": 0,
+    "fat_g": 3.982,
+    "base_amount": 100
+  },
+  {
+    "id": "3fa90af1-602c-4a33-8bdd-ad62d134c1cf",
+    "name": "Pintado, cru",
+    "kcal": 91.0832333333333,
+    "protein_g": 18.5566666666667,
+    "carbs_g": 0,
+    "fat_g": 1.31333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "9314b7f2-8c5f-4254-9daa-4add4b87dab0",
+    "name": "Pintado, grelhado",
+    "kcal": 152.190088333333,
+    "protein_g": 30.7958333333333,
+    "carbs_g": 0,
+    "fat_g": 2.294,
+    "base_amount": 100
+  },
+  {
+    "id": "efaee750-3b7b-49cc-b6c5-e09a94398b44",
+    "name": "Porquinho, cru",
+    "kcal": 93.0245666666667,
+    "protein_g": 20.49,
+    "carbs_g": 0,
+    "fat_g": 0.613333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "eb152412-1b15-4b89-8f85-e14aa2d1903f",
+    "name": "Salmão, filé, com pele, fresco,  grelhado",
+    "kcal": 228.731775135318,
+    "protein_g": 23.91875,
+    "carbs_g": 0,
+    "fat_g": 14.0353333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "03474730-601a-4807-98b5-9e569ad9464a",
+    "name": "Salmão, sem pele, fresco, cru",
+    "kcal": 169.781579910556,
+    "protein_g": 19.2520833333333,
+    "carbs_g": 0,
+    "fat_g": 9.709,
+    "base_amount": 100
+  },
+  {
+    "id": "4b860d79-0a68-4953-9e93-c2957d5ea93e",
+    "name": "Salmão, sem pele, fresco, grelhado",
+    "kcal": 242.706569487095,
+    "protein_g": 26.1416666666667,
+    "carbs_g": 0,
+    "fat_g": 14.5323333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "9e4b2a9a-da59-42ba-850a-081ec59f15d8",
+    "name": "Sardinha, assada",
+    "kcal": 164.350788333333,
+    "protein_g": 32.1791666666667,
+    "carbs_g": 0,
+    "fat_g": 2.98733333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "e79c0a7c-ad2a-45f5-b15a-5d877fcf13cd",
+    "name": "Sardinha, conserva em óleo",
+    "kcal": 284.981004871249,
+    "protein_g": 15.9395833333333,
+    "carbs_g": 0,
+    "fat_g": 24.0486666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "5d7eb07e-d869-4f64-847c-c4085400b3c2",
+    "name": "Sardinha, frita",
+    "kcal": 257.0407,
+    "protein_g": 33.3833333333333,
+    "carbs_g": 0,
+    "fat_g": 12.6933333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "1623f85e-1928-4587-ab1f-f0e6afd0e7dd",
+    "name": "Sardinha, inteira, crua",
+    "kcal": 113.900366666667,
+    "protein_g": 21.0766666666667,
+    "carbs_g": 0,
+    "fat_g": 2.65,
+    "base_amount": 100
+  },
+  {
+    "id": "3522e883-d579-4568-a96f-a64c46e1037d",
+    "name": "Tucunaré, filé, congelado, cru",
+    "kcal": 87.686483549277,
+    "protein_g": 17.9583333333333,
+    "carbs_g": -0.045000000000008,
+    "fat_g": 1.22,
+    "base_amount": 100
+  },
+  {
+    "id": "c50f6550-532f-4fe2-a3c6-b9beb8c0b061",
+    "name": "Apresuntado",
+    "kcal": 128.857255812009,
+    "protein_g": 13.45,
+    "carbs_g": 2.862,
+    "fat_g": 6.69066666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "f6f6f4ee-79e6-47a9-b4ff-8f153d24a9d0",
+    "name": "Caldo de carne, tablete",
+    "kcal": 240.623333333333,
+    "protein_g": 7.82,
+    "carbs_g": 15.0533333333333,
+    "fat_g": 16.57,
+    "base_amount": 100
+  },
+  {
+    "id": "7ce003c7-b6bc-402c-a474-ad844dd74913",
+    "name": "Caldo de galinha, tablete",
+    "kcal": 251.445666666667,
+    "protein_g": 6.27916666666667,
+    "carbs_g": 10.6455,
+    "fat_g": 20.4163333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "87efd32b-afe6-4af0-8adb-0c6b53e2b8e4",
+    "name": "Carne, bovina, acém, moído, cozido",
+    "kcal": 212.4204,
+    "protein_g": 26.6866666666667,
+    "carbs_g": 0,
+    "fat_g": 10.9166666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "3f272524-99b0-454b-91ac-68b06de7fa1e",
+    "name": "Carne, bovina, acém, moído, cru",
+    "kcal": 136.562333333333,
+    "protein_g": 19.42,
+    "carbs_g": 0,
+    "fat_g": 5.94666666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "3d702866-d9dd-4e12-9b20-5e17fefcb13b",
+    "name": "Carne, bovina, acém, sem gordura, cozido",
+    "kcal": 214.610566666667,
+    "protein_g": 27.27,
+    "carbs_g": 0,
+    "fat_g": 10.8833333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "b57e15cc-6962-4963-9d40-fc52073ded76",
+    "name": "Carne, bovina, acém, sem gordura, cru",
+    "kcal": 144.029433333333,
+    "protein_g": 20.8166666666667,
+    "carbs_g": 0,
+    "fat_g": 6.11333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "4f722791-d0a0-4cd1-825f-f2581659fa32",
+    "name": "Carne, bovina, almôndegas, cruas",
+    "kcal": 189.256666666667,
+    "protein_g": 12.3125,
+    "carbs_g": 9.79416666666666,
+    "fat_g": 11.2033333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "22c14245-b412-4aa3-ad85-2d169ec8e33b",
+    "name": "Carne, bovina, almôndegas, fritas",
+    "kcal": 271.813,
+    "protein_g": 18.15625,
+    "carbs_g": 14.28675,
+    "fat_g": 15.7823333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "5b5a1018-fa48-469f-b3f1-940ef0fc4413",
+    "name": "Carne, bovina, bucho, cozido",
+    "kcal": 133.022866666667,
+    "protein_g": 21.64,
+    "carbs_g": 0,
+    "fat_g": 4.50333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "be14cf54-b4d5-45c2-89e0-48ec6e2487f8",
+    "name": "Carne, bovina, bucho, cru",
+    "kcal": 137.303166666667,
+    "protein_g": 20.53,
+    "carbs_g": 0,
+    "fat_g": 5.50333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "951b7631-0c02-4561-9411-f295c09139fc",
+    "name": "Carne, bovina, capa de contra-filé, com gordura, crua",
+    "kcal": 216.908966666667,
+    "protein_g": 19.1966666666667,
+    "carbs_g": 0,
+    "fat_g": 14.96,
+    "base_amount": 100
+  },
+  {
+    "id": "44260071-87bf-4696-8899-0e04da74ee48",
+    "name": "Carne, bovina, capa de contra-filé, com gordura, grelhada",
+    "kcal": 311.702666666667,
+    "protein_g": 30.6866666666667,
+    "carbs_g": 0,
+    "fat_g": 20.03,
+    "base_amount": 100
+  },
+  {
+    "id": "fefbcb93-6ab5-4591-8e65-2582d2e17208",
+    "name": "Carne, bovina, capa de contra-filé, sem gordura, crua",
+    "kcal": 131.062466666667,
+    "protein_g": 21.54,
+    "carbs_g": 0,
+    "fat_g": 4.33333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "1d8f07f1-fdce-4703-982b-4747f1f8a49a",
+    "name": "Carne, bovina, capa de contra-filé, sem gordura, grelhada",
+    "kcal": 239.443633333333,
+    "protein_g": 35.0633333333333,
+    "carbs_g": -0.006666666666675,
+    "fat_g": 9.95,
+    "base_amount": 100
+  },
+  {
+    "id": "0a17f8b0-9dbc-4bef-8e05-87d5589a27ae",
+    "name": "Carne, bovina, charque, cozido",
+    "kcal": 262.780142262181,
+    "protein_g": 36.3645833333333,
+    "carbs_g": 0,
+    "fat_g": 11.9183333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "b5c0b721-a6b7-4c47-9814-dc888f3df31a",
+    "name": "Carne, bovina, charque, cru",
+    "kcal": 248.861018107454,
+    "protein_g": 22.7145833333333,
+    "carbs_g": 0,
+    "fat_g": 16.837,
+    "base_amount": 100
+  },
+  {
+    "id": "3e8e7eae-3ce6-4463-bffa-a6c745927365",
+    "name": "Carne, bovina, contra-filé, à milanesa",
+    "kcal": 351.592659198999,
+    "protein_g": 20.6125,
+    "carbs_g": 12.1745,
+    "fat_g": 23.998,
+    "base_amount": 100
+  },
+  {
+    "id": "e3ce129c-31d3-4687-bf8b-caa76870ae4b",
+    "name": "Carne, bovina, contra-filé de costela, cru",
+    "kcal": 202.4374,
+    "protein_g": 19.8,
+    "carbs_g": 0,
+    "fat_g": 13.07,
+    "base_amount": 100
+  },
+  {
+    "id": "93b9acf3-248d-48fb-b599-ee4eb2f71643",
+    "name": "Carne, bovina, contra-filé de costela, grelhado",
+    "kcal": 274.914266666667,
+    "protein_g": 29.88,
+    "carbs_g": 0,
+    "fat_g": 16.3333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "21f65aed-2d8e-41d3-8db1-c65df343672f",
+    "name": "Carne, bovina, contra-filé, com gordura, cru",
+    "kcal": 205.8567,
+    "protein_g": 21.15,
+    "carbs_g": 0,
+    "fat_g": 12.81,
+    "base_amount": 100
+  },
+  {
+    "id": "1a31d2c4-ff93-4e5d-a8f7-6c6d35ae3e6e",
+    "name": "Carne, bovina, contra-filé, com gordura, grelhado",
+    "kcal": 278.053566666667,
+    "protein_g": 32.3966666666667,
+    "carbs_g": 0,
+    "fat_g": 15.49,
+    "base_amount": 100
+  },
+  {
+    "id": "2e9407b4-7b14-4e5d-8e70-b8e35458b8b8",
+    "name": "Carne, bovina, contra-filé, sem gordura, cru",
+    "kcal": 156.615833333333,
+    "protein_g": 23.9966666666667,
+    "carbs_g": 0,
+    "fat_g": 6.00333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "0185db62-b550-41a2-ab9c-80e7ea9cbcca",
+    "name": "Carne, bovina, contra-filé, sem gordura, grelhado",
+    "kcal": 193.691566666667,
+    "protein_g": 35.8833333333333,
+    "carbs_g": 0,
+    "fat_g": 4.48666666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "aa50a5fb-0491-495f-89bc-c7bacc5faa6c",
+    "name": "Carne, bovina, costela, assada",
+    "kcal": 373.038866666667,
+    "protein_g": 28.8066666666667,
+    "carbs_g": 0,
+    "fat_g": 27.72,
+    "base_amount": 100
+  },
+  {
+    "id": "7b4e2a99-ffcd-4e73-8572-36db12f73913",
+    "name": "Carne, bovina, costela, crua",
+    "kcal": 357.722466666667,
+    "protein_g": 16.7066666666667,
+    "carbs_g": 0,
+    "fat_g": 31.75,
+    "base_amount": 100
+  },
+  {
+    "id": "1405e1ac-50d1-4883-a8f1-f78f8a6589a5",
+    "name": "Carne, bovina, coxão duro, sem gordura, cozido",
+    "kcal": 216.616066666667,
+    "protein_g": 31.88,
+    "carbs_g": 0,
+    "fat_g": 8.92333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "c80cb5e0-f58b-466e-b3c4-c009e7c28bd7",
+    "name": "Carne, bovina, coxão duro, sem gordura, cru",
+    "kcal": 147.966333333333,
+    "protein_g": 21.5133333333333,
+    "carbs_g": 0,
+    "fat_g": 6.22,
+    "base_amount": 100
+  },
+  {
+    "id": "7ccc1cc9-2366-426f-86af-7a09fe23af0a",
+    "name": "Carne, bovina, coxão mole, sem gordura, cozido",
+    "kcal": 218.6751,
+    "protein_g": 32.3833333333333,
+    "carbs_g": 0,
+    "fat_g": 8.91333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "058afed3-7a73-4ac8-828a-bac7da65e0b0",
+    "name": "Carne, bovina, coxão mole, sem gordura, cru",
+    "kcal": 169.065966666667,
+    "protein_g": 21.23,
+    "carbs_g": 0,
+    "fat_g": 8.69333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "c04d59da-42bb-4ba7-b755-a511821480ee",
+    "name": "Carne, bovina, cupim, assado",
+    "kcal": 330.100290833333,
+    "protein_g": 28.63125,
+    "carbs_g": 0,
+    "fat_g": 23.0426666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "1d7ed3cb-8421-401f-ab9f-882803974678",
+    "name": "Carne, bovina, cupim, cru",
+    "kcal": 221.3975,
+    "protein_g": 19.5366666666667,
+    "carbs_g": 0,
+    "fat_g": 15.2966666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "856a6b20-78a9-4bc9-a7a4-1465902e6f2e",
+    "name": "Carne, bovina, fígado, cru",
+    "kcal": 141.045866666667,
+    "protein_g": 20.7133333333333,
+    "carbs_g": 1.10666666666667,
+    "fat_g": 5.35666666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "710ae99c-a5a6-485c-a724-21573222a3a0",
+    "name": "Carne, bovina, fígado, grelhado",
+    "kcal": 225.0264,
+    "protein_g": 29.86,
+    "carbs_g": 4.2,
+    "fat_g": 9.01,
+    "base_amount": 100
+  },
+  {
+    "id": "6a0b4f70-ab33-464c-9c24-39c4efe2f5fe",
+    "name": "Carne, bovina, filé mingnon, sem gordura, cru",
+    "kcal": 142.864266666667,
+    "protein_g": 21.6,
+    "carbs_g": 0,
+    "fat_g": 5.61333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "9abf7509-0940-4dac-af7c-7433781187ad",
+    "name": "Carne, bovina, filé mingnon, sem gordura, grelhado",
+    "kcal": 219.7026,
+    "protein_g": 32.8,
+    "carbs_g": 0,
+    "fat_g": 8.83,
+    "base_amount": 100
+  },
+  {
+    "id": "e138bf54-0245-43c6-9c62-130a4411ee7f",
+    "name": "Carne, bovina, flanco, sem gordura, cozido",
+    "kcal": 195.575366666667,
+    "protein_g": 29.3766666666667,
+    "carbs_g": 0,
+    "fat_g": 7.77,
+    "base_amount": 100
+  },
+  {
+    "id": "673303e9-4b03-4afb-a43d-2b53b9cb2b84",
+    "name": "Carne, bovina, flanco, sem gordura, cru",
+    "kcal": 141.4601,
+    "protein_g": 19.9966666666667,
+    "carbs_g": 0,
+    "fat_g": 6.21666666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "c4755e74-47bf-43f4-b752-78dd14c49ccb",
+    "name": "Carne, bovina, fraldinha, com gordura, cozida",
+    "kcal": 338.445733333333,
+    "protein_g": 24.24,
+    "carbs_g": 0,
+    "fat_g": 26.0466666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "e1c21ba4-6cb1-4b9e-a5db-ba7dec53b6c7",
+    "name": "Carne, bovina, fraldinha, com gordura, crua",
+    "kcal": 220.723766666667,
+    "protein_g": 17.5833333333333,
+    "carbs_g": 0,
+    "fat_g": 16.1466666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "0c830936-3cf2-458e-82fe-d20bbbc9786a",
+    "name": "Carne, bovina, lagarto, cozido",
+    "kcal": 222.468566666667,
+    "protein_g": 32.8633333333333,
+    "carbs_g": 0,
+    "fat_g": 9.10666666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "4a3d45b1-5c7c-4970-aeb6-94865d7e4d4c",
+    "name": "Carne, bovina, lagarto, cru",
+    "kcal": 134.864566666667,
+    "protein_g": 20.5433333333333,
+    "carbs_g": 0,
+    "fat_g": 5.22666666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "14caebb8-aa95-4ff4-9417-bd034e158b57",
+    "name": "Carne, bovina, língua, cozida",
+    "kcal": 314.9016,
+    "protein_g": 21.3666666666667,
+    "carbs_g": 0,
+    "fat_g": 24.7966666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "f73ba1a6-4e4c-4b9e-a6dd-40b49e29165e",
+    "name": "Carne, bovina, língua, crua",
+    "kcal": 215.249766666667,
+    "protein_g": 17.09,
+    "carbs_g": 0,
+    "fat_g": 15.7733333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "9afc4c38-b417-47bd-8d3d-abc72495acab",
+    "name": "Carne, bovina, maminha, crua",
+    "kcal": 152.765866666667,
+    "protein_g": 20.9333333333333,
+    "carbs_g": 0,
+    "fat_g": 7.02666666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "b50aa019-0aaf-470f-b950-e5120923d4ab",
+    "name": "Carne, bovina, maminha, grelhada",
+    "kcal": 153.089675833333,
+    "protein_g": 30.7354166666667,
+    "carbs_g": 0,
+    "fat_g": 2.42233333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "df66ee10-7856-4abf-8864-710cd999ba8a",
+    "name": "Carne, bovina, miolo de alcatra, sem gordura, cru",
+    "kcal": 162.871233333333,
+    "protein_g": 21.61,
+    "carbs_g": 0,
+    "fat_g": 7.82666666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "79dfbc35-727c-4760-a0a9-1161d1daf3de",
+    "name": "Carne, bovina, miolo de alcatra, sem gordura, grelhado",
+    "kcal": 241.363966666667,
+    "protein_g": 31.93,
+    "carbs_g": 0,
+    "fat_g": 11.6433333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "de54b5d8-0684-44bd-ad03-c6ed8ea2d8b7",
+    "name": "Carne, bovina, músculo, sem gordura, cozido",
+    "kcal": 193.800333333333,
+    "protein_g": 31.2333333333333,
+    "carbs_g": 0,
+    "fat_g": 6.7,
+    "base_amount": 100
+  },
+  {
+    "id": "e5030ba5-4d6f-4f9d-ab87-55a43481d1b1",
+    "name": "Carne, bovina, músculo, sem gordura, cru",
+    "kcal": 141.581,
+    "protein_g": 21.56,
+    "carbs_g": 0,
+    "fat_g": 5.49,
+    "base_amount": 100
+  },
+  {
+    "id": "1be0e72f-8dc8-4ec9-ad53-034e39f4c9ad",
+    "name": "Carne, bovina, paleta, com gordura, crua",
+    "kcal": 158.7099,
+    "protein_g": 21.41,
+    "carbs_g": 0,
+    "fat_g": 7.46,
+    "base_amount": 100
+  },
+  {
+    "id": "29ca10d7-621b-4abf-a496-ba490bd52cdb",
+    "name": "Carne, bovina, paleta, sem gordura, cozida",
+    "kcal": 193.6524,
+    "protein_g": 29.72,
+    "carbs_g": 0,
+    "fat_g": 7.4,
+    "base_amount": 100
+  },
+  {
+    "id": "ef6e0e53-807b-464f-b808-6f65a6485757",
+    "name": "Carne, bovina, paleta, sem gordura, crua",
+    "kcal": 140.9415,
+    "protein_g": 21.03,
+    "carbs_g": 0,
+    "fat_g": 5.67,
+    "base_amount": 100
+  },
+  {
+    "id": "88a17fb0-9c17-4c6b-9b4b-3e1fbe49006e",
+    "name": "Carne, bovina, patinho, sem gordura, cru",
+    "kcal": 133.4689,
+    "protein_g": 21.7233333333333,
+    "carbs_g": 0,
+    "fat_g": 4.51333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "ee7d495f-fcdb-47e9-a1e8-664eebeca5fa",
+    "name": "Carne, bovina, patinho, sem gordura, grelhado",
+    "kcal": 219.259266666667,
+    "protein_g": 35.9,
+    "carbs_g": 0,
+    "fat_g": 7.31333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "559a7836-158f-4c43-acee-277db95584d3",
+    "name": "Carne, bovina, peito, sem gordura, cozido",
+    "kcal": 338.473133333333,
+    "protein_g": 22.2466666666667,
+    "carbs_g": 0,
+    "fat_g": 26.9933333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "90348ab3-eae9-4060-95fe-1a776aad1409",
+    "name": "Carne, bovina, peito, sem gordura, cru",
+    "kcal": 259.275633333333,
+    "protein_g": 17.5566666666667,
+    "carbs_g": 0,
+    "fat_g": 20.4333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "19c0b7e1-bdbc-43ba-82b3-2ad8ca43033b",
+    "name": "Carne, bovina, picanha, com gordura, crua",
+    "kcal": 212.879433333333,
+    "protein_g": 18.8233333333333,
+    "carbs_g": 0,
+    "fat_g": 14.69,
+    "base_amount": 100
+  },
+  {
+    "id": "df5d6ff1-cba4-49d0-b0d6-01b2d4265d66",
+    "name": "Carne, bovina, picanha, com gordura, grelhada",
+    "kcal": 288.767091666667,
+    "protein_g": 26.4208333333333,
+    "carbs_g": 0,
+    "fat_g": 19.5066666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "8dccef73-cdf2-4e8b-95df-95d67cee10ef",
+    "name": "Carne, bovina, picanha, sem gordura, crua",
+    "kcal": 133.522366666667,
+    "protein_g": 21.25,
+    "carbs_g": 0,
+    "fat_g": 4.74333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "77289106-b2e0-4e8b-9425-44f7af44b50b",
+    "name": "Carne, bovina, picanha, sem gordura, grelhada",
+    "kcal": 238.468133333333,
+    "protein_g": 31.9066666666667,
+    "carbs_g": 0,
+    "fat_g": 11.3333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "21f5d59d-530c-4ac7-833b-19747cab0fba",
+    "name": "Carne, bovina, seca, cozida",
+    "kcal": 312.799033691446,
+    "protein_g": 26.93125,
+    "carbs_g": 0,
+    "fat_g": 21.9293333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "7944fe09-2238-4399-bfed-914296c8c9f3",
+    "name": "Carne, bovina, seca, crua",
+    "kcal": 312.748427903652,
+    "protein_g": 19.6583333333333,
+    "carbs_g": 0,
+    "fat_g": 25.3666666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "755c19be-7c01-4105-a0d6-6e8828411acc",
+    "name": "Coxinha de frango, frita",
+    "kcal": 283.048,
+    "protein_g": 9.61041666666667,
+    "carbs_g": 34.5205833333333,
+    "fat_g": 11.836,
+    "base_amount": 100
+  },
+  {
+    "id": "296b2a05-79a3-40ac-8bc3-effc9976caec",
+    "name": "Croquete, de carne, cru",
+    "kcal": 245.771925297141,
+    "protein_g": 12.04375,
+    "carbs_g": 13.9495833333333,
+    "fat_g": 15.561,
+    "base_amount": 100
+  },
+  {
+    "id": "abef17b1-03eb-47d6-a797-b369d56f6c47",
+    "name": "Croquete, de carne, frito",
+    "kcal": 346.742014647404,
+    "protein_g": 16.8625,
+    "carbs_g": 18.1461666666667,
+    "fat_g": 22.6733333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "82b5d468-a921-426f-832e-ced4b57e62d9",
+    "name": "Empada de frango, pré-cozida, assada",
+    "kcal": 358.191666666667,
+    "protein_g": 6.94375,
+    "carbs_g": 47.4929166666667,
+    "fat_g": 15.605,
+    "base_amount": 100
+  },
+  {
+    "id": "905e6658-2945-4bf8-825d-b9a5e7b35ee9",
+    "name": "Empada, de frango, pré-cozida",
+    "kcal": 377.479666666667,
+    "protein_g": 7.34375,
+    "carbs_g": 35.5289166666667,
+    "fat_g": 22.8876666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "4cdb2a35-60cd-4d85-b799-bab3a02c74e8",
+    "name": "Frango, asa, com pele, crua",
+    "kcal": 213.188333333333,
+    "protein_g": 18.1,
+    "carbs_g": 0,
+    "fat_g": 15.0666666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "ffff7575-9017-4b89-8604-fbaef0a6b359",
+    "name": "Frango, caipira, inteiro, com pele, cozido",
+    "kcal": 242.889326666667,
+    "protein_g": 23.8833333333333,
+    "carbs_g": 0,
+    "fat_g": 15.6156666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "35cb6047-c185-40f9-8af3-5b0c35cda4ed",
+    "name": "Frango, caipira, inteiro, sem pele, cozido",
+    "kcal": 195.760296666667,
+    "protein_g": 29.575,
+    "carbs_g": 0,
+    "fat_g": 7.70233333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "711e1679-ccc1-4c3e-8b46-650339fda995",
+    "name": "Frango, coração, cru",
+    "kcal": 221.502833333333,
+    "protein_g": 12.5833333333333,
+    "carbs_g": 0,
+    "fat_g": 18.6,
+    "base_amount": 100
+  },
+  {
+    "id": "fa21e62c-a69e-42d7-bcdc-e527368f0f08",
+    "name": "Frango, coração, grelhado",
+    "kcal": 207.273643333333,
+    "protein_g": 22.4395833333333,
+    "carbs_g": 0.607416666666658,
+    "fat_g": 12.096,
+    "base_amount": 100
+  },
+  {
+    "id": "d192b639-8ac7-43ea-b4fa-e7f5f830f632",
+    "name": "Frango, coxa, com pele, assada",
+    "kcal": 215.11864753294,
+    "protein_g": 28.4916666666667,
+    "carbs_g": 0.05833333333334,
+    "fat_g": 10.3613333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "64c19a7c-6bcd-4bce-8892-5dfb81cf3008",
+    "name": "Frango, coxa, com pele, crua",
+    "kcal": 161.474733333333,
+    "protein_g": 17.0933333333333,
+    "carbs_g": 0,
+    "fat_g": 9.81,
+    "base_amount": 100
+  },
+  {
+    "id": "e1d12377-6a5c-4575-a4cb-e096085779a8",
+    "name": "Frango, coxa, sem pele, cozida",
+    "kcal": 167.428032164415,
+    "protein_g": 26.8583333333333,
+    "carbs_g": 0,
+    "fat_g": 5.84733333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "d20d9afd-cf49-4643-8b58-8e4981015d1d",
+    "name": "Frango, coxa, sem pele, crua",
+    "kcal": 119.947466666667,
+    "protein_g": 17.8133333333333,
+    "carbs_g": 0.019999999999997,
+    "fat_g": 4.85666666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "d1c2511c-6368-4d36-b5a1-ebadb653c4ae",
+    "name": "Frango, fígado, cru",
+    "kcal": 106.484566666667,
+    "protein_g": 17.5866666666667,
+    "carbs_g": -0.023333333333338,
+    "fat_g": 3.49,
+    "base_amount": 100
+  },
+  {
+    "id": "2e9557f7-588d-476f-87a6-e2271c883300",
+    "name": "Frango, filé, à milanesa",
+    "kcal": 220.87278,
+    "protein_g": 28.4604166666667,
+    "carbs_g": 7.51291666666666,
+    "fat_g": 7.79066666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "a15acb13-6131-4d51-bbe5-fc41a8e2c6ff",
+    "name": "Frango, inteiro, com pele, cru",
+    "kcal": 226.319166666667,
+    "protein_g": 16.4433333333333,
+    "carbs_g": 0,
+    "fat_g": 17.3066666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "41f78391-8e67-4bf5-9f25-1df801dd7155",
+    "name": "Frango, inteiro, sem pele, assado",
+    "kcal": 187.337796666667,
+    "protein_g": 28.025,
+    "carbs_g": 0,
+    "fat_g": 7.50233333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "2e07076b-3dee-4556-83b5-40d7e7180b1d",
+    "name": "Frango, inteiro, sem pele, cozido",
+    "kcal": 170.389975833333,
+    "protein_g": 24.9854166666667,
+    "carbs_g": 0,
+    "fat_g": 7.06233333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "31609c39-330d-41c8-aed9-8be32b83df78",
+    "name": "Frango, inteiro, sem pele, cru",
+    "kcal": 129.0964,
+    "protein_g": 20.5866666666667,
+    "carbs_g": 0,
+    "fat_g": 4.56666666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "9ef780ea-5252-4b49-bc14-46c931433c8d",
+    "name": "Frango, peito, com pele, assado",
+    "kcal": 211.683149530729,
+    "protein_g": 33.4166666666667,
+    "carbs_g": 0,
+    "fat_g": 7.649,
+    "base_amount": 100
+  },
+  {
+    "id": "695bbf22-5a04-428f-8105-7a1d9257871b",
+    "name": "Frango, peito, com pele, cru",
+    "kcal": 149.465266666667,
+    "protein_g": 20.78,
+    "carbs_g": 0,
+    "fat_g": 6.73333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "d8b322f0-422a-4b06-a373-60ed87c7c004",
+    "name": "Frango, peito, sem pele, cozido",
+    "kcal": 162.874763346314,
+    "protein_g": 31.46875,
+    "carbs_g": 0,
+    "fat_g": 3.16,
+    "base_amount": 100
+  },
+  {
+    "id": "6a0ce7b2-87db-4778-a332-b9fa6aab8f89",
+    "name": "Frango, peito, sem pele, cru",
+    "kcal": 119.159266666667,
+    "protein_g": 21.5266666666667,
+    "carbs_g": 0,
+    "fat_g": 3.02,
+    "base_amount": 100
+  },
+  {
+    "id": "80f1e23b-d0c0-445c-9edd-b7cef26b8371",
+    "name": "Frango, peito, sem pele, grelhado",
+    "kcal": 159.185007192612,
+    "protein_g": 32.0333333333333,
+    "carbs_g": 0,
+    "fat_g": 2.48366666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "ae44999f-d4d8-410f-8ac3-f0e89711d3c1",
+    "name": "Frango, sobrecoxa, com pele, assada",
+    "kcal": 259.604769166667,
+    "protein_g": 28.7020833333333,
+    "carbs_g": 0,
+    "fat_g": 15.1936666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "55307582-d571-4104-9b41-56418dc51925",
+    "name": "Frango, sobrecoxa, com pele, crua",
+    "kcal": 254.5322,
+    "protein_g": 15.46,
+    "carbs_g": 0,
+    "fat_g": 20.9,
+    "base_amount": 100
+  },
+  {
+    "id": "e2cd33f9-c080-40b3-b747-b6255c79bf08",
+    "name": "Frango, sobrecoxa, sem pele, assada",
+    "kcal": 232.883396666667,
+    "protein_g": 29.175,
+    "carbs_g": 0,
+    "fat_g": 12.0073333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "603c15c8-7411-434a-9018-2900bff4e5eb",
+    "name": "Frango, sobrecoxa, sem pele, crua",
+    "kcal": 161.7963,
+    "protein_g": 17.57,
+    "carbs_g": 0,
+    "fat_g": 9.62,
+    "base_amount": 100
+  },
+  {
+    "id": "276f11c5-7474-4882-a3f5-cf585b0996cc",
+    "name": "Hambúrguer, bovino, cru",
+    "kcal": 214.836,
+    "protein_g": 13.15625,
+    "carbs_g": 4.15375,
+    "fat_g": 16.1773333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "e691c818-1753-42b3-8dbe-ed905243d816",
+    "name": "Hambúrguer, bovino, frito",
+    "kcal": 258.283,
+    "protein_g": 19.9729166666667,
+    "carbs_g": 6.32008333333333,
+    "fat_g": 17.0123333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "ce654978-703a-42fc-b98d-a84df4ac3930",
+    "name": "Hambúrguer, bovino, grelhado",
+    "kcal": 209.831666666667,
+    "protein_g": 13.15625,
+    "carbs_g": 11.3334166666667,
+    "fat_g": 12.4303333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "5105fbf6-c8a3-4c21-a2e5-2a4049af48f7",
+    "name": "Lingüiça, frango, crua",
+    "kcal": 218.108814166667,
+    "protein_g": 14.2395833333333,
+    "carbs_g": 0,
+    "fat_g": 17.4396666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "463b6769-6e0d-4f84-939b-c3290e0dc61b",
+    "name": "Lingüiça, frango, frita",
+    "kcal": 245.461006666667,
+    "protein_g": 18.3166666666667,
+    "carbs_g": 0,
+    "fat_g": 18.542,
+    "base_amount": 100
+  },
+  {
+    "id": "876015e1-e343-4491-a90f-de47865d6e91",
+    "name": "Lingüiça, frango, grelhada",
+    "kcal": 243.6585675,
+    "protein_g": 18.1895833333333,
+    "carbs_g": 0,
+    "fat_g": 18.4023333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "006716f5-25a1-4443-bd0a-a37acefc8298",
+    "name": "Lingüiça, porco, crua",
+    "kcal": 227.203450833333,
+    "protein_g": 16.0645833333333,
+    "carbs_g": 0,
+    "fat_g": 17.584,
+    "base_amount": 100
+  },
+  {
+    "id": "4c70c7a3-95ba-42ae-894b-a74eeda53832",
+    "name": "Lingüiça, porco, frita",
+    "kcal": 279.543589166667,
+    "protein_g": 20.4520833333333,
+    "carbs_g": 0,
+    "fat_g": 21.3096666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "db7a5ea1-9b32-4d1b-a659-47d4134afa26",
+    "name": "Lingüiça, porco, grelhada",
+    "kcal": 296.489609166667,
+    "protein_g": 23.16875,
+    "carbs_g": 0,
+    "fat_g": 21.9023333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "4400f3bb-e88a-4f35-98c4-7ee6242f503d",
+    "name": "Mortadela",
+    "kcal": 268.819989016732,
+    "protein_g": 11.9520833333333,
+    "carbs_g": 5.81591666666666,
+    "fat_g": 21.6493333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "701c87fb-b05e-43cd-bd21-878574a8f654",
+    "name": "Peru, congelado, assado",
+    "kcal": 163.071397931377,
+    "protein_g": 26.2020833333333,
+    "carbs_g": 0,
+    "fat_g": 5.675,
+    "base_amount": 100
+  },
+  {
+    "id": "51615194-8aa0-42f0-a7f8-8283b3bec8aa",
+    "name": "Peru, congelado, cru",
+    "kcal": 93.7224338261286,
+    "protein_g": 18.0833333333333,
+    "carbs_g": 0,
+    "fat_g": 1.83,
+    "base_amount": 100
+  },
+  {
+    "id": "fc4fda0c-8c9a-43a8-8434-f74f4b7483c6",
+    "name": "Porco, bisteca, crua",
+    "kcal": 164.115336592992,
+    "protein_g": 21.5,
+    "carbs_g": 0,
+    "fat_g": 8.01666666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "47b27035-40ed-4392-a88a-ece92c7c50ab",
+    "name": "Porco, bisteca, frita",
+    "kcal": 311.169045334856,
+    "protein_g": 33.7479166666667,
+    "carbs_g": 0,
+    "fat_g": 18.5216666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "7ab71c2b-cf7f-460a-a73d-684538571dde",
+    "name": "Porco, bisteca, grelhada",
+    "kcal": 280.084034902771,
+    "protein_g": 28.8895833333333,
+    "carbs_g": 0,
+    "fat_g": 17.3753333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "b720ea4e-03b0-474f-8527-ef732d71ea2f",
+    "name": "Porco, costela, assada",
+    "kcal": 402.168447450837,
+    "protein_g": 30.2229166666667,
+    "carbs_g": 0,
+    "fat_g": 30.279,
+    "base_amount": 100
+  },
+  {
+    "id": "13d1f5bf-b064-4c44-bfdf-d77909dd5eec",
+    "name": "Porco, costela, crua",
+    "kcal": 255.606342061361,
+    "protein_g": 18,
+    "carbs_g": 0,
+    "fat_g": 19.8166666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "1b8bbfec-fb90-41de-9b03-f4c2c39d14c1",
+    "name": "Porco, lombo, assado",
+    "kcal": 210.234665579637,
+    "protein_g": 35.725,
+    "carbs_g": 0,
+    "fat_g": 6.39566666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "d9de3db7-a072-4001-998b-8e2d6c9d5e42",
+    "name": "Porco, lombo, cru",
+    "kcal": 175.625195250114,
+    "protein_g": 22.6041666666667,
+    "carbs_g": 0,
+    "fat_g": 8.77,
+    "base_amount": 100
+  },
+  {
+    "id": "7089398a-de55-467e-84e4-0109d3aae305",
+    "name": "Porco, orelha, salgada, crua",
+    "kcal": 258.491758333333,
+    "protein_g": 18.5208333333333,
+    "carbs_g": 0,
+    "fat_g": 19.89,
+    "base_amount": 100
+  },
+  {
+    "id": "4e9735ec-9f42-48e8-aa45-661b8b593fe2",
+    "name": "Porco, pernil, assado",
+    "kcal": 262.259606666667,
+    "protein_g": 32.1333333333333,
+    "carbs_g": 0,
+    "fat_g": 13.8636666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "be48d198-8bfb-450e-ab70-3e0dc4aacb8e",
+    "name": "Porco, pernil, cru",
+    "kcal": 186.05575,
+    "protein_g": 20.125,
+    "carbs_g": 0,
+    "fat_g": 11.1,
+    "base_amount": 100
+  },
+  {
+    "id": "3501a166-df80-410a-a22f-1267ced3e836",
+    "name": "Porco, rabo, salgado, cru",
+    "kcal": 377.4152575,
+    "protein_g": 15.58125,
+    "carbs_g": 0,
+    "fat_g": 34.466,
+    "base_amount": 100
+  },
+  {
+    "id": "7b8e2b4e-8d1e-4888-b108-0c7a4217e2dc",
+    "name": "Presunto, com capa de gordura",
+    "kcal": 127.849212665637,
+    "protein_g": 14.3708333333333,
+    "carbs_g": 1.3975,
+    "fat_g": 6.77133333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "c91f00ec-17b7-40ab-a425-c486e6f5a98a",
+    "name": "Presunto, sem capa de gordura",
+    "kcal": 93.7432807208697,
+    "protein_g": 14.2916666666667,
+    "carbs_g": 2.14566666666667,
+    "fat_g": 2.70666666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "227e7d2b-4691-4261-9602-9147f5d998d5",
+    "name": "Quibe, assado",
+    "kcal": 136.228876141588,
+    "protein_g": 14.59375,
+    "carbs_g": 12.86125,
+    "fat_g": 2.67633333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "e4f9374b-8122-4d43-9f37-b3ba9fe67683",
+    "name": "Quibe, cru",
+    "kcal": 109.490669294755,
+    "protein_g": 12.3541666666667,
+    "carbs_g": 10.7741666666667,
+    "fat_g": 1.66766666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "811d3ff5-48fa-4a7a-bc0f-04996157879b",
+    "name": "Quibe, frito",
+    "kcal": 253.83130886964,
+    "protein_g": 14.8895833333333,
+    "carbs_g": 12.3374166666667,
+    "fat_g": 15.799,
+    "base_amount": 100
+  },
+  {
+    "id": "56a0c017-494c-4ece-a06f-fea9dbf50081",
+    "name": "Salame",
+    "kcal": 397.842506534934,
+    "protein_g": 25.8104166666667,
+    "carbs_g": 2.90625000000001,
+    "fat_g": 30.6413333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "2fbeb813-df3a-427d-8256-e8e0a1c3c7f3",
+    "name": "Toucinho, cru",
+    "kcal": 592.531175,
+    "protein_g": 11.4791666666667,
+    "carbs_g": 0,
+    "fat_g": 60.2566666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "0a99e8cc-9a4b-4d29-9503-f8e003f17462",
+    "name": "Toucinho, frito",
+    "kcal": 696.564006666667,
+    "protein_g": 27.2833333333333,
+    "carbs_g": 0,
+    "fat_g": 64.3086666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "8be7c119-4d56-49d9-bd7f-4f239e45994e",
+    "name": "Bebida láctea, pêssego",
+    "kcal": 55.1648333333333,
+    "protein_g": 2.13333333333333,
+    "carbs_g": 7.57000000000001,
+    "fat_g": 1.90666666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "2206803c-c614-4bb1-a0bf-92f3792cc0da",
+    "name": "Creme de Leite",
+    "kcal": 221.483541275133,
+    "protein_g": 1.50780669371287,
+    "carbs_g": 4.50952663962046,
+    "fat_g": 22.4793333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "afebad0c-41e1-4764-bb33-85fb5dbd4233",
+    "name": "Iogurte, natural",
+    "kcal": 51.4895333333333,
+    "protein_g": 4.06333333333333,
+    "carbs_g": 1.91666666666666,
+    "fat_g": 3.04,
+    "base_amount": 100
+  },
+  {
+    "id": "be12ad0f-d594-47a9-9f93-9af0da94511a",
+    "name": "Iogurte, natural, desnatado",
+    "kcal": 41.4927112815583,
+    "protein_g": 3.83438006877899,
+    "carbs_g": 5.77395333333333,
+    "fat_g": 0.315666666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "81d02d6b-9d3f-40ba-86fa-d3222ec68275",
+    "name": "Iogurte, sabor abacaxi",
+    "kcal": 0,
+    "protein_g": 0,
+    "carbs_g": 0,
+    "fat_g": 0,
+    "base_amount": 100
+  },
+  {
+    "id": "063426c4-e2ed-41dc-83c8-edfa5450945b",
+    "name": "Iogurte, sabor morango",
+    "kcal": 69.5656,
+    "protein_g": 2.71,
+    "carbs_g": 9.69333333333334,
+    "fat_g": 2.33,
+    "base_amount": 100
+  },
+  {
+    "id": "79fc9e8b-d6a0-48c5-80ab-cbcb52c633cc",
+    "name": "Iogurte, sabor pêssego",
+    "kcal": 67.8494,
+    "protein_g": 2.53,
+    "carbs_g": 9.43333333333334,
+    "fat_g": 2.33666666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "4b81f83d-3142-4cbe-836e-4bb8a6edec12",
+    "name": "Leite, condensado",
+    "kcal": 312.5726,
+    "protein_g": 7.67,
+    "carbs_g": 56.9966666666667,
+    "fat_g": 6.74,
+    "base_amount": 100
+  },
+  {
+    "id": "36224654-9150-4db4-80d9-fd38e4ed9d32",
+    "name": "Leite, de cabra",
+    "kcal": 66.4157418865433,
+    "protein_g": 3.0709067217509,
+    "carbs_g": 5.24609333333333,
+    "fat_g": 3.75433333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "71178128-f175-4e0c-a9fe-a98d3875bbdd",
+    "name": "Leite, de vaca, achocolatado",
+    "kcal": 82.8209962719936,
+    "protein_g": 2.09902003765106,
+    "carbs_g": 14.1583133333333,
+    "fat_g": 2.169,
+    "base_amount": 100
+  },
+  {
+    "id": "d0269162-6e42-492c-a509-f2088d1f1161",
+    "name": "Leite, de vaca, desnatado, pó",
+    "kcal": 361.608,
+    "protein_g": 34.69,
+    "carbs_g": 53.0433333333333,
+    "fat_g": 0.933333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "2a23c692-9335-4abe-a442-9be5cedb79cf",
+    "name": "Leite, de vaca, desnatado, UHT",
+    "kcal": 0,
+    "protein_g": 0,
+    "carbs_g": 0,
+    "fat_g": 0,
+    "base_amount": 100
+  },
+  {
+    "id": "69930fbe-d7d7-4894-9de3-40af643e6fb2",
+    "name": "Leite, de vaca, integral",
+    "kcal": 0,
+    "protein_g": 0,
+    "carbs_g": 0,
+    "fat_g": 0,
+    "base_amount": 100
+  },
+  {
+    "id": "05f0f92b-ec03-4bc0-aee9-930c46b44ba4",
+    "name": "Leite, de vaca, integral, pó",
+    "kcal": 496.6503,
+    "protein_g": 25.42,
+    "carbs_g": 39.18,
+    "fat_g": 26.9033333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "59f132ff-e10a-4d6a-a5da-4a531e14de85",
+    "name": "Leite, fermentado",
+    "kcal": 69.621474,
+    "protein_g": 1.89486,
+    "carbs_g": 15.6744733333333,
+    "fat_g": 0.099,
+    "base_amount": 100
+  },
+  {
+    "id": "052fe454-8a59-4d5f-8c16-703c23eaea7b",
+    "name": "Queijo, minas, frescal",
+    "kcal": 264.273128,
+    "protein_g": 17.41102,
+    "carbs_g": 3.24031333333333,
+    "fat_g": 20.1806666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "679a280b-886c-4665-a3aa-ca4e072d8c9d",
+    "name": "Queijo, minas, meia cura",
+    "kcal": 320.72181773326,
+    "protein_g": 21.2113737138112,
+    "carbs_g": 3.57295961952209,
+    "fat_g": 24.61,
+    "base_amount": 100
+  },
+  {
+    "id": "586ff650-792f-4159-858e-ac85873f84d8",
+    "name": "Queijo, mozarela",
+    "kcal": 329.870718420887,
+    "protein_g": 22.6490004062653,
+    "carbs_g": 3.04933292706807,
+    "fat_g": 25.183,
+    "base_amount": 100
+  },
+  {
+    "id": "cffb5fcf-77f4-4975-87d2-4237623da8d2",
+    "name": "Queijo, parmesão",
+    "kcal": 452.963755333333,
+    "protein_g": 35.5536133333333,
+    "carbs_g": 1.66072,
+    "fat_g": 33.5293333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "67737e06-d4de-4b0d-8441-8841ef7a432e",
+    "name": "Queijo, pasteurizado",
+    "kcal": 303.079803333333,
+    "protein_g": 9.35733333333333,
+    "carbs_g": 5.67633333333333,
+    "fat_g": 27.4353333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "d95b36cd-28c0-4623-ba46-770cfce798cf",
+    "name": "Queijo, petit suisse, morango",
+    "kcal": 121.105954,
+    "protein_g": 5.78666,
+    "carbs_g": 18.4620066666667,
+    "fat_g": 2.83833333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "76df3d86-aacc-4acd-af26-58b65408d622",
+    "name": "Queijo, prato",
+    "kcal": 359.880462405055,
+    "protein_g": 22.6617604064941,
+    "carbs_g": 1.87857292683919,
+    "fat_g": 29.1063333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "92fe104a-489d-4c6b-8625-d72cabbc1be8",
+    "name": "Maria mole",
+    "kcal": 256.578148666667,
+    "protein_g": 9.62954666666667,
+    "carbs_g": 2.43245333333333,
+    "fat_g": 23.441,
+    "base_amount": 100
+  },
+  {
+    "id": "434f7f0a-30e6-45d6-971d-d1520b3b92ea",
+    "name": "Queijo, ricota",
+    "kcal": 139.73178,
+    "protein_g": 12.6005,
+    "carbs_g": 3.78616666666667,
+    "fat_g": 8.10866666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "7e4a6cd0-bec5-4e73-88c1-912209aef20e",
+    "name": "Bebida isotônica, sabores variados",
+    "kcal": 25.6133333333333,
+    "protein_g": 0,
+    "carbs_g": 6.40333333333334,
+    "fat_g": 0,
+    "base_amount": 100
+  },
+  {
+    "id": "bbdea048-b069-4cc8-bb39-e29fff1db6d6",
+    "name": "Café, infusão 10%",
+    "kcal": 9.07086859961352,
+    "protein_g": 0.7125,
+    "carbs_g": 1.47866666666667,
+    "fat_g": 0.069333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "781750ab-54b8-4496-a3f9-3204a9bc3b13",
+    "name": "Cana, aguardente 1",
+    "kcal": 215.6616,
+    "protein_g": 0,
+    "carbs_g": 0,
+    "fat_g": 0,
+    "base_amount": 100
+  },
+  {
+    "id": "72813bdb-4d9a-45d8-ac4b-544a2f326190",
+    "name": "Cana, caldo de",
+    "kcal": 65.3435982689857,
+    "protein_g": 0,
+    "carbs_g": 18.151,
+    "fat_g": 0,
+    "base_amount": 100
+  },
+  {
+    "id": "5b604e93-10f8-4bd4-8ab4-fc27cfa80621",
+    "name": "Cerveja, pilsen 2",
+    "kcal": 40.7201885506287,
+    "protein_g": 0.5625,
+    "carbs_g": 3.3175,
+    "fat_g": 0,
+    "base_amount": 100
+  },
+  {
+    "id": "5c500247-aa0a-40ca-b685-e6f21515ed37",
+    "name": "Chá, erva-doce, infusão 5%",
+    "kcal": 1.39705997387564,
+    "protein_g": 0,
+    "carbs_g": 0.391333333333321,
+    "fat_g": 0,
+    "base_amount": 100
+  },
+  {
+    "id": "e9c749ab-881d-40d1-895e-f44ada4d8f3e",
+    "name": "Chá, mate, infusão 5%",
+    "kcal": 2.73074995112414,
+    "protein_g": 0,
+    "carbs_g": 0.642999999999993,
+    "fat_g": 0.052,
+    "base_amount": 100
+  },
+  {
+    "id": "018777c7-51bc-44d0-9777-6a228d862cd6",
+    "name": "Chá, preto, infusão 5%",
+    "kcal": 2.24790995796521,
+    "protein_g": 0,
+    "carbs_g": 0.629666666666665,
+    "fat_g": 0,
+    "base_amount": 100
+  },
+  {
+    "id": "c11a7a98-4e16-4bdb-aa78-12f2906e50e1",
+    "name": "Coco, água de",
+    "kcal": 21.5085942405065,
+    "protein_g": 0,
+    "carbs_g": 5.28466666666667,
+    "fat_g": 0,
+    "base_amount": 100
+  },
+  {
+    "id": "fada04a8-36be-4666-a247-c623c63672f2",
+    "name": "Refrigerante, tipo água tônica",
+    "kcal": 30.7794,
+    "protein_g": 0,
+    "carbs_g": 7.95333333333334,
+    "fat_g": 0,
+    "base_amount": 100
+  },
+  {
+    "id": "b77b6b88-69a0-40a1-899d-bdba75592498",
+    "name": "Refrigerante, tipo cola",
+    "kcal": 33.5142,
+    "protein_g": 0,
+    "carbs_g": 8.66000000000001,
+    "fat_g": 0,
+    "base_amount": 100
+  },
+  {
+    "id": "b0e1dd3c-2011-4ce7-b717-7cbb1891655c",
+    "name": "Refrigerante, tipo guaraná",
+    "kcal": 38.7,
+    "protein_g": 0,
+    "carbs_g": 10,
+    "fat_g": 0,
+    "base_amount": 100
+  },
+  {
+    "id": "798ee1e1-ff36-4e2d-8d97-b4eca04648c6",
+    "name": "Refrigerante, tipo laranja",
+    "kcal": 45.6273,
+    "protein_g": 0,
+    "carbs_g": 11.79,
+    "fat_g": 0,
+    "base_amount": 100
+  },
+  {
+    "id": "e4c6ba3b-462f-4836-89ef-79c90715392e",
+    "name": "Refrigerante, tipo limão",
+    "kcal": 39.7191,
+    "protein_g": 0,
+    "carbs_g": 10.2633333333333,
+    "fat_g": 0,
+    "base_amount": 100
+  },
+  {
+    "id": "4db653b1-d875-4678-8e66-a35a3d54056a",
+    "name": "Omelete, de queijo",
+    "kcal": 268.006772182425,
+    "protein_g": 15.5708333333333,
+    "carbs_g": 0.437166666666668,
+    "fat_g": 22.0076666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "2c6f5935-fa7e-46e8-9408-376b9ebd45e9",
+    "name": "Ovo, de codorna, inteiro, cru",
+    "kcal": 176.8939,
+    "protein_g": 13.6875,
+    "carbs_g": 0.772499999999999,
+    "fat_g": 12.68,
+    "base_amount": 100
+  },
+  {
+    "id": "22a15c5b-77f3-4169-b843-b4fa1bfa779b",
+    "name": "Ovo, de galinha, clara, cozida/10minutos",
+    "kcal": 59.4356966666667,
+    "protein_g": 13.4479166666667,
+    "carbs_g": 0,
+    "fat_g": 0.089,
+    "base_amount": 100
+  },
+  {
+    "id": "95898ea6-fc9f-4a17-9956-8c8ad5886afe",
+    "name": "Ovo, de galinha, gema, cozida/10minutos",
+    "kcal": 352.67334,
+    "protein_g": 15.9,
+    "carbs_g": 1.56000000000001,
+    "fat_g": 30.777,
+    "base_amount": 100
+  },
+  {
+    "id": "aa78f64b-f93a-4898-9a35-5e10b416a922",
+    "name": "Ovo, de galinha, inteiro, cozido/10minutos",
+    "kcal": 145.70017,
+    "protein_g": 13.29375,
+    "carbs_g": 0.614916666666674,
+    "fat_g": 9.47633333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "0943659b-6a70-42c6-bc5d-85eeed622127",
+    "name": "Ovo, de galinha, inteiro, cru",
+    "kcal": 143.111733333333,
+    "protein_g": 13.03,
+    "carbs_g": 1.63666666666667,
+    "fat_g": 8.9,
+    "base_amount": 100
+  },
+  {
+    "id": "61f50c31-99eb-43bd-b3ab-d51cc05fd349",
+    "name": "Ovo, de galinha, inteiro, frito",
+    "kcal": 240.187224009117,
+    "protein_g": 15.6166666666667,
+    "carbs_g": 1.19366666666666,
+    "fat_g": 18.5926666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "a5052be4-f467-4f78-9536-40c3d52fb743",
+    "name": "Achocolatado, pó",
+    "kcal": 401.02,
+    "protein_g": 4.20333333333333,
+    "carbs_g": 91.1766666666667,
+    "fat_g": 2.16666666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "4233f2f7-0f03-42fd-b91f-1ec3afc8b656",
+    "name": "Açúcar, cristal",
+    "kcal": 386.845724,
+    "protein_g": 0.32,
+    "carbs_g": 99.61,
+    "fat_g": 0,
+    "base_amount": 100
+  },
+  {
+    "id": "40e405db-3080-4db5-b578-32b370768efd",
+    "name": "Açúcar, mascavo",
+    "kcal": 368.554822524389,
+    "protein_g": 0.758333333333333,
+    "carbs_g": 94.45,
+    "fat_g": 0.092,
+    "base_amount": 100
+  },
+  {
+    "id": "ea7c7f9c-e0c5-403f-8b55-61937d73e3ad",
+    "name": "Açúcar, refinado",
+    "kcal": 386.574824,
+    "protein_g": 0.32,
+    "carbs_g": 99.54,
+    "fat_g": 0,
+    "base_amount": 100
+  },
+  {
+    "id": "73c6231f-446c-40f0-977e-41cd9b34065e",
+    "name": "Chocolate, ao leite",
+    "kcal": 539.586666666667,
+    "protein_g": 7.22,
+    "carbs_g": 59.5766666666667,
+    "fat_g": 30.2666666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "f33b2c86-2334-49da-a3d2-aa5f473d658e",
+    "name": "Chocolate, ao leite, com castanha do Pará",
+    "kcal": 558.876333333333,
+    "protein_g": 7.4125,
+    "carbs_g": 55.3768333333333,
+    "fat_g": 34.191,
+    "base_amount": 100
+  },
+  {
+    "id": "16f0f317-2f3a-4e44-a878-ce7db26cc0d8",
+    "name": "Chocolate, ao leite, dietético",
+    "kcal": 556.824333333333,
+    "protein_g": 6.89791666666667,
+    "carbs_g": 56.3234166666667,
+    "fat_g": 33.771,
+    "base_amount": 100
+  },
+  {
+    "id": "65d1a83b-0fd7-4dbc-a206-4e4dc2cf3026",
+    "name": "Chocolate, meio amargo",
+    "kcal": 474.917769973274,
+    "protein_g": 4.86244343217214,
+    "carbs_g": 62.4228899011612,
+    "fat_g": 29.8566666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "77c0b012-752b-417e-b7eb-6dcdd98ba96b",
+    "name": "Cocada branca",
+    "kcal": 448.84545242331,
+    "protein_g": 1.12183337370555,
+    "carbs_g": 81.3831666262945,
+    "fat_g": 13.587,
+    "base_amount": 100
+  },
+  {
+    "id": "3d81c163-1c38-4983-9d3a-f82f767b653f",
+    "name": "Doce, de abóbora, cremoso",
+    "kcal": 198.936063049634,
+    "protein_g": 0.916666666666667,
+    "carbs_g": 54.6133333333333,
+    "fat_g": 0.206666666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "151b439a-8a1a-47d9-8015-f4f37b3dd620",
+    "name": "Doce, de leite, cremoso",
+    "kcal": 306.310130231059,
+    "protein_g": 5.47829343159994,
+    "carbs_g": 59.4933732350667,
+    "fat_g": 5.993,
+    "base_amount": 100
+  },
+  {
+    "id": "66c5a857-2fc3-44ca-8ac9-06bf7a2c884a",
+    "name": "Geléia, mocotó, natural",
+    "kcal": 106.086666666667,
+    "protein_g": 2.125,
+    "carbs_g": 24.2316666666667,
+    "fat_g": 0.073333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "cd1ef179-2545-405f-89b1-1ee372393fd6",
+    "name": "Glicose de milho",
+    "kcal": 292.118405299187,
+    "protein_g": 0,
+    "carbs_g": 79.38,
+    "fat_g": 0,
+    "base_amount": 100
+  },
+  {
+    "id": "63169196-da06-4171-a7bd-d96aa309c98d",
+    "name": "Maria mole",
+    "kcal": 301.235887537,
+    "protein_g": 3.81285013103485,
+    "carbs_g": 73.5534832022985,
+    "fat_g": 0.19,
+    "base_amount": 100
+  },
+  {
+    "id": "c10f01e2-82fb-4f2d-b64a-951ed08b59d4",
+    "name": "Maria mole, coco queimado",
+    "kcal": 306.631896997019,
+    "protein_g": 3.93495013523102,
+    "carbs_g": 75.0593831981023,
+    "fat_g": 0.089333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "476c5c49-f8fe-455a-b4e5-86005ee4115d",
+    "name": "Marmelada",
+    "kcal": 257.241473193804,
+    "protein_g": 0.4,
+    "carbs_g": 70.7633333333333,
+    "fat_g": 0.137333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "34ea8d25-fb44-41b0-9df6-d4ab8c3ca618",
+    "name": "Mel, de abelha",
+    "kcal": 309.242666666667,
+    "protein_g": 0,
+    "carbs_g": 84.0333333333333,
+    "fat_g": 0,
+    "base_amount": 100
+  },
+  {
+    "id": "48c43503-aea7-4828-bf5a-768957b37395",
+    "name": "Melado",
+    "kcal": 296.506491231918,
+    "protein_g": 0,
+    "carbs_g": 76.6166666666667,
+    "fat_g": 0,
+    "base_amount": 100
+  },
+  {
+    "id": "10cb2935-aa58-4652-ba2e-54aeb147cc91",
+    "name": "Quindim",
+    "kcal": 411.348721570849,
+    "protein_g": 4.7375,
+    "carbs_g": 46.2988333333333,
+    "fat_g": 24.425,
+    "base_amount": 100
+  },
+  {
+    "id": "49345bee-bc8c-43df-a548-27c2df84230b",
+    "name": "Rapadura",
+    "kcal": 351.958122101545,
+    "protein_g": 0.989583333333333,
+    "carbs_g": 90.7924166666667,
+    "fat_g": 0.070666666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "ad4bcccf-dd0e-4d11-80a8-51ed64ac7ff0",
+    "name": "Café, pó, torrado",
+    "kcal": 418.618666666667,
+    "protein_g": 14.7,
+    "carbs_g": 65.7533333333333,
+    "fat_g": 11.9466666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "e0690ae2-74e6-4c58-9687-69fd12e4b56b",
+    "name": "Capuccino, pó",
+    "kcal": 417.406666666667,
+    "protein_g": 11.3125,
+    "carbs_g": 73.6141666666667,
+    "fat_g": 8.63333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "faba9528-7301-45dd-a68e-5bfe47e629dc",
+    "name": "Fermento em pó, químico",
+    "kcal": 89.7220666511218,
+    "protein_g": 0.475333318710327,
+    "carbs_g": 43.9113333479563,
+    "fat_g": 0.073333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "70e804ef-7a49-4f32-b335-2ca0128e9d6e",
+    "name": "Fermento, biológico, levedura, tablete",
+    "kcal": 89.7948670305889,
+    "protein_g": 16.9569994783401,
+    "carbs_g": 7.69866718832652,
+    "fat_g": 1.51766666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "be520deb-f770-4072-a842-bafc8bba2f10",
+    "name": "Gelatina, sabores variados, pó",
+    "kcal": 380.2229,
+    "protein_g": 8.88666666666667,
+    "carbs_g": 89.2233333333333,
+    "fat_g": 0,
+    "base_amount": 100
+  },
+  {
+    "id": "6a18931f-c2fb-4fbb-b5ce-f0fc8e3d94cc",
+    "name": "Sal, dietético",
+    "kcal": 0,
+    "protein_g": 0,
+    "carbs_g": 0,
+    "fat_g": 0,
+    "base_amount": 100
+  },
+  {
+    "id": "3098c5e1-c1d1-46f1-b3e1-4242802f02cc",
+    "name": "Sal, grosso",
+    "kcal": 0,
+    "protein_g": 0,
+    "carbs_g": 0,
+    "fat_g": 0,
+    "base_amount": 100
+  },
+  {
+    "id": "feaa8de8-ea2e-4d4c-9c25-935a911ecb1a",
+    "name": "Shoyu",
+    "kcal": 60.9277498753866,
+    "protein_g": 3.3125,
+    "carbs_g": 11.6475,
+    "fat_g": 0.326666666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "b325cf20-bb9b-47a2-88e0-bfc92d071cb0",
+    "name": "Tempero a base de sal",
+    "kcal": 21.33,
+    "protein_g": 2.66666666666667,
+    "carbs_g": 2.07333333333334,
+    "fat_g": 0.263333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "b7b94cd2-dea1-48cc-abac-2c493f11586d",
+    "name": "Azeitona, preta, conserva",
+    "kcal": 194.153847020984,
+    "protein_g": 1.1625,
+    "carbs_g": 5.5445,
+    "fat_g": 20.345,
+    "base_amount": 100
+  },
+  {
+    "id": "2795afbf-ffcc-4a2e-b029-58d0cef6e498",
+    "name": "Azeitona, verde, conserva",
+    "kcal": 136.93643,
+    "protein_g": 0.947916666666667,
+    "carbs_g": 4.10175,
+    "fat_g": 14.2156666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "e336f5bd-5af5-4d4d-82bc-7c37bd663c78",
+    "name": "Chantilly, spray, com gordura vegetal",
+    "kcal": 314.956000266667,
+    "protein_g": 0.525,
+    "carbs_g": 16.8550000666667,
+    "fat_g": 27.2706666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "3f7a411a-9cc7-4d6f-8467-8c732a22b326",
+    "name": "Leite, de coco",
+    "kcal": 166.160301615546,
+    "protein_g": 1.0140667031606,
+    "carbs_g": 2.19459996350605,
+    "fat_g": 18.3643333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "ceb3e1d6-3be9-4795-bf78-402081944363",
+    "name": "Maionese, tradicional com ovos",
+    "kcal": 302.152677687824,
+    "protein_g": 0.58125,
+    "carbs_g": 7.89975,
+    "fat_g": 30.4976666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "8ac58739-42eb-421d-b89f-cc4f05eec8bb",
+    "name": "Acarajé",
+    "kcal": 289.211666666667,
+    "protein_g": 8.34583333333334,
+    "carbs_g": 19.1138333333333,
+    "fat_g": 19.9303333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "b86b7c01-fe14-4010-b796-4d37e5859184",
+    "name": "Arroz carreteiro",
+    "kcal": 153.772,
+    "protein_g": 10.8291666666667,
+    "carbs_g": 11.5848333333333,
+    "fat_g": 7.124,
+    "base_amount": 100
+  },
+  {
+    "id": "86a12911-7513-4963-8218-9c793cf25aae",
+    "name": "Baião de dois, arroz e feijão-de-corda",
+    "kcal": 135.681333333333,
+    "protein_g": 6.23958333333333,
+    "carbs_g": 20.41775,
+    "fat_g": 3.228,
+    "base_amount": 100
+  },
+  {
+    "id": "fa303d1b-a375-4c73-8ee2-1f566736ff1c",
+    "name": "Barreado",
+    "kcal": 164.975234047413,
+    "protein_g": 18.26875,
+    "carbs_g": 0.23625,
+    "fat_g": 9.534,
+    "base_amount": 100
+  },
+  {
+    "id": "53118fc2-9087-47be-b0f7-f2b9ce366348",
+    "name": "Bife à cavalo, com contra filé",
+    "kcal": 291.229509244959,
+    "protein_g": 23.6604166666667,
+    "carbs_g": 0,
+    "fat_g": 21.1466666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "d77cccd5-78e7-4591-939f-245d92579170",
+    "name": "Bolinho de arroz",
+    "kcal": 273.514333333333,
+    "protein_g": 8.03958333333333,
+    "carbs_g": 41.68275,
+    "fat_g": 8.29166666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "f1df34fc-81cc-42cf-be67-418df32ab1b7",
+    "name": "Camarão à baiana",
+    "kcal": 100.783043004036,
+    "protein_g": 7.94166666666667,
+    "carbs_g": 3.17366666666667,
+    "fat_g": 5.96766666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "86e530b3-c8f9-406d-800d-49e57d98b33c",
+    "name": "Charuto, de repolho",
+    "kcal": 78.2347292222182,
+    "protein_g": 6.77916666666667,
+    "carbs_g": 10.1331666666667,
+    "fat_g": 1.11666666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "9c3163c1-574d-40e9-b437-6d31ae09c4a3",
+    "name": "Cuscuz, de milho, cozido com sal",
+    "kcal": 113.459481666667,
+    "protein_g": 2.15625,
+    "carbs_g": 25.2814166666667,
+    "fat_g": 0.679666666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "9a2055a3-e2ae-4106-b076-54fcc66b8f31",
+    "name": "Cuscuz, paulista",
+    "kcal": 142.123,
+    "protein_g": 2.55833333333333,
+    "carbs_g": 22.5136666666667,
+    "fat_g": 4.64833333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "db56c86d-6da7-4c51-89cd-86e2b7e9ffeb",
+    "name": "Cuxá, molho",
+    "kcal": 80.0916156365077,
+    "protein_g": 5.64375,
+    "carbs_g": 5.73891666666667,
+    "fat_g": 3.59266666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "0238224a-1166-416b-99c4-916bbdbb29c3",
+    "name": "Dobradinha",
+    "kcal": 124.500200833333,
+    "protein_g": 19.7729166666667,
+    "carbs_g": 0,
+    "fat_g": 4.44233333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "8c958648-24d3-4422-8038-b1862eb0c39d",
+    "name": "Estrogonofe de carne",
+    "kcal": 173.141364318013,
+    "protein_g": 15.03125,
+    "carbs_g": 2.97541666666667,
+    "fat_g": 10.803,
+    "base_amount": 100
+  },
+  {
+    "id": "1f02239c-f102-457a-a4cb-80285dd30363",
+    "name": "Estrogonofe de frango",
+    "kcal": 156.806103013237,
+    "protein_g": 17.5520833333333,
+    "carbs_g": 2.59391666666666,
+    "fat_g": 7.96233333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "a16e5ba7-0ad3-46a4-a991-60717429dfe7",
+    "name": "Feijão tropeiro mineiro",
+    "kcal": 151.561856830955,
+    "protein_g": 10.1708333333333,
+    "carbs_g": 19.5818333333333,
+    "fat_g": 6.79066666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "65897df5-8ab2-4bd2-ab00-67cc5913cf45",
+    "name": "Feijoada",
+    "kcal": 116.933457311034,
+    "protein_g": 8.67083333333333,
+    "carbs_g": 11.6418333333333,
+    "fat_g": 6.47733333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "e3faa917-6c09-4628-893f-61e3e897813f",
+    "name": "Frango, com açafrão",
+    "kcal": 112.783768841227,
+    "protein_g": 9.69791666666667,
+    "carbs_g": 4.06208333333333,
+    "fat_g": 6.17,
+    "base_amount": 100
+  },
+  {
+    "id": "be1be7d9-063a-4d10-ab53-6f37dc643993",
+    "name": "Macarrão, molho bolognesa",
+    "kcal": 119.53177144556,
+    "protein_g": 4.93429983488719,
+    "carbs_g": 22.5223668317795,
+    "fat_g": 0.889666666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "22c6d937-6a60-40c0-9d16-f3f700f8f80d",
+    "name": "Maniçoba",
+    "kcal": 134.222893400987,
+    "protein_g": 9.95833333333333,
+    "carbs_g": 3.41933333333333,
+    "fat_g": 8.69933333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "8d7f6f80-cf64-4e6f-978a-995a42f9d37f",
+    "name": "Quibebe",
+    "kcal": 86.349230299592,
+    "protein_g": 8.55625,
+    "carbs_g": 6.64408333333332,
+    "fat_g": 2.672,
+    "base_amount": 100
+  },
+  {
+    "id": "49798cf4-52cc-46e0-ac0c-1a29be46f4fb",
+    "name": "Salada, de legumes, com maionese",
+    "kcal": 96.1035883984566,
+    "protein_g": 1.05,
+    "carbs_g": 8.92399999999999,
+    "fat_g": 7.039,
+    "base_amount": 100
+  },
+  {
+    "id": "6b361747-c3b8-4d66-9aa6-5839db73eac7",
+    "name": "Salada, de legumes, cozida no vapor",
+    "kcal": 35.4081042984724,
+    "protein_g": 2.00625,
+    "carbs_g": 7.08908333333334,
+    "fat_g": 0.311666666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "1a0ca63e-0e7d-44d2-a9e0-4dfba0aa672d",
+    "name": "Salpicão, de frango",
+    "kcal": 147.864596134027,
+    "protein_g": 13.925,
+    "carbs_g": 4.56899999999999,
+    "fat_g": 7.84066666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "f98df28c-b8a9-4e75-88ee-3e53d072cc82",
+    "name": "Sarapatel",
+    "kcal": 122.981858212431,
+    "protein_g": 18.4729166666667,
+    "carbs_g": 1.09408333333334,
+    "fat_g": 4.42,
+    "base_amount": 100
+  },
+  {
+    "id": "e6c5ad54-e482-46dd-bb5e-0434a8a21843",
+    "name": "Tabule",
+    "kcal": 57.4534766884806,
+    "protein_g": 2.04632997322083,
+    "carbs_g": 10.5810033601125,
+    "fat_g": 1.208,
+    "base_amount": 100
+  },
+  {
+    "id": "b2cdfdb9-12e0-4b2c-9419-7d3da5a40e97",
+    "name": "Tacacá",
+    "kcal": 46.8891771512032,
+    "protein_g": 6.95833333333334,
+    "carbs_g": 3.39,
+    "fat_g": 0.359666666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "88dcffd8-441c-4a51-904d-f9a723537b42",
+    "name": "Tapioca, com manteiga",
+    "kcal": 347.826556257824,
+    "protein_g": 0.089583333333333,
+    "carbs_g": 63.59175,
+    "fat_g": 10.9083333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "b4278a18-f88a-47e0-88a1-0b232b6303d2",
+    "name": "Tucupi, com pimenta-de-cheiro",
+    "kcal": 27.1837984027266,
+    "protein_g": 2.05625,
+    "carbs_g": 4.73774999999999,
+    "fat_g": 0.283666666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "cdecda29-bc2a-4d51-a572-60ecd7ca0217",
+    "name": "Vaca atolada",
+    "kcal": 144.89697968479,
+    "protein_g": 5.12291666666667,
+    "carbs_g": 10.0614166666667,
+    "fat_g": 9.322,
+    "base_amount": 100
+  },
+  {
+    "id": "87f1e56d-bf1d-49d9-850a-be90bfb889b0",
+    "name": "Vatapá",
+    "kcal": 254.893285724155,
+    "protein_g": 5.99783354918162,
+    "carbs_g": 9.74849978415172,
+    "fat_g": 23.2263333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "1df84635-ff48-464b-bd44-c359bbb01c73",
+    "name": "Virado à paulista",
+    "kcal": 306.94678645132,
+    "protein_g": 10.18125,
+    "carbs_g": 14.1090833333333,
+    "fat_g": 25.5906666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "e9e1a5b6-fd64-46cd-9131-44ffcee78f31",
+    "name": "Yakisoba",
+    "kcal": 112.802041253408,
+    "protein_g": 7.51666666666667,
+    "carbs_g": 18.2513333333333,
+    "fat_g": 2.607,
+    "base_amount": 100
+  },
+  {
+    "id": "a4daf231-aecb-47bf-9f0c-3b616a1658f7",
+    "name": "Amendoim, grão, cru",
+    "kcal": 544.052655799433,
+    "protein_g": 27.1908001899719,
+    "carbs_g": 20.3135333333333,
+    "fat_g": 43.85,
+    "base_amount": 100
+  },
+  {
+    "id": "435c3be6-bfff-46a8-bcb9-90fc3fb137cc",
+    "name": "Amendoim, torrado, salgado",
+    "kcal": 605.781092917019,
+    "protein_g": 22.4751801570257,
+    "carbs_g": 18.702486509641,
+    "fat_g": 53.9633333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "b060e52a-8300-487d-bf1f-da07d2c86905",
+    "name": "Ervilha, em vagem",
+    "kcal": 88.0935819997785,
+    "protein_g": 7.45208333333333,
+    "carbs_g": 14.2275833333333,
+    "fat_g": 0.471,
+    "base_amount": 100
+  },
+  {
+    "id": "d5a5abd8-9d3f-46fa-ba32-f7dce379d44a",
+    "name": "Ervilha, enlatada, drenada",
+    "kcal": 73.8447043478261,
+    "protein_g": 4.59782608695652,
+    "carbs_g": 13.4421739130435,
+    "fat_g": 0.38,
+    "base_amount": 100
+  },
+  {
+    "id": "6473b919-4c7d-482f-9c07-cc51d6c36a82",
+    "name": "Feijão, carioca, cozido",
+    "kcal": 76.4240856666667,
+    "protein_g": 4.775,
+    "carbs_g": 13.5910333333333,
+    "fat_g": 0.542333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "dbc0d6f2-2511-417c-882f-acf77cb1ef3d",
+    "name": "Feijão, carioca, cru",
+    "kcal": 329.026736231884,
+    "protein_g": 19.981884057971,
+    "carbs_g": 61.2214492753623,
+    "fat_g": 1.25666666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "2bf84640-cc80-45e7-9694-a28704c3ae8e",
+    "name": "Feijão, fradinho, cozido",
+    "kcal": 78.0088966666667,
+    "protein_g": 5.09375,
+    "carbs_g": 13.4995833333333,
+    "fat_g": 0.644,
+    "base_amount": 100
+  },
+  {
+    "id": "3d00f2cc-4624-4540-a768-faeff3b8583c",
+    "name": "Feijão, fradinho, cru",
+    "kcal": 339.164766666667,
+    "protein_g": 20.2083333333333,
+    "carbs_g": 61.24,
+    "fat_g": 2.365,
+    "base_amount": 100
+  },
+  {
+    "id": "1f775964-c3c9-496c-8591-0c20ff9314e6",
+    "name": "Feijão, jalo, cozido",
+    "kcal": 92.73992,
+    "protein_g": 6.14375,
+    "carbs_g": 16.49525,
+    "fat_g": 0.512,
+    "base_amount": 100
+  },
+  {
+    "id": "19fcd8ef-cdc5-493b-9e20-4ae9dd60d99d",
+    "name": "Feijão, jalo, cru",
+    "kcal": 327.905266666667,
+    "protein_g": 20.1041666666667,
+    "carbs_g": 61.4791666666667,
+    "fat_g": 0.946666666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "9ce7adb9-319b-4bb2-b940-b66b50a6f584",
+    "name": "Feijão, preto, cozido",
+    "kcal": 77.0272666666667,
+    "protein_g": 4.47916666666667,
+    "carbs_g": 14.0051666666667,
+    "fat_g": 0.535666666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "091a1c1f-b4fb-4e3b-b399-ec4d02aea355",
+    "name": "Feijão, preto, cru",
+    "kcal": 323.565711594203,
+    "protein_g": 21.3442028985507,
+    "carbs_g": 58.752463768116,
+    "fat_g": 1.24,
+    "base_amount": 100
+  },
+  {
+    "id": "16c88d49-3f2c-49da-9065-670114abd86c",
+    "name": "Feijão, rajado, cozido",
+    "kcal": 84.7018527334929,
+    "protein_g": 5.5375,
+    "carbs_g": 15.2675,
+    "fat_g": 0.4,
+    "base_amount": 100
+  },
+  {
+    "id": "f009d1a0-7029-46f4-8574-316de3dc0886",
+    "name": "Feijão, rajado, cru",
+    "kcal": 325.844411162734,
+    "protein_g": 17.2708333333333,
+    "carbs_g": 62.9291666666667,
+    "fat_g": 1.17,
+    "base_amount": 100
+  },
+  {
+    "id": "8ec650c8-ac40-4a16-8b27-cf129bf33e84",
+    "name": "Feijão, rosinha, cozido",
+    "kcal": 67.8662287714283,
+    "protein_g": 4.53958333333333,
+    "carbs_g": 11.82275,
+    "fat_g": 0.477333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "66cc7fdc-6c95-4e81-b76c-4ce8aff3bc48",
+    "name": "Feijão, rosinha, cru",
+    "kcal": 336.961911127567,
+    "protein_g": 20.9166666666667,
+    "carbs_g": 62.2233333333333,
+    "fat_g": 1.33,
+    "base_amount": 100
+  },
+  {
+    "id": "2a69917e-4632-4e18-8876-33c5a1669212",
+    "name": "Feijão, roxo, cozido",
+    "kcal": 76.8933823179006,
+    "protein_g": 5.72083333333333,
+    "carbs_g": 12.9081666666667,
+    "fat_g": 0.538333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "31fe975a-ce28-4195-8c8d-4ddf27f155c6",
+    "name": "Feijão, roxo, cru",
+    "kcal": 331.414977456729,
+    "protein_g": 22.1666666666667,
+    "carbs_g": 59.9866666666667,
+    "fat_g": 1.23666666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "ef29f77d-743e-40ad-873a-bf13dc9121f0",
+    "name": "Grão-de-bico, cru",
+    "kcal": 354.7028765891,
+    "protein_g": 21.2291666666667,
+    "carbs_g": 57.8841666666667,
+    "fat_g": 5.43,
+    "base_amount": 100
+  },
+  {
+    "id": "13ebb6e4-43c7-4b18-a19c-f155bc830b31",
+    "name": "Guandu, cru",
+    "kcal": 344.133651284993,
+    "protein_g": 18.9645833333333,
+    "carbs_g": 64.0004166666667,
+    "fat_g": 2.132,
+    "base_amount": 100
+  },
+  {
+    "id": "85ca6e18-a982-477b-8761-c9e191438f15",
+    "name": "Lentilha, cozida",
+    "kcal": 92.6387662522992,
+    "protein_g": 6.31041666666667,
+    "carbs_g": 16.30225,
+    "fat_g": 0.524666666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "c5283403-b15f-4127-bedb-3129a495f7ce",
+    "name": "Lentilha, crua",
+    "kcal": 339.141240203553,
+    "protein_g": 23.1521739130435,
+    "carbs_g": 62.0044927536232,
+    "fat_g": 0.77,
+    "base_amount": 100
+  },
+  {
+    "id": "d36ea7f7-3aea-4eac-808a-27d0cc676779",
+    "name": "Paçoca, amendoim",
+    "kcal": 486.927086464524,
+    "protein_g": 15.9958333333333,
+    "carbs_g": 52.3761666666667,
+    "fat_g": 26.0753333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "72f62052-3fe7-40eb-829a-ea7f7a3a464e",
+    "name": "Pé-de-moleque, amendoim",
+    "kcal": 503.190365839956,
+    "protein_g": 13.1622400919596,
+    "carbs_g": 54.730426574707,
+    "fat_g": 28.0483333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "1518db63-e26a-477c-b85b-33d9f56a201c",
+    "name": "Soja, farinha",
+    "kcal": 403.955845810399,
+    "protein_g": 36.0301002407074,
+    "carbs_g": 38.4398997592926,
+    "fat_g": 14.6333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "928bf9cb-c889-4292-9e77-13d89ab4b6aa",
+    "name": "Soja, extrato solúvel, natural, fluido",
+    "kcal": 39.1048552753508,
+    "protein_g": 2.38107001590729,
+    "carbs_g": 4.27526333333334,
+    "fat_g": 1.606,
+    "base_amount": 100
+  },
+  {
+    "id": "050c4a1c-712d-4686-b45f-00a6f530a2d0",
+    "name": "Soja, extrato solúvel, pó",
+    "kcal": 458.895729437868,
+    "protein_g": 35.6875002384186,
+    "carbs_g": 28.4828333333333,
+    "fat_g": 26.181,
+    "base_amount": 100
+  },
+  {
+    "id": "cda27382-c622-47be-b6c0-b39dc0f99988",
+    "name": "Soja, queijo (tofu)",
+    "kcal": 64.4850940738902,
+    "protein_g": 6.55317671044668,
+    "carbs_g": 2.12682333333333,
+    "fat_g": 3.95333333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "efacf747-0e6a-450e-9a49-97c605263015",
+    "name": "Tremoço, cru",
+    "kcal": 381.278173960129,
+    "protein_g": 33.575,
+    "carbs_g": 43.7863333333333,
+    "fat_g": 10.342,
+    "base_amount": 100
+  },
+  {
+    "id": "be9f9767-3619-49df-9e8d-b4b7aa775d5f",
+    "name": "Tremoço, em conserva",
+    "kcal": 120.642585344871,
+    "protein_g": 11.1083333333333,
+    "carbs_g": 12.3893333333333,
+    "fat_g": 3.784,
+    "base_amount": 100
+  },
+  {
+    "id": "faff3421-95b2-4588-89b9-83ea877636f4",
+    "name": "Amêndoa, torrada, salgada",
+    "kcal": 580.746954556071,
+    "protein_g": 18.5547593851089,
+    "carbs_g": 29.54724,
+    "fat_g": 47.3243333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "07db3bcc-4446-4143-b5d3-5c04304cbcec",
+    "name": "Castanha-de-caju, torrada, salgada",
+    "kcal": 570.167626501619,
+    "protein_g": 18.5093673327764,
+    "carbs_g": 29.134966000557,
+    "fat_g": 46.2796666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "34318d6a-cf9e-4e15-bd35-4aa49cb00b31",
+    "name": "Castanha-do-Brasil, crua",
+    "kcal": 642.963071681069,
+    "protein_g": 14.53634010156,
+    "carbs_g": 15.07865989844,
+    "fat_g": 63.459,
+    "base_amount": 100
+  },
+  {
+    "id": "e7442883-65ac-4ef6-a2e2-40e07540ec32",
+    "name": "Coco, cru",
+    "kcal": 406.48735310781,
+    "protein_g": 3.69183412310697,
+    "carbs_g": 10.401665876893,
+    "fat_g": 41.9763333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "59b8d9a0-6681-4406-9aa7-953a4a45e978",
+    "name": "Coco, verde, cru",
+    "kcal": 0,
+    "protein_g": 0,
+    "carbs_g": 0,
+    "fat_g": 0,
+    "base_amount": 100
+  },
+  {
+    "id": "f327cf0a-d557-4f2d-bc68-a2d69e0f0062",
+    "name": "Farinha, de mesocarpo de babaçu, crua",
+    "kcal": 328.771400244834,
+    "protein_g": 1.40626671727498,
+    "carbs_g": 79.1730666160584,
+    "fat_g": 0.198,
+    "base_amount": 100
+  },
+  {
+    "id": "4491a8a6-e92b-452e-a0b2-06cdf73d6b9f",
+    "name": "Gergelim, semente",
+    "kcal": 583.54671475455,
+    "protein_g": 21.1646674283346,
+    "carbs_g": 21.6176659049988,
+    "fat_g": 50.4326666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "f3ec399e-88a4-4675-ad99-1f98c2413cc9",
+    "name": "Linhaça, semente",
+    "kcal": 495.096113843651,
+    "protein_g": 14.0838671735128,
+    "carbs_g": 43.3121994931539,
+    "fat_g": 32.2529333333333,
+    "base_amount": 100
+  },
+  {
+    "id": "84aa8655-0fcc-4d14-921c-294886dd6158",
+    "name": "Pinhão, cozido",
+    "kcal": 174.369902,
+    "protein_g": 2.98036666666667,
+    "carbs_g": 43.9176333333333,
+    "fat_g": 0.747,
+    "base_amount": 100
+  },
+  {
+    "id": "c6dafeab-9cf9-4148-90e8-37fdee65c8d0",
+    "name": "Pupunha, cozida",
+    "kcal": 218.533880876601,
+    "protein_g": 2.52291666666667,
+    "carbs_g": 29.5694166666667,
+    "fat_g": 12.7616666666667,
+    "base_amount": 100
+  },
+  {
+    "id": "d231fa93-1e16-4d68-90e2-04cc289b0c57",
+    "name": "Noz, crua",
+    "kcal": 620.060019790567,
+    "protein_g": 13.9708005027771,
+    "carbs_g": 18.3638661638896,
+    "fat_g": 59.3596666666667,
+    "base_amount": 100
+  }
+]

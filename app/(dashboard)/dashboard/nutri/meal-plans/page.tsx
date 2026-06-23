@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { MealPlansPageClient } from "./_components/MealPlansPageClient";
+import { getNutriPatients } from "@/app/actions/nutri-actions";
 
 export const metadata = {
   title: "Modelos de Cardápios · Nutricionista",
@@ -16,14 +17,16 @@ export default async function MealPlansPage() {
 
   if (!user) redirect("/login?next=/dashboard/nutri/meal-plans");
 
-  // TODO: Quando a tabela meal_plans existir no Supabase, descomentar:
-  // const { data: plans, error } = await supabase
-  //   .from("meal_plans")
-  //   .select("*")
-  //   .eq("nutritionist_id", user.id)
-  //   .order("created_at", { ascending: false });
+  // Busca cardápios que pertencem ao Nutri OU que são templates globais do sistema
+  const { data: plans, error } = await supabase
+    .from("meal_plans")
+    .select("*")
+    .or(`nutritionist_id.eq.${user.id},is_global_template.eq.true`)
+    .order("created_at", { ascending: false });
 
-  // if (error) console.error("Erro ao buscar cardápios:", error.message);
+  if (error) console.error("Erro ao buscar cardápios:", error.message);
 
-  return <MealPlansPageClient nutritionistId={user.id} />;
+  const patients = await getNutriPatients();
+
+  return <MealPlansPageClient nutritionistId={user.id} initialPlans={plans || []} patients={patients || []} />;
 }

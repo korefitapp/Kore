@@ -16,13 +16,13 @@ export default async function FoodDatabasePage() {
 
   if (!user) redirect("/login?next=/dashboard/nutri/food-database");
 
-  // TODO: Quando a tabela foods existir no Supabase, descomentar:
-  // const { data: foods, error } = await supabase
-  //   .from("foods")
-  //   .select("*")
-  //   .order("name", { ascending: true });
+  const { data: foods, error } = await supabase
+    .from("foods")
+    .select("*")
+    .or(`created_by.is.null,created_by.eq.${user.id}`)
+    .order("name", { ascending: true });
 
-  // if (error) console.error("Erro ao buscar alimentos:", error.message);
+  if (error) console.error("Erro ao buscar alimentos:", error.message);
 
-  return <FoodDatabasePageClient />;
+  return <FoodDatabasePageClient initialFoods={foods || []} />;
 }

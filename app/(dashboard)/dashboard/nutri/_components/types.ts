@@ -43,6 +43,7 @@ export interface NutriKpi {
   label: string;
   hint: string;
   tone: KpiTone;
+  href?: string;
 }
 
 export type ConsultModality = "presencial" | "online" | "retorno";

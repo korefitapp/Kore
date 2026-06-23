@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion";
 import { Clock, MapPin, Video } from "lucide-react";
-import { AGENDA_TODAY } from "./data";
 import type { AgendaModality, AgendaSession } from "./types";
 
 const MODALITY_STYLES: Record<
@@ -26,8 +25,9 @@ const MODALITY_STYLES: Record<
   },
 };
 
-export function AgendaToday() {
-  const totalMinutes = AGENDA_TODAY.reduce((acc, s) => acc + s.durationMin, 0);
+export function AgendaToday({ agenda }: { agenda?: AgendaSession[] }) {
+  const currentAgenda = agenda || [];
+  const totalMinutes = currentAgenda.reduce((acc, s) => acc + s.durationMin, 0);
   return (
     <section className="card overflow-hidden">
       <header className="px-5 pt-5 pb-3 flex items-center justify-between gap-3">
@@ -36,7 +36,7 @@ export function AgendaToday() {
             Agenda de hoje
           </h2>
           <p className="text-xs text-kore-muted mt-0.5">
-            {AGENDA_TODAY.length} sessões · {totalMinutes}min totais
+            {currentAgenda.length} sessões · {totalMinutes}min totais
           </p>
         </div>
         <button
@@ -47,9 +47,15 @@ export function AgendaToday() {
         </button>
       </header>
       <ul className="divide-y divide-kore-border">
-        {AGENDA_TODAY.map((s, i) => (
-          <Row key={s.id} session={s} index={i} />
-        ))}
+        {currentAgenda.length > 0 ? (
+          currentAgenda.map((s, i) => (
+            <Row key={s.id} session={s} index={i} />
+          ))
+        ) : (
+          <li className="px-5 py-8 text-center text-sm text-kore-muted">
+            Não tem sessões agendadas para hoje.
+          </li>
+        )}
       </ul>
     </section>
   );

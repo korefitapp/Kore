@@ -5,7 +5,7 @@ import Link from "next/link";
 import {
   ChevronDown,
   Copy,
-  Edit3,
+  Pencil,
   Flame,
   MoreHorizontal,
   Plus,
@@ -13,9 +13,17 @@ import {
   Utensils,
   UserPlus,
   Trash2,
+  Loader2,
+  Eye,
 } from "lucide-react";
 import { MobileSidebar, Sidebar } from "../../_components/Sidebar";
 import { Topbar } from "../../_components/Topbar";
+import { cloneGlobalTemplate, assignMealPlanToPatient, deleteMealPlan } from "@/app/actions/nutri-actions";
+import { useRouter } from "next/navigation";
+import { useTransition } from "react";
+import { Modal } from "@/components/ui/modal";
+import { MealBuilderModal } from "./MealBuilderModal";
+import { CreateMealPlanModal } from "../../_components/CreateMealPlanModal";
 
 /* ── Types ──────────────────────────────────────────────────── */
 type Objective =
@@ -28,13 +36,14 @@ interface MealPlan {
   id: string;
   title: string;
   description: string;
-  total_kcal: number;
+  daily_kcal_goal: number;
   carbs_g: number;
   protein_g: number;
   fat_g: number;
-  objective: Objective;
+  objective: Objective | string;
   meals_count: number;
   created_at: string;
+  is_global_template?: boolean;
 }
 
 const OBJECTIVE_FILTERS: { key: Objective | "all"; label: string }[] = [
@@ -45,113 +54,7 @@ const OBJECTIVE_FILTERS: { key: Objective | "all"; label: string }[] = [
   { key: "restricoes", label: "Restrições Alimentares" },
 ];
 
-/* ── Mock Data ──────────────────────────────────────────────── */
-const MOCK_PLANS: MealPlan[] = [
-  {
-    id: "mp-001",
-    title: "Dieta Hipertrofia Avançada — 3000 kcal",
-    description:
-      "Plano para ganho de massa muscular com superávit calórico moderado e distribuição otimizada de proteínas.",
-    total_kcal: 3000,
-    carbs_g: 375,
-    protein_g: 225,
-    fat_g: 83,
-    objective: "hipertrofia",
-    meals_count: 6,
-    created_at: "2025-12-10T10:00:00Z",
-  },
-  {
-    id: "mp-002",
-    title: "Emagrecimento Sustentável — 1800 kcal",
-    description:
-      "Déficit calórico moderado com foco em saciedade e alimentos de alta densidade nutricional.",
-    total_kcal: 1800,
-    carbs_g: 180,
-    protein_g: 150,
-    fat_g: 50,
-    objective: "emagrecimento",
-    meals_count: 5,
-    created_at: "2025-11-28T14:30:00Z",
-  },
-  {
-    id: "mp-003",
-    title: "Definição Muscular — 2200 kcal",
-    description:
-      "Fase de cutting com preservação de massa magra. Alto teor proteico e carboidratos periodizados.",
-    total_kcal: 2200,
-    carbs_g: 200,
-    protein_g: 210,
-    fat_g: 60,
-    objective: "definicao",
-    meals_count: 6,
-    created_at: "2026-01-05T09:15:00Z",
-  },
-  {
-    id: "mp-004",
-    title: "Restrição: Sem Lactose + Low FODMAP",
-    description:
-      "Cardápio adaptado para pacientes com intolerância à lactose e sensibilidade a FODMAPs.",
-    total_kcal: 2000,
-    carbs_g: 230,
-    protein_g: 140,
-    fat_g: 62,
-    objective: "restricoes",
-    meals_count: 5,
-    created_at: "2026-02-14T11:00:00Z",
-  },
-  {
-    id: "mp-005",
-    title: "Hipertrofia Iniciante — 2600 kcal",
-    description:
-      "Plano introdutório para praticantes iniciantes com progressão gradual de calorias.",
-    total_kcal: 2600,
-    carbs_g: 310,
-    protein_g: 190,
-    fat_g: 72,
-    objective: "hipertrofia",
-    meals_count: 5,
-    created_at: "2026-03-01T08:00:00Z",
-  },
-  {
-    id: "mp-006",
-    title: "Emagrecimento Express — 1500 kcal",
-    description:
-      "Protocolo de 4 semanas para início de perda de peso com alta aderência e simplicidade nas refeições.",
-    total_kcal: 1500,
-    carbs_g: 140,
-    protein_g: 130,
-    fat_g: 45,
-    objective: "emagrecimento",
-    meals_count: 4,
-    created_at: "2026-03-20T16:00:00Z",
-  },
-  {
-    id: "mp-007",
-    title: "Restrição: Diabetes Tipo 2",
-    description:
-      "Cardápio com baixo índice glicêmico e controle de carboidratos para pacientes diabéticos.",
-    total_kcal: 1900,
-    carbs_g: 160,
-    protein_g: 155,
-    fat_g: 65,
-    objective: "restricoes",
-    meals_count: 6,
-    created_at: "2026-04-10T13:45:00Z",
-  },
-  {
-    id: "mp-008",
-    title: "Definição Feminina — 1700 kcal",
-    description:
-      "Plano focado em definição muscular para público feminino com ajuste hormonal considerado.",
-    total_kcal: 1700,
-    carbs_g: 155,
-    protein_g: 135,
-    fat_g: 52,
-    objective: "definicao",
-    meals_count: 5,
-    created_at: "2026-04-28T10:30:00Z",
-  },
-];
+// Mocks removidos (Agora usando BD)
 
 /* ── Helpers ────────────────────────────────────────────────── */
 function formatDate(iso: string) {
@@ -177,7 +80,7 @@ const OBJECTIVE_COLORS: Record<Objective, string> = {
   definicao:
     "bg-violet-50 text-violet-700 dark:bg-violet-500/12 dark:text-violet-300 ring-1 ring-inset ring-violet-200/70 dark:ring-violet-500/30",
   restricoes:
-    "bg-rose-50 text-rose-700 dark:bg-rose-500/12 dark:text-rose-300 ring-1 ring-inset ring-rose-200/70 dark:ring-rose-500/30",
+    "bg-rose-50 text-rose-700 dark:rose-500/12 dark:text-rose-300 ring-1 ring-inset ring-rose-200/70 dark:ring-rose-500/30",
 };
 
 function calcMacroPercents(carbs: number, protein: number, fat: number) {
@@ -193,22 +96,31 @@ function calcMacroPercents(carbs: number, protein: number, fat: number) {
 /* ── Component ──────────────────────────────────────────────── */
 export function MealPlansPageClient({
   nutritionistId: _nutritionistId,
+  initialPlans = [],
+  patients = [],
 }: {
   nutritionistId: string;
+  initialPlans?: any[];
+  patients?: any[];
 }) {
   const [filter, setFilter] = useState<Objective | "all">("all");
   const [query, setQuery] = useState("");
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const router = useRouter();
 
-  // TODO: quando a tabela meal_plans existir, receber plans via props em vez de mock
-  const plans = MOCK_PLANS;
+  const plans = initialPlans;
 
   const filtered = plans.filter((p) => {
-    if (filter !== "all" && p.objective !== filter) return false;
+    // A string selecionada no filtro (ex: "restricoes") deve bater com o "objective" da tabela
+    if (filter !== "all" && p.objective?.toLowerCase() !== filter) {
+      // Tenta um fallback caso o objective venha com caixa alta ou espaços diferentes no DB
+      if (!p.objective?.toLowerCase().includes(filter)) return false;
+    }
     if (query.trim()) {
       const q = query.trim().toLowerCase();
       if (
-        !p.title.toLowerCase().includes(q) &&
-        !p.description.toLowerCase().includes(q)
+        !p.title?.toLowerCase().includes(q) &&
+        !p.description?.toLowerCase().includes(q)
       )
         return false;
     }
@@ -242,6 +154,7 @@ export function MealPlansPageClient({
             </div>
             <button
               type="button"
+              onClick={() => setIsCreateModalOpen(true)}
               className="btn-emerald text-sm px-4 py-2.5 inline-flex items-center gap-2 self-start sm:self-auto"
             >
               <Plus size={16} strokeWidth={2.8} />
@@ -290,38 +203,94 @@ export function MealPlansPageClient({
 
           {/* ── Grid de Cardápios ────────────────────────────── */}
           {filtered.length === 0 ? (
-            <div className="py-20 text-center text-sm text-kore-muted">
-              Nenhum cardápio corresponde ao filtro atual.
+            <div className="py-20 text-center flex flex-col items-center justify-center border-2 border-dashed border-kore-border rounded-2xl bg-kore-bg">
+              <div className="w-16 h-16 bg-kore-card rounded-full grid place-items-center mb-4 text-kore-muted shadow-sm">
+                <Utensils size={24} />
+              </div>
+              <h3 className="text-lg font-bold text-kore-ink mb-1">
+                Nenhum modelo encontrado
+              </h3>
+              <p className="text-sm text-kore-muted max-w-sm mb-6">
+                Não existem cardápios criados para a categoria selecionada. Você pode tentar buscar por outro termo ou criar um novo agora mesmo.
+              </p>
+              <button
+                type="button"
+                onClick={() => setIsCreateModalOpen(true)}
+                className="btn-kore px-4 py-2 text-sm inline-flex items-center gap-2"
+              >
+                <Plus size={16} />
+                Criar Novo Cardápio
+              </button>
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
               {filtered.map((plan) => (
-                <MealPlanCard key={plan.id} plan={plan} />
+                <MealPlanCard key={plan.id} plan={plan} patients={patients} />
               ))}
             </div>
           )}
         </main>
+        {/* Modal de Criação */}
+        <CreateMealPlanModal
+          open={isCreateModalOpen}
+          onOpenChange={setIsCreateModalOpen}
+        />
       </div>
     </div>
   );
 }
 
 /* ── Card ───────────────────────────────────────────────────── */
-function MealPlanCard({ plan }: { plan: MealPlan }) {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const menuRef = useRef<HTMLDivElement>(null);
+function MealPlanCard({ plan, patients }: { plan: MealPlan; patients: any[] }) {
+  const router = useRouter();
+  const [isPending, startTransition] = useTransition();
+  const [isAssigning, startAssignTransition] = useTransition();
+  const [isDeleting, startDeleteTransition] = useTransition();
+
+  const [showAssignModal, setShowAssignModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [editingPlan, setEditingPlan] = useState<MealPlan | null>(null);
+  const [selectedPatientId, setSelectedPatientId] = useState("");
+
   const percents = calcMacroPercents(plan.carbs_g, plan.protein_g, plan.fat_g);
 
-  // Close menu on outside click
-  useEffect(() => {
-    function handleClick(e: MouseEvent) {
-      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
-        setMenuOpen(false);
+  const handleDuplicate = () => {
+    startTransition(async () => {
+      try {
+        const newId = await cloneGlobalTemplate(plan.id); // serve para próprios tbm
+        alert("Modelo duplicado com sucesso!");
+        router.push(`/dashboard/nutri/meal-plans/${newId}/builder`);
+      } catch (error) {
+        alert("Erro ao duplicar modelo.");
       }
-    }
-    if (menuOpen) document.addEventListener("mousedown", handleClick);
-    return () => document.removeEventListener("mousedown", handleClick);
-  }, [menuOpen]);
+    });
+  };
+
+  const handleAssign = () => {
+    if (!selectedPatientId) return alert("Selecione um paciente");
+    startAssignTransition(async () => {
+      try {
+        const newlyAssignedPlan = await assignMealPlanToPatient(plan.id, selectedPatientId);
+        setShowAssignModal(false);
+        // Abrir o construtor imediatamente para a nutri poder editar a cópia!
+        setEditingPlan(newlyAssignedPlan);
+      } catch (error) {
+        alert("Erro ao atribuir.");
+      }
+    });
+  };
+
+  const handleDelete = () => {
+    startDeleteTransition(async () => {
+      try {
+        await deleteMealPlan(plan.id);
+        alert("Excluído com sucesso!");
+        setShowDeleteModal(false);
+      } catch (error) {
+        alert("Erro ao excluir.");
+      }
+    });
+  };
 
   return (
     <div className="rounded-2xl border border-kore-border bg-kore-card/60 backdrop-blur-sm flex flex-col overflow-hidden hover:border-kore-emerald/40 transition group">
@@ -330,12 +299,15 @@ function MealPlanCard({ plan }: { plan: MealPlan }) {
         {/* Title & Objective Badge */}
         <div className="flex items-start justify-between gap-3">
           <h3 className="font-extrabold text-sm leading-snug text-kore-ink line-clamp-2">
+            {plan.is_global_template && <span className="text-emerald-500 mr-1">★ KORE</span>}
             {plan.title}
           </h3>
           <span
-            className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider flex-shrink-0 ${OBJECTIVE_COLORS[plan.objective]}`}
+            className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider flex-shrink-0 ${
+              OBJECTIVE_COLORS[plan.objective?.toString().toLowerCase() as Objective] || "bg-gray-100 text-gray-700 ring-1 ring-inset ring-gray-200"
+            }`}
           >
-            {OBJECTIVE_LABELS[plan.objective]}
+            {OBJECTIVE_LABELS[plan.objective?.toString().toLowerCase() as Objective] || plan.objective}
           </span>
         </div>
 
@@ -351,7 +323,7 @@ function MealPlanCard({ plan }: { plan: MealPlan }) {
           </div>
           <div>
             <p className="text-lg font-extrabold text-kore-ink tabular-nums">
-              {plan.total_kcal.toLocaleString("pt-BR")}
+              {(plan.daily_kcal_goal || 0).toLocaleString("pt-BR")}
               <span className="text-xs font-bold text-kore-muted ml-1">
                 kcal
               </span>
@@ -390,56 +362,154 @@ function MealPlanCard({ plan }: { plan: MealPlan }) {
       </div>
 
       {/* Footer actions */}
-      <div className="border-t border-kore-border px-5 py-3 flex items-center justify-between">
-        <Link
-          href={`/dashboard/nutri/meal-plans/${plan.id}`}
-          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold text-kore-emerald-deep bg-kore-emerald-soft hover:bg-kore-emerald hover:text-white transition"
-        >
-          <Edit3 size={13} />
-          Editar
-        </Link>
-
-        <div className="relative" ref={menuRef}>
-          <button
-            type="button"
-            onClick={() => setMenuOpen(!menuOpen)}
-            className="w-8 h-8 rounded-lg grid place-items-center text-kore-subink hover:text-kore-ink hover:bg-kore-bg transition"
-            aria-label="Mais opções"
-          >
-            <MoreHorizontal size={16} />
-          </button>
-
-          {menuOpen && (
-            <div className="absolute right-0 bottom-full mb-1 w-48 rounded-xl border border-kore-border bg-kore-card shadow-lg z-20 py-1 animate-in fade-in slide-in-from-bottom-1">
+      <div className="border-t border-kore-border px-5 py-3 flex items-center justify-between flex-wrap gap-2">
+        
+        {plan.is_global_template ? (
+          <>
+            <button
+              onClick={() => setEditingPlan(plan)}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold text-kore-ink bg-kore-bg hover:bg-kore-border transition border border-kore-border"
+              title="Ver Cardápio"
+            >
+              <Eye size={13} />
+              Ver
+            </button>
+            <button
+              onClick={handleDuplicate}
+              disabled={isPending}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold text-kore-ink bg-kore-bg hover:bg-kore-border transition disabled:opacity-50 border border-kore-border"
+              title="Duplicar"
+            >
+              {isPending ? <Loader2 size={13} className="animate-spin" /> : <Copy size={13} />}
+              Duplicar
+            </button>
+            <button
+              onClick={() => setShowAssignModal(true)}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold text-kore-emerald-deep bg-kore-emerald-soft hover:bg-kore-emerald hover:text-white transition border border-transparent"
+            >
+              <UserPlus size={13} />
+              Atribuir
+            </button>
+          </>
+        ) : (
+          <>
+            <div className="flex items-center gap-2">
               <button
-                type="button"
-                onClick={() => setMenuOpen(false)}
-                className="w-full flex items-center gap-2 px-3 py-2 text-xs font-semibold text-kore-ink hover:bg-kore-bg transition"
+                onClick={() => setShowAssignModal(true)}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold text-kore-emerald-deep bg-kore-emerald-soft hover:bg-kore-emerald hover:text-white transition"
               >
-                <UserPlus size={14} className="text-kore-subink" />
-                Atribuir a Paciente
+                <UserPlus size={13} />
+                Atribuir
               </button>
               <button
-                type="button"
-                onClick={() => setMenuOpen(false)}
-                className="w-full flex items-center gap-2 px-3 py-2 text-xs font-semibold text-kore-ink hover:bg-kore-bg transition"
+                onClick={() => setEditingPlan(plan)}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold text-kore-ink bg-kore-bg hover:bg-kore-border transition border border-kore-border"
               >
-                <Copy size={14} className="text-kore-subink" />
-                Duplicar Modelo
+                <Pencil size={13} />
+                Editar
               </button>
-              <div className="border-t border-kore-border my-1" />
               <button
-                type="button"
-                onClick={() => setMenuOpen(false)}
-                className="w-full flex items-center gap-2 px-3 py-2 text-xs font-semibold text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-500/10 transition"
+                onClick={handleDuplicate}
+                disabled={isPending}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold text-kore-ink bg-kore-bg hover:bg-kore-border transition border border-kore-border disabled:opacity-50"
+                title="Duplicar"
               >
-                <Trash2 size={14} />
-                Excluir
+                {isPending ? <Loader2 size={13} className="animate-spin" /> : <Copy size={13} />}
               </button>
             </div>
-          )}
-        </div>
+            
+            <button
+              onClick={() => setShowDeleteModal(true)}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold text-rose-600 bg-rose-50 hover:bg-rose-100 dark:bg-rose-500/10 dark:hover:bg-rose-500/20 transition"
+              title="Excluir"
+            >
+              <Trash2 size={13} />
+            </button>
+          </>
+        )}
       </div>
+
+      {/* Modal de Atribuir Paciente */}
+      <Modal
+        isOpen={showAssignModal}
+        onClose={() => !isAssigning && setShowAssignModal(false)}
+        title="Atribuir Cardápio"
+        description={`Selecione um paciente para atribuir a dieta "${plan.title}". Uma cópia será gerada e vinculada ao perfil dele.`}
+      >
+        <div className="space-y-4">
+          <div className="flex flex-col gap-2">
+            <label className="text-sm font-semibold text-kore-ink">Paciente</label>
+            <select
+              className="w-full px-3 py-2 rounded-xl bg-kore-card border border-kore-border text-sm font-medium text-kore-ink focus:outline-none focus:border-kore-emerald transition"
+              value={selectedPatientId}
+              onChange={(e) => setSelectedPatientId(e.target.value)}
+              disabled={isAssigning || patients.length === 0}
+            >
+              {patients.length === 0 ? (
+                <option value="" disabled>Nenhum paciente cadastrado</option>
+              ) : (
+                <option value="" disabled>Selecione um paciente...</option>
+              )}
+              {patients.map(p => {
+                const display = p.full_name || p.display_name || "Paciente sem nome";
+                return <option key={p.id} value={p.id}>{display}</option>;
+              })}
+            </select>
+          </div>
+          
+          <div className="flex justify-end gap-3 mt-4">
+            <button
+              onClick={() => setShowAssignModal(false)}
+              disabled={isAssigning}
+              className="px-4 py-2 rounded-xl text-sm font-bold text-kore-ink bg-kore-bg hover:bg-kore-card transition"
+            >
+              Cancelar
+            </button>
+            <button
+              onClick={handleAssign}
+              disabled={isAssigning || !selectedPatientId}
+              className="btn-emerald px-4 py-2 text-sm flex items-center gap-2"
+            >
+              {isAssigning && <Loader2 size={16} className="animate-spin" />}
+              {isAssigning ? "Atribuindo..." : "Atribuir Agora"}
+            </button>
+          </div>
+        </div>
+      </Modal>
+
+      {/* Modal de Confirmação de Exclusão */}
+      <Modal
+        isOpen={showDeleteModal}
+        onClose={() => !isDeleting && setShowDeleteModal(false)}
+        title="Excluir Cardápio"
+        description="Tem certeza que deseja excluir este modelo? Esta ação não pode ser desfeita e ele será removido permanentemente."
+      >
+        <div className="flex justify-end gap-3 mt-4">
+          <button
+            onClick={() => setShowDeleteModal(false)}
+            disabled={isDeleting}
+            className="px-4 py-2 rounded-xl text-sm font-bold text-kore-ink bg-kore-bg hover:bg-kore-card transition"
+          >
+            Cancelar
+          </button>
+          <button
+            onClick={handleDelete}
+            disabled={isDeleting}
+            className="px-4 py-2 rounded-xl text-sm font-bold text-white bg-rose-600 hover:bg-rose-700 transition flex items-center gap-2"
+          >
+            {isDeleting && <Loader2 size={16} className="animate-spin" />}
+            {isDeleting ? "Excluindo..." : "Sim, Excluir"}
+          </button>
+        </div>
+      </Modal>
+
+      {editingPlan && (
+        <MealBuilderModal
+          isOpen={!!editingPlan}
+          onClose={() => setEditingPlan(null)}
+          plan={editingPlan}
+        />
+      )}
     </div>
   );
 }

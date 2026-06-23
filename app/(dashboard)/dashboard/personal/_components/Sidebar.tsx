@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useState, useEffect } from "react";
 import {
   BookOpen,
   CalendarDays,
@@ -18,6 +19,7 @@ import { SidebarUserCard } from "@/components/SidebarUserCard";
 import { OWNER } from "./data";
 import { usePersonal } from "./store";
 import type { SidebarKey } from "./types";
+import { HelpCenterModal } from "./HelpCenterModal";
 
 interface Item {
   key: SidebarKey;
@@ -29,10 +31,10 @@ interface Item {
 
 const WORKSPACE: Item[] = [
   { key: "overview", label: "Visão Geral", href: "/dashboard/personal", Icon: LayoutDashboard },
-  { key: "students", label: "Alunos", href: "/dashboard/personal/students", Icon: Users, badge: 28 },
+  { key: "students", label: "Alunos", href: "/dashboard/personal/students", Icon: Users },
   { key: "library", label: "Biblioteca", href: "/dashboard/personal/library", Icon: BookOpen },
   { key: "agenda", label: "Agenda", href: "/dashboard/personal/agenda", Icon: CalendarDays },
-  { key: "messages", label: "Mensagens", href: "/dashboard/personal/messages", Icon: MessageSquare, badge: 7 },
+  { key: "messages", label: "Mensagens", href: "/dashboard/personal/messages", Icon: MessageSquare },
 ];
 
 const ACCOUNT: Item[] = [
@@ -65,6 +67,14 @@ export function MobileSidebar() {
 function SidebarBody({ onItemClick }: { onItemClick?: () => void }) {
   const pathname = usePathname();
   const setSection = usePersonal((s) => s.setSection);
+  const [isHelpOpen, setIsHelpOpen] = useState(false);
+  const [counts, setCounts] = useState({ students: 0, messages: 0 });
+
+  useEffect(() => {
+    import("@/app/actions/personal-actions").then((mod) => {
+      mod.getSidebarCounts().then(setCounts);
+    });
+  }, []);
 
   const isActive = (item: Item) => {
     if (item.href === "/dashboard/personal") {
@@ -105,14 +115,20 @@ function SidebarBody({ onItemClick }: { onItemClick?: () => void }) {
           Workspace
         </p>
         <ul className="space-y-1">
-          {WORKSPACE.map((it) => (
-            <NavItem
-              key={it.key}
-              item={it}
-              active={isActive(it)}
-              onClick={() => handle(it.key)}
-            />
-          ))}
+          {WORKSPACE.map((it) => {
+            let badgeCount = 0;
+            if (it.key === "students") badgeCount = counts.students;
+            if (it.key === "messages") badgeCount = counts.messages;
+            
+            return (
+              <NavItem
+                key={it.key}
+                item={{ ...it, badge: badgeCount > 0 ? badgeCount : undefined }}
+                active={isActive(it)}
+                onClick={() => handle(it.key)}
+              />
+            );
+          })}
         </ul>
 
         <p className="px-3 mt-6 text-[10px] uppercase tracking-[0.18em] text-kore-muted font-bold mb-2">
@@ -133,6 +149,7 @@ function SidebarBody({ onItemClick }: { onItemClick?: () => void }) {
       <div className="p-3 space-y-3">
         <button
           type="button"
+          onClick={() => setIsHelpOpen(true)}
           className="w-full flex items-center gap-2 text-xs font-semibold text-kore-muted hover:text-kore-ink px-3 py-2 rounded-xl hover:bg-kore-bg transition"
         >
           <LifeBuoy size={15} /> Centro de ajuda
@@ -144,6 +161,8 @@ function SidebarBody({ onItemClick }: { onItemClick?: () => void }) {
           avatar={OWNER.avatar}
         />
       </div>
+
+      <HelpCenterModal isOpen={isHelpOpen} onClose={() => setIsHelpOpen(false)} />
     </>
   );
 }

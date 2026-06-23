@@ -249,5 +249,7 @@ export function statusLabel(s: Student["status"]): string {
       return "Renovar";
     case "atencao":
       return "Atenção";
+    case "aguardando":
+      return "Aguardando Treino";
   }
 }

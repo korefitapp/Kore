@@ -9,24 +9,43 @@ import type { Meal } from "../types";
 export function MealAccordion({
   meal,
   defaultOpen,
+  onToggle,
+  onToggleItem,
 }: {
   meal: Meal;
   defaultOpen?: boolean;
+  onToggle?: () => void;
+  onToggleItem?: (itemId: string, consumed: boolean) => void;
 }) {
   const [open, setOpen] = useState(!!defaultOpen);
   const toggleMeal = useKore((s) => s.toggleMeal);
+
+  const handleToggle = () => {
+    if (onToggle) {
+      onToggle();
+    } else {
+      toggleMeal(meal.id);
+    }
+  };
 
   const total = meal.items.reduce((acc, it) => acc + it.kcal, 0);
   const protein = meal.items.reduce((acc, it) => acc + it.protein, 0);
   const carbs = meal.items.reduce((acc, it) => acc + it.carbs, 0);
   const fat = meal.items.reduce((acc, it) => acc + it.fat, 0);
+  const totalItems = meal.items.length;
+  const consumedItemsCount = meal.items.filter((it) => it.consumed).length;
+  const pct = totalItems > 0 ? (consumedItemsCount / totalItems) * 100 : 0;
+  
+  const radius = 20;
+  const circumference = 2 * Math.PI * radius;
+  const strokeDashoffset = circumference - (pct / 100) * circumference;
 
   return (
     <motion.section
       layout
-      className={`rounded-3xl border bg-kore-card overflow-hidden transition-colors ${
-        meal.consumed
-          ? "border-emerald-200 dark:border-emerald-700/50"
+      className={`rounded-3xl border bg-kore-card overflow-hidden transition-all duration-300 ${
+        pct === 100
+          ? "border-emerald-200 dark:border-emerald-700/50 opacity-60 scale-[0.98]"
           : "border-kore"
       }`}
     >
@@ -34,25 +53,48 @@ export function MealAccordion({
         <button
           onClick={(e) => {
             e.stopPropagation();
-            toggleMeal(meal.id);
+            if (onToggle) onToggle();
           }}
-          className={`flex-shrink-0 w-12 h-12 rounded-full border-[3px] flex items-center justify-center transition-all active:scale-90 ${
-            meal.consumed
-              ? "bg-kore-emerald border-kore-emerald shadow-md shadow-emerald-500/30"
-              : "bg-transparent border-slate-300 dark:border-slate-600 hover:border-kore-emerald"
-          }`}
-          aria-label={meal.consumed ? "Desmarcar refeição" : "Marcar refeição"}
+          className="relative flex-shrink-0 w-12 h-12 flex items-center justify-center transition-transform active:scale-90"
+          aria-label="Marcar todos"
         >
-          <AnimatePresence mode="wait" initial={false}>
-            {meal.consumed && (
+          <svg className="absolute inset-0 w-full h-full -rotate-90" viewBox="0 0 48 48">
+            <circle
+              cx="24"
+              cy="24"
+              r={radius}
+              fill="transparent"
+              stroke="currentColor"
+              strokeWidth="4"
+              className="text-slate-200 dark:text-slate-700"
+            />
+            <circle
+              cx="24"
+              cy="24"
+              r={radius}
+              fill={pct === 100 ? "currentColor" : "transparent"}
+              stroke="currentColor"
+              strokeWidth="4"
+              strokeDasharray={circumference}
+              strokeDashoffset={strokeDashoffset}
+              className={`transition-all duration-700 ease-out ${
+                pct === 100 
+                  ? "text-kore-emerald fill-kore-emerald" 
+                  : "text-kore-emerald"
+              }`}
+            />
+          </svg>
+          <AnimatePresence>
+            {pct === 100 && (
               <motion.span
                 key="check"
-                initial={{ scale: 0, rotate: -90 }}
-                animate={{ scale: 1, rotate: 0 }}
-                exit={{ scale: 0, rotate: 90 }}
+                initial={{ scale: 0, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0, opacity: 0 }}
                 transition={{ type: "spring", stiffness: 400, damping: 18 }}
+                className="z-10 text-white"
               >
-                <Check size={22} strokeWidth={3} className="text-white" />
+                <Check size={20} strokeWidth={3} />
               </motion.span>
             )}
           </AnimatePresence>
@@ -101,15 +143,25 @@ export function MealAccordion({
               {meal.items.map((it) => (
                 <li
                   key={it.id}
-                  className="flex items-center justify-between rounded-2xl bg-kore-bg/60 border border-kore px-3 py-2.5"
+                  onClick={() => onToggleItem && onToggleItem(it.id, !!it.consumed)}
+                  className={`flex items-center gap-3 rounded-2xl bg-kore-bg/60 border border-kore px-3 py-2.5 cursor-pointer transition-all active:scale-[0.98] ${
+                    it.consumed ? "opacity-50" : ""
+                  }`}
                 >
-                  <div>
-                    <p className="font-medium text-kore text-sm">{it.name}</p>
+                  <div className={`flex-shrink-0 w-5 h-5 rounded-full border-2 flex items-center justify-center transition-colors ${
+                    it.consumed 
+                      ? "bg-kore-emerald border-kore-emerald" 
+                      : "border-slate-300 dark:border-slate-600"
+                  }`}>
+                    {it.consumed && <Check size={12} strokeWidth={3} className="text-white" />}
+                  </div>
+                  <div className={`flex-1 min-w-0 ${it.consumed ? "line-through decoration-slate-400" : ""}`}>
+                    <p className="font-medium text-kore text-sm truncate">{it.name}</p>
                     <p className="text-[11px] text-muted">
                       P {it.protein}g · C {it.carbs}g · G {it.fat}g
                     </p>
                   </div>
-                  <span className="font-bold text-kore tabular-nums text-sm">
+                  <span className={`font-bold tabular-nums text-sm ${it.consumed ? "text-muted" : "text-kore"}`}>
                     {it.kcal} kcal
                   </span>
                 </li>

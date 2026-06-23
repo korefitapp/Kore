@@ -16,15 +16,20 @@ export default async function StudentsPage() {
 
   if (!user) redirect("/login?next=/dashboard/personal/students");
 
-  // Buscar alunos (role='client') vinculados ao personal logado.
-  // TODO: quando existir tabela trainer_students, filtrar por vínculo real.
-  // Por enquanto, busca todos os clientes ativos.
   const { data: students, error } = await supabase
     .from("profiles")
-    .select(
-      "id, full_name, display_name, avatar_url, status, created_at, metadata",
-    )
-    .eq("role", "client")
+    .select(`
+      id, 
+      full_name, 
+      display_name, 
+      avatar_url, 
+      status, 
+      created_at, 
+      metadata,
+      email,
+      workout_plans (*)
+    `)
+    .eq("coach_id", user.id)
     .order("full_name", { ascending: true });
 
   if (error) {
@@ -41,6 +46,8 @@ export default async function StudentsPage() {
         status: s.status,
         created_at: s.created_at,
         metadata: s.metadata as Record<string, unknown> | null,
+        email: s.email,
+        workout_plans: s.workout_plans as any[],
       }))}
     />
   );

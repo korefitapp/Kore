@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { PersonalShell } from "./_components/PersonalShell";
 import { OWNER } from "./_components/data";
+import { getMonthlyMetrics, getCoachDashboardStats } from "@/app/actions/personal-actions";
 
 export const metadata = {
   title: "Dashboard · Personal Trainer",
@@ -24,5 +25,19 @@ export default async function PersonalDashboard() {
   const personalName =
     profile?.full_name ?? user.email?.split("@")[0] ?? OWNER.name;
 
-  return <PersonalShell personalName={personalName} />;
+  const [metricsRes, dashboardRes] = await Promise.all([
+    getMonthlyMetrics(),
+    getCoachDashboardStats(user.id)
+  ]);
+  
+  const metrics = metricsRes.ok ? metricsRes.data : { activeStudents: 0, monthlyRevenue: 0 };
+  const dashboardData = dashboardRes.ok ? dashboardRes.data : null;
+
+  return (
+    <PersonalShell 
+      personalName={personalName} 
+      metrics={metrics}
+      dashboardData={dashboardData}
+    />
+  );
 }

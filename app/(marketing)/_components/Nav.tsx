@@ -1,6 +1,25 @@
 import Link from "next/link";
+import { User } from "lucide-react";
+import { createSupabaseServerClient } from "@/lib/supabase/server";
 
-export function Nav() {
+export async function Nav() {
+  const supabase = createSupabaseServerClient();
+  const { data: { user } } = await supabase.auth.getUser();
+
+  let profileData = null;
+  if (user) {
+    const { data } = await supabase
+      .from("profiles")
+      .select("full_name, avatar_url")
+      .eq("id", user.id)
+      .single();
+    profileData = data;
+  }
+
+  const getInitials = (name: string) => {
+    if (!name) return "U";
+    return name.substring(0, 1).toUpperCase();
+  };
   return (
     <header className="sticky top-0 z-30 border-b border-kore-border/60 bg-kore-bg/70 backdrop-blur">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-3.5 sm:px-8">
@@ -36,19 +55,34 @@ export function Nav() {
           </a>
         </nav>
 
-        <div className="flex items-center gap-2">
-          <Link
-            href="/login"
-            className="hidden text-sm font-semibold text-kore-subink transition hover:text-kore-ink sm:inline"
-          >
-            Entrar
-          </Link>
-          <Link
-            href="/sign-up"
-            className="inline-flex items-center justify-center rounded-xl bg-kore-emerald px-3.5 py-2 text-sm font-bold text-white shadow-kore-emerald transition hover:brightness-105"
-          >
-            Criar conta grátis
-          </Link>
+        <div className="flex items-center gap-2 flex-shrink-0">
+          {user ? (
+            <Link
+              href="/app"
+              className="relative w-10 h-10 rounded-2xl bg-kore-bg border border-kore-border/60 flex items-center justify-center text-kore-ink active:scale-95 transition overflow-hidden shadow-sm hover:border-kore-emerald/50"
+              aria-label="Acessar App"
+            >
+              {profileData?.avatar_url ? (
+                <img
+                  src={profileData.avatar_url}
+                  alt="Profile"
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <span className="font-bold text-sm">
+                  {getInitials(profileData?.full_name || user.email || "")}
+                </span>
+              )}
+            </Link>
+          ) : (
+            <Link
+              href="/login"
+              className="relative w-10 h-10 rounded-2xl bg-kore-bg border border-kore-border/60 flex items-center justify-center text-kore-ink active:scale-95 transition shadow-sm hover:border-kore-emerald/50 hover:text-kore-emerald"
+              aria-label="Entrar"
+            >
+              <User size={18} />
+            </Link>
+          )}
         </div>
       </div>
     </header>
