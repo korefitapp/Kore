@@ -186,7 +186,7 @@ function PatientRow({ patient: p }: { patient: any }) {
 
   const losingWeight = patient.weightDeltaKg <= 0;
   const planExpiringSoon = patient.planExpiresInDays <= 14;
-  const sparkData = patient.adherence8w.map((v, i) => ({ i, v }));
+  const sparkData = patient.adherence8w.map((v: number, i: number) => ({ i, v }));
   const tone = sparklineTone(patient as Patient);
   const status = patient.status;
   const goalWantsLoss =
