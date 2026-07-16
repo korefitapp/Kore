@@ -293,6 +293,8 @@ function StatusChip({ status }: { status: Student["status"] }) {
       "bg-amber-50 text-amber-700 dark:bg-amber-500/12 dark:text-amber-300 ring-1 ring-inset ring-amber-200/70 dark:ring-amber-500/30",
     atencao:
       "bg-rose-50 text-rose-700 dark:bg-rose-500/12 dark:text-rose-300 ring-1 ring-inset ring-rose-200/70 dark:ring-rose-500/30",
+    aguardando:
+      "bg-slate-100 text-slate-700 dark:bg-white/10 dark:text-slate-300 ring-1 ring-inset ring-slate-200/70 dark:ring-white/20",
   };
   return (
     <span
