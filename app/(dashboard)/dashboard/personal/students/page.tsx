@@ -45,7 +45,7 @@ export default async function StudentsPage() {
         status: s.status,
         created_at: s.created_at,
         metadata: s.metadata as Record<string, unknown> | null,
-        email: null,
+        email: undefined,
         workout_plans: s.workout_plans as any[],
       }))}
     />
