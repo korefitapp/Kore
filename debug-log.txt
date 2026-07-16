@@ -133,3 +133,8 @@
 3. Has baseWorkoutId: f50fcd94-0c15-4db7-a538-e0f48fdf200b
 4. Fetched daysData, error: null length: 5
 5. Built exercises length: 37
+1. Has workoutPlan and description
+2. Parsed JSON: {"text":"Atribuído da biblioteca global.","baseWorkoutId":"f50fcd94-0c15-4db7-a538-e0f48fdf200b"}
+3. Has baseWorkoutId: f50fcd94-0c15-4db7-a538-e0f48fdf200b
+4. Fetched daysData, error: null length: 5
+5. Built exercises length: 37
