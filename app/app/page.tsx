@@ -17,10 +17,6 @@ export default async function AppPage() {
   if (!user) redirect("/login?next=/app");
 
   const seed = await loadAppSeed();
-  require("fs").writeFileSync("seed-dump.json", JSON.stringify({
-    userId: user.id,
-    email: user.email,
-    exercises: seed.exercises
-  }, null, 2));
+  // Debug: Removed writeFileSync because Vercel has read-only filesystem
   return <AppRoot seed={seed} />;
 }
