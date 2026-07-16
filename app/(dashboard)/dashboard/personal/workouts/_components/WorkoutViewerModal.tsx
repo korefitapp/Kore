@@ -29,7 +29,7 @@ export function WorkoutViewerModal({ isOpen, onClose, workoutId }: WorkoutViewer
       getWorkoutDetailsAction(workoutId)
         .then((res) => {
           setData(res);
-          if (res.days && res.days.length > 0) {
+          if (res.days && res.days.length > 0 && res.days[0]) {
             setActiveDayId(res.days[0].id);
           }
         })
