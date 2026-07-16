@@ -55,21 +55,21 @@ export function ShopTab() {
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
-      className="bg-slate-50 dark:bg-[#121212] min-h-[100dvh] text-slate-900 dark:text-white -mx-4 -mt-4 px-5 pt-8 overflow-y-auto pb-24 space-y-6 relative"
+      className="bg-slate-50 dark:bg-[#121212] min-h-[100dvh] text-slate-900 dark:text-kore -mx-4 -mt-4 px-5 pt-8 overflow-y-auto pb-24 space-y-6 relative"
     >
       <header className="flex items-center justify-between">
         <button
           onClick={() => setAddressOpen(true)}
-          className="text-left flex items-center gap-3 min-w-0 flex-1 bg-white/5 border border-white/10 p-2.5 rounded-[20px] active:bg-white/10 transition-colors"
+          className="text-left flex items-center gap-3 min-w-0 flex-1 bg-kore-bg border border-kore p-2.5 rounded-[20px] active:bg-kore-card transition-colors"
         >
           <div className="w-10 h-10 rounded-[14px] bg-emerald-500/20 flex items-center justify-center text-emerald-400 flex-shrink-0 shadow-inner">
             <MapPin size={18} />
           </div>
           <div className="min-w-0">
-            <p className="text-[10px] uppercase tracking-widest text-zinc-400 font-bold mb-0.5">
+            <p className="text-[10px] uppercase tracking-widest text-muted font-bold mb-0.5">
               Entregar em
             </p>
-            <p className="text-[15px] font-bold text-white truncate flex items-center gap-1.5">
+            <p className="text-[15px] font-bold text-kore truncate flex items-center gap-1.5">
               {address}
               <ChevronRight size={14} className="text-zinc-500 flex-shrink-0" />
             </p>
@@ -87,7 +87,7 @@ export function ShopTab() {
               className={`flex-shrink-0 inline-flex items-center gap-2 rounded-[20px] px-4 py-2.5 text-xs font-bold transition-all ${
                 active
                   ? "bg-emerald-500 text-black shadow-[0_0_15px_rgba(52,211,153,0.3)]"
-                  : "bg-white/5 border border-white/10 text-white hover:bg-white/10"
+                  : "bg-kore-bg border border-kore text-kore hover:bg-kore-card"
               }`}
             >
               <Icon size={16} strokeWidth={active ? 2.5 : 2} />
@@ -109,12 +109,12 @@ export function ShopTab() {
               className="space-y-4"
             >
               <div className="flex items-center gap-3">
-                <div className="w-14 h-14 rounded-[20px] bg-white/5 border border-white/10 flex items-center justify-center text-3xl flex-shrink-0 shadow-inner">
+                <div className="w-14 h-14 rounded-[20px] bg-kore-bg border border-kore flex items-center justify-center text-3xl flex-shrink-0 shadow-inner">
                   {store.logo}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="font-extrabold text-white text-lg truncate">{store.name}</p>
-                  <p className="text-[11px] text-zinc-400 flex items-center gap-2 flex-wrap font-medium mt-0.5">
+                  <p className="font-extrabold text-kore text-lg truncate">{store.name}</p>
+                  <p className="text-[11px] text-muted flex items-center gap-2 flex-wrap font-medium mt-0.5">
                     <span className="inline-flex items-center gap-1 text-amber-400 font-bold bg-amber-400/10 px-1.5 py-0.5 rounded-md">
                       <Star size={10} className="fill-amber-400 text-amber-400" />
                       {store.rating.toFixed(1)}
@@ -139,9 +139,9 @@ export function ShopTab() {
                       key={p.id}
                       layout
                       whileHover={{ y: -2 }}
-                      className="flex-shrink-0 w-[160px] rounded-[24px] bg-white/5 border border-white/10 p-3 relative shadow-sm"
+                      className="flex-shrink-0 w-[160px] rounded-[24px] bg-kore-bg border border-kore p-3 relative shadow-sm"
                     >
-                      <div className="relative aspect-square rounded-[18px] bg-[#1a1a1a] flex items-center justify-center text-6xl shadow-inner mb-3">
+                      <div className="relative aspect-square rounded-[18px] bg-kore-card flex items-center justify-center text-6xl shadow-inner mb-3">
                         {p.image}
                         {p.promo && (
                           <span className="absolute top-2 left-2 text-[10px] font-extrabold rounded-lg bg-emerald-500 text-black px-2 py-1 shadow-md">
@@ -167,18 +167,18 @@ export function ShopTab() {
                                 stiffness: 400,
                                 damping: 18,
                               }}
-                              className="absolute -top-1.5 -right-1.5 min-w-[24px] h-[24px] px-1 rounded-full bg-rose-500 text-white text-[11px] font-bold flex items-center justify-center shadow-md border-2 border-[#121212]"
+                              className="absolute -top-1.5 -right-1.5 min-w-[24px] h-[24px] px-1 rounded-full bg-rose-500 text-kore text-[11px] font-bold flex items-center justify-center shadow-md border-2 border-[#121212]"
                             >
                               {qty}
                             </motion.span>
                           )}
                         </AnimatePresence>
                       </div>
-                      <p className="text-[13px] font-bold text-white line-clamp-2 leading-tight min-h-[2.5rem]">
+                      <p className="text-[13px] font-bold text-kore line-clamp-2 leading-tight min-h-[2.5rem]">
                         {p.name}
                       </p>
                       <div className="mt-2 flex items-baseline gap-2">
-                        <span className="text-[15px] font-extrabold text-white tabular-nums">
+                        <span className="text-[15px] font-extrabold text-kore tabular-nums">
                           {currency(p.price)}
                         </span>
                         {p.oldPrice && (
