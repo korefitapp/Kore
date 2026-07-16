@@ -72,7 +72,7 @@ export default async function FinanceiroPage() {
   // Gerar dados para o Gráfico (mock agrupado pelos últimos 6 meses para visualização)
   // Como só temos os últimos 30 dias na query real acima, faremos uma simulação leve ou usaremos os dias
   const monthsStr = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
-  const chartData = [];
+  const chartData: { month: string; income: number; expense: number; monthNum: number }[] = [];
   for (let i = 5; i >= 0; i--) {
     const d = new Date();
     d.setMonth(now.getMonth() - i);
