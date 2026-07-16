@@ -66,7 +66,7 @@ export async function loadAppSeed(): Promise<AppSeed> {
     ]);
 
   if (wpError) {
-    require("fs").appendFileSync("debug-log.txt", "WP ERROR: " + JSON.stringify(wpError) + "\n");
+    console.log("WP ERROR: " + JSON.stringify(wpError) + "\n");
   }
 
   const profile: UserProfile = {
@@ -148,12 +148,12 @@ export async function loadAppSeed(): Promise<AppSeed> {
   let exercises = fallback.exercises;
   
   if (workoutPlan && workoutPlan.description) {
-    require("fs").appendFileSync("debug-log.txt", "1. Has workoutPlan and description\n");
+    console.log("1. Has workoutPlan and description\n");
     try {
       const parsedDesc = JSON.parse(workoutPlan.description);
-      require("fs").appendFileSync("debug-log.txt", "2. Parsed JSON: " + JSON.stringify(parsedDesc) + "\n");
+      console.log("2. Parsed JSON: " + JSON.stringify(parsedDesc) + "\n");
       if (parsedDesc.baseWorkoutId) {
-        require("fs").appendFileSync("debug-log.txt", "3. Has baseWorkoutId: " + parsedDesc.baseWorkoutId + "\n");
+        console.log("3. Has baseWorkoutId: " + parsedDesc.baseWorkoutId + "\n");
         const adminSupabase = createSupabaseAdminClient();
         // Fetch workout days and exercises bypassing RLS so the client can read the trainer's workout days
         const { data: daysData, error } = await adminSupabase
@@ -162,7 +162,7 @@ export async function loadAppSeed(): Promise<AppSeed> {
           .eq("workout_id", parsedDesc.baseWorkoutId)
           .order("order", { ascending: true });
 
-        require("fs").appendFileSync("debug-log.txt", "4. Fetched daysData, error: " + error + " length: " + (daysData?.length) + "\n");
+        console.log("4. Fetched daysData, error: " + error + " length: " + (daysData?.length) + "\n");
 
         if (error) console.error("Admin fetch error for workout days:", error);
 
@@ -189,19 +189,19 @@ export async function loadAppSeed(): Promise<AppSeed> {
               });
             }
           }
-          require("fs").appendFileSync("debug-log.txt", "5. Built exercises length: " + exercises.length + "\n");
+          console.log("5. Built exercises length: " + exercises.length + "\n");
         } else {
-          require("fs").appendFileSync("debug-log.txt", "5. No daysData found or empty\n");
+          console.log("5. No daysData found or empty\n");
         }
       } else {
-        require("fs").appendFileSync("debug-log.txt", "3. No baseWorkoutId\n");
+        console.log("3. No baseWorkoutId\n");
       }
     } catch (e: any) {
-      require("fs").appendFileSync("debug-log.txt", "2. Exception: " + e.message + "\n");
+      console.log("2. Exception: " + e.message + "\n");
       console.error("Failed to parse workout plan description", e);
     }
   } else {
-    require("fs").appendFileSync("debug-log.txt", "1. NO workoutPlan or no description. workoutPlan=" + JSON.stringify(workoutPlan) + "\n");
+    console.log("1. NO workoutPlan or no description. workoutPlan=" + JSON.stringify(workoutPlan) + "\n");
   }
 
   return {
