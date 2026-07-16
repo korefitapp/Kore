@@ -29,7 +29,7 @@ interface Item {
   badge?: number;
 }
 
-import { getNutriPatients } from "@/app/actions/nutri-actions";
+import { getSidebarCounts } from "@/app/actions/nutri-actions";
 
 const ACCOUNT: Item[] = [
   { key: "finance", label: "Financeiro", Icon: Wallet, href: "/dashboard/nutri/financial" },
@@ -63,19 +63,19 @@ function SidebarBody({ onItemClick }: { onItemClick?: () => void }) {
   const router = useRouter();
   const setSection = useNutri((s) => s.setSection);
   const [helpOpen, setHelpOpen] = useState(false);
-  const [patientCount, setPatientCount] = useState<number | undefined>(undefined);
+  const [counts, setCounts] = useState({ patients: 0, messages: 0 });
 
   useEffect(() => {
-    getNutriPatients().then(p => setPatientCount(p.length)).catch(() => {});
+    getSidebarCounts().then(setCounts).catch(() => {});
   }, []);
 
   const WORKSPACE: Item[] = [
     { key: "overview", label: "Visão Geral", Icon: LayoutDashboard, href: "/dashboard/nutri" },
-    { key: "patients", label: "Pacientes", Icon: Users, href: "/dashboard/nutri/patients", badge: patientCount },
+    { key: "patients", label: "Pacientes", Icon: Users, href: "/dashboard/nutri/patients" },
     { key: "meal-plans", label: "Cardápios", Icon: Apple, href: "/dashboard/nutri/meal-plans" },
     { key: "food-bank", label: "Banco de alimentos", Icon: Database, href: "/dashboard/nutri/food-database" },
     { key: "consultations", label: "Consultas", Icon: CalendarDays, href: "/dashboard/nutri/appointments" },
-    { key: "messages", label: "Mensagens", Icon: MessageSquare, href: "/dashboard/nutri/messages", badge: 5 },
+    { key: "messages", label: "Mensagens", Icon: MessageSquare, href: "/dashboard/nutri/messages" },
   ];
 
   const isActive = (href: string) => {
@@ -118,14 +118,20 @@ function SidebarBody({ onItemClick }: { onItemClick?: () => void }) {
           Workspace
         </p>
         <ul className="space-y-1">
-          {WORKSPACE.map((it) => (
-            <NavItem
-              key={it.key}
-              item={it}
-              active={isActive(it.href)}
-              onClick={() => handle(it)}
-            />
-          ))}
+          {WORKSPACE.map((it) => {
+            let badgeCount = 0;
+            if (it.key === "patients") badgeCount = counts.patients;
+            if (it.key === "messages") badgeCount = counts.messages;
+            
+            return (
+              <NavItem
+                key={it.key}
+                item={{ ...it, badge: badgeCount > 0 ? badgeCount : undefined }}
+                active={isActive(it.href)}
+                onClick={() => handle(it)}
+              />
+            );
+          })}
         </ul>
 
         <p className="px-3 mt-6 text-[10px] uppercase tracking-[0.18em] text-kore-muted font-bold mb-2">

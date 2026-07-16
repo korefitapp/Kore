@@ -1,0 +1,1153 @@
+{
+  "userId": "2ea9b796-1a12-4039-82d8-96b99a1d8045",
+  "email": "acessoliga@gmail.com",
+  "exercises": [
+    {
+      "id": "cec41f7c-6d93-47f0-80ae-0c0d7f53ac97",
+      "name": "Supino Reto com Barra",
+      "muscle": "Peito",
+      "thumb": "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=200&auto=format&fit=crop",
+      "videoLabel": "Ver Execução",
+      "targetReps": "8-12",
+      "sets": [
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        }
+      ],
+      "day": "Segunda-feira"
+    },
+    {
+      "id": "2b3b5e0f-15cb-46b9-989d-7e9d04bb34c4",
+      "name": "Supino Inclinado com Halteres",
+      "muscle": "Peito",
+      "thumb": "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=200&auto=format&fit=crop",
+      "videoLabel": "Ver Execução",
+      "targetReps": "8-12",
+      "sets": [
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        }
+      ],
+      "day": "Segunda-feira"
+    },
+    {
+      "id": "cad4b100-71f5-496f-bc41-7a528cde1260",
+      "name": "Crucifixo Reto com Halteres",
+      "muscle": "Peito",
+      "thumb": "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=200&auto=format&fit=crop",
+      "videoLabel": "Ver Execução",
+      "targetReps": "8-12",
+      "sets": [
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        }
+      ],
+      "day": "Segunda-feira"
+    },
+    {
+      "id": "290bc27f-12a3-4bdf-9b5b-8b4f33a77c84",
+      "name": "Crossover Alto na Polia",
+      "muscle": "Peito",
+      "thumb": "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=200&auto=format&fit=crop",
+      "videoLabel": "Ver Execução",
+      "targetReps": "8-12",
+      "sets": [
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        }
+      ],
+      "day": "Segunda-feira"
+    },
+    {
+      "id": "e45ffe04-52b8-4bc5-a371-140400b34646",
+      "name": "Peck Deck (Voador)",
+      "muscle": "Peito",
+      "thumb": "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=200&auto=format&fit=crop",
+      "videoLabel": "Ver Execução",
+      "targetReps": "8-12",
+      "sets": [
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        }
+      ],
+      "day": "Segunda-feira"
+    },
+    {
+      "id": "4badad1c-c5ba-4be5-baeb-ae41ebdb586c",
+      "name": "Supino Declinado com Barra",
+      "muscle": "Peito",
+      "thumb": "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=200&auto=format&fit=crop",
+      "videoLabel": "Ver Execução",
+      "targetReps": "8-12",
+      "sets": [
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        }
+      ],
+      "day": "Segunda-feira"
+    },
+    {
+      "id": "ae666767-d100-4120-af4f-fb88d2fe4090",
+      "name": "Flexão de Braços (Push-Up)",
+      "muscle": "Peito",
+      "thumb": "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=200&auto=format&fit=crop",
+      "videoLabel": "Ver Execução",
+      "targetReps": "8-12",
+      "sets": [
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        }
+      ],
+      "day": "Segunda-feira"
+    },
+    {
+      "id": "13510248-aae0-4e6c-9ed8-d436ff3fdd5d",
+      "name": "Levantamento Terra (Deadlift)",
+      "muscle": "Costas",
+      "thumb": "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=200&auto=format&fit=crop",
+      "videoLabel": "Ver Execução",
+      "targetReps": "8-12",
+      "sets": [
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        }
+      ],
+      "day": "Terça-feira"
+    },
+    {
+      "id": "04353bf6-07f5-4e1f-9aa7-699350623fad",
+      "name": "Remada Curvada com Barra Pronada",
+      "muscle": "Costas",
+      "thumb": "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=200&auto=format&fit=crop",
+      "videoLabel": "Ver Execução",
+      "targetReps": "8-12",
+      "sets": [
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        }
+      ],
+      "day": "Terça-feira"
+    },
+    {
+      "id": "ac10312e-dd93-4a57-97f6-39bd41c058f3",
+      "name": "Puxada Frontal Pronada",
+      "muscle": "Costas",
+      "thumb": "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=200&auto=format&fit=crop",
+      "videoLabel": "Ver Execução",
+      "targetReps": "8-12",
+      "sets": [
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        }
+      ],
+      "day": "Terça-feira"
+    },
+    {
+      "id": "f59e4e5e-6f20-4afd-bc7d-394f37333442",
+      "name": "Remada Baixa na Polia com Triângulo",
+      "muscle": "Costas",
+      "thumb": "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=200&auto=format&fit=crop",
+      "videoLabel": "Ver Execução",
+      "targetReps": "8-12",
+      "sets": [
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        }
+      ],
+      "day": "Terça-feira"
+    },
+    {
+      "id": "4828d86b-8389-4a29-8316-e0460f8ed6e7",
+      "name": "Remada Unilateral com Halter (Serrote)",
+      "muscle": "Costas",
+      "thumb": "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=200&auto=format&fit=crop",
+      "videoLabel": "Ver Execução",
+      "targetReps": "8-12",
+      "sets": [
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        }
+      ],
+      "day": "Terça-feira"
+    },
+    {
+      "id": "9668c947-c0d3-43e4-9322-d4ca10abc705",
+      "name": "Pulldown na Polia Alta com Corda",
+      "muscle": "Costas",
+      "thumb": "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=200&auto=format&fit=crop",
+      "videoLabel": "Ver Execução",
+      "targetReps": "8-12",
+      "sets": [
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        }
+      ],
+      "day": "Terça-feira"
+    },
+    {
+      "id": "32194530-d4d7-4034-95fb-ef1e56acd96d",
+      "name": "Crucifixo Inverso com Halteres",
+      "muscle": "Costas",
+      "thumb": "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=200&auto=format&fit=crop",
+      "videoLabel": "Ver Execução",
+      "targetReps": "8-12",
+      "sets": [
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        }
+      ],
+      "day": "Terça-feira"
+    },
+    {
+      "id": "2e7924c5-eae6-4735-aa5f-d6b6ddab7c38",
+      "name": "Agachamento Livre com Barra",
+      "muscle": "Pernas",
+      "thumb": "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=200&auto=format&fit=crop",
+      "videoLabel": "Ver Execução",
+      "targetReps": "8-12",
+      "sets": [
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        }
+      ],
+      "day": "Quarta-feira"
+    },
+    {
+      "id": "d5fcb656-3836-4585-8026-861112e36796",
+      "name": "Leg Press 45º",
+      "muscle": "Pernas",
+      "thumb": "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=200&auto=format&fit=crop",
+      "videoLabel": "Ver Execução",
+      "targetReps": "8-12",
+      "sets": [
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        }
+      ],
+      "day": "Quarta-feira"
+    },
+    {
+      "id": "4058e799-4251-48c6-8558-a7bf7e1ad03b",
+      "name": "Cadeira Extensora",
+      "muscle": "Pernas",
+      "thumb": "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=200&auto=format&fit=crop",
+      "videoLabel": "Ver Execução",
+      "targetReps": "8-12",
+      "sets": [
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        }
+      ],
+      "day": "Quarta-feira"
+    },
+    {
+      "id": "c03c3016-a9e3-4f2d-a32d-e10a68e60d07",
+      "name": "Supino Reto com Barra",
+      "muscle": "Peito",
+      "thumb": "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=200&auto=format&fit=crop",
+      "videoLabel": "Ver Execução",
+      "targetReps": "8-12",
+      "sets": [
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        }
+      ],
+      "day": "Quarta-feira"
+    },
+    {
+      "id": "5be06f85-23b0-4657-8fa7-cda9c240c635",
+      "name": "Mesa Flexora",
+      "muscle": "Pernas",
+      "thumb": "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=200&auto=format&fit=crop",
+      "videoLabel": "Ver Execução",
+      "targetReps": "8-12",
+      "sets": [
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        }
+      ],
+      "day": "Quarta-feira"
+    },
+    {
+      "id": "ce3d83c9-c5bc-48d2-b36c-f46163bfa83c",
+      "name": "Levantamento Terra Stiff com Barra",
+      "muscle": "Pernas",
+      "thumb": "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=200&auto=format&fit=crop",
+      "videoLabel": "Ver Execução",
+      "targetReps": "8-12",
+      "sets": [
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        }
+      ],
+      "day": "Quarta-feira"
+    },
+    {
+      "id": "52fa2588-ef66-4d78-a3a2-11f5b0fad70f",
+      "name": "Cadeira Flexora",
+      "muscle": "Pernas",
+      "thumb": "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=200&auto=format&fit=crop",
+      "videoLabel": "Ver Execução",
+      "targetReps": "8-12",
+      "sets": [
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        }
+      ],
+      "day": "Quarta-feira"
+    },
+    {
+      "id": "2f1353dc-5f27-4482-8ad6-fad8e233d786",
+      "name": "Elevação Pélvica com Barra (Hip Thrust)",
+      "muscle": "Pernas",
+      "thumb": "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=200&auto=format&fit=crop",
+      "videoLabel": "Ver Execução",
+      "targetReps": "8-12",
+      "sets": [
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        }
+      ],
+      "day": "Quarta-feira"
+    },
+    {
+      "id": "8951e4a0-bee9-4c96-90eb-0cbc75f2964f",
+      "name": "Desenvolvimento com Halteres",
+      "muscle": "Ombros",
+      "thumb": "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=200&auto=format&fit=crop",
+      "videoLabel": "Ver Execução",
+      "targetReps": "8-12",
+      "sets": [
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        }
+      ],
+      "day": "Quinta-feira"
+    },
+    {
+      "id": "9d804ef2-285f-44fa-a9fd-c59e388d5a70",
+      "name": "Desenvolvimento com Halteres",
+      "muscle": "Ombros",
+      "thumb": "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=200&auto=format&fit=crop",
+      "videoLabel": "Ver Execução",
+      "targetReps": "8-12",
+      "sets": [
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        }
+      ],
+      "day": "Quinta-feira"
+    },
+    {
+      "id": "0bf60f78-190a-4973-b138-fc714f9ea3ac",
+      "name": "Elevação Lateral com Halteres",
+      "muscle": "Ombros",
+      "thumb": "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=200&auto=format&fit=crop",
+      "videoLabel": "Ver Execução",
+      "targetReps": "8-12",
+      "sets": [
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        }
+      ],
+      "day": "Quinta-feira"
+    },
+    {
+      "id": "e3b2ecf4-ee02-4bc6-b003-13b3aec8bc89",
+      "name": "Elevação Frontal com Halteres",
+      "muscle": "Ombros",
+      "thumb": "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=200&auto=format&fit=crop",
+      "videoLabel": "Ver Execução",
+      "targetReps": "8-12",
+      "sets": [
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        }
+      ],
+      "day": "Quinta-feira"
+    },
+    {
+      "id": "f99da85e-6680-4911-83c4-737bb9740850",
+      "name": "Crucifixo Inverso com Halteres",
+      "muscle": "Costas",
+      "thumb": "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=200&auto=format&fit=crop",
+      "videoLabel": "Ver Execução",
+      "targetReps": "8-12",
+      "sets": [
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        }
+      ],
+      "day": "Quinta-feira"
+    },
+    {
+      "id": "28baa2bb-5f4e-4ecc-988d-117938b461c0",
+      "name": "Supino Reto com Barra",
+      "muscle": "Peito",
+      "thumb": "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=200&auto=format&fit=crop",
+      "videoLabel": "Ver Execução",
+      "targetReps": "8-12",
+      "sets": [
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        }
+      ],
+      "day": "Quinta-feira"
+    },
+    {
+      "id": "30d69997-acaf-45f3-bda8-af91101f1763",
+      "name": "Supino Reto com Barra",
+      "muscle": "Peito",
+      "thumb": "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=200&auto=format&fit=crop",
+      "videoLabel": "Ver Execução",
+      "targetReps": "8-12",
+      "sets": [
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        }
+      ],
+      "day": "Quinta-feira"
+    },
+    {
+      "id": "d5440075-c77b-4ec3-b814-2abe97b34637",
+      "name": "Rosca Direta com Barra Reta",
+      "muscle": "Bíceps",
+      "thumb": "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=200&auto=format&fit=crop",
+      "videoLabel": "Ver Execução",
+      "targetReps": "8-12",
+      "sets": [
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        }
+      ],
+      "day": "Sexta-feira"
+    },
+    {
+      "id": "f2d5e6c3-d95b-45e3-980e-55bc070c176a",
+      "name": "Rosca Martelo Alternada",
+      "muscle": "Bíceps",
+      "thumb": "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=200&auto=format&fit=crop",
+      "videoLabel": "Ver Execução",
+      "targetReps": "8-12",
+      "sets": [
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        }
+      ],
+      "day": "Sexta-feira"
+    },
+    {
+      "id": "68568b59-f59b-4cd5-b572-5502db385b56",
+      "name": "Rosca Scott com Barra W",
+      "muscle": "Bíceps",
+      "thumb": "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=200&auto=format&fit=crop",
+      "videoLabel": "Ver Execução",
+      "targetReps": "8-12",
+      "sets": [
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        }
+      ],
+      "day": "Sexta-feira"
+    },
+    {
+      "id": "ac6a42ca-a985-4bd6-8598-7005e7070723",
+      "name": "Rosca Concentrada com Halter",
+      "muscle": "Bíceps",
+      "thumb": "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=200&auto=format&fit=crop",
+      "videoLabel": "Ver Execução",
+      "targetReps": "8-12",
+      "sets": [
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        }
+      ],
+      "day": "Sexta-feira"
+    },
+    {
+      "id": "f8c428cb-f023-458a-bb7a-59f9299818cd",
+      "name": "Tríceps Testa com Barra W",
+      "muscle": "Tríceps",
+      "thumb": "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=200&auto=format&fit=crop",
+      "videoLabel": "Ver Execução",
+      "targetReps": "8-12",
+      "sets": [
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        }
+      ],
+      "day": "Sexta-feira"
+    },
+    {
+      "id": "122567c8-96c0-4551-a551-7b1d19e8bd47",
+      "name": "Supino Reto com Barra",
+      "muscle": "Peito",
+      "thumb": "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=200&auto=format&fit=crop",
+      "videoLabel": "Ver Execução",
+      "targetReps": "8-12",
+      "sets": [
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        }
+      ],
+      "day": "Sexta-feira"
+    },
+    {
+      "id": "a93302cc-7718-4784-8271-bcaa42b57a8f",
+      "name": "Tríceps Corda na Polia Alta",
+      "muscle": "Tríceps",
+      "thumb": "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=200&auto=format&fit=crop",
+      "videoLabel": "Ver Execução",
+      "targetReps": "8-12",
+      "sets": [
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        }
+      ],
+      "day": "Sexta-feira"
+    },
+    {
+      "id": "1da0e46b-b9a4-419c-bc66-8025a028e776",
+      "name": "Supino Reto com Barra",
+      "muscle": "Peito",
+      "thumb": "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=200&auto=format&fit=crop",
+      "videoLabel": "Ver Execução",
+      "targetReps": "8-12",
+      "sets": [
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        },
+        {
+          "load": "-",
+          "reps": "8-12",
+          "done": false
+        }
+      ],
+      "day": "Sexta-feira"
+    }
+  ]
+}

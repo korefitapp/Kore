@@ -3,6 +3,8 @@ import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { loadAppSeed } from "../_components/seed-loader";
 import { ProfilePageClient } from "./_components/ProfilePageClient";
 
+export const dynamic = "force-dynamic";
+
 export const metadata = {
   title: "Perfil — KORE Super App",
 };

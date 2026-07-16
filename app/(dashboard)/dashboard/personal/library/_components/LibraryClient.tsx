@@ -23,6 +23,7 @@ interface Exercise {
   image_url: string | null;
   description: string | null;
   created_at: string;
+  professional_id?: string | null;
 }
 
 const TABS = [
@@ -53,7 +54,7 @@ function Badge({ children, variant = "primary" }: { children: React.ReactNode, v
   );
 }
 
-export function LibraryClient({ exercises }: { exercises: Exercise[] }) {
+export function LibraryClient({ exercises, currentUserId, isAdmin = false }: { exercises: Exercise[], currentUserId: string, isAdmin?: boolean }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [activeTab, setActiveTab] = useState("Todos");
   const [isExerciseModalOpen, setIsExerciseModalOpen] = useState(false);
@@ -152,7 +153,7 @@ export function LibraryClient({ exercises }: { exercises: Exercise[] }) {
           {filteredExercises.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 mt-6">
               {filteredExercises.map((ex) => (
-                <ExerciseCard key={ex.id} exercise={ex} />
+                <ExerciseCard key={ex.id} exercise={ex} currentUserId={currentUserId} isAdmin={isAdmin} />
               ))}
             </div>
           ) : (
@@ -165,8 +166,9 @@ export function LibraryClient({ exercises }: { exercises: Exercise[] }) {
   );
 }
 
-function ExerciseCard({ exercise }: { exercise: Exercise }) {
+function ExerciseCard({ exercise, currentUserId, isAdmin = false }: { exercise: Exercise, currentUserId: string, isAdmin?: boolean }) {
   const [isEditOpen, setIsEditOpen] = useState(false);
+  const canEdit = exercise.professional_id === currentUserId || isAdmin;
 
   return (
     <article className="group flex flex-col justify-between rounded-2xl border border-kore-border bg-kore-card/60 backdrop-blur-sm overflow-hidden hover:border-kore-emerald/30 hover:shadow-kore-emerald transition-all duration-200">
@@ -207,14 +209,16 @@ function ExerciseCard({ exercise }: { exercise: Exercise }) {
         <span className="text-[11px] font-medium text-kore-muted">
           {exercise.mechanic || "Geral"}
         </span>
-        <button
-          type="button"
-          onClick={() => setIsEditOpen(true)}
-          className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-[11px] font-bold text-kore-subink hover:text-kore-ink bg-kore-bg hover:bg-kore-border/50 transition"
-        >
-          <Edit3 size={12} />
-          Editar
-        </button>
+        {canEdit && (
+          <button
+            type="button"
+            onClick={() => setIsEditOpen(true)}
+            className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-[11px] font-bold text-kore-subink hover:text-kore-ink bg-kore-bg hover:bg-kore-border/50 transition"
+          >
+            <Edit3 size={12} />
+            Editar
+          </button>
+        )}
       </div>
 
       <EditExerciseModal isOpen={isEditOpen} onClose={() => setIsEditOpen(false)} exercise={exercise as any} />

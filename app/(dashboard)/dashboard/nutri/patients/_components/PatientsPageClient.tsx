@@ -26,6 +26,7 @@ interface PatientRow {
   created_at: string;
   metadata: Record<string, unknown> | null;
   auth_user_id?: string | null;
+  avatar_url?: string | null;
 }
 
 
@@ -227,10 +228,12 @@ function PatientRow({ patient }: { patient: PatientRow }) {
     setIsDeleting(true);
     try {
       await deletePatient(patient.id);
-      alert("Paciente excluído com sucesso.");
+      const { toast } = require("@/store/useToastStore");
+      toast.success("Paciente excluído com sucesso.");
       router.refresh();
     } catch (error) {
-      alert("Erro ao excluir paciente.");
+      const { toast } = require("@/store/useToastStore");
+      toast.error("Erro ao excluir paciente.");
     } finally {
       setIsDeleting(false);
     }

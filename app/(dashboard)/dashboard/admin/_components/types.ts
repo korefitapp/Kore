@@ -8,6 +8,13 @@ export type SidebarKey =
   | "growth"
   | "settings";
 
+export interface AdminMetrics {
+  usersCount: number;
+  activeProsCount: number;
+  pendingProsCount: number;
+  openDisputesCount: number;
+}
+
 export type ProfessionalKind = "nutritionist" | "trainer" | "merchant";
 export type ApprovalStatus = "pending" | "in-review" | "needs-info";
 

@@ -172,7 +172,8 @@ export function CartDrawer() {
               <button
                 disabled={cart.length === 0}
                 onClick={() => {
-                  alert("Stripe Checkout simulado: total " + currency(total));
+                  const { toast } = require("@/store/useToastStore");
+                  toast.info("Stripe Checkout simulado: total " + currency(total));
                   clearCart();
                   setOpen(false);
                 }}

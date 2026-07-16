@@ -15,6 +15,7 @@ import type {
   Tab,
   Theme,
   UserProfile,
+  Trainer,
 } from "./types";
 
 export type ProfileView = "menu" | "health" | "orders" | "notifications" | "privacy" | "settings";
@@ -39,8 +40,8 @@ export interface KoreState {
 
   waterMl: number;
   waterGoalMl: number;
-  addWater: (ml: number) => void;
-  setWater: (ml: number) => void;
+  addWater: (ml: number) => Promise<void>;
+  setWater: (ml: number) => Promise<void>;
 
   kcalGoal: number;
   macros: MacrosTriplet;
@@ -51,6 +52,8 @@ export interface KoreState {
   toggleMealItem: (mealId: string, itemId: string) => void;
 
   exercises: Exercise[];
+  activeDay: string;
+  setActiveDay: (day: string) => void;
   activeExerciseId: string | null;
   setActive: (id: string | null) => void;
   updateSet: (
@@ -63,6 +66,7 @@ export interface KoreState {
   setAddress: (a: string) => void;
   stores: Store[];
   products: Product[];
+  topTrainers: Trainer[];
   shopFilter: "all" | "supplements" | "fresh" | "pharmacy";
   setShopFilter: (f: "all" | "supplements" | "fresh" | "pharmacy") => void;
 
@@ -126,14 +130,25 @@ export const useKore = create<KoreState>((set) => ({
 
   waterMl: fallback.waterMl,
   waterGoalMl: fallback.waterGoalMl,
-  addWater: (ml) =>
-    set((s) => ({
-      waterMl: Math.max(0, Math.min(s.waterGoalMl, s.waterMl + ml)),
-    })),
-  setWater: (ml) =>
-    set((s) => ({
-      waterMl: Math.max(0, Math.min(s.waterGoalMl, ml)),
-    })),
+  addWater: async (ml) => {
+    set((s) => {
+      const newVal = Math.max(0, Math.min(s.waterGoalMl, s.waterMl + ml));
+      // Fire and forget server action sync
+      import("../actions").then(({ logWater }) => {
+        logWater(newVal, new Date().toISOString().split("T")[0]).catch(console.error);
+      });
+      return { waterMl: newVal };
+    });
+  },
+  setWater: async (ml) => {
+    set((s) => {
+      const newVal = Math.max(0, Math.min(s.waterGoalMl, ml));
+      import("../actions").then(({ logWater }) => {
+        logWater(newVal, new Date().toISOString().split("T")[0]).catch(console.error);
+      });
+      return { waterMl: newVal };
+    });
+  },
 
   kcalGoal: fallback.kcalGoal,
   macros: macrosFromMeals(fallback.meals),
@@ -167,6 +182,8 @@ export const useKore = create<KoreState>((set) => ({
     }),
 
   exercises: fallback.exercises,
+  activeDay: "A",
+  setActiveDay: (day) => set({ activeDay: day }),
   activeExerciseId: null,
   setActive: (id) => set({ activeExerciseId: id }),
   updateSet: (exId, setIdx, patch) =>
@@ -187,6 +204,7 @@ export const useKore = create<KoreState>((set) => ({
   setAddress: (a) => set({ address: a }),
   stores: fallback.stores,
   products: fallback.products,
+  topTrainers: fallback.topTrainers || [],
   shopFilter: "all",
   setShopFilter: (f) => set({ shopFilter: f }),
 
@@ -240,6 +258,7 @@ export const useKore = create<KoreState>((set) => ({
       stores: seed.stores,
       products: seed.products,
       address: seed.address,
+      topTrainers: seed.topTrainers || [],
     })),
 }));
 

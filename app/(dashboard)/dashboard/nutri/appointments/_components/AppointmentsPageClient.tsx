@@ -278,7 +278,7 @@ export function AppointmentsPageClient({
                 onClick={() => setWeekOffset(0)}
                 className="px-2 sm:px-4 py-1.5 sm:py-2 text-[11px] sm:text-xs font-bold text-kore-ink hover:bg-kore-bg rounded-lg transition whitespace-nowrap"
               >
-                {weekStart.getDate()} {weekStart.toLocaleDateString("pt-BR", { month: "short" })} 
+                {weekStart.getDate()} {weekStart.toLocaleDateString("pt-BR", { month: "short" })}
                 {" – "}
                 {weekEnd.getDate()} {weekEnd.toLocaleDateString("pt-BR", { month: "short" })}
               </button>
@@ -296,7 +296,7 @@ export function AppointmentsPageClient({
           <div className="grid grid-cols-1 xl:grid-cols-[1fr_380px] gap-8">
             {/* ── Daily Calendar View ────────────────────────────── */}
             <div className="rounded-3xl border border-kore-border bg-kore-card shadow-sm overflow-hidden flex flex-col">
-              
+
               {/* Day Tabs (Week Grid) */}
               <div className="grid grid-cols-7 border-b border-kore-border/60 bg-kore-bg/30">
                 {weekDates.map((d, idx) => {
@@ -304,15 +304,14 @@ export function AppointmentsPageClient({
                   const isSelected = isSameDay(d, selectedDay);
                   const dayAppts = appointmentsByDay[idx];
                   const count = dayAppts ? dayAppts.length : 0;
-                  
+
                   return (
                     <button
                       key={idx}
                       type="button"
                       onClick={() => setSelectedDay(d)}
-                      className={`flex flex-col items-center justify-center gap-1 sm:gap-2 py-4 px-1 sm:px-2 transition relative group ${
-                        isSelected ? "bg-kore-bg" : "hover:bg-kore-bg/50"
-                      }`}
+                      className={`flex flex-col items-center justify-center gap-1 sm:gap-2 py-4 px-1 sm:px-2 transition relative group ${isSelected ? "bg-kore-bg" : "hover:bg-kore-bg/50"
+                        }`}
                     >
                       {isSelected && (
                         <span
@@ -320,24 +319,22 @@ export function AppointmentsPageClient({
                           className="absolute top-0 inset-x-0 h-1 bg-kore-emerald"
                         />
                       )}
-                      
+
                       <span
-                        className={`text-[10px] sm:text-xs font-bold uppercase tracking-wider ${
-                          isSelected
-                            ? "text-kore-emerald"
-                            : isToday ? "text-kore-ink" : "text-kore-muted"
-                        }`}
+                        className={`text-[10px] sm:text-xs font-bold uppercase tracking-wider ${isSelected
+                          ? "text-kore-emerald"
+                          : isToday ? "text-kore-ink" : "text-kore-muted"
+                          }`}
                       >
                         {DAY_LABELS[idx]}
                       </span>
-                      
-                      <div className={`w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center text-sm sm:text-base font-extrabold transition-all duration-300 ${
-                        isSelected 
-                          ? "bg-kore-emerald text-white shadow-md shadow-emerald-500/20 scale-110" 
-                          : isToday 
-                            ? "bg-kore-emerald/10 text-kore-emerald-deep"
-                            : "text-kore-ink group-hover:bg-kore-border/30"
-                      }`}>
+
+                      <div className={`w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center text-sm sm:text-base font-extrabold transition-all duration-300 ${isSelected
+                        ? "bg-kore-emerald text-white shadow-md shadow-emerald-500/20 scale-110"
+                        : isToday
+                          ? "bg-kore-emerald/10 text-kore-emerald-deep"
+                          : "text-kore-ink group-hover:bg-kore-border/30"
+                        }`}>
                         {d.getDate()}
                       </div>
 
@@ -360,12 +357,12 @@ export function AppointmentsPageClient({
 
               {/* Time grid (Daily Timeline) */}
               <div className="flex-1 overflow-y-auto max-h-[600px] p-2 sm:p-4 bg-kore-bg/20 relative">
-                
+
                 {/* Current Time Indicator (Only if selected day is today) */}
                 {isSameDay(selectedDay, today) && (
-                  <div 
+                  <div
                     className="absolute left-0 right-0 border-t-2 border-red-500/70 z-10 pointer-events-none flex items-center"
-                    style={{ 
+                    style={{
                       top: `${Math.max(0, ((today.getHours() - 7) * 80) + (today.getMinutes() / 60 * 80) + 16)}px` // 80px per hour + 16px padding
                     }}
                   >
@@ -395,7 +392,7 @@ export function AppointmentsPageClient({
                             {formatHour(hour)}
                           </span>
                         </div>
-                        
+
                         {/* Grid Line */}
                         <div className="absolute left-16 right-0 top-0 border-t border-dashed border-kore-border/30 group-hover:border-kore-border/60 transition-colors z-0"></div>
 
@@ -403,16 +400,16 @@ export function AppointmentsPageClient({
                         <div className="flex-1 pl-4 pr-2 pt-2 pb-2 relative z-0 flex flex-col gap-2">
                           {hourAppts.map((appt) => {
                             const statusBadge = getStatusBadge(appt.status);
-                            const typeBadge = getTypeBadge(appt.focus);
-                            const modalityBadge = getModalityBadge(appt.modality);
-                            
+                            const typeBadge = getTypeBadge(appt.focus ?? null);
+                            const modalityBadge = getModalityBadge(appt.modality ?? null);;
+
                             return (
                               <div
                                 key={appt.id}
                                 className="group/card relative flex flex-col gap-2 p-3 sm:p-4 rounded-2xl border border-kore-border/50 bg-white dark:bg-kore-bg shadow-sm hover:shadow-md hover:border-kore-emerald/30 transition-all cursor-pointer"
                               >
                                 <div className="absolute left-0 top-0 bottom-0 w-1.5 rounded-l-2xl bg-kore-emerald"></div>
-                                
+
                                 <div className="flex items-start justify-between gap-4">
                                   <div className="flex items-center gap-3">
                                     <div className="w-10 h-10 rounded-full bg-kore-bg border border-kore-border overflow-hidden grid place-items-center flex-shrink-0">
@@ -437,14 +434,14 @@ export function AppointmentsPageClient({
                                       </div>
                                     </div>
                                   </div>
-                                  
+
                                   <div className="flex flex-col items-end gap-1.5 flex-shrink-0">
                                     <span className={`inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-bold tracking-wide ${statusBadge.colors}`}>
                                       {statusBadge.label}
                                     </span>
                                     <div className="flex items-center gap-1">
-                                      <span className={`inline-flex items-center px-2 py-0.5 rounded-md text-[9px] font-bold uppercase tracking-wider ${typeBadge.colors}`}>
-                                        {typeBadge.label}
+                                      <span className={`inline-flex items-center px-2 py-0.5 rounded-md text-[9px] font-bold uppercase tracking-wider ${typeBadge?.colors}`}>
+                                        {typeBadge?.label}
                                       </span>
                                       {modalityBadge && (
                                         <span className={`inline-flex items-center px-1.5 py-0.5 rounded-md text-[9px] font-bold uppercase tracking-wider ${modalityBadge.colors}`}>
@@ -486,9 +483,9 @@ export function AppointmentsPageClient({
                 <div className="space-y-3">
                   {todayAppointments.map((appt) => {
                     const statusBadge = getStatusBadge(appt.status);
-                    const typeBadge = getTypeBadge(appt.focus);
-                    const modalityBadge = getModalityBadge(appt.modality);
-                    
+                    const typeBadge = getTypeBadge(appt.focus ?? null);
+                    const modalityBadge = getModalityBadge(appt.modality ?? null);
+
                     return (
                       <div
                         key={appt.id}
@@ -531,9 +528,9 @@ export function AppointmentsPageClient({
                                 {statusBadge.label}
                               </span>
                               <span
-                                className={`inline-flex items-center px-2 py-0.5 rounded-md text-[9px] font-bold tracking-wider uppercase ${typeBadge.colors}`}
+                                className={`inline-flex items-center px-2 py-0.5 rounded-md text-[9px] font-bold tracking-wider uppercase ${typeBadge?.colors}`}
                               >
-                                {typeBadge.label}
+                                {typeBadge?.label}
                               </span>
                               {modalityBadge && (
                                 <span

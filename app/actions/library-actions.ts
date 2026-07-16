@@ -50,7 +50,10 @@ export async function editExercise(id: string, formData: FormData) {
   const category = formData.get("equipment") as string;
   const image_url = formData.get("videoUrl") as string;
 
-  const { error } = await (supabase as any)
+  const { data: profile } = await supabase.from("profiles").select("role").eq("id", user.id).single();
+  const isAdmin = profile?.role === "admin";
+
+  let query = (supabase as any)
     .from("exercises")
     .update({
       name,
@@ -58,8 +61,13 @@ export async function editExercise(id: string, formData: FormData) {
       category: category || null,
       image_url: image_url || null,
     })
-    .eq("id", id)
-    .eq("professional_id", user.id);
+    .eq("id", id);
+
+  if (!isAdmin) {
+    query = query.eq("professional_id", user.id);
+  }
+
+  const { error } = await query;
 
   if (error) {
     console.error("Erro ao atualizar exercício:", error.message);
@@ -77,11 +85,19 @@ export async function deleteExercise(id: string) {
     throw new Error("Não autenticado");
   }
 
-  const { error } = await (supabase as any)
+  const { data: profile } = await supabase.from("profiles").select("role").eq("id", user.id).single();
+  const isAdmin = profile?.role === "admin";
+
+  let query = (supabase as any)
     .from("exercises")
     .delete()
-    .eq("id", id)
-    .eq("professional_id", user.id);
+    .eq("id", id);
+
+  if (!isAdmin) {
+    query = query.eq("professional_id", user.id);
+  }
+
+  const { error } = await query;
 
   if (error) {
     console.error("Erro ao deletar exercício:", error.message);

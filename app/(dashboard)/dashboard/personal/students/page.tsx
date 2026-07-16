@@ -26,7 +26,6 @@ export default async function StudentsPage() {
       status, 
       created_at, 
       metadata,
-      email,
       workout_plans (*)
     `)
     .eq("coach_id", user.id)
@@ -46,7 +45,7 @@ export default async function StudentsPage() {
         status: s.status,
         created_at: s.created_at,
         metadata: s.metadata as Record<string, unknown> | null,
-        email: s.email,
+        email: null,
         workout_plans: s.workout_plans as any[],
       }))}
     />

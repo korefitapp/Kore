@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import {
   BookOpen,
@@ -31,12 +32,12 @@ interface Item {
 
 const WORKSPACE: Item[] = [
   { key: "overview", label: "Visão Geral", href: "/dashboard/shop", Icon: LayoutDashboard },
-  { key: "orders", label: "Pedidos", href: "/dashboard/shop/orders", Icon: ShoppingBag, badge: 12 },
+  { key: "orders", label: "Pedidos", href: "/dashboard/shop/orders", Icon: ShoppingBag },
   { key: "products", label: "Produtos", href: "/dashboard/shop/products", Icon: BookOpen },
-  { key: "inventory", label: "Estoque", href: "/dashboard/shop/inventory", Icon: Boxes, badge: 6 },
+  { key: "inventory", label: "Estoque", href: "/dashboard/shop/inventory", Icon: Boxes },
   { key: "promotions", label: "Promoções", href: "/dashboard/shop/promotions", Icon: Tag },
   { key: "customers", label: "Clientes", href: "/dashboard/shop/customers", Icon: Users },
-  { key: "messages", label: "Mensagens", href: "/dashboard/shop/messages", Icon: MessageSquare, badge: 9 },
+  { key: "messages", label: "Mensagens", href: "/dashboard/shop/messages", Icon: MessageSquare },
 ];
 
 const ACCOUNT: Item[] = [
@@ -68,6 +69,13 @@ export function MobileSidebar() {
 
 function SidebarBody({ onItemClick }: { onItemClick?: () => void }) {
   const pathname = usePathname();
+  const [counts, setCounts] = useState({ orders: 0, inventory: 0, messages: 0 });
+
+  useEffect(() => {
+    import("@/app/actions/shop-actions").then((mod) => {
+      mod.getSidebarCounts().then(setCounts);
+    });
+  }, []);
 
   const isActive = (href: string) => {
     if (href === "/dashboard/shop") {
@@ -103,14 +111,21 @@ function SidebarBody({ onItemClick }: { onItemClick?: () => void }) {
           Workspace
         </p>
         <ul className="space-y-1">
-          {WORKSPACE.map((it) => (
-            <NavItem
-              key={it.key}
-              item={it}
-              active={isActive(it.href)}
-              onClick={onItemClick}
-            />
-          ))}
+          {WORKSPACE.map((it) => {
+            let badgeCount = 0;
+            if (it.key === "orders") badgeCount = counts.orders;
+            if (it.key === "inventory") badgeCount = counts.inventory;
+            if (it.key === "messages") badgeCount = counts.messages;
+            
+            return (
+              <NavItem
+                key={it.key}
+                item={{ ...it, badge: badgeCount > 0 ? badgeCount : undefined }}
+                active={isActive(it.href)}
+                onClick={onItemClick}
+              />
+            );
+          })}
         </ul>
 
         <p className="px-3 mt-6 text-[10px] uppercase tracking-[0.18em] text-kore-muted font-bold mb-2">

@@ -27,12 +27,12 @@ export default async function AgendaPage() {
   endOfWeek.setDate(startOfWeek.getDate() + 7);
 
   // Query real na tabela appointments do Supabase
-  // Tipagem any pois a tabela appointments pode não existir nos tipos gerados
   const { data: appointments, error } = await (supabase as SupabaseClient)
     .from("appointments" as any)
-    .select(
-      "id, title, type, status, start_time, end_time, notes, professional_id, client_id, client_name, client_avatar_url"
-    )
+    .select(`
+      id, title, status, start_time, end_time, professional_id, client_id,
+      profiles!appointments_client_id_fkey ( full_name, avatar_url )
+    `)
     .eq("professional_id", user.id)
     .gte("start_time", startOfWeek.toISOString())
     .lt("start_time", endOfWeek.toISOString())
@@ -44,17 +44,17 @@ export default async function AgendaPage() {
 
   return (
     <AgendaClient
-      appointments={(appointments ?? []).map((a) => ({
+      appointments={(appointments ?? []).map((a: any) => ({
         id: a.id as string,
         title: a.title as string | null,
-        type: a.type as string | null,
+        focus: a.title ? (a.title.includes(" - ") ? a.title.split(" - ")[0] : a.title) : "Agendamento",
         status: a.status as string | null,
         start_time: a.start_time as string,
         end_time: a.end_time as string | null,
-        notes: a.notes as string | null,
+        notes: (a.title && a.title.includes(" - ")) ? a.title.substring(a.title.indexOf(" - ") + 3) : "",
         client_id: a.client_id as string | null,
-        client_name: a.client_name as string | null,
-        client_avatar_url: a.client_avatar_url as string | null,
+        client_name: a.profiles?.full_name as string | null,
+        client_avatar_url: a.profiles?.avatar_url as string | null,
       }))}
     />
   );

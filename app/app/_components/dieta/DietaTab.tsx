@@ -81,19 +81,20 @@ export function DietaTab() {
     <motion.div
       initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.25 }}
-      className="space-y-4"
+      className="bg-slate-50 dark:bg-[#121212] min-h-[100dvh] text-slate-900 dark:text-white -mx-4 -mt-4 px-5 pt-8 overflow-y-auto pb-24"
     >
-      <header>
-        <p className="text-xs text-muted">Plano nutricional</p>
-        <h1 className="text-2xl font-extrabold text-kore tracking-tight">
-          Sua dieta
-        </h1>
+      <header className="mb-6 flex items-center justify-between">
+        <div>
+          <h1 className="text-2xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+            Nutrition
+          </h1>
+        </div>
       </header>
 
       <KcalHero meals={optimisticMeals} />
 
-      <div className="space-y-3">
+      <div className="space-y-4">
+        <h2 className="text-lg font-bold text-slate-900 dark:text-white mb-2">Daily Meal</h2>
         {optimisticMeals.map((m, i) => (
           <MealAccordion 
             key={m.id} 

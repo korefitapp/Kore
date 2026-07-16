@@ -4,18 +4,18 @@ import { motion } from "framer-motion";
 import {
   Dumbbell,
   Home,
-  ShoppingBag,
+  ShoppingCart,
   User,
   UtensilsCrossed,
 } from "lucide-react";
 import { useKore } from "./store";
 import type { Tab } from "./types";
 
-const tabs: { id: Tab; label: string; Icon: typeof Home }[] = [
-  { id: "home", label: "Início", Icon: Home },
-  { id: "dieta", label: "Dieta", Icon: UtensilsCrossed },
+const tabs: { id: Tab; label: string; Icon: any }[] = [
+  { id: "home", label: "Home", Icon: Home },
   { id: "treino", label: "Treino", Icon: Dumbbell },
-  { id: "shop", label: "Shop", Icon: ShoppingBag },
+  { id: "dieta", label: "Nutrição", Icon: UtensilsCrossed },
+  { id: "shop", label: "Loja", Icon: ShoppingCart },
   { id: "perfil", label: "Perfil", Icon: User },
 ];
 
@@ -25,10 +25,11 @@ export function BottomNav() {
   const setProfileView = useKore((s) => s.setProfileView);
 
   return (
-    <nav className="sticky bottom-0 left-0 right-0 z-30 bg-kore-card border-t border-kore">
-      <div className="mx-auto max-w-md grid grid-cols-5 px-2 pt-2 pb-3">
+    <nav className="fixed bottom-0 left-0 right-0 z-50 bg-white/90 dark:bg-[#121212]/90 backdrop-blur-xl border-t border-slate-200 dark:border-white/5 pb-safe">
+      <div className="mx-auto max-w-md flex items-center justify-between px-6 py-4 relative">
         {tabs.map(({ id, label, Icon }) => {
           const active = tab === id;
+
           return (
             <button
               key={id}
@@ -36,29 +37,29 @@ export function BottomNav() {
                 setTab(id);
                 if (id === "perfil") setProfileView("menu");
               }}
-              className="relative flex flex-col items-center justify-center gap-1 py-1.5"
+              className="relative flex flex-col items-center justify-center gap-1 active:scale-95 transition-transform min-w-[50px]"
             >
-              {active && (
-                <motion.span
-                  layoutId="navPill"
-                  className="absolute inset-x-2 inset-y-1 rounded-2xl bg-kore-emerald/10"
-                  transition={{ type: "spring", stiffness: 380, damping: 30 }}
-                />
-              )}
               <Icon
                 className={`relative z-10 transition-colors ${
-                  active ? "text-kore-emerald" : "text-muted"
+                  active ? "text-emerald-600 dark:text-[#34d399]" : "text-slate-400 dark:text-zinc-500"
                 }`}
                 size={22}
                 strokeWidth={active ? 2.5 : 2}
               />
               <span
-                className={`relative z-10 text-[11px] font-medium transition-colors ${
-                  active ? "text-kore-emerald" : "text-muted"
+                className={`text-[9px] font-extrabold uppercase tracking-widest transition-colors ${
+                  active ? "text-emerald-600 dark:text-white" : "text-slate-400 dark:text-zinc-500"
                 }`}
               >
                 {label}
               </span>
+              {active && (
+                <motion.div
+                  layoutId="bottom-nav-indicator"
+                  className="absolute -top-3 w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(52,211,153,0.8)]"
+                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                />
+              )}
             </button>
           );
         })}

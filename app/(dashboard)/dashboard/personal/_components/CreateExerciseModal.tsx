@@ -19,10 +19,12 @@ export function CreateExerciseModal({ isOpen, onClose }: Props) {
     startTransition(async () => {
       try {
         await createExercise(formData);
-        alert("Exercício cadastrado com sucesso!");
+        const { toast } = require("@/store/useToastStore");
+        toast.success("Exercício cadastrado com sucesso!");
         onClose();
       } catch (error) {
-        alert("Erro ao cadastrar exercício.");
+        const { toast } = require("@/store/useToastStore");
+        toast.error("Erro ao cadastrar exercício.");
       }
     });
   };

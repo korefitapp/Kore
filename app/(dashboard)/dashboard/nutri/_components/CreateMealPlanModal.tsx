@@ -95,7 +95,8 @@ export function CreateMealPlanModal({
     const formData = new FormData(e.currentTarget);
     
     if (!selectedPatientId) {
-      alert("Por favor, selecione um paciente.");
+      const { toast } = require("@/store/useToastStore");
+      toast.error("Por favor, selecione um paciente.");
       return;
     }
 
@@ -114,10 +115,12 @@ export function CreateMealPlanModal({
       try {
         const planId = await createMealPlan(formData);
         onOpenChange(false);
-        alert("Cardápio criado com sucesso!");
+        const { toast } = require("@/store/useToastStore");
+        toast.success("Cardápio criado com sucesso!");
         router.push(`/dashboard/nutri/meal-plans/${planId}/builder`);
       } catch (error: any) {
-        alert(error.message || "Erro ao criar cardápio.");
+        const { toast } = require("@/store/useToastStore");
+        toast.error(error.message || "Erro ao criar cardápio.");
       }
     });
   };

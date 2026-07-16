@@ -2,10 +2,12 @@
 
 import { useState, useMemo } from "react";
 import { motion } from "framer-motion";
-import { CalendarDays, Mail, Search } from "lucide-react";
+import { CalendarDays, Edit, Mail, Search, Trash } from "lucide-react";
 import { MobileSidebar, Sidebar } from "../../_components/Sidebar";
 import { Topbar } from "../../_components/Topbar";
 import type { UserRow } from "../page";
+import { deleteAdminUser } from "@/app/actions/admin-actions";
+import { EditUserModal } from "./EditUserModal";
 
 /* ── Filtro types ─────────────────────────────────────────────── */
 type RoleFilter = "all" | "client" | "trainer" | "nutritionist" | "merchant";
@@ -61,6 +63,30 @@ function formatDate(iso: string) {
 export function UsersClient({ users }: { users: UserRow[] }) {
   const [filter, setFilter] = useState<RoleFilter>("all");
   const [search, setSearch] = useState("");
+  
+  const [editingUser, setEditingUser] = useState<UserRow | null>(null);
+  const [isDeleting, setIsDeleting] = useState<string | null>(null);
+
+  function handleDelete(id: string) {
+    const { confirmAction } = require("@/store/useConfirmStore");
+    const { toast } = require("@/store/useToastStore");
+
+    confirmAction({
+      title: "Inativar Usuário",
+      message: "Deseja realmente inativar este usuário (exclusão lógica)?",
+      danger: true,
+      onConfirm: async () => {
+        setIsDeleting(id);
+        const res = await deleteAdminUser(id);
+        if (res?.success === false) {
+          toast.error(res.message || "Erro ao inativar usuário.");
+        } else {
+          toast.success("Usuário inativado com sucesso!");
+        }
+        setIsDeleting(null);
+      },
+    });
+  }
 
   const filtered = useMemo(() => {
     let list = users;
@@ -162,13 +188,16 @@ export function UsersClient({ users }: { users: UserRow[] }) {
                     <th className="text-left font-bold text-kore-muted uppercase tracking-wider text-[11px] px-5 py-3.5">
                       Data de Cadastro
                     </th>
+                    <th className="text-right font-bold text-kore-muted uppercase tracking-wider text-[11px] px-5 py-3.5">
+                      Ações
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
                   {filtered.length === 0 && (
                     <tr>
                       <td
-                        colSpan={5}
+                        colSpan={6}
                         className="text-center py-12 text-kore-muted text-sm"
                       >
                         Nenhum usuário encontrado.
@@ -228,6 +257,27 @@ export function UsersClient({ users }: { users: UserRow[] }) {
                       </td>
                       <td className="px-5 py-3.5 text-kore-subink whitespace-nowrap">
                         {formatDate(u.created_at)}
+                      </td>
+                      <td className="px-5 py-3.5 text-right whitespace-nowrap">
+                        <div className="flex items-center justify-end gap-2">
+                          <button
+                            type="button"
+                            onClick={() => setEditingUser(u)}
+                            className="p-1.5 text-kore-muted hover:text-kore-emerald hover:bg-kore-emerald/10 rounded-lg transition"
+                            title="Editar"
+                          >
+                            <Edit size={16} />
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => handleDelete(u.id)}
+                            disabled={isDeleting === u.id}
+                            className="p-1.5 text-kore-muted hover:text-red-500 hover:bg-red-500/10 rounded-lg transition disabled:opacity-50"
+                            title="Excluir"
+                          >
+                            {isDeleting === u.id ? <div className="w-4 h-4 border-2 border-red-500 border-t-transparent rounded-full animate-spin" /> : <Trash size={16} />}
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   ))}
@@ -292,16 +342,39 @@ export function UsersClient({ users }: { users: UserRow[] }) {
                     />
                     {STATUS_LABEL[u.status] ?? u.status}
                   </span>
-                  <span className="inline-flex items-center gap-1 text-kore-muted ml-auto">
+                  <span className="inline-flex items-center gap-1 text-kore-muted">
                     <CalendarDays size={12} />
                     {formatDate(u.created_at)}
                   </span>
+                </div>
+                <div className="flex items-center justify-end gap-2 pt-2 border-t border-kore-border/50">
+                  <button
+                    type="button"
+                    onClick={() => setEditingUser(u)}
+                    className="flex-1 flex items-center justify-center gap-2 py-2 text-xs font-bold text-kore-ink bg-kore-bg hover:bg-kore-border/40 rounded-xl transition"
+                  >
+                    <Edit size={14} /> Editar
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleDelete(u.id)}
+                    disabled={isDeleting === u.id}
+                    className="flex-1 flex items-center justify-center gap-2 py-2 text-xs font-bold text-red-500 bg-red-500/10 hover:bg-red-500/20 rounded-xl transition disabled:opacity-50"
+                  >
+                    {isDeleting === u.id ? <div className="w-3.5 h-3.5 border-2 border-red-500 border-t-transparent rounded-full animate-spin" /> : <Trash size={14} />} Excluir
+                  </button>
                 </div>
               </div>
             ))}
           </div>
         </main>
       </div>
+      
+      <EditUserModal 
+        user={editingUser} 
+        isOpen={!!editingUser} 
+        onClose={() => setEditingUser(null)} 
+      />
     </div>
   );
 }

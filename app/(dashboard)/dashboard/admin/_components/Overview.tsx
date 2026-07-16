@@ -7,19 +7,21 @@ import { KpiGrid } from "./KpiGrid";
 import { PendingProfessionals } from "./PendingProfessionals";
 import { CategoryShareChart, RevenueChart } from "./RevenueChart";
 import { RecentActivity } from "./RecentActivity";
-import type { PendingProfessional } from "./types";
+import type { AdminMetrics, PendingProfessional } from "./types";
 
 export function Overview({
   adminName,
   pending,
+  metrics,
 }: {
   adminName: string;
   pending: PendingProfessional[];
+  metrics: AdminMetrics;
 }) {
   return (
     <div className="px-4 sm:px-6 lg:px-8 py-4 sm:py-6 space-y-4 sm:space-y-6 max-w-[1440px] mx-auto">
-      <Header adminName={adminName} />
-      <KpiGrid />
+      <Header adminName={adminName} pendingCount={metrics.pendingProsCount} disputesCount={metrics.openDisputesCount} />
+      <KpiGrid metrics={metrics} />
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         <RevenueChart />
@@ -38,7 +40,7 @@ export function Overview({
   );
 }
 
-function Header({ adminName }: { adminName: string }) {
+function Header({ adminName, pendingCount, disputesCount }: { adminName: string; pendingCount: number; disputesCount: number; }) {
   const hour = new Date().getHours();
   const greeting =
     hour < 12 ? "Bom dia" : hour < 18 ? "Boa tarde" : "Boa noite";
@@ -56,7 +58,7 @@ function Header({ adminName }: { adminName: string }) {
           {greeting}, {firstName} 👋
         </p>
         <h1 className="mt-1 text-[28px] leading-tight font-black tracking-tight text-kore-ink">
-          <span className="text-kore-emerald-deep">23 profissionais</span>{" "}
+          <span className="text-kore-emerald-deep">{pendingCount} profissionais</span>{" "}
           aguardando aprovação
         </h1>
         <p className="mt-1 text-sm text-kore-muted">
@@ -68,7 +70,7 @@ function Header({ adminName }: { adminName: string }) {
           <Sparkles size={11} /> Stripe estável
         </span>
         <span className="chip bg-amber-500/12 text-amber-700 dark:text-amber-300 ring-1 ring-inset ring-amber-500/30">
-          <Clock4 size={11} /> 4 disputas abertas
+          <Clock4 size={11} /> {disputesCount} disputas abertas
         </span>
         <span className="chip bg-sky-500/12 text-sky-700 dark:text-sky-300 ring-1 ring-inset ring-sky-500/30">
           <TrendingUp size={11} /> MRR R$ 78.420

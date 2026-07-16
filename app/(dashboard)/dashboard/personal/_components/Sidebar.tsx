@@ -13,6 +13,7 @@ import {
   Settings,
   Users,
   Wallet,
+  Dumbbell,
 } from "lucide-react";
 import { MobileNavDrawer } from "@/components/MobileNavDrawer";
 import { SidebarUserCard } from "@/components/SidebarUserCard";
@@ -32,7 +33,8 @@ interface Item {
 const WORKSPACE: Item[] = [
   { key: "overview", label: "Visão Geral", href: "/dashboard/personal", Icon: LayoutDashboard },
   { key: "students", label: "Alunos", href: "/dashboard/personal/students", Icon: Users },
-  { key: "library", label: "Biblioteca", href: "/dashboard/personal/library", Icon: BookOpen },
+  { key: "workouts", label: "Treinos", href: "/dashboard/personal/workouts", Icon: Dumbbell },
+  { key: "library", label: "Biblioteca de Exercícios", href: "/dashboard/personal/library", Icon: BookOpen },
   { key: "agenda", label: "Agenda", href: "/dashboard/personal/agenda", Icon: CalendarDays },
   { key: "messages", label: "Mensagens", href: "/dashboard/personal/messages", Icon: MessageSquare },
 ];

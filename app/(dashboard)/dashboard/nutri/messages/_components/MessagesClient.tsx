@@ -340,14 +340,13 @@ export function MessagesClient({
   messages: Message[];
 }) {
   const supabase = createSupabaseBrowserClient();
-  const profiles = serverProfiles.length > 0 ? serverProfiles : MOCK_PROFILES;
+  const profiles = serverProfiles;
   
   const [instanceStatus, setInstanceStatus] = useState(initialInstanceStatus);
   const [qrCode, setQrCode] = useState<string | null>(initialQrCode);
   const [isConnecting, setIsConnecting] = useState(false);
 
-  const allMessages =
-    serverMessages.length > 0 ? serverMessages : MOCK_MESSAGES;
+  const allMessages = serverMessages;
   const onlineIds = MOCK_ONLINE_IDS;
 
   const [selectedContactId, setSelectedContactId] = useState<string | null>(
@@ -420,7 +419,8 @@ export function MessagesClient({
       }
       setInstanceStatus("connecting");
     } catch (err: any) {
-      alert("Erro ao conectar: " + err.message);
+      const { toast } = require("@/store/useToastStore");
+      toast.error("Erro ao conectar: " + err.message);
     } finally {
       setIsConnecting(false);
     }
@@ -532,7 +532,8 @@ export function MessagesClient({
 
     const contact = profiles.find(p => p.id === selectedContactId);
     if (!contact || !contact.phone) {
-      alert("Este paciente não tem um número de telefone registado.");
+      const { toast } = require("@/store/useToastStore");
+      toast.error("Este paciente não tem um número de telefone registado.");
       return;
     }
 
@@ -553,7 +554,8 @@ export function MessagesClient({
     try {
       await sendWhatsAppMessage(selectedContactId, contact.phone, textToSend);
     } catch (error: any) {
-      alert("Falha ao enviar mensagem: " + error.message);
+      const { toast } = require("@/store/useToastStore");
+      toast.error("Falha ao enviar mensagem: " + error.message);
       // Rollback otimista (opcional)
       setLocalMessages((prev) => prev.filter((m) => m.id !== tempMsg.id));
     } finally {

@@ -37,9 +37,11 @@ export function HealthClient({ defaultValues }: { defaultValues: HealthData }) {
     startTransition(async () => {
       try {
         await updateHealthData(formData);
-        alert("Dados atualizados com sucesso!");
-      } catch (error) {
-        alert("Erro ao salvar dados.");
+        const { toast } = require("@/store/useToastStore");
+        toast.success("Dados atualizados com sucesso!");
+      } catch (e) {
+        const { toast } = require("@/store/useToastStore");
+        toast.error("Erro ao salvar dados.");
       }
     });
   };

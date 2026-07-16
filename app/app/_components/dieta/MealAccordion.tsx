@@ -43,10 +43,10 @@ export function MealAccordion({
   return (
     <motion.section
       layout
-      className={`rounded-3xl border bg-kore-card overflow-hidden transition-all duration-300 ${
+      className={`relative rounded-[28px] border bg-white dark:bg-white/5 overflow-hidden transition-all duration-300 shadow-sm ${
         pct === 100
-          ? "border-emerald-200 dark:border-emerald-700/50 opacity-60 scale-[0.98]"
-          : "border-kore"
+          ? "border-emerald-200 dark:border-emerald-500/30 opacity-60 scale-[0.98]"
+          : "border-slate-200 dark:border-white/10"
       }`}
     >
       <div className="flex items-center gap-3 p-4">
@@ -58,30 +58,18 @@ export function MealAccordion({
           className="relative flex-shrink-0 w-12 h-12 flex items-center justify-center transition-transform active:scale-90"
           aria-label="Marcar todos"
         >
-          <svg className="absolute inset-0 w-full h-full -rotate-90" viewBox="0 0 48 48">
-            <circle
+          <svg className="absolute inset-0 w-full h-full -rotate-90 text-slate-100 dark:text-white/5" viewBox="0 0 48 48">
+            <circle cx="24" cy="24" r={radius} stroke="currentColor" strokeWidth="3" fill="none" />
+            <motion.circle
               cx="24"
               cy="24"
               r={radius}
-              fill="transparent"
               stroke="currentColor"
-              strokeWidth="4"
-              className="text-slate-200 dark:text-slate-700"
-            />
-            <circle
-              cx="24"
-              cy="24"
-              r={radius}
-              fill={pct === 100 ? "currentColor" : "transparent"}
-              stroke="currentColor"
-              strokeWidth="4"
+              strokeWidth="3"
+              fill="none"
               strokeDasharray={circumference}
               strokeDashoffset={strokeDashoffset}
-              className={`transition-all duration-700 ease-out ${
-                pct === 100 
-                  ? "text-kore-emerald fill-kore-emerald" 
-                  : "text-kore-emerald"
-              }`}
+              className="text-emerald-500 dark:text-emerald-400 drop-shadow-[0_0_5px_rgba(52,211,153,0.3)] dark:drop-shadow-[0_0_5px_rgba(52,211,153,0.5)]"
             />
           </svg>
           <AnimatePresence>
@@ -92,7 +80,7 @@ export function MealAccordion({
                 animate={{ scale: 1, opacity: 1 }}
                 exit={{ scale: 0, opacity: 0 }}
                 transition={{ type: "spring", stiffness: 400, damping: 18 }}
-                className="z-10 text-white"
+                className="absolute z-10 text-emerald-500 dark:text-white"
               >
                 <Check size={20} strokeWidth={3} />
               </motion.span>
@@ -106,23 +94,25 @@ export function MealAccordion({
         >
           <span className="text-2xl">{meal.emoji}</span>
           <div className="flex-1 min-w-0">
-            <h3 className="font-bold text-kore truncate">{meal.name}</h3>
-            <p className="text-xs text-muted flex items-center gap-1.5">
-              <Clock size={12} /> {meal.targetTime} · {meal.items.length} itens
+            <h3 className={`font-extrabold text-lg truncate ${pct === 100 ? "text-emerald-600 dark:text-emerald-400" : "text-slate-900 dark:text-white"}`}>
+              {meal.name}
+            </h3>
+            <p className="text-[11px] text-slate-500 dark:text-zinc-400 font-bold uppercase tracking-wider flex items-center gap-1.5 mt-0.5">
+              <Clock size={12} className="text-slate-400 dark:text-zinc-500" /> {meal.targetTime} · {meal.items.length} itens
             </p>
           </div>
           <div className="text-right flex-shrink-0">
-            <p className="font-extrabold text-kore tabular-nums">
+            <p className="font-extrabold text-slate-900 dark:text-white tabular-nums">
               {total} kcal
             </p>
-            <p className="text-[11px] text-muted">
+            <p className="text-[11px] text-slate-400 dark:text-zinc-500 font-medium">
               P {Math.round(protein)} · C {Math.round(carbs)} · G{" "}
               {Math.round(fat)}
             </p>
           </div>
           <motion.span
             animate={{ rotate: open ? 180 : 0 }}
-            className="text-muted"
+            className="text-slate-400 dark:text-zinc-600"
           >
             <ChevronDown size={20} />
           </motion.span>
@@ -144,24 +134,24 @@ export function MealAccordion({
                 <li
                   key={it.id}
                   onClick={() => onToggleItem && onToggleItem(it.id, !!it.consumed)}
-                  className={`flex items-center gap-3 rounded-2xl bg-kore-bg/60 border border-kore px-3 py-2.5 cursor-pointer transition-all active:scale-[0.98] ${
+                  className={`flex items-center gap-3 rounded-2xl bg-slate-50 dark:bg-white/[0.03] border border-slate-200 dark:border-white/5 px-3 py-2.5 cursor-pointer transition-all active:scale-[0.98] ${
                     it.consumed ? "opacity-50" : ""
                   }`}
                 >
-                  <div className={`flex-shrink-0 w-5 h-5 rounded-full border-2 flex items-center justify-center transition-colors ${
+                  <div className={`flex-shrink-0 w-6 h-6 rounded-full border-2 flex items-center justify-center transition-colors ${
                     it.consumed 
-                      ? "bg-kore-emerald border-kore-emerald" 
-                      : "border-slate-300 dark:border-slate-600"
+                      ? "bg-emerald-500 border-emerald-500 dark:bg-emerald-400 dark:border-emerald-400" 
+                      : "border-slate-300 dark:border-zinc-700"
                   }`}>
-                    {it.consumed && <Check size={12} strokeWidth={3} className="text-white" />}
+                    {it.consumed && <Check size={14} strokeWidth={3} className="text-white dark:text-[#121212]" />}
                   </div>
-                  <div className={`flex-1 min-w-0 ${it.consumed ? "line-through decoration-slate-400" : ""}`}>
-                    <p className="font-medium text-kore text-sm truncate">{it.name}</p>
-                    <p className="text-[11px] text-muted">
+                  <div className={`flex-1 min-w-0 ${it.consumed ? "line-through decoration-slate-400 dark:decoration-zinc-600" : ""}`}>
+                    <p className="font-medium text-slate-900 dark:text-white text-sm truncate">{it.name}</p>
+                    <p className="text-[11px] text-slate-500 dark:text-zinc-500">
                       P {it.protein}g · C {it.carbs}g · G {it.fat}g
                     </p>
                   </div>
-                  <span className={`font-bold tabular-nums text-sm ${it.consumed ? "text-muted" : "text-kore"}`}>
+                  <span className={`font-bold tabular-nums text-sm ${it.consumed ? "text-slate-400 dark:text-muted" : "text-emerald-600 dark:text-kore"}`}>
                     {it.kcal} kcal
                   </span>
                 </li>

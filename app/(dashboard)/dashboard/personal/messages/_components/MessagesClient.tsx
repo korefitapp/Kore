@@ -370,9 +370,9 @@ export function MessagesClient({
   profiles: Profile[];
   messages: Message[];
 }) {
-  // Use mock data if server data is empty
-  const profiles = serverProfiles.length > 0 ? serverProfiles : MOCK_PROFILES;
-  const allMessages = serverMessages.length > 0 ? serverMessages : MOCK_MESSAGES;
+  // Use actual data
+  const profiles = serverProfiles;
+  const allMessages = serverMessages;
   const onlineIds = MOCK_ONLINE_IDS;
 
   const supabase = createSupabaseBrowserClient();
@@ -437,7 +437,8 @@ export function MessagesClient({
       }
       setInstanceStatus("connecting");
     } catch (err: any) {
-      alert("Erro ao conectar: " + err.message);
+      const { toast } = require("@/store/useToastStore");
+      toast.error("Erro ao conectar: " + err.message);
     } finally {
       setIsConnecting(false);
     }
@@ -551,7 +552,8 @@ export function MessagesClient({
 
     const contact = profiles.find(p => p.id === selectedContactId);
     if (!contact || !contact.phone) {
-      alert("Este aluno não tem um número de telefone registado.");
+      const { toast } = require("@/store/useToastStore");
+      toast.error("Este aluno não tem um número de telefone registado.");
       return;
     }
 
@@ -572,7 +574,9 @@ export function MessagesClient({
     try {
       await sendWhatsAppMessage(selectedContactId, contact.phone, textToSend);
     } catch (error: any) {
-      alert("Falha ao enviar mensagem: " + error.message);
+      const { toast } = require("@/store/useToastStore");
+      toast.error("Falha ao enviar mensagem: " + error.message);
+      // Rollback otimista
       setLocalMessages((prev) => prev.filter((m) => m.id !== tempMsg.id));
     } finally {
       setIsSending(false);

@@ -33,7 +33,7 @@ export default async function FinancialPage() {
     <FinancialClient
       transactions={stats.history}
       metrics={stats.metrics}
-      chartData={stats.chartData}
+      chartData={(stats.chartData ?? []).map(item => ({ ...item, month: item.month ?? "" }))}
     />
   );
 }

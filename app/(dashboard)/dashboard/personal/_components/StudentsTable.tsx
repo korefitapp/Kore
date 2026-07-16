@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import {
   ArrowDownRight,
   ArrowUpRight,
@@ -9,7 +10,8 @@ import {
   Search,
 } from "lucide-react";
 import { Area, AreaChart, ResponsiveContainer, YAxis } from "recharts";
-import { STUDENTS, statusLabel } from "./data";
+import { statusLabel } from "./data";
+import { StudentDetailsSheet } from "./StudentDetailsSheet";
 import { usePersonal, type StudentFilter } from "./store";
 import type { Student } from "./types";
 
@@ -26,8 +28,7 @@ export function StudentsTable({ students = [] }: { students?: Student[] }) {
   const query = usePersonal((s) => s.studentQuery);
   const setQuery = usePersonal((s) => s.setStudentQuery);
 
-  // Use props if available, otherwise fallback to mock data
-  const sourceData = students.length > 0 ? students : STUDENTS;
+  const sourceData = students;
 
   const filtered = sourceData.filter((s) => {
     if (filter !== "all" && s.status !== filter) return false;
@@ -129,6 +130,7 @@ export function StudentsTable({ students = [] }: { students?: Student[] }) {
 }
 
 function StudentRow({ student }: { student: Student }) {
+  const [editOpen, setEditOpen] = useState(false);
   const positive = student.loadDeltaPct >= 0;
   const planExpiringSoon = student.planExpiresInDays <= 14;
   const sparkData = student.adherence8w.map((v, i) => ({ i, v }));
@@ -136,8 +138,13 @@ function StudentRow({ student }: { student: Student }) {
   const status = student.status;
 
   return (
-    <tr className="border-b border-kore-border last:border-b-0 cursor-pointer hover:bg-kore-bg/60 transition group">
-      <td className="py-3 px-5">
+    <>
+      <StudentDetailsSheet open={editOpen} onOpenChange={setEditOpen} student={student} />
+      <tr 
+        onClick={() => setEditOpen(true)}
+        className="border-b border-kore-border last:border-b-0 cursor-pointer hover:bg-kore-bg/60 transition group"
+      >
+        <td className="py-3 px-5">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-xl bg-kore-emerald-soft text-xl grid place-items-center flex-shrink-0">
             {student.avatar}
@@ -215,7 +222,10 @@ function StudentRow({ student }: { student: Student }) {
             type="button"
             aria-label="Mais ações"
             className="w-7 h-7 grid place-items-center rounded-lg hover:bg-kore-bg hover:text-kore-ink transition"
-            onClick={(e) => e.stopPropagation()}
+            onClick={(e) => {
+              e.stopPropagation();
+              setEditOpen(true);
+            }}
           >
             <MoreHorizontal size={15} />
           </button>
@@ -226,6 +236,7 @@ function StudentRow({ student }: { student: Student }) {
         </div>
       </td>
     </tr>
+    </>
   );
 }
 

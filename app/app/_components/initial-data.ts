@@ -94,7 +94,8 @@ export const FALLBACK_EXERCISES: Exercise[] = [
     muscle: "Peito",
     thumb: "💪",
     videoLabel: "Execução: 0:00 / 1:24",
-    targetReps: "4x 10-12",
+    targetReps: "4x 8-10",
+    day: "A",
     sets: [
       { load: "22", reps: "12", done: false },
       { load: "22", reps: "12", done: false },
@@ -107,8 +108,9 @@ export const FALLBACK_EXERCISES: Exercise[] = [
     name: "Crucifixo Inclinado",
     muscle: "Peito superior",
     thumb: "🏋️",
-    videoLabel: "Execução: 0:00 / 1:08",
-    targetReps: "3x 12-15",
+    videoLabel: "Execução: 0:00 / 0:45",
+    targetReps: "4x 10-12",
+    day: "A",
     sets: [
       { load: "12", reps: "15", done: false },
       { load: "14", reps: "12", done: false },
@@ -122,6 +124,7 @@ export const FALLBACK_EXERCISES: Exercise[] = [
     thumb: "🦾",
     videoLabel: "Execução: 0:00 / 0:58",
     targetReps: "4x 12",
+    day: "B",
     sets: [
       { load: "25", reps: "12", done: false },
       { load: "27", reps: "12", done: false },
@@ -136,6 +139,7 @@ export const FALLBACK_EXERCISES: Exercise[] = [
     thumb: "🏋️‍♂️",
     videoLabel: "Execução: 0:00 / 1:12",
     targetReps: "3x 10",
+    day: "B",
     sets: [
       { load: "14", reps: "10", done: false },
       { load: "14", reps: "10", done: false },

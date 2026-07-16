@@ -29,9 +29,15 @@ export default async function LibraryPage() {
     console.error("Erro ao buscar exercícios:", error.message);
   }
 
+  // Query role
+  const { data: profile } = await supabase.from("profiles").select("role").eq("id", user.id).single();
+  const isAdmin = profile?.role === "admin";
+
   return (
     <LibraryClient
       exercises={exercises ?? []}
+      currentUserId={user.id}
+      isAdmin={isAdmin}
     />
   );
 }

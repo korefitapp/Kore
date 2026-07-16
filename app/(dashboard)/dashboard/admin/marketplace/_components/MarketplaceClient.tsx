@@ -14,10 +14,13 @@ import {
 import { MobileSidebar, Sidebar } from "../../_components/Sidebar";
 import { Topbar } from "../../_components/Topbar";
 import type { ListingRow } from "../page";
+import { deleteMarketplaceListing } from "@/app/actions/marketplace-actions";
+import { ListingAdminModal } from "./ListingAdminModal";
 
 /* ── Status helpers ──────────────────────────────────────────── */
 const STATUS_LABEL: Record<string, string> = {
   published: "Publicado",
+  paused: "Pausado",
   draft: "Rascunho",
   banned: "Banido",
 };
@@ -32,6 +35,11 @@ const STATUS_STYLES: Record<string, { dot: string; badge: string }> = {
     dot: "bg-slate-400",
     badge:
       "bg-slate-100 text-slate-600 dark:bg-slate-800/40 dark:text-slate-300",
+  },
+  paused: {
+    dot: "bg-amber-500",
+    badge:
+      "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300",
   },
   banned: {
     dot: "bg-red-500",
@@ -73,6 +81,9 @@ function formatDate(iso: string) {
   });
 }
 
+import { toast } from "@/store/useToastStore";
+import { confirmAction } from "@/store/useConfirmStore";
+
 /* ── Component ───────────────────────────────────────────────── */
 export function MarketplaceClient({
   listings,
@@ -80,6 +91,26 @@ export function MarketplaceClient({
   listings: ListingRow[];
 }) {
   const [search, setSearch] = useState("");
+  const [isDeleting, setIsDeleting] = useState<string | null>(null);
+  const [viewingListing, setViewingListing] = useState<ListingRow | null>(null);
+
+  function handleDelete(id: string) {
+    confirmAction({
+      title: "Remover Anúncio",
+      message: "Deseja realmente remover este anúncio?",
+      danger: true,
+      onConfirm: async () => {
+        setIsDeleting(id);
+        const res = await deleteMarketplaceListing(id);
+        if (res?.success === false) {
+          toast.error(res.message);
+        } else {
+          toast.success("Anúncio removido com sucesso!");
+        }
+        setIsDeleting(null);
+      },
+    });
+  }
 
   /* ── Metric calculations ───────────────────────────────────── */
   const activeCount = listings.filter(
@@ -293,21 +324,26 @@ export function MarketplaceClient({
                             <button
                               type="button"
                               title="Ver Anúncio"
+                              onClick={() => setViewingListing(l)}
                               className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-kore-card border border-kore-border text-xs font-bold text-kore-ink hover:border-kore-emerald/40 hover:text-kore-emerald-deep transition"
                             >
                               <Eye size={13} />
                               Ver
                             </button>
-                            {l.status !== "banned" && (
-                              <button
-                                type="button"
-                                title="Remover Anúncio"
-                                className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-red-600 text-white text-xs font-bold hover:bg-red-700 transition"
-                              >
+                            <button
+                              type="button"
+                              title="Remover Anúncio"
+                              onClick={() => handleDelete(l.id)}
+                              disabled={isDeleting === l.id}
+                              className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-red-600 text-white text-xs font-bold hover:bg-red-700 transition disabled:opacity-50"
+                            >
+                              {isDeleting === l.id ? (
+                                <div className="w-3 h-3 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                              ) : (
                                 <Trash2 size={13} />
-                                Remover
-                              </button>
-                            )}
+                              )}
+                              Remover
+                            </button>
                           </div>
                         </td>
                       </tr>
@@ -381,20 +417,25 @@ export function MarketplaceClient({
                   <div className="flex items-center gap-2 pt-1">
                     <button
                       type="button"
+                      onClick={() => setViewingListing(l)}
                       className="flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-kore-card border border-kore-border text-xs font-bold text-kore-ink hover:border-kore-emerald/40 transition"
                     >
                       <Eye size={14} />
                       Ver Anúncio
                     </button>
-                    {l.status !== "banned" && (
-                      <button
-                        type="button"
-                        className="flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-red-600 text-white text-xs font-bold hover:bg-red-700 transition"
-                      >
+                    <button
+                      type="button"
+                      onClick={() => handleDelete(l.id)}
+                      disabled={isDeleting === l.id}
+                      className="flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-red-600 text-white text-xs font-bold hover:bg-red-700 transition disabled:opacity-50"
+                    >
+                      {isDeleting === l.id ? (
+                        <div className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                      ) : (
                         <Trash2 size={14} />
-                        Remover
-                      </button>
-                    )}
+                      )}
+                      Remover
+                    </button>
                   </div>
                 </div>
               );
@@ -402,6 +443,11 @@ export function MarketplaceClient({
           </div>
         </main>
       </div>
+
+      <ListingAdminModal 
+        listing={viewingListing} 
+        onClose={() => setViewingListing(null)} 
+      />
     </div>
   );
 }

@@ -6,7 +6,6 @@ import { OWNER } from "./data";
 import { KpiGrid } from "./KpiGrid";
 import { MealPlansToBuild } from "./MealPlansToBuild";
 import { PatientsTable } from "./PatientsTable";
-import { WeeklyMacrosChart } from "./WeeklyMacrosChart";
 
 export function Overview({ nutriName, dashboardData }: { nutriName: string, dashboardData: any }) {
   return (
@@ -17,7 +16,6 @@ export function Overview({ nutriName, dashboardData }: { nutriName: string, dash
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
         <div className="xl:col-span-2 space-y-6">
           <PatientsTable patients={dashboardData.patients} />
-          <WeeklyMacrosChart />
         </div>
         <div className="space-y-6">
           <AgendaToday appointments={dashboardData.appointmentsToday} />

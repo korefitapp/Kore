@@ -32,7 +32,8 @@ export function CreatePatientModal({ open, onOpenChange }: CreatePatientModalPro
       try {
         const result = await createPatient(formData);
         onOpenChange(false);
-        alert(result?.message || "Paciente cadastrado com sucesso!");
+        const { toast } = require("@/store/useToastStore");
+        toast.success(result?.message || "Paciente cadastrado com sucesso!");
         router.refresh();
       } catch (error: any) {
         setErrorMsg(error.message || "Erro ao cadastrar paciente.");

@@ -17,7 +17,11 @@ import {
 } from "lucide-react";
 import { MobileSidebar, Sidebar } from "../../_components/Sidebar";
 import { Topbar } from "../../_components/Topbar";
+import { CreateCouponModal } from "./CreateCouponModal";
+import { EditCouponModal } from "./EditCouponModal";
 import type { AcquisitionMetrics, CouponRow } from "../page";
+import { createSupabaseBrowserClient } from "@/lib/supabase/client";
+import { useRouter } from "next/navigation";
 
 /* ── Status helpers ──────────────────────────────────────────── */
 const STATUS_LABEL: Record<string, string> = {
@@ -66,7 +70,11 @@ export function GrowthClient({
   coupons: CouponRow[];
   metrics: AcquisitionMetrics;
 }) {
+  const router = useRouter();
+  const supabase = createSupabaseBrowserClient();
   const [search, setSearch] = useState("");
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [editingCoupon, setEditingCoupon] = useState<CouponRow | null>(null);
 
   /* ── Filtered list ─────────────────────────────────────────── */
   const filtered = useMemo(() => {
@@ -74,6 +82,24 @@ export function GrowthClient({
     const q = search.toLowerCase();
     return coupons.filter((c) => c.code.toLowerCase().includes(q));
   }, [coupons, search]);
+
+  /* ── Handlers ──────────────────────────────────────────────── */
+  const handleToggleStatus = async (id: string, currentStatus: string) => {
+    const { toast } = require("@/store/useToastStore");
+    const newStatus = currentStatus === "disabled" ? "active" : "disabled";
+    const { error } = await supabase
+      .from("coupons")
+      .update({ status: newStatus })
+      .eq("id", id);
+      
+    if (error) {
+      console.error(error);
+      toast.error("Erro ao alterar status do cupom.");
+    } else {
+      toast.success("Status atualizado!");
+      router.refresh();
+    }
+  };
 
   return (
     <div className="min-h-screen flex bg-kore-bg text-kore-ink">
@@ -97,6 +123,7 @@ export function GrowthClient({
 
             <button
               type="button"
+              onClick={() => setIsCreateModalOpen(true)}
               className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-kore-emerald text-white text-sm font-bold hover:brightness-110 transition self-start sm:self-auto"
             >
               <Plus size={16} />
@@ -358,6 +385,7 @@ export function GrowthClient({
                               <button
                                 type="button"
                                 title="Editar"
+                                onClick={() => setEditingCoupon(c)}
                                 className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-kore-card border border-kore-border text-xs font-bold text-kore-ink hover:border-kore-emerald/40 hover:text-kore-emerald-deep transition"
                               >
                                 <Edit3 size={13} />
@@ -365,6 +393,7 @@ export function GrowthClient({
                               </button>
                               <button
                                 type="button"
+                                onClick={() => handleToggleStatus(c.id, c.status)}
                                 title={
                                   c.status === "disabled"
                                     ? "Reativar"
@@ -481,6 +510,7 @@ export function GrowthClient({
                     <div className="flex items-center gap-2 pt-1">
                       <button
                         type="button"
+                        onClick={() => setEditingCoupon(c)}
                         className="flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-kore-card border border-kore-border text-xs font-bold text-kore-ink hover:border-kore-emerald/40 transition"
                       >
                         <Edit3 size={14} />
@@ -488,6 +518,7 @@ export function GrowthClient({
                       </button>
                       <button
                         type="button"
+                        onClick={() => handleToggleStatus(c.id, c.status)}
                         className={`flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl border text-xs font-bold transition ${
                           c.status === "disabled"
                             ? "bg-emerald-50 border-emerald-200 text-emerald-700 dark:bg-emerald-900/20 dark:border-emerald-800 dark:text-emerald-300"
@@ -505,6 +536,18 @@ export function GrowthClient({
           </section>
         </main>
       </div>
+
+      <CreateCouponModal
+        isOpen={isCreateModalOpen}
+        onClose={() => setIsCreateModalOpen(false)}
+      />
+      {editingCoupon && (
+        <EditCouponModal
+          isOpen={!!editingCoupon}
+          onClose={() => setEditingCoupon(null)}
+          coupon={editingCoupon}
+        />
+      )}
     </div>
   );
 }

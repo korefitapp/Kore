@@ -8,6 +8,16 @@ export interface UserProfile {
   avatar: string;
   plan: "Free" | "Premium" | "Coach";
   memberSince: string;
+  coachId?: string | null;
+}
+
+export interface Trainer {
+  id: string;
+  name: string;
+  specialty: string;
+  distance: string;
+  rating: string;
+  avatarInitials: string;
 }
 
 export interface FoodItem {
@@ -43,6 +53,7 @@ export interface Exercise {
   videoLabel: string;
   targetReps: string;
   sets: ExerciseSet[];
+  day: string;
 }
 
 export interface Product {
@@ -101,4 +112,5 @@ export interface AppSeed {
   products: Product[];
   streak: number;
   address: string;
+  topTrainers?: Trainer[];
 }

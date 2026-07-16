@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import { MobileSidebar, Sidebar } from "../../_components/Sidebar";
 import { Topbar } from "../../_components/Topbar";
+import { StudentProfileModal } from "./StudentProfileModal";
 
 /* ── Types ──────────────────────────────────────────────────── */
 interface StudentRow {
@@ -108,11 +109,19 @@ function statusLabel(s: string) {
 }
 
 /* ── Component ──────────────────────────────────────────────── */
-export function StudentsClient({ students }: { students: StudentRow[] }) {
-  const [filter, setFilter] = useState<FilterKey>("all");
+export function StudentsClient({
+  students,
+}: {
+  students: StudentRow[] | null;
+}) {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [query, setQuery] = useState("");
+  const [filter, setFilter] = useState<FilterKey>("all");
 
-  const filtered = students.filter((s) => {
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedStudent, setSelectedStudent] = useState<StudentRow | null>(null);
+
+  const filtered = (students || []).filter((s) => {
     const adherence = getAdherence(s);
     const payment = getPaymentStatus(s);
     const lastWorkout = getLastWorkout(s);
@@ -231,7 +240,14 @@ export function StudentsClient({ students }: { students: StudentRow[] }) {
                 </thead>
                 <tbody>
                   {filtered.map((s) => (
-                    <StudentRow key={s.id} student={s} />
+                    <StudentRow 
+                      key={s.id} 
+                      student={s} 
+                      onClick={() => {
+                        setSelectedStudent(s);
+                        setModalOpen(true);
+                      }} 
+                    />
                   ))}
                   {filtered.length === 0 && (
                     <tr>
@@ -249,12 +265,19 @@ export function StudentsClient({ students }: { students: StudentRow[] }) {
           </section>
         </main>
       </div>
+
+      {/* Modal Profile */}
+      <StudentProfileModal
+        isOpen={modalOpen}
+        onClose={() => setModalOpen(false)}
+        student={selectedStudent}
+      />
     </div>
   );
 }
 
 /* ── Row ────────────────────────────────────────────────────── */
-function StudentRow({ student }: { student: StudentRow }) {
+function StudentRow({ student, onClick }: { student: StudentRow; onClick: () => void }) {
   const name = student.full_name || student.display_name || student.email || "Aluno sem nome";
   const initials = name
     .split(" ")
@@ -328,14 +351,17 @@ function StudentRow({ student }: { student: StudentRow }) {
         <PaymentBadge status={payment} />
       </td>
       <td className="py-3 px-5 text-right">
-        <Link
-          href={`/dashboard/personal/students/${student.id}`}
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            onClick();
+          }}
           className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold text-kore-emerald-deep bg-kore-emerald-soft hover:bg-kore-emerald hover:text-white transition opacity-70 group-hover:opacity-100"
         >
           <Eye size={13} />
           Ver Perfil
           <ChevronRight size={12} />
-        </Link>
+        </button>
       </td>
     </tr>
   );

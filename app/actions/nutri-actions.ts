@@ -1166,3 +1166,30 @@ export async function requestPixWithdrawal(amount: number, pixKey: string) {
   revalidatePath("/dashboard/nutri/settings/payments");
   return data;
 }
+
+export async function getSidebarCounts(): Promise<{ patients: number; messages: number }> {
+  try {
+    const supabase = createSupabaseServerClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return { patients: 0, messages: 0 };
+
+    let patientsCount = 0;
+    try {
+      const { count } = await supabase.from("profiles").select("id", { count: "exact", head: true }).eq("nutritionist_id", user.id);
+      if (count) patientsCount = count;
+    } catch { }
+
+    let messagesCount = 0;
+    try {
+      const { count } = await supabase.from("messages").select("id", { count: "exact", head: true }).eq("receiver_id", user.id).is("read_at", null);
+      if (count) messagesCount = count;
+    } catch { }
+
+    return {
+      patients: patientsCount,
+      messages: messagesCount
+    };
+  } catch (error) {
+    return { patients: 0, messages: 0 };
+  }
+}

@@ -3,9 +3,12 @@
 import { Bell, Command, Menu, Search, ShieldAlert } from "lucide-react";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { useAdmin } from "./store";
+import { useState } from "react";
+import { NotificationsSheet } from "@/components/NotificationsSheet";
 
 export function Topbar() {
   const setMobileNavOpen = useAdmin((s) => s.setMobileNavOpen);
+  const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
   return (
     <header className="sticky top-0 z-30 border-b border-kore-border bg-kore-card/70 backdrop-blur-md">
       <div className="h-14 sm:h-16 px-3 sm:px-6 flex items-center gap-2 sm:gap-4">
@@ -49,6 +52,7 @@ export function Topbar() {
 
           <button
             type="button"
+            onClick={() => setIsNotificationsOpen(true)}
             aria-label="Notificações"
             className="relative w-10 h-10 grid place-items-center rounded-xl border border-kore-border bg-kore-card text-kore-subink hover:border-kore-emerald/60 hover:text-kore-ink transition"
           >
@@ -59,6 +63,11 @@ export function Topbar() {
           </button>
         </div>
       </div>
+      
+      <NotificationsSheet
+        isOpen={isNotificationsOpen}
+        onClose={() => setIsNotificationsOpen(false)}
+      />
     </header>
   );
 }

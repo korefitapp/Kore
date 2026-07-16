@@ -61,9 +61,15 @@ export function BuilderClient({ plan, initialMeals }: { plan: any; initialMeals:
   };
 
   const handleRemoveMeal = (mealId: string) => {
-    if (confirm("Remover esta refeição inteira?")) {
-      setMeals(meals.filter(m => m.id !== mealId));
-    }
+    const { confirmAction } = require("@/store/useConfirmStore");
+    confirmAction({
+      title: "Remover Refeição",
+      message: "Remover esta refeição inteira?",
+      danger: true,
+      onConfirm: () => {
+        setMeals(meals.filter(m => m.id !== mealId));
+      }
+    });
   };
 
   const handleSearchFoods = async (q: string) => {
@@ -140,9 +146,11 @@ export function BuilderClient({ plan, initialMeals }: { plan: any; initialMeals:
     startTransition(async () => {
       try {
         await saveMealBuilderGraph(plan.id, meals, totals, isTemplate);
-        alert("Cardápio salvo com sucesso!");
+        const { toast } = require("@/store/useToastStore");
+        toast.success("Cardápio salvo com sucesso!");
       } catch (e: any) {
-        alert(e.message || "Erro ao salvar o cardápio.");
+        const { toast } = require("@/store/useToastStore");
+        toast.error(e.message || "Erro ao salvar o cardápio.");
       }
     });
   };

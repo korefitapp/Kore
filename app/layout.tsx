@@ -1,5 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
+import { GlobalToasts } from "@/components/ui/GlobalToasts";
+import { GlobalConfirm } from "@/components/ui/GlobalConfirm";
 
 export const metadata: Metadata = {
   title: {
@@ -24,6 +26,8 @@ export default function RootLayout({
     <html lang="pt-BR" suppressHydrationWarning>
       <body className="bg-kore-bg font-sans text-kore-ink antialiased">
         {children}
+        <GlobalToasts />
+        <GlobalConfirm />
       </body>
     </html>
   );

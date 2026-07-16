@@ -409,12 +409,20 @@ function PagamentosTab() {
   }, []);
 
   const handleStripeAction = async () => {
+    const { toast } = require("@/store/useToastStore");
+    const { confirmAction } = require("@/store/useConfirmStore");
     try {
       if (stripeConnected) {
-        if(confirm("Tem a certeza que deseja desconectar a sua conta Stripe?")) {
-          await disconnectStripe();
-          setStripeConnected(false);
-        }
+        confirmAction({
+          title: "Desconectar Stripe",
+          message: "Tem a certeza que deseja desconectar a sua conta Stripe?",
+          danger: true,
+          onConfirm: async () => {
+            await disconnectStripe();
+            setStripeConnected(false);
+            toast.success("Conta Stripe desconectada.");
+          }
+        });
       } else {
         const url = await createStripeConnectLink();
         window.location.href = url;
@@ -425,12 +433,20 @@ function PagamentosTab() {
   };
 
   const handleMpAction = async () => {
+    const { toast } = require("@/store/useToastStore");
+    const { confirmAction } = require("@/store/useConfirmStore");
     try {
       if (mpConnected) {
-        if(confirm("Tem a certeza que deseja desconectar a sua conta Mercado Pago?")) {
-          await disconnectMercadoPago();
-          setMpConnected(false);
-        }
+        confirmAction({
+          title: "Desconectar Mercado Pago",
+          message: "Tem a certeza que deseja desconectar a sua conta Mercado Pago?",
+          danger: true,
+          onConfirm: async () => {
+            await disconnectMercadoPago();
+            setMpConnected(false);
+            toast.success("Conta Mercado Pago desconectada.");
+          }
+        });
       } else {
         const url = await getMercadoPagoAuthUrl();
         window.location.href = url;
@@ -459,28 +475,29 @@ function PagamentosTab() {
 
   const handleWithdraw = async (e: React.FormEvent) => {
     e.preventDefault();
+    const { toast } = require("@/store/useToastStore");
     setIsWithdrawing(true);
     try {
       const amount = parseFloat(withdrawAmount.replace(",", "."));
       if (isNaN(amount) || amount <= 0) {
-        alert("Valor inválido");
+        toast.error("Valor inválido");
         return;
       }
       if (amount > availableBalance) {
-        alert("Saldo insuficiente");
+        toast.error("Saldo insuficiente");
         return;
       }
       if (!withdrawPixKey.trim()) {
-        alert("Informe a chave PIX");
+        toast.error("Informe a chave PIX");
         return;
       }
       
       await requestPixWithdrawal(amount, withdrawPixKey);
-      alert("Saque solicitado com sucesso! Você receberá o valor em breve.");
+      toast.success("Saque solicitado com sucesso! Você receberá o valor em breve.");
       setWithdrawModalOpen(false);
       setWithdrawAmount("");
     } catch (err: any) {
-      alert("Erro ao solicitar saque: " + err.message);
+      toast.error("Erro ao solicitar saque: " + err.message);
     } finally {
       setIsWithdrawing(false);
     }
@@ -528,7 +545,8 @@ function PagamentosTab() {
             <button
               onClick={() => {
                 if (availableBalance <= 0) {
-                  alert("Saldo insuficiente para efetuar o saque.");
+                  const { toast } = require("@/store/useToastStore");
+                  toast.error("Saldo insuficiente para efetuar o saque.");
                   return;
                 }
                 setWithdrawPixKey(pixKey);

@@ -29,10 +29,12 @@ export function CreateAppointmentModal({
     startTransition(async () => {
       try {
         await createAppointment(formData);
-        alert("Consulta agendada com sucesso!");
+        const { toast } = require("@/store/useToastStore");
+        toast.success("Consulta agendada com sucesso!");
         onOpenChange(false);
       } catch (err: any) {
-        alert(err.message || "Falha ao agendar consulta.");
+        const { toast } = require("@/store/useToastStore");
+        toast.error(err.message || "Falha ao agendar consulta.");
       }
     });
   };

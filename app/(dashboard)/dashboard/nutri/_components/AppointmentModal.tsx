@@ -47,7 +47,10 @@ export function AppointmentModal({
             <div className="pt-3 border-t border-kore-border">
               <button
                 type="button"
-                onClick={() => alert("Abrindo link do Google Meet...")}
+                onClick={() => {
+                  const { toast } = require("@/store/useToastStore");
+                  toast.info("Abrindo link do Google Meet...");
+                }}
                 className="w-full py-2.5 rounded-lg bg-sky-50 dark:bg-sky-500/10 text-sky-600 dark:text-sky-400 font-bold text-sm hover:brightness-105 transition"
               >
                 Entrar na vídeo-chamada
@@ -60,10 +63,17 @@ export function AppointmentModal({
           <button
             type="button"
             onClick={() => {
-              if (confirm("Tem certeza que deseja desmarcar esta consulta?")) {
-                onOpenChange(false);
-                alert("Consulta desmarcada.");
-              }
+              const { confirmAction } = require("@/store/useConfirmStore");
+              confirmAction({
+                title: "Desmarcar Consulta",
+                message: "Tem certeza que deseja desmarcar esta consulta?",
+                danger: true,
+                onConfirm: () => {
+                  onOpenChange(false);
+                  const { toast } = require("@/store/useToastStore");
+                  toast.success("Consulta desmarcada.");
+                }
+              });
             }}
             className="text-sm font-bold text-rose-500 hover:text-rose-600 transition"
           >

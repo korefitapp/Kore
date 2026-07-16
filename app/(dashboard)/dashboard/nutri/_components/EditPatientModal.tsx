@@ -31,7 +31,8 @@ export function EditPatientModal({ open, onOpenChange, patient }: EditPatientMod
       try {
         await updatePatientProfile(patient.id, formData);
         onOpenChange(false);
-        alert("Ficha do paciente salva com sucesso!");
+        const { toast } = require("@/store/useToastStore");
+        toast.success("Ficha do paciente salva com sucesso!");
         router.refresh();
       } catch (error: any) {
         setErrorMsg(error.message || "Erro ao atualizar paciente.");

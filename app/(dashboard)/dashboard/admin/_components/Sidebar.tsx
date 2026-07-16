@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useState, useEffect } from "react";
 import {
   LayoutDashboard,
   LifeBuoy,
@@ -31,10 +32,10 @@ interface Item {
 
 const PRIMARY: Item[] = [
   { key: "overview", label: "Visão Geral", href: "/dashboard/admin", Icon: LayoutDashboard },
-  { key: "users", label: "Usuários", href: "/dashboard/admin/users", Icon: Users, badge: 8247 },
-  { key: "professionals", label: "Profissionais", href: "/dashboard/admin/professionals", Icon: UserCheck, badge: 23 },
+  { key: "users", label: "Usuários", href: "/dashboard/admin/users", Icon: Users },
+  { key: "professionals", label: "Profissionais", href: "/dashboard/admin/professionals", Icon: UserCheck },
   { key: "marketplace", label: "Marketplace", href: "/dashboard/admin/marketplace", Icon: Store },
-  { key: "disputes", label: "Disputas", href: "/dashboard/admin/disputes", Icon: ScaleIcon, badge: 4 },
+  { key: "disputes", label: "Disputas", href: "/dashboard/admin/disputes", Icon: ScaleIcon },
 ];
 
 const SECONDARY: Item[] = [
@@ -73,6 +74,13 @@ function isActivePath(pathname: string, href: string) {
 
 function SidebarBody({ onItemClick }: { onItemClick?: () => void }) {
   const pathname = usePathname();
+  const [counts, setCounts] = useState({ users: 0, professionals: 0, disputes: 0 });
+
+  useEffect(() => {
+    import("@/app/actions/admin-actions").then((mod) => {
+      mod.getSidebarCounts().then(setCounts);
+    });
+  }, []);
 
   return (
     <>
@@ -101,14 +109,21 @@ function SidebarBody({ onItemClick }: { onItemClick?: () => void }) {
           Operação
         </p>
         <ul className="space-y-1">
-          {PRIMARY.map((it) => (
-            <NavItem
-              key={it.key}
-              item={it}
-              active={isActivePath(pathname, it.href)}
-              onClick={onItemClick}
-            />
-          ))}
+          {PRIMARY.map((it) => {
+            let badgeCount = 0;
+            if (it.key === "users") badgeCount = counts.users;
+            if (it.key === "professionals") badgeCount = counts.professionals;
+            if (it.key === "disputes") badgeCount = counts.disputes;
+            
+            return (
+              <NavItem
+                key={it.key}
+                item={{ ...it, badge: badgeCount > 0 ? badgeCount : undefined }}
+                active={isActivePath(pathname, it.href)}
+                onClick={onItemClick}
+              />
+            );
+          })}
         </ul>
 
         <p className="px-3 mt-6 text-[10px] uppercase tracking-[0.18em] text-kore-muted font-bold mb-2">

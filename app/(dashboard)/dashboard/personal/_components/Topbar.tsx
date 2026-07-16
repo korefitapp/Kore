@@ -5,7 +5,7 @@ import { ThemeToggle } from "@/components/ThemeToggle";
 import { usePersonal } from "./store";
 import { useState } from "react";
 import { CreateStudentModal } from "./CreateStudentModal";
-import { NotificationsSheet } from "./NotificationsSheet";
+import { NotificationsSheet } from "@/components/NotificationsSheet";
 
 export function Topbar() {
   const setMobileNavOpen = usePersonal((s) => s.setMobileNavOpen);

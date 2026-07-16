@@ -155,7 +155,10 @@ export function FoodDatabasePageClient({ initialFoods }: { initialFoods: RealFoo
             <button
               type="button"
               className="btn-emerald text-sm px-4 py-2.5 inline-flex items-center gap-2 self-start sm:self-auto"
-              onClick={() => alert("Função de Cadastrar Alimento conectada à Server Action 'createFood(foodData)' pendente de UI. O created_by será definido como ID da Nutri.")}
+              onClick={() => {
+                const { toast } = require("@/store/useToastStore");
+                toast.info("Função de Cadastrar Alimento conectada à Server Action 'createFood(foodData)' pendente de UI. O created_by será definido como ID da Nutri.");
+              }}
             >
               <Plus size={16} strokeWidth={2.8} />
               Cadastrar Alimento

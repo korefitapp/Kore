@@ -157,12 +157,14 @@ export function MealBuilderModal({ isOpen, onClose, plan }: MealBuilderModalProp
           carbs_g: totalMacros.carbs,
           fat_g: totalMacros.fat
         });
-        alert("Cardápio salvo com sucesso!");
+        const { toast } = require("@/store/useToastStore");
+        toast.success("Cardápio salvo com sucesso!");
         onClose();
         router.refresh();
-      } catch (e: any) {
-        alert("Erro ao salvar cardápio. Certifique-se de que as tabelas de meals existem no Supabase.");
-        console.error(e);
+      } catch (err: any) {
+        console.error(err);
+        const { toast } = require("@/store/useToastStore");
+        toast.error("Erro ao salvar cardápio. Certifique-se de que as tabelas de meals existem no Supabase.");
       }
     });
   };

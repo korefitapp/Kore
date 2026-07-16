@@ -5,7 +5,7 @@ import { Bell, Menu, Plus, Search } from "lucide-react";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { useNutri } from "./store";
 import { CreatePatientModal } from "./CreatePatientModal";
-import { NotificationsSheet } from "../../personal/_components/NotificationsSheet";
+import { NotificationsSheet } from "@/components/NotificationsSheet";
 
 export function Topbar() {
   const setMobileNavOpen = useNutri((s) => s.setMobileNavOpen);

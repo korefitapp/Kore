@@ -66,10 +66,35 @@ export default async function AdminDashboard() {
   const adminName =
     profile?.full_name ?? user.email?.split("@")[0] ?? "Super Admin";
 
-  // Lê fila real de profissionais pendentes via Service Role (RLS bypass).
-  // RLS bloqueia SELECT de outras profiles; precisamos do Service Role pra
-  // o admin enxergar a fila.
   const admin = createSupabaseAdminClient();
+
+  // 1. Fetch Total Users
+  const { count: usersCount } = await admin
+    .from("profiles")
+    .select("*", { count: "exact", head: true });
+
+  // 2. Fetch Active Professionals (approved/active status)
+  const { count: activeProsCount } = await admin
+    .from("profiles")
+    .select("*", { count: "exact", head: true })
+    .in("role", ["nutritionist", "trainer", "merchant"])
+    // Assumimos 'approved' ou 'active' para profissionais aprovados
+    .in("status", ["approved", "active"]);
+
+  // 3. Fetch Pending Professionals
+  const { count: pendingProsCount } = await admin
+    .from("profiles")
+    .select("*", { count: "exact", head: true })
+    .in("role", ["nutritionist", "trainer", "merchant"])
+    .eq("status", "pending");
+
+  // 4. Fetch Open Disputes
+  const { count: openDisputesCount } = await admin
+    .from("disputes")
+    .select("*", { count: "exact", head: true })
+    .eq("status", "open");
+
+  // Lê fila real de profissionais pendentes via Service Role (RLS bypass).
   const { data: pendingRows } = await admin
     .from("profiles")
     .select("id, full_name, role, cref, crn, cnpj, created_at")
@@ -82,5 +107,14 @@ export default async function AdminDashboard() {
     mapProfileToPending(r as ProfileRow),
   );
 
-  return <AdminShell adminName={adminName} pending={pending} />;
+  const metrics = {
+    usersCount: usersCount ?? 0,
+    activeProsCount: activeProsCount ?? 0,
+    pendingProsCount: pendingProsCount ?? 0,
+    openDisputesCount: openDisputesCount ?? 0,
+  };
+
+  return (
+    <AdminShell adminName={adminName} pending={pending} metrics={metrics} />
+  );
 }

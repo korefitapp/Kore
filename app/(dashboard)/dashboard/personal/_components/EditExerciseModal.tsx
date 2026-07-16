@@ -29,27 +29,34 @@ export function EditExerciseModal({ isOpen, onClose, exercise }: Props) {
     startTransition(async () => {
       try {
         await editExercise(exercise.id, formData);
-        alert("Exercício atualizado com sucesso!");
         onClose();
+        const { toast } = require("@/store/useToastStore");
+        toast.success("Exercício atualizado com sucesso!");
       } catch (error) {
-        alert("Erro ao atualizar exercício.");
+        const { toast } = require("@/store/useToastStore");
+        toast.error("Erro ao atualizar exercício.");
       }
     });
   };
 
   const handleDelete = () => {
-    if (!confirm("Tem certeza que deseja excluir este exercício?")) return;
-    
-    setIsDeleting(true);
-    startTransition(async () => {
-      try {
-        await deleteExercise(exercise.id);
-        alert("Exercício excluído!");
-        onClose();
-      } catch (error) {
-        alert("Erro ao excluir exercício.");
-      } finally {
-        setIsDeleting(false);
+    const { confirmAction } = require("@/store/useConfirmStore");
+    const { toast } = require("@/store/useToastStore");
+    confirmAction({
+      title: "Excluir Exercício",
+      message: "Tem certeza que deseja excluir este exercício?",
+      danger: true,
+      onConfirm: async () => {
+        setIsDeleting(true);
+        try {
+          await deleteExercise(exercise.id);
+          onClose();
+          toast.success("Exercício excluído!");
+        } catch (error) {
+          toast.error("Erro ao excluir exercício.");
+        } finally {
+          setIsDeleting(false);
+        }
       }
     });
   };

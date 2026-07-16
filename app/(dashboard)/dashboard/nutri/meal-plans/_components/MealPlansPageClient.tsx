@@ -258,16 +258,19 @@ function MealPlanCard({ plan, patients }: { plan: MealPlan; patients: any[] }) {
     startTransition(async () => {
       try {
         const newId = await cloneGlobalTemplate(plan.id); // serve para próprios tbm
-        alert("Modelo duplicado com sucesso!");
+        const { toast } = require("@/store/useToastStore");
+        toast.success("Modelo duplicado com sucesso!");
         router.push(`/dashboard/nutri/meal-plans/${newId}/builder`);
       } catch (error) {
-        alert("Erro ao duplicar modelo.");
+        const { toast } = require("@/store/useToastStore");
+        toast.error("Erro ao duplicar modelo.");
       }
     });
   };
 
   const handleAssign = () => {
-    if (!selectedPatientId) return alert("Selecione um paciente");
+    const { toast } = require("@/store/useToastStore");
+    if (!selectedPatientId) return toast.error("Selecione um paciente");
     startAssignTransition(async () => {
       try {
         const newlyAssignedPlan = await assignMealPlanToPatient(plan.id, selectedPatientId);
@@ -275,7 +278,7 @@ function MealPlanCard({ plan, patients }: { plan: MealPlan; patients: any[] }) {
         // Abrir o construtor imediatamente para a nutri poder editar a cópia!
         setEditingPlan(newlyAssignedPlan);
       } catch (error) {
-        alert("Erro ao atribuir.");
+        toast.error("Erro ao atribuir.");
       }
     });
   };
@@ -284,10 +287,12 @@ function MealPlanCard({ plan, patients }: { plan: MealPlan; patients: any[] }) {
     startDeleteTransition(async () => {
       try {
         await deleteMealPlan(plan.id);
-        alert("Excluído com sucesso!");
+        const { toast } = require("@/store/useToastStore");
+        toast.success("Excluído com sucesso!");
         setShowDeleteModal(false);
       } catch (error) {
-        alert("Erro ao excluir.");
+        const { toast } = require("@/store/useToastStore");
+        toast.error("Erro ao excluir.");
       }
     });
   };

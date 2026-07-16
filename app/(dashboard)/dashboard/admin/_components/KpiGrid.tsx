@@ -10,7 +10,7 @@ import {
   Users,
 } from "lucide-react";
 import { KPIS } from "./data";
-import type { KpiCard } from "./types";
+import type { AdminMetrics, KpiCard } from "./types";
 
 const ICONS: Record<string, typeof Users> = {
   revenue: CircleDollarSign,
@@ -26,10 +26,24 @@ const TINTS: Record<string, string> = {
   professionals: "bg-amber-500/12 text-amber-600 dark:text-amber-300",
 };
 
-export function KpiGrid() {
+export function KpiGrid({ metrics }: { metrics: AdminMetrics }) {
+  const dynamicKpis = KPIS.map((kpi) => {
+    if (kpi.id === "users") {
+      return { ...kpi, value: metrics.usersCount.toLocaleString("pt-BR") };
+    }
+    if (kpi.id === "professionals") {
+      return {
+        ...kpi,
+        value: metrics.activeProsCount.toLocaleString("pt-BR"),
+        hint: `${metrics.pendingProsCount} aguardando aprovação`,
+      };
+    }
+    return kpi;
+  });
+
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-      {KPIS.map((kpi, i) => (
+      {dynamicKpis.map((kpi, i) => (
         <KpiTile key={kpi.id} kpi={kpi} index={i} />
       ))}
     </div>
