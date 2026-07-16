@@ -76,7 +76,7 @@ export default async function FinanceiroPage() {
   for (let i = 5; i >= 0; i--) {
     const d = new Date();
     d.setMonth(now.getMonth() - i);
-    chartData.push({ month: monthsStr[d.getMonth()], income: 0, expense: 0, monthNum: d.getMonth() });
+    chartData.push({ month: monthsStr[d.getMonth()] ?? "", income: 0, expense: 0, monthNum: d.getMonth() });
   }
 
   // Povoar gráfico com dados reais (se houver histórico longo, mas limitamos a 30 dias, então só o mês atual e o anterior vão ter dados)
