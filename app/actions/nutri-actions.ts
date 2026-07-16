@@ -233,7 +233,6 @@ export async function createPatient(formData: FormData) {
     .from("profiles")
     .insert({
       full_name: fullName,
-      phone: phone,
       ...profileUpdates,
       metadata: { fitness_goal: goal, nutritionist_id: user.id },
       activation_pin: activationPin,
