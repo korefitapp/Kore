@@ -1,6 +1,7 @@
 export type SidebarKey =
   | "overview"
   | "students"
+  | "workouts"
   | "library"
   | "agenda"
   | "messages"
