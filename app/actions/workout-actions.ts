@@ -59,6 +59,7 @@ export async function createWorkoutAction(data: WorkoutPayload) {
   if (data.days && data.days.length > 0) {
     for (let i = 0; i < data.days.length; i++) {
       const day = data.days[i];
+      if (!day) continue;
       const { data: dayData, error: dayError } = await supabase
         .from("workout_days")
         .insert({

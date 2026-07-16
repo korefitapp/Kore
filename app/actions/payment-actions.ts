@@ -235,11 +235,11 @@ export async function getFinancialDashboardStats() {
 
   // Aggregate C
   const monthsStr = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
-  const chartData = [];
+  const chartData: { month: string; value: number; year: number; monthNum: number }[] = [];
   for (let i = 5; i >= 0; i--) {
     const d = new Date();
     d.setMonth(now.getMonth() - i);
-    chartData.push({ month: monthsStr[d.getMonth()], value: 0, year: d.getFullYear(), monthNum: d.getMonth() });
+    chartData.push({ month: monthsStr[d.getMonth()] ?? "", value: 0, year: d.getFullYear(), monthNum: d.getMonth() });
   }
 
   if (chartRes.data) {

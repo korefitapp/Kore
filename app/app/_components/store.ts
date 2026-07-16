@@ -135,7 +135,7 @@ export const useKore = create<KoreState>((set) => ({
       const newVal = Math.max(0, Math.min(s.waterGoalMl, s.waterMl + ml));
       // Fire and forget server action sync
       import("../actions").then(({ logWater }) => {
-        logWater(newVal, new Date().toISOString().split("T")[0]).catch(console.error);
+        logWater(newVal, new Date().toISOString().split("T")[0] ?? "").catch(console.error);
       });
       return { waterMl: newVal };
     });
@@ -144,7 +144,7 @@ export const useKore = create<KoreState>((set) => ({
     set((s) => {
       const newVal = Math.max(0, Math.min(s.waterGoalMl, ml));
       import("../actions").then(({ logWater }) => {
-        logWater(newVal, new Date().toISOString().split("T")[0]).catch(console.error);
+        logWater(newVal, new Date().toISOString().split("T")[0] ?? "").catch(console.error);
       });
       return { waterMl: newVal };
     });

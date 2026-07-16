@@ -26,7 +26,7 @@ function ActiveWorkout() {
   );
 
   useEffect(() => {
-    if (days.length > 0 && !days.includes(activeDay)) {
+    if (days.length > 0 && !days.includes(activeDay) && days[0]) {
       setActiveDay(days[0]);
     }
   }, [days, activeDay, setActiveDay]);
@@ -343,7 +343,7 @@ export function TreinoTab() {
   return (
     <AnimatePresence mode="wait" initial={false}>
       {activeId ? (
-        <ActiveMode key="active" />
+        <ActiveMode key="active" exerciseId={activeId} />
       ) : hasActivePlan ? (
         <ActiveWorkout key="workout" />
       ) : (

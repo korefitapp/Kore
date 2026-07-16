@@ -49,6 +49,8 @@ export async function POST(req: NextRequest) {
       .eq("external_reference", externalReference)
       .single();
 
+    let transactionId = transaction?.id;
+
     if (fetchError || !transaction) {
       console.error("Transação não encontrada para external_reference:", externalReference);
       // Se não encontrar por external_reference (porque foi gerado localmente), tentar se external_reference for o próprio UUID:
@@ -56,12 +58,12 @@ export async function POST(req: NextRequest) {
       if (!directTxn) {
         return NextResponse.json({ error: "Transaction not found" }, { status: 404 });
       }
-      transaction.id = directTxn.id;
+      transactionId = directTxn.id;
     }
 
     // 3. Executar o RPC process_payment_webhook para conciliação atômica
     const { data: rpcResult, error: rpcError } = await supabaseAdmin.rpc("process_payment_webhook", {
-      p_transaction_id: transaction.id,
+      p_transaction_id: transactionId,
       p_status: statusToUpdate,
     });
 
