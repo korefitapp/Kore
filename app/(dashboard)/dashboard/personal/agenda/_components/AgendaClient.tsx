@@ -148,10 +148,8 @@ function getInitials(name: string | null): string {
 
 export function AgendaClient({
   appointments,
-  patients,
 }: {
   appointments: Appointment[];
-  
 }) {
   const [weekOffset, setWeekOffset] = useState(0);
   const [selectedDay, setSelectedDay] = useState<Date>(() => new Date());
