@@ -7,6 +7,7 @@ export type WorkoutDayExercise = {
   exercise_id: string;
   sets?: number;
   reps?: string;
+  weight?: string;
   rest_time?: string;
   technique?: string;
   observation?: string;
@@ -85,6 +86,7 @@ export async function createWorkoutAction(data: WorkoutPayload) {
           order: exIndex,
           sets: ex.sets || null,
           reps: ex.reps || null,
+          weight: ex.weight || null,
           rest_time: ex.rest_time || null,
           technique: ex.technique || null,
           observation: ex.observation || null,
@@ -102,6 +104,40 @@ export async function createWorkoutAction(data: WorkoutPayload) {
   }
 
   revalidatePath("/dashboard/personal/workouts");
+  return workoutId;
+}
+
+export async function createPersonalizedWorkoutAction(data: WorkoutPayload, studentId: string) {
+  const supabase = createSupabaseServerClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) throw new Error("Usuário não autenticado.");
+
+  // Fetch student info
+  const { data: student } = await supabase
+    .from("profiles")
+    .select("full_name")
+    .eq("id", studentId)
+    .single();
+
+  const studentName = student?.full_name ? student.full_name.split(" ")[0] : "Aluno";
+  const customName = data.name.includes("Personalizado") ? data.name : `${data.name} (Personalizado ${studentName})`;
+
+  // Use the existing logic to create the base workout
+  const workoutId = await createWorkoutAction({
+    ...data,
+    name: customName,
+  });
+
+  // Now, assign this new workout to the student
+  const { createWorkoutPlan } = await import("@/app/actions/personal-actions_fixed");
+  const res = await createWorkoutPlan(studentId, customName, "Treino personalizado atualizado.", workoutId);
+  
+  if (!res.ok) {
+    throw new Error("Treino criado, mas houve erro ao atribuir ao aluno: " + res.error);
+  }
+
+  revalidatePath(`/dashboard/personal/students`);
+  return workoutId;
 }
 
 export async function getWorkoutDetailsAction(workoutId: string) {
@@ -125,6 +161,7 @@ export async function getWorkoutDetailsAction(workoutId: string) {
         id,
         sets,
         reps,
+        weight,
         rest_time,
         technique,
         observation,

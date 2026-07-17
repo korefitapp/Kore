@@ -4,7 +4,7 @@ import React from "react";
 
 import { motion } from "framer-motion";
 import { Flame, Activity, Droplets, ArrowUpRight, Check, Bell, User, Sun, Moon, Plus, Minus } from "lucide-react";
-import { useKore } from "../store";
+import { useKore, selectBurnedWorkoutKcal } from "../store";
 
 // --- Mock Data ---
 const MOCK_CALENDAR = [
@@ -32,6 +32,7 @@ function WeeklyCalendar() {
   const waterGoalMl = useKore((s) => s.waterGoalMl);
   const meals = useKore((s) => s.meals);
   const exercises = useKore((s) => s.exercises);
+  const weeklyCalendar = useKore((s) => s.weeklyCalendar);
 
   const waterCompleted = waterMl >= waterGoalMl && waterGoalMl > 0;
   const dietCompleted = meals.length > 0 && meals.every((m) => m.consumed);
@@ -41,11 +42,14 @@ function WeeklyCalendar() {
   if (waterCompleted) todayProgress += 33.33;
   if (dietCompleted) todayProgress += 33.33;
   if (workoutCompleted) todayProgress += 33.34;
+  todayProgress = Math.round(todayProgress);
+
+  const displayCalendar = weeklyCalendar && weeklyCalendar.length > 0 ? weeklyCalendar : MOCK_CALENDAR;
 
   return (
-    <section className="mb-8">
+    <section className="mb-4">
       <div className="bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-[24px] py-4 px-2 shadow-sm flex justify-between items-center gap-1">
-        {MOCK_CALENDAR.map((item, idx) => {
+        {displayCalendar.map((item, idx) => {
           // 33.3% para cada etapa (Água, Treino, Dieta)
           const progress = item.isToday ? todayProgress : item.progress;
           const progressDeg = (progress / 100) * 360;
@@ -80,9 +84,17 @@ function WeeklyCalendar() {
 
 function DailyMetrics() {
   const waterMl = useKore((s) => s.waterMl);
+  const caloriesOut = useKore(selectBurnedWorkoutKcal);
+  const streak = useKore((s) => s.streak);
   return (
-    <section className="mb-8">
-      <h2 className="text-slate-900 dark:text-white font-bold text-lg mb-4">Resumo Diário</h2>
+    <section className="mb-4">
+      <div className="flex items-center justify-between mb-2">
+        <h2 className="text-slate-900 dark:text-white font-bold text-lg">Resumo Diário</h2>
+        <div className="flex items-center gap-1.5 bg-emerald-100 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 px-3 py-1 rounded-full text-xs font-bold border border-emerald-200 dark:border-emerald-500/20 shadow-[0_0_10px_rgba(52,211,153,0.1)]">
+          <Check size={14} strokeWidth={3} />
+          <span>{streak} Dias Seguidos</span>
+        </div>
+      </div>
       <div className="grid grid-cols-3 gap-3">
         {/* Metric 1 - Calorias Ingeridas */}
         <div className="bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-[24px] p-4 flex flex-col items-center justify-center text-center shadow-sm">
@@ -98,7 +110,7 @@ function DailyMetrics() {
           <div className="w-10 h-10 rounded-full bg-purple-100 dark:bg-purple-500/20 text-purple-600 dark:text-purple-400 flex items-center justify-center mb-3 shadow-[0_0_15px_rgba(168,85,247,0.2)]">
             <Activity size={20} />
           </div>
-          <span className="text-slate-900 dark:text-white font-extrabold text-xl">{MOCK_METRICS.caloriesOut}</span>
+          <span className="text-slate-900 dark:text-white font-extrabold text-xl">{caloriesOut}</span>
           <span className="text-slate-400 dark:text-zinc-400 text-[10px] uppercase font-bold tracking-wider mt-1">Kcal Gastas</span>
         </div>
 
@@ -123,28 +135,18 @@ function TaskShortcuts() {
   const waterProgress = Math.min((waterMl / Math.max(waterGoalMl, 1)) * 100, 100);
 
   return (
-    <section className="mb-8 pb-20">
-      <div className="flex items-center justify-between mb-4">
+    <section className="mb-4 pb-20">
+      <div className="flex items-center justify-between mb-2">
         <h2 className="text-slate-900 dark:text-white font-bold text-lg">Tarefas de Hoje</h2>
-        <div className="flex items-center gap-1.5 bg-emerald-100 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 px-3 py-1 rounded-full text-xs font-bold border border-emerald-200 dark:border-emerald-500/20 shadow-[0_0_10px_rgba(52,211,153,0.1)]">
-          <Check size={14} strokeWidth={3} />
-          <span>{MOCK_STREAK} Dias Seguidos</span>
-        </div>
       </div>
       
       <div className="grid grid-cols-2 gap-4">
         {/* Training Card */}
         <div 
           onClick={() => setTab("treino")}
-          className="bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-[28px] p-2 flex flex-col h-[180px] relative overflow-hidden group cursor-pointer active:scale-[0.98] transition-all shadow-sm"
+          className="bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-[28px] p-2 flex flex-col relative overflow-hidden group cursor-pointer active:scale-[0.98] transition-all shadow-sm"
         >
-          <div className="flex-1 p-3">
-             <div className="w-8 h-8 rounded-full bg-slate-100 dark:bg-white/10 flex items-center justify-center text-slate-500 dark:text-white mb-2">
-               <Activity size={16} />
-             </div>
-             <p className="text-slate-400 dark:text-zinc-400 text-[11px] font-bold uppercase tracking-wider">Treino</p>
-          </div>
-          <div className="bg-purple-500 text-white rounded-[20px] p-4 flex items-center justify-between mt-auto shadow-lg shadow-purple-500/20">
+          <div className="bg-purple-500 text-white rounded-[20px] p-4 flex items-center justify-between shadow-lg shadow-purple-500/20">
             <span className="font-extrabold text-sm leading-tight">Treino<br/>de Hoje</span>
             <div className="w-8 h-8 rounded-full bg-black/20 flex items-center justify-center group-active:scale-90 transition-transform">
               <ArrowUpRight size={18} strokeWidth={2.5} />
@@ -155,15 +157,9 @@ function TaskShortcuts() {
         {/* Nutrition Card */}
         <div 
           onClick={() => setTab("dieta")}
-          className="bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-[28px] p-2 flex flex-col h-[180px] relative overflow-hidden group cursor-pointer active:scale-[0.98] transition-all shadow-sm"
+          className="bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-[28px] p-2 flex flex-col relative overflow-hidden group cursor-pointer active:scale-[0.98] transition-all shadow-sm"
         >
-          <div className="flex-1 p-3">
-             <div className="w-8 h-8 rounded-full bg-slate-100 dark:bg-white/10 flex items-center justify-center text-slate-500 dark:text-white mb-2">
-               <Flame size={16} />
-             </div>
-             <p className="text-slate-400 dark:text-zinc-400 text-[11px] font-bold uppercase tracking-wider">Nutrição</p>
-          </div>
-          <div className="bg-emerald-500 text-white rounded-[20px] p-4 flex items-center justify-between mt-auto shadow-lg shadow-emerald-500/20">
+          <div className="bg-emerald-500 text-white rounded-[20px] p-4 flex items-center justify-between shadow-lg shadow-emerald-500/20">
             <span className="font-extrabold text-sm leading-tight">Dieta<br/>de Hoje</span>
             <div className="w-8 h-8 rounded-full bg-black/20 flex items-center justify-center group-active:scale-90 transition-transform">
               <ArrowUpRight size={18} strokeWidth={2.5} />
@@ -238,9 +234,9 @@ export function HomeTab() {
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
-      className="bg-slate-50 dark:bg-[#121212] min-h-[100dvh] text-slate-900 dark:text-white -mx-4 -mt-4 px-5 pt-8 overflow-y-auto pb-6"
+      className="bg-slate-50 dark:bg-[#121212] min-h-[100dvh] text-slate-900 dark:text-white -mx-4 -mt-4 px-5 pt-4 overflow-y-auto pb-6"
     >
-      <header className="flex items-center justify-between gap-3 mb-8">
+      <header className="flex items-center justify-between gap-3 mb-4">
         <div className="min-w-0 flex items-center gap-3">
           <div 
             onClick={() => {

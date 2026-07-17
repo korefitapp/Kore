@@ -11,28 +11,126 @@ import {
   Star,
   MessageCircle,
   Play,
+  ChevronDown,
 } from "lucide-react";
 import { useKore } from "../store";
 import { ActiveMode } from "./ActiveMode";
 
+function DayAccordion({ 
+  day, 
+  exercises, 
+  defaultOpen, 
+  onStart,
+  onSelectExercise
+}: { 
+  day: string; 
+  exercises: any[]; 
+  defaultOpen: boolean;
+  onStart: () => void;
+  onSelectExercise: (id: string) => void;
+}) {
+  const [open, setOpen] = useState(defaultOpen);
+
+  return (
+    <motion.section
+      layout
+      className="relative rounded-[28px] border bg-white dark:bg-white/5 overflow-hidden transition-all duration-300 shadow-sm border-slate-200 dark:border-white/10"
+    >
+      <div className="flex items-center gap-3 p-4">
+        <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-purple-100 text-purple-600 dark:bg-purple-500/20 dark:text-purple-400">
+          <Dumbbell size={20} />
+        </div>
+        <button
+          onClick={() => setOpen((v) => !v)}
+          className="flex-1 flex items-center gap-3 text-left min-w-0"
+        >
+          <div className="flex-1 min-w-0">
+            <h3 className="font-extrabold text-lg truncate text-slate-900 dark:text-white">
+              Treino {day}
+            </h3>
+            <p className="text-[11px] text-slate-500 dark:text-zinc-400 font-bold uppercase tracking-wider flex items-center gap-1.5 mt-0.5">
+              <Clock size={12} className="text-slate-400 dark:text-zinc-500" /> 52m · {exercises.length} exercícios
+            </p>
+          </div>
+          <div className="text-right flex-shrink-0">
+            <p className="font-extrabold text-slate-900 dark:text-white tabular-nums">
+              {exercises.reduce((acc, ex) => acc + ex.sets.length * 15, 0)} kcal
+            </p>
+          </div>
+          <motion.span
+            animate={{ rotate: open ? 180 : 0 }}
+            className="text-slate-400 dark:text-zinc-600"
+          >
+            <ChevronDown size={20} />
+          </motion.span>
+        </button>
+      </div>
+
+      <AnimatePresence initial={false}>
+        {open && (
+          <motion.div
+            key="content"
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.25, ease: "easeOut" }}
+            className="overflow-hidden"
+          >
+            <div className="px-4 pb-4 -mt-1 space-y-4">
+              <button
+                onClick={onStart}
+                className="relative z-10 flex w-full items-center justify-center gap-2 rounded-[20px] bg-purple-500 py-3.5 font-extrabold text-white shadow-[0_0_15px_rgba(168,85,247,0.4)] transition-transform active:scale-[0.98]"
+              >
+                <Play size={18} fill="currentColor" />
+                INICIAR TREINO
+              </button>
+
+              <ul className="space-y-2">
+                {exercises.map((ex, idx) => (
+                  <li
+                    key={ex.id}
+                    onClick={() => onSelectExercise(ex.id)}
+                    className="group flex w-full items-center gap-4 rounded-[20px] border border-slate-200 bg-slate-50 p-3 text-left shadow-sm transition-transform active:scale-[0.98] dark:border-white/5 dark:bg-white/[0.03] cursor-pointer"
+                  >
+                    <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center overflow-hidden rounded-[14px] bg-slate-200 text-xl shadow-inner dark:bg-[#1a1a1a]">
+                      {ex.thumb?.startsWith("http") ? (
+                        <img src={ex.thumb} alt={ex.name} className="h-full w-full object-cover" />
+                      ) : (
+                        ex.thumb
+                      )}
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <p className="mb-0.5 text-[10px] font-bold uppercase tracking-widest text-purple-500 dark:text-purple-400">
+                        Exercício {idx + 1}
+                      </p>
+                      <p className="truncate text-sm font-bold text-slate-900 dark:text-white">
+                        {ex.name}
+                      </p>
+                      <p className="mt-0.5 text-[11px] text-slate-500 dark:text-zinc-400">
+                        {ex.targetReps} · {ex.muscle}
+                      </p>
+                    </div>
+                    <div className="mr-1 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-slate-200 transition-colors group-active:bg-slate-300 dark:bg-white/5 dark:group-active:bg-white/10">
+                      <ChevronRight size={16} className="text-slate-400 dark:text-zinc-400" />
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.section>
+  );
+}
+
 function ActiveWorkout() {
   const allExercises = useKore((s) => s.exercises);
-  const activeDay = useKore((s) => s.activeDay);
-  const setActiveDay = useKore((s) => s.setActiveDay);
   const setActive = useKore((s) => s.setActive);
 
   const days = Array.from(
     new Set(allExercises.map((e) => e.day).filter(Boolean)),
   );
-
-  useEffect(() => {
-    if (days.length > 0 && !days.includes(activeDay) && days[0]) {
-      setActiveDay(days[0]);
-    }
-  }, [days, activeDay, setActiveDay]);
-
-  const currentDay = days.includes(activeDay) ? activeDay : days[0];
-  const exercises = allExercises.filter((e) => e.day === currentDay);
 
   return (
     <motion.div
@@ -48,109 +146,31 @@ function ActiveWorkout() {
           Periodização · Semana 3
         </p>
         <h1 className="text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white">
-          Treino {currentDay}
+          Meus Treinos
         </h1>
-
-        {days.length > 1 && (
-          <div className="hide-scrollbar mt-4 flex gap-2 overflow-x-auto pb-1">
-            {days.map((day) => (
-              <button
-                key={day}
-                onClick={() => setActiveDay(day)}
-                className={`whitespace-nowrap rounded-full px-4 py-2 text-sm font-bold transition-all ${
-                  currentDay === day
-                    ? "bg-purple-500 text-white shadow-md shadow-purple-500/20"
-                    : "bg-slate-100 text-slate-500 dark:bg-white/5 dark:text-zinc-400"
-                }`}
-              >
-                Treino {day}
-              </button>
-            ))}
-          </div>
-        )}
       </header>
 
-      {/* Resumo do Treino (Premium Dark Card) */}
-      <section className="relative overflow-hidden rounded-[28px] border border-slate-200 bg-white p-5 text-slate-900 shadow-sm dark:border-white/10 dark:bg-white/5 dark:text-white">
-        {/* Glow de fundo */}
-        <div className="pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full bg-purple-100 blur-3xl dark:bg-purple-500/20" />
+      <div className="space-y-4">
+        {days.map((day, index) => {
+          const exercises = allExercises.filter((e) => e.day === day);
+          const todayStr = new Intl.DateTimeFormat("pt-BR", { weekday: "long" }).format(new Date());
+          const todayBase = todayStr.toLowerCase().split("-")[0];
+          const isToday = day.toLowerCase().includes(todayBase);
+          const hasAnyToday = days.some(d => d.toLowerCase().includes(todayBase));
 
-        <div className="relative z-10 mb-6 flex items-center justify-between text-sm">
-          <div className="flex flex-col items-center gap-1">
-            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-purple-100 text-purple-600 dark:bg-purple-500/20 dark:text-purple-400">
-              <Dumbbell size={18} />
-            </div>
-            <span className="font-bold text-slate-900 dark:text-white">
-              {exercises.length}
-            </span>
-            <span className="text-[9px] font-bold uppercase tracking-wider text-slate-400 dark:text-zinc-400">
-              Exerc.
-            </span>
-          </div>
-          <div className="flex flex-col items-center gap-1">
-            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-cyan-100 text-cyan-600 dark:bg-cyan-500/20 dark:text-cyan-400">
-              <Clock size={18} />
-            </div>
-            <span className="font-bold text-slate-900 dark:text-white">52m</span>
-            <span className="text-[9px] font-bold uppercase tracking-wider text-slate-400 dark:text-zinc-400">
-              Tempo
-            </span>
-          </div>
-          <div className="flex flex-col items-center gap-1">
-            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-orange-100 text-orange-600 dark:bg-orange-500/20 dark:text-orange-400">
-              <Flame size={18} />
-            </div>
-            <span className="font-bold text-slate-900 dark:text-white">480</span>
-            <span className="text-[9px] font-bold uppercase tracking-wider text-slate-400 dark:text-zinc-400">
-              Kcal
-            </span>
-          </div>
-        </div>
-
-        <button
-          onClick={() => {
-            if (exercises[0]) setActive(exercises[0].id);
-          }}
-          className="relative z-10 flex w-full items-center justify-center gap-2 rounded-[20px] bg-purple-500 py-3.5 font-extrabold text-white shadow-[0_0_15px_rgba(168,85,247,0.4)] transition-transform active:scale-[0.98]"
-        >
-          <Play size={18} fill="currentColor" />
-          INICIAR TREINO
-        </button>
-      </section>
-
-      <div className="space-y-3">
-        <h2 className="mb-2 text-lg font-bold text-slate-900 dark:text-white">
-          Lista de Exercícios
-        </h2>
-        {exercises.map((ex, idx) => (
-          <button
-            key={ex.id}
-            onClick={() => setActive(ex.id)}
-            className="group flex w-full items-center gap-4 rounded-[24px] border border-slate-200 bg-white p-3 text-left shadow-sm transition-transform active:scale-[0.98] dark:border-white/10 dark:bg-white/5"
-          >
-            <div className="flex h-16 w-16 flex-shrink-0 items-center justify-center overflow-hidden rounded-[18px] bg-slate-100 text-3xl shadow-inner dark:bg-[#1a1a1a]">
-              {ex.thumb?.startsWith("http") ? (
-                <img src={ex.thumb} alt={ex.name} className="h-full w-full object-cover" />
-              ) : (
-                ex.thumb
-              )}
-            </div>
-            <div className="min-w-0 flex-1">
-              <p className="mb-0.5 text-[10px] font-bold uppercase tracking-widest text-purple-500 dark:text-purple-400">
-                Exercício {idx + 1}
-              </p>
-              <p className="truncate text-base font-bold text-slate-900 dark:text-white">
-                {ex.name}
-              </p>
-              <p className="mt-0.5 text-[11px] text-slate-500 dark:text-zinc-400">
-                {ex.targetReps} · {ex.muscle}
-              </p>
-            </div>
-            <div className="mr-1 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-slate-100 transition-colors group-active:bg-slate-200 dark:bg-white/5 dark:group-active:bg-white/10">
-              <ChevronRight size={18} className="text-slate-400 dark:text-zinc-400" />
-            </div>
-          </button>
-        ))}
+          return (
+            <DayAccordion
+              key={day}
+              day={day}
+              exercises={exercises}
+              defaultOpen={isToday || (index === 0 && !hasAnyToday)}
+              onStart={() => {
+                if (exercises[0]) setActive(exercises[0].id);
+              }}
+              onSelectExercise={(id) => setActive(id)}
+            />
+          );
+        })}
       </div>
     </motion.div>
   );

@@ -39,15 +39,28 @@ export function WorkoutsClient({
   const [selectedCategory, setSelectedCategory] = useState("Todos");
   const [isBuilderOpen, setIsBuilderOpen] = useState(false);
   const [viewerWorkoutId, setViewerWorkoutId] = useState<string | null>(null);
+  const [editBaseId, setEditBaseId] = useState<string | null>(null);
+  const [studentId, setStudentId] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const router = useRouter();
   const searchParams = useSearchParams();
 
   useEffect(() => {
-    if (searchParams.get("new") === "true") {
+    const editBase = searchParams.get("editBase");
+    const sId = searchParams.get("studentId");
+    
+    if (editBase && sId) {
+      setEditBaseId(editBase);
+      setStudentId(sId);
       setIsBuilderOpen(true);
-      // Clean up the URL so it doesn't reopen on refresh if not desired, 
-      // but simple replace is fine
+      // Let it stay in URL so modal can fetch, or we fetch here. The modal fetches on isOpen + editBaseId.
+      // So we don't replace the URL immediately, or we do, but state holds it.
+      // State holds it, so we can replace URL.
+      router.replace("/dashboard/personal/workouts");
+    } else if (searchParams.get("new") === "true") {
+      setEditBaseId(null);
+      if (sId) setStudentId(sId);
+      setIsBuilderOpen(true);
       router.replace("/dashboard/personal/workouts");
     }
   }, [searchParams, router]);
@@ -241,8 +254,14 @@ export function WorkoutsClient({
 
       <WorkoutBuilderModal 
         isOpen={isBuilderOpen}
-        onClose={() => setIsBuilderOpen(false)}
+        onClose={() => {
+          setIsBuilderOpen(false);
+          setEditBaseId(null);
+          setStudentId(null);
+        }}
         exercises={exercises}
+        editBaseId={editBaseId}
+        studentId={studentId}
       />
 
       <WorkoutViewerModal

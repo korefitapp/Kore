@@ -31,6 +31,12 @@ export default async function StudentsPage() {
     .eq("coach_id", user.id)
     .order("full_name", { ascending: true });
 
+  const { data: exercises } = await supabase
+    .from("exercises")
+    .select("*")
+    .or(`professional_id.is.null,professional_id.eq.${user.id}`)
+    .order("name", { ascending: true });
+
   if (error) {
     console.error("Erro ao buscar alunos:", error.message);
   }
@@ -48,6 +54,7 @@ export default async function StudentsPage() {
         email: undefined,
         workout_plans: s.workout_plans as any[],
       }))}
+      exercises={exercises || []}
     />
   );
 }

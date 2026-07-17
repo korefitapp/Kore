@@ -23,7 +23,17 @@ export async function loadAppSeed(): Promise<AppSeed> {
   if (!user) return fallback;
 
   const adminSupabase = createSupabaseAdminClient();
-  const [{ data: dash }, { data: water }, { data: rawLogs }, { data: coachData }, { data: trainersData }, { data: workoutPlan, error: wpError }] =
+  const today = new Date();
+  const currentDay = today.getDay(); // 0 (Sun) to 6 (Sat)
+  const startDate = new Date(today);
+  startDate.setDate(today.getDate() - currentDay);
+  const weekDates = Array.from({ length: 7 }).map((_, i) => {
+     const d = new Date(startDate);
+     d.setDate(startDate.getDate() + i);
+     return d.toISOString().split("T")[0];
+  });
+
+  const [{ data: dash }, { data: water }, { data: rawLogs }, { data: coachData }, { data: trainersData }, { data: workoutPlan, error: wpError }, { data: weeklyWater }, { data: weeklyMeals }, { data: weeklyWorkouts }, { data: waterHistory }] =
     await Promise.all([
       supabase
         .from("v_user_dashboard")
@@ -63,6 +73,10 @@ export async function loadAppSeed(): Promise<AppSeed> {
         .order("created_at", { ascending: false })
         .limit(1)
         .maybeSingle(),
+      supabase.from("water_logs").select("log_date, water_ml").in("log_date", weekDates),
+      supabase.from("meal_logs").select("log_date, consumed").in("log_date", weekDates),
+      supabase.from("workout_logs").select("completed_at").eq("client_id", user.id),
+      supabase.from("water_logs").select("log_date").eq("user_id", user.id).order("log_date", { ascending: false }).limit(30),
     ]);
 
   if (wpError) {
@@ -158,7 +172,7 @@ export async function loadAppSeed(): Promise<AppSeed> {
         // Fetch workout days and exercises bypassing RLS so the client can read the trainer's workout days
         const { data: daysData, error } = await adminSupabase
           .from("workout_days")
-          .select("id, name, order, workout_day_exercises(id, sets, reps, exercise_id, exercises(name, target_muscle_group))")
+          .select("id, name, order, workout_day_exercises(id, sets, reps, rest_time, weight, exercise_id, exercises(name, target_muscle_group))")
           .eq("workout_id", parsedDesc.baseWorkoutId)
           .order("order", { ascending: true });
 
@@ -173,6 +187,15 @@ export async function loadAppSeed(): Promise<AppSeed> {
             for (const ex of dayExercises) {
               const exDetails = ex.exercises as any;
               if (!exDetails) continue;
+
+              let parsedRestTime = 60;
+              if (ex.rest_time) {
+                const rt = parseInt(ex.rest_time.replace(/\D/g, ""));
+                if (!isNaN(rt) && rt > 0) {
+                  parsedRestTime = rt;
+                }
+              }
+
               exercises.push({
                 id: ex.id,
                 name: exDetails.name || "Exercício",
@@ -180,8 +203,9 @@ export async function loadAppSeed(): Promise<AppSeed> {
                 thumb: exDetails.video_url || "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=200&auto=format&fit=crop",
                 videoLabel: "Ver Execução",
                 targetReps: ex.reps || "10",
+                restTime: parsedRestTime,
                 sets: Array.from({ length: ex.sets || 3 }).map(() => ({
-                  load: "-",
+                  load: ex.weight || "-",
                   reps: ex.reps || "10",
                   done: false,
                 })),
@@ -204,6 +228,54 @@ export async function loadAppSeed(): Promise<AppSeed> {
     console.log("1. NO workoutPlan or no description. workoutPlan=" + JSON.stringify(workoutPlan) + "\n");
   }
 
+  const weeklyCalendar = weekDates.map(dateStr => {
+    const d = new Date(dateStr + "T00:00:00");
+    const isToday = dateStr === todayISO();
+    let progress = 0;
+
+    const wLog = weeklyWater?.find(w => w.log_date === dateStr);
+    if (wLog && wLog.water_ml >= computedWaterGoal) progress += 33.33;
+
+    const mLogs = weeklyMeals?.filter(m => m.log_date === dateStr) || [];
+    if (mLogs.length > 0 && mLogs.every(m => m.consumed)) progress += 33.33;
+
+    const woLogs = weeklyWorkouts?.some(w => w.completed_at && w.completed_at.startsWith(dateStr));
+    if (woLogs) progress += 33.34;
+
+    return {
+      day: new Intl.DateTimeFormat("pt-BR", { weekday: "short" }).format(d).replace(".", "").substring(0, 3),
+      date: d.getDate(),
+      progress: Math.min(100, Math.round(progress)),
+      isToday
+    };
+  });
+
+  // Calculate real streak based on water logs for the last 30 days
+  let realStreak = 0;
+  if (waterHistory && waterHistory.length > 0) {
+    const todayStr = todayISO();
+    const yesterday = new Date(today);
+    yesterday.setDate(today.getDate() - 1);
+    const yesterdayStr = yesterday.toISOString().split("T")[0];
+
+    // Check if the streak is currently active (logged today or yesterday)
+    let currentDate = new Date(today);
+    const firstLogStr = waterHistory[0].log_date;
+    if (firstLogStr === todayStr || firstLogStr === yesterdayStr) {
+      if (firstLogStr === yesterdayStr) {
+        currentDate = yesterday;
+      }
+      for (const log of waterHistory) {
+        if (log.log_date === currentDate.toISOString().split("T")[0]) {
+          realStreak++;
+          currentDate.setDate(currentDate.getDate() - 1);
+        } else {
+          break;
+        }
+      }
+    }
+  }
+
   return {
     online: true,
     user: profile,
@@ -217,9 +289,10 @@ export async function loadAppSeed(): Promise<AppSeed> {
     },
     meals,
     exercises,
+    weeklyCalendar,
     stores: fallback.stores,
     products: fallback.products,
-    streak: fallback.streak,
+    streak: realStreak,
     address: fallback.address,
   };
 }

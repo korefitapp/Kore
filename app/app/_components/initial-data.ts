@@ -21,7 +21,7 @@ export function buildWeek(today = new Date()): DayCheck[] {
     d.setDate(weekStart.getDate() + i);
     const isToday = d.toDateString() === today.toDateString();
     const isPast = d < today && !isToday;
-    return { label, date: d.getDate(), done: isPast, isToday };
+    return { day: label, date: d.getDate(), progress: isPast ? 33 : 0, isToday };
   });
 }
 

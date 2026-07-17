@@ -5,12 +5,15 @@ import Link from "next/link";
 import {
   ChevronRight,
   Eye,
+  Edit,
   Search,
   Users,
 } from "lucide-react";
 import { MobileSidebar, Sidebar } from "../../_components/Sidebar";
 import { Topbar } from "../../_components/Topbar";
 import { StudentProfileModal } from "./StudentProfileModal";
+import { useToastStore } from "@/store/useToastStore";
+import { WorkoutBuilderModal } from "../../workouts/_components/WorkoutBuilderModal";
 
 /* ── Types ──────────────────────────────────────────────────── */
 interface StudentRow {
@@ -44,18 +47,22 @@ function formatDate(iso: string) {
 }
 
 /** Aderência mock — quando existir tabela de sessões, buscar real */
-function getAdherence(_student: StudentRow): number | string {
-  const plans = _student.workout_plans?.filter((p: any) => p.is_active) || [];
+function getAdherence(student: StudentRow): number | string {
+  const plans = student.workout_plans
+    ?.filter((p: any) => p.is_active)
+    .sort((a: any, b: any) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()) || [];
   if (plans.length === 0) return "-";
 
   // TODO: calcular a partir de workout_logs quando existir
-  const seed = _student.id.charCodeAt(0) % 10;
+  const seed = student.id.charCodeAt(0) % 10;
   return Math.min(100, Math.max(30, 55 + seed * 5));
 }
 
 /** Último treino mock */
 function getLastWorkout(_student: StudentRow): string {
-  const plans = _student.workout_plans?.filter((p: any) => p.is_active) || [];
+  const plans = _student.workout_plans
+    ?.filter((p: any) => p.is_active)
+    .sort((a: any, b: any) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()) || [];
   if (plans.length === 0) return "Sem registo";
 
   // TODO: buscar da tabela workout_logs quando existir
@@ -74,7 +81,9 @@ function getLastWorkout(_student: StudentRow): string {
 
 /** Plano mock — quando existir campo plan no metadata */
 function getPlan(student: StudentRow): React.ReactNode | string {
-  const plans = student.workout_plans?.filter((p: any) => p.is_active) || [];
+  const plans = student.workout_plans
+    ?.filter((p: any) => p.is_active)
+    .sort((a: any, b: any) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()) || [];
   if (plans.length > 0) return plans[0].name;
 
   return (
@@ -111,8 +120,10 @@ function statusLabel(s: string) {
 /* ── Component ──────────────────────────────────────────────── */
 export function StudentsClient({
   students,
+  exercises,
 }: {
   students: StudentRow[] | null;
+  exercises: any[];
 }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [query, setQuery] = useState("");
@@ -120,6 +131,16 @@ export function StudentsClient({
 
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedStudent, setSelectedStudent] = useState<StudentRow | null>(null);
+
+  const [builderOpen, setBuilderOpen] = useState(false);
+  const [builderEditBaseId, setBuilderEditBaseId] = useState<string | null>(null);
+  const [builderStudentId, setBuilderStudentId] = useState<string | null>(null);
+
+  const handleEditWorkoutClick = (student: StudentRow, baseWorkoutId: string) => {
+    setBuilderEditBaseId(baseWorkoutId);
+    setBuilderStudentId(student.id);
+    setBuilderOpen(true);
+  };
 
   const filtered = (students || []).filter((s) => {
     const adherence = getAdherence(s);
@@ -247,6 +268,7 @@ export function StudentsClient({
                         setSelectedStudent(s);
                         setModalOpen(true);
                       }} 
+                      onEditWorkout={handleEditWorkoutClick}
                     />
                   ))}
                   {filtered.length === 0 && (
@@ -272,12 +294,27 @@ export function StudentsClient({
         onClose={() => setModalOpen(false)}
         student={selectedStudent}
       />
+
+      <WorkoutBuilderModal
+        isOpen={builderOpen}
+        onClose={() => {
+          setBuilderOpen(false);
+          setBuilderEditBaseId(null);
+          setBuilderStudentId(null);
+        }}
+        exercises={exercises}
+        editBaseId={builderEditBaseId}
+        studentId={builderStudentId}
+      />
     </div>
   );
 }
 
 /* ── Row ────────────────────────────────────────────────────── */
-function StudentRow({ student, onClick }: { student: StudentRow; onClick: () => void }) {
+function StudentRow({ student, onClick, onEditWorkout }: { student: StudentRow; onClick: () => void; onEditWorkout: (student: StudentRow, baseId: string) => void }) {
+  const router = import("next/navigation").then(m => m.useRouter); // Or just pass it or window.location
+  const addToast = useToastStore((state) => state.addToast);
+  
   const name = student.full_name || student.display_name || student.email || "Aluno sem nome";
   const initials = name
     .split(" ")
@@ -289,6 +326,35 @@ function StudentRow({ student, onClick }: { student: StudentRow; onClick: () => 
   const lastWorkout = getLastWorkout(student);
   const plan = getPlan(student);
   const payment = getPaymentStatus(student);
+
+  const handleEditWorkout = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    const plans = student.workout_plans
+      ?.filter((p: any) => p.is_active)
+      .sort((a: any, b: any) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()) || [];
+    if (plans.length > 0) {
+      const activePlan = plans[0];
+      let baseWorkoutId = null;
+      try {
+        if (activePlan.description) {
+          if (typeof activePlan.description === 'string' && activePlan.description.startsWith("{")) {
+            const parsed = JSON.parse(activePlan.description);
+            baseWorkoutId = parsed.baseWorkoutId;
+          } else if (typeof activePlan.description === 'object') {
+            baseWorkoutId = activePlan.description.baseWorkoutId;
+          }
+        }
+      } catch (err) {}
+
+      if (baseWorkoutId) {
+        onEditWorkout(student, baseWorkoutId);
+      } else {
+        addToast("error", "Este treino foi atribuído de forma antiga e não possui uma base editável. Reatribua um novo treino para editar.");
+      }
+    } else {
+      addToast("error", "Este aluno não possui um treino ativo para editar.");
+    }
+  };
 
   return (
     <tr className="border-b border-kore-border last:border-b-0 cursor-pointer hover:bg-kore-bg/60 transition group">
@@ -351,17 +417,27 @@ function StudentRow({ student, onClick }: { student: StudentRow; onClick: () => 
         <PaymentBadge status={payment} />
       </td>
       <td className="py-3 px-5 text-right">
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
-            onClick();
-          }}
-          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold text-kore-emerald-deep bg-kore-emerald-soft hover:bg-kore-emerald hover:text-white transition opacity-70 group-hover:opacity-100"
-        >
-          <Eye size={13} />
-          Ver Perfil
-          <ChevronRight size={12} />
-        </button>
+        <div className="flex items-center justify-end gap-2 opacity-70 group-hover:opacity-100 transition">
+          <button
+            onClick={handleEditWorkout}
+            title="Editar Ficha"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold text-kore-emerald-deep bg-kore-emerald-soft hover:bg-kore-emerald hover:text-white transition"
+          >
+            <Edit size={13} />
+            Editar Treino
+          </button>
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              onClick();
+            }}
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold text-kore-emerald-deep bg-kore-emerald-soft hover:bg-kore-emerald hover:text-white transition"
+          >
+            <Eye size={13} />
+            Ver Perfil
+            <ChevronRight size={12} />
+          </button>
+        </div>
       </td>
     </tr>
   );

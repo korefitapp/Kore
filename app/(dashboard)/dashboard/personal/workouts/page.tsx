@@ -20,6 +20,7 @@ export default async function WorkoutsPage() {
     .from("workouts")
     .select("*")
     .or(`professional_id.is.null,professional_id.eq.${user.id}`)
+    .not("name", "ilike", "%(Personalizado%")
     .order("created_at", { ascending: false });
 
   if (error) {

@@ -52,6 +52,7 @@ export interface Exercise {
   thumb: string;
   videoLabel: string;
   targetReps: string;
+  restTime?: number;
   sets: ExerciseSet[];
   day: string;
 }
@@ -83,10 +84,10 @@ export interface CartLine {
 }
 
 export interface DayCheck {
-  label: string;
+  day: string;
   date: number;
-  done: boolean;
-  isToday?: boolean;
+  progress: number;
+  isToday: boolean;
 }
 
 export interface MacrosTriplet {
@@ -112,5 +113,6 @@ export interface AppSeed {
   products: Product[];
   streak: number;
   address: string;
+  weeklyCalendar?: DayCheck[];
   topTrainers?: Trainer[];
 }

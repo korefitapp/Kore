@@ -37,6 +37,7 @@ export interface KoreState {
 
   streak: number;
   week: DayCheck[];
+  weeklyCalendar: DayCheck[];
 
   waterMl: number;
   waterGoalMl: number;
@@ -127,6 +128,7 @@ export const useKore = create<KoreState>((set) => ({
 
   streak: fallback.streak,
   week: buildWeek(),
+  weeklyCalendar: fallback.weeklyCalendar || [],
 
   waterMl: fallback.waterMl,
   waterGoalMl: fallback.waterGoalMl,
@@ -187,8 +189,8 @@ export const useKore = create<KoreState>((set) => ({
   activeExerciseId: null,
   setActive: (id) => set({ activeExerciseId: id }),
   updateSet: (exId, setIdx, patch) =>
-    set((s) => ({
-      exercises: s.exercises.map((e) =>
+    set((s) => {
+      const exercises = s.exercises.map((e) =>
         e.id !== exId
           ? e
           : {
@@ -197,8 +199,14 @@ export const useKore = create<KoreState>((set) => ({
                 i === setIdx ? { ...st, ...patch } : st,
               ),
             },
-      ),
-    })),
+      );
+      if (typeof window !== "undefined") {
+        const dateKey = new Date().toISOString().split("T")[0];
+        const progress = exercises.map(ex => ({ id: ex.id, sets: ex.sets.map(s => ({ done: s.done, load: s.load, reps: s.reps })) }));
+        localStorage.setItem("kore_workout_" + dateKey, JSON.stringify(progress));
+      }
+      return { exercises };
+    }),
 
   address: fallback.address,
   setAddress: (a) => set({ address: a }),
@@ -243,23 +251,49 @@ export const useKore = create<KoreState>((set) => ({
   setCartOpen: (b) => set({ cartOpen: b }),
 
   hydrateFromSeed: (seed) =>
-    set(() => ({
-      online: seed.online,
-      user: seed.user,
-      hydrated: true,
-      streak: seed.streak,
-      waterMl: seed.waterMl,
-      waterGoalMl: seed.waterGoalMl,
-      kcalGoal: seed.kcalGoal,
-      macros: macrosFromMeals(seed.meals),
-      macrosGoal: seed.macrosGoal,
-      meals: seed.meals,
-      exercises: seed.exercises,
-      stores: seed.stores,
-      products: seed.products,
-      address: seed.address,
-      topTrainers: seed.topTrainers || [],
-    })),
+    set(() => {
+      let hydratedExercises = seed.exercises;
+      if (typeof window !== "undefined") {
+        const dateKey = new Date().toISOString().split("T")[0];
+        const saved = localStorage.getItem("kore_workout_" + dateKey);
+        if (saved) {
+          try {
+            const progress = JSON.parse(saved);
+            hydratedExercises = seed.exercises.map(ex => {
+              const savedEx = progress.find((p: any) => p.id === ex.id);
+              if (savedEx && savedEx.sets) {
+                return {
+                  ...ex,
+                  sets: ex.sets.map((st, i) => {
+                    const savedSet = savedEx.sets[i];
+                    return savedSet ? { ...st, done: savedSet.done, load: savedSet.load ?? st.load, reps: savedSet.reps ?? st.reps } : st;
+                  })
+                };
+              }
+              return ex;
+            });
+          } catch(e) {}
+        }
+      }
+      return {
+        online: seed.online,
+        user: seed.user,
+        hydrated: true,
+        streak: seed.streak,
+        waterMl: seed.waterMl,
+        waterGoalMl: seed.waterGoalMl,
+        kcalGoal: seed.kcalGoal,
+        macros: macrosFromMeals(seed.meals),
+        macrosGoal: seed.macrosGoal,
+        meals: seed.meals,
+        exercises: hydratedExercises,
+        weeklyCalendar: seed.weeklyCalendar || [],
+        stores: seed.stores,
+        products: seed.products,
+        address: seed.address,
+        topTrainers: seed.topTrainers || [],
+      };
+    }),
 }));
 
 /**
@@ -289,3 +323,10 @@ export const selectCartTotal = (s: KoreState) =>
     const p = s.products.find((p) => p.id === l.productId);
     return acc + (p ? p.price * l.qty : 0);
   }, 0);
+
+export const selectBurnedWorkoutKcal = (s: KoreState) => {
+  return s.exercises.reduce((total, ex) => {
+    const completedSets = ex.sets.filter(st => st.done).length;
+    return total + (completedSets * 15);
+  }, 0);
+};

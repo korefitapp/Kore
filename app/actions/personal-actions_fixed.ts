@@ -176,6 +176,13 @@ export async function createWorkoutPlan(clientId: string, name: string, descript
     const studentName = student?.full_name || "Aluno";
     const studentPhone = student?.phone;
 
+    // 1.5 Desativar planos antigos do aluno
+    await supabase
+      .from("workout_plans")
+      .update({ is_active: false })
+      .eq("client_id", clientId)
+      .eq("is_active", true);
+
     // 2. Criar o Plano de Treino
     const { data, error } = await supabase
       .from("workout_plans")
@@ -212,6 +219,8 @@ export async function createWorkoutPlan(clientId: string, name: string, descript
     }
 
     revalidatePath("/dashboard/personal/treinos");
+    revalidatePath("/dashboard/personal/students");
+    revalidatePath("/dashboard/personal", "layout");
 
     return { ok: true, data };
   } catch (error: any) {
@@ -689,6 +698,7 @@ export async function getPersonalWorkoutsDropdown(): Promise<ActionResult> {
       .from("workouts")
       .select("id, name, professional_id")
       .or(`professional_id.eq.${user.id},professional_id.is.null`)
+      .not("name", "ilike", "%(Personalizado%")
       .order("created_at", { ascending: false });
 
     if (error) throw error;

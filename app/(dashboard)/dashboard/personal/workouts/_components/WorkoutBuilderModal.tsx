@@ -17,9 +17,11 @@ interface WorkoutBuilderModalProps {
   isOpen: boolean;
   onClose: () => void;
   exercises: Exercise[];
+  editBaseId?: string | null;
+  studentId?: string | null;
 }
 
-export function WorkoutBuilderModal({ isOpen, onClose, exercises }: WorkoutBuilderModalProps) {
+export function WorkoutBuilderModal({ isOpen, onClose, exercises, editBaseId, studentId }: WorkoutBuilderModalProps) {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [step, setStep] = useState<1 | 2>(1);
@@ -51,6 +53,60 @@ export function WorkoutBuilderModal({ isOpen, onClose, exercises }: WorkoutBuild
       scrollRef.current.scrollTop = 0;
     }
   }, [activeDayId]);
+
+  useEffect(() => {
+    if (isOpen && editBaseId) {
+      const fetchWorkout = async () => {
+        try {
+          const { getWorkoutDetailsAction } = await import("@/app/actions/workout-actions");
+          const res = await getWorkoutDetailsAction(editBaseId);
+          if (res && res.workout) {
+            setFormData({
+              name: res.workout.name,
+              objective: res.workout.objective || "Hipertrofia",
+              level: res.workout.level || "Iniciante",
+              description: res.workout.description || "",
+            });
+            
+            if (res.days && res.days.length > 0) {
+              const loadedDays = INITIAL_DAYS.map(idDay => {
+                const fetchedDay = res.days.find((d: any) => d.name === idDay.name);
+                if (fetchedDay) {
+                  return {
+                    ...idDay,
+                    isActive: true,
+                    exercises: fetchedDay.workout_day_exercises.map((ex: any) => ({
+                      id: ex.id || Math.random().toString(36).substr(2, 9),
+                      exercise_id: ex.exercises.id,
+                      name: ex.exercises.name,
+                      sets: ex.sets || 3,
+                      reps: ex.reps || "10-12",
+                      weight: ex.weight || "",
+                      rest_time: ex.rest_time || "60s",
+                      technique: ex.technique || "",
+                      observation: ex.observation || ""
+                    }))
+                  };
+                }
+                return idDay;
+              });
+              
+              setDays(loadedDays);
+              const firstActive = loadedDays.find(d => d.isActive);
+              if (firstActive) setActiveDayId(firstActive.id);
+            }
+          }
+        } catch (e) {
+          console.error(e);
+        }
+      };
+      fetchWorkout();
+    } else if (isOpen && !editBaseId) {
+      setFormData({ name: "", objective: "Hipertrofia", level: "Iniciante", description: "" });
+      setDays(INITIAL_DAYS);
+      setStep(1);
+    }
+  }, [isOpen, editBaseId]);
 
   if (!isOpen) return null;
 
@@ -84,6 +140,7 @@ export function WorkoutBuilderModal({ isOpen, onClose, exercises }: WorkoutBuild
             name: ex.name,
             sets: 3,
             reps: "10-12",
+            weight: "",
             rest_time: "60s",
             technique: "",
             observation: ""
@@ -136,6 +193,7 @@ export function WorkoutBuilderModal({ isOpen, onClose, exercises }: WorkoutBuild
           exercise_id: ex.exercise_id,
           sets: Number(ex.sets),
           reps: ex.reps,
+          weight: ex.weight,
           rest_time: ex.rest_time,
           technique: ex.technique,
           observation: ex.observation
@@ -144,12 +202,19 @@ export function WorkoutBuilderModal({ isOpen, onClose, exercises }: WorkoutBuild
     };
 
     try {
-      await createWorkoutAction(payload);
+      if (studentId) {
+        const { createPersonalizedWorkoutAction } = await import("@/app/actions/workout-actions");
+        await createPersonalizedWorkoutAction(payload, studentId);
+      } else {
+        await createWorkoutAction(payload);
+      }
       onClose();
       router.refresh();
+      // Also maybe reload page to clear searchParams
+      router.replace("/dashboard/personal/workouts");
     } catch (error) {
       console.error(error);
-      alert("Erro ao criar treino");
+      alert("Erro ao salvar treino");
     } finally {
       setIsSubmitting(false);
     }
@@ -336,11 +401,15 @@ export function WorkoutBuilderModal({ isOpen, onClose, exercises }: WorkoutBuild
                         </div>
                         <div className="flex items-center gap-2">
                           <label className="text-xs font-semibold text-kore-muted">Reps:</label>
-                          <input type="text" placeholder="10-12" value={ex.reps} onChange={(e) => updateExercise(activeDay.id, ex.id, 'reps', e.target.value)} className="w-20 bg-kore-bg border border-kore-border rounded-lg px-2 py-1.5 text-sm text-center focus:outline-none focus:border-kore-emerald" />
+                          <input type="text" placeholder="10-12" value={ex.reps} onChange={(e) => updateExercise(activeDay.id, ex.id, 'reps', e.target.value)} className="w-16 bg-kore-bg border border-kore-border rounded-lg px-2 py-1.5 text-sm text-center focus:outline-none focus:border-kore-emerald" />
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <label className="text-xs font-semibold text-kore-muted">Carga:</label>
+                          <input type="text" placeholder="Ex: 20kg" value={ex.weight || ""} onChange={(e) => updateExercise(activeDay.id, ex.id, 'weight', e.target.value)} className="w-20 bg-kore-bg border border-kore-border rounded-lg px-2 py-1.5 text-sm text-center focus:outline-none focus:border-kore-emerald" />
                         </div>
                         <div className="flex items-center gap-2">
                           <label className="text-xs font-semibold text-kore-muted">Descanso:</label>
-                          <input type="text" placeholder="60s" value={ex.rest_time} onChange={(e) => updateExercise(activeDay.id, ex.id, 'rest_time', e.target.value)} className="w-20 bg-kore-bg border border-kore-border rounded-lg px-2 py-1.5 text-sm text-center focus:outline-none focus:border-kore-emerald" />
+                          <input type="text" placeholder="60s" value={ex.rest_time} onChange={(e) => updateExercise(activeDay.id, ex.id, 'rest_time', e.target.value)} className="w-16 bg-kore-bg border border-kore-border rounded-lg px-2 py-1.5 text-sm text-center focus:outline-none focus:border-kore-emerald" />
                         </div>
                         <div className="flex items-center gap-2">
                           <label className="text-xs font-semibold text-kore-muted">Técnica:</label>

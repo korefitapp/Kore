@@ -37,7 +37,7 @@ export function ActiveMode({ exerciseId }: { exerciseId: string }) {
             {exercise.name}
           </h1>
         </div>
-        <span className="text-xs font-semibold text-kore-emerald bg-emerald-50 dark:bg-emerald-500/10 rounded-full px-3 py-1.5">
+        <span className="text-xs font-semibold text-purple-600 dark:text-purple-400 bg-purple-50 dark:bg-purple-500/10 rounded-full px-3 py-1.5">
           {exercise.targetReps}
         </span>
       </header>
@@ -69,7 +69,7 @@ export function ActiveMode({ exerciseId }: { exerciseId: string }) {
                     duration: playing ? 80 : 0,
                     ease: "linear",
                   }}
-                  className="h-full bg-emerald-400"
+                  className="h-full bg-purple-500"
                 />
               </div>
               <p className="text-[11px] mt-1 opacity-80">
@@ -84,49 +84,63 @@ export function ActiveMode({ exerciseId }: { exerciseId: string }) {
         </div>
       </div>
 
-      <section className="rounded-3xl bg-kore-card border border-kore p-4 shadow-sm">
-        <div className="flex items-center justify-between mb-2">
-          <h2 className="font-bold text-kore">Log de séries</h2>
-          <span className="text-xs text-muted">Carga (kg) · Repetições</span>
+      <CircularTimer defaultDuration={exercise.restTime || 60} />
+
+      <section className="rounded-[24px] bg-kore-card p-5 shadow-sm border border-kore">
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="font-extrabold text-kore text-lg">Log de Séries</h2>
+          <span className="text-[11px] font-bold text-muted uppercase tracking-wider">Carga · Reps</span>
         </div>
-        <div className="space-y-2">
+        <div className="space-y-2.5">
           {exercise.sets.map((st, i) => (
             <div
               key={i}
-              className={`flex items-center gap-2 rounded-2xl border p-2 transition-colors ${
+              className={`group flex items-center gap-3 rounded-2xl p-2.5 transition-all ${
                 st.done
-                  ? "border-emerald-200 dark:border-emerald-700/50 bg-emerald-50/60 dark:bg-emerald-500/10"
-                  : "border-kore bg-kore-bg/40"
+                  ? "bg-purple-50 dark:bg-purple-500/10 shadow-[inset_0_0_0_1px_rgba(168,85,247,0.2)]"
+                  : "bg-slate-50 dark:bg-white/5 hover:bg-slate-100 dark:hover:bg-white/10"
               }`}
             >
-              <span className="w-7 h-7 rounded-lg bg-kore-card border border-kore text-xs font-bold flex items-center justify-center text-kore">
+              <div className={`w-8 h-8 rounded-xl flex items-center justify-center text-sm font-bold ${
+                st.done 
+                  ? "bg-purple-200 dark:bg-purple-500/20 text-purple-700 dark:text-purple-300"
+                  : "bg-white dark:bg-white/10 text-slate-500 dark:text-zinc-400 shadow-sm"
+              }`}>
                 {i + 1}
-              </span>
-              <input
-                value={st.load}
-                onChange={(e) =>
-                  updateSet(exercise.id, i, { load: e.target.value })
-                }
-                inputMode="decimal"
-                className="flex-1 min-w-0 rounded-xl bg-kore-card border border-kore px-2.5 py-1.5 text-sm text-kore font-semibold tabular-nums focus:outline-none focus:ring-2 ring-kore-emerald"
-                placeholder="kg"
-              />
-              <span className="text-muted text-xs">×</span>
-              <input
-                value={st.reps}
-                onChange={(e) =>
-                  updateSet(exercise.id, i, { reps: e.target.value })
-                }
-                inputMode="numeric"
-                className="w-14 rounded-xl bg-kore-card border border-kore px-2.5 py-1.5 text-sm text-kore font-semibold tabular-nums focus:outline-none focus:ring-2 ring-kore-emerald"
-                placeholder="reps"
-              />
+              </div>
+              
+              <div className="flex-1 flex items-center gap-2">
+                <input
+                  value={st.load}
+                  onChange={(e) => updateSet(exercise.id, i, { load: e.target.value })}
+                  inputMode="decimal"
+                  className={`w-full text-center text-base font-extrabold tabular-nums placeholder:text-slate-300 dark:placeholder:text-zinc-600 focus:outline-none focus:bg-white dark:focus:bg-black/20 focus:ring-2 ring-purple-500 rounded-lg py-1 transition-colors ${
+                    st.done 
+                      ? "bg-purple-100 dark:bg-purple-500/20 text-purple-700 dark:text-purple-300" 
+                      : "bg-slate-200/60 dark:bg-white/10 text-slate-700 dark:text-slate-200"
+                  }`}
+                  placeholder="-"
+                />
+                <span className="text-slate-300 dark:text-zinc-600 font-bold text-sm">×</span>
+                <input
+                  value={st.reps}
+                  onChange={(e) => updateSet(exercise.id, i, { reps: e.target.value })}
+                  inputMode="numeric"
+                  className={`w-16 text-center text-base font-extrabold tabular-nums placeholder:text-slate-300 dark:placeholder:text-zinc-600 focus:outline-none focus:bg-white dark:focus:bg-black/20 focus:ring-2 ring-purple-500 rounded-lg py-1 transition-colors ${
+                    st.done 
+                      ? "bg-purple-100 dark:bg-purple-500/20 text-purple-700 dark:text-purple-300" 
+                      : "bg-slate-200/60 dark:bg-white/10 text-slate-700 dark:text-slate-200"
+                  }`}
+                  placeholder="-"
+                />
+              </div>
+
               <button
                 onClick={() => updateSet(exercise.id, i, { done: !st.done })}
-                className={`w-9 h-9 rounded-xl flex items-center justify-center transition active:scale-95 ${
+                className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all active:scale-90 ${
                   st.done
-                    ? "bg-kore-emerald text-white"
-                    : "bg-kore-card border border-kore text-muted hover:text-kore-emerald"
+                    ? "bg-purple-500 text-white shadow-md shadow-purple-500/20"
+                    : "bg-white dark:bg-white/10 text-slate-400 dark:text-zinc-500 hover:text-purple-500 shadow-sm"
                 }`}
                 aria-label="Concluir série"
               >
@@ -137,24 +151,19 @@ export function ActiveMode({ exerciseId }: { exerciseId: string }) {
                       initial={{ scale: 0 }}
                       animate={{ scale: 1 }}
                       exit={{ scale: 0 }}
-                      transition={{
-                        type: "spring",
-                        stiffness: 400,
-                        damping: 18,
-                      }}
+                      transition={{ type: "spring", stiffness: 400, damping: 18 }}
                     >
-                      <Check size={16} strokeWidth={3} />
+                      <Check size={18} strokeWidth={3} />
                     </motion.span>
                   )}
                 </AnimatePresence>
-                {!st.done && <Check size={16} strokeWidth={2.5} />}
+                {!st.done && <Check size={18} strokeWidth={2.5} />}
               </button>
             </div>
           ))}
         </div>
       </section>
 
-      <CircularTimer />
     </motion.div>
   );
 }
