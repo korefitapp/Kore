@@ -93,7 +93,6 @@ export function MessagesClient({
   const supabase = createSupabaseBrowserClient();
   const [contacts, setContacts] = useState<ChatContact[]>(initialContacts);
 
-  const supabase = createSupabaseBrowserClient();
   const [instanceStatus, setInstanceStatus] = useState<string>(initialInstanceStatus);
   const [qrCode, setQrCode] = useState<string | null>(initialQrCode);
   const [isConnecting, setIsConnecting] = useState(false);
