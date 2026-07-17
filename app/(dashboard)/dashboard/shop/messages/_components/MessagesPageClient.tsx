@@ -1,125 +1,17 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import {
-  ArrowLeft,
-  MoreVertical,
-  Package,
-  Paperclip,
-  Search,
-  Send,
-  Smile,
-} from "lucide-react";
+import { ArrowLeft, MoreVertical, Package, Paperclip, Search, Send, Smile, QrCode, Smartphone, RefreshCw } from "lucide-react";
+import { createSupabaseBrowserClient } from "@/lib/supabase/client";
+import { connectWhatsAppInstance, sendWhatsAppMessage } from "@/app/actions/whatsapp-actions";
+import { getChatMessages, markMessagesAsRead, sendMessage as sendInternalMessage, type ChatContact, type ChatMessage } from "@/app/actions/chat-actions";
 import { MobileSidebar, Sidebar } from "../../_components/Sidebar";
 import { Topbar } from "../../_components/Topbar";
 
 /* ── Types ──────────────────────────────────────────────────── */
 
-interface Message {
-  id: string;
-  senderId: string;
-  content: string;
-  createdAt: string;
-  readAt: string | null;
-}
-
-interface ChatContact {
-  id: string;
-  name: string;
-  avatar: string;
-  lastMessage: string;
-  lastMessageTime: string;
-  unreadCount: number;
-  orderRef: string;
-}
-
-/* ── Mock Data ──────────────────────────────────────────────── */
-
-const SHOP_ID = "shop-main";
-
-const MOCK_CONVERSATIONS: {
-  contact: Omit<ChatContact, "lastMessage" | "lastMessageTime" | "unreadCount">;
-  messages: Message[];
-}[] = [
-  {
-    contact: {
-      id: "cust-001",
-      name: "Helena Prado",
-      avatar: "🥗",
-      orderRef: "#KORE-2048",
-    },
-    messages: [
-      { id: "m1", senderId: "cust-001", content: "Oi! Meu pedido #KORE-2048 já foi enviado? Estou esperando o rastreio.", createdAt: "2026-05-19T09:00:00Z", readAt: "2026-05-19T09:05:00Z" },
-      { id: "m2", senderId: SHOP_ID, content: "Bom dia, Helena! Sim, seu pedido foi despachado ontem à noite. O código de rastreio é BR9876543210. Prazo estimado: 3-5 dias úteis.", createdAt: "2026-05-19T09:10:00Z", readAt: "2026-05-19T09:12:00Z" },
-      { id: "m3", senderId: "cust-001", content: "Obrigada! Vocês terão mais cores da camiseta Dry-Fit? Queria a azul no M.", createdAt: "2026-05-19T10:30:00Z", readAt: null },
-      { id: "m4", senderId: "cust-001", content: "Ah, e o whey que veio no pedido tá perfeito, muito obrigada pelo brinde! 💚", createdAt: "2026-05-19T10:32:00Z", readAt: null },
-    ],
-  },
-  {
-    contact: {
-      id: "cust-002",
-      name: "Renan Castro",
-      avatar: "🍳",
-      orderRef: "#KORE-2045",
-    },
-    messages: [
-      { id: "m5", senderId: "cust-002", content: "Boa tarde, troquei o whey por isolado mas não recebi a diferença. Como funciona?", createdAt: "2026-05-19T14:00:00Z", readAt: "2026-05-19T14:10:00Z" },
-      { id: "m6", senderId: SHOP_ID, content: "Oi Renan! A diferença de R$ 45,00 será estornada no cartão em até 7 dias úteis. Já dei entrada no estorno agora.", createdAt: "2026-05-19T14:15:00Z", readAt: "2026-05-19T14:20:00Z" },
-      { id: "m7", senderId: "cust-002", content: "Show, valeu! Pode me mandar a nota fiscal atualizada por e-mail?", createdAt: "2026-05-19T14:25:00Z", readAt: null },
-    ],
-  },
-  {
-    contact: {
-      id: "cust-003",
-      name: "Diego Martins",
-      avatar: "🧑‍🏫",
-      orderRef: "#KORE-2039",
-    },
-    messages: [
-      { id: "m8", senderId: "cust-003", content: "Fala! A creatina veio com o lote diferente da foto. É normal?", createdAt: "2026-05-18T16:00:00Z", readAt: "2026-05-18T16:30:00Z" },
-      { id: "m9", senderId: SHOP_ID, content: "Diego, sim! O fabricante atualizou a embalagem recentemente. O produto é exatamente o mesmo — Monohidratada 300g, purity 99.9%. Pode ficar tranquilo! 💪", createdAt: "2026-05-18T16:35:00Z", readAt: "2026-05-18T16:40:00Z" },
-      { id: "m10", senderId: "cust-003", content: "Perfeito, obrigado pela rapidez!", createdAt: "2026-05-18T16:42:00Z", readAt: "2026-05-18T16:45:00Z" },
-    ],
-  },
-  {
-    contact: {
-      id: "cust-004",
-      name: "Ana Souza",
-      avatar: "🍇",
-      orderRef: "#KORE-2052",
-    },
-    messages: [
-      { id: "m11", senderId: "cust-004", content: "Oi, quero cancelar meu pedido #KORE-2052. Ainda dá tempo?", createdAt: "2026-05-19T20:00:00Z", readAt: null },
-    ],
-  },
-  {
-    contact: {
-      id: "cust-005",
-      name: "Júlia Sant'Anna",
-      avatar: "👩🏼‍⚕️",
-      orderRef: "#KORE-2030",
-    },
-    messages: [
-      { id: "m12", senderId: "cust-005", content: "Quero pedir 20 unidades do shaker para presentear meus alunos. Tem desconto para atacado?", createdAt: "2026-05-17T11:00:00Z", readAt: "2026-05-17T11:30:00Z" },
-      { id: "m13", senderId: SHOP_ID, content: "Júlia, sim! Acima de 15 unidades oferecemos 15% de desconto. Vou preparar um orçamento personalizado pra você.", createdAt: "2026-05-17T11:35:00Z", readAt: "2026-05-17T11:40:00Z" },
-      { id: "m14", senderId: "cust-005", content: "Maravilha! Pode incluir também 10 faixas elásticas? Quero o kit completo.", createdAt: "2026-05-17T11:45:00Z", readAt: "2026-05-17T12:00:00Z" },
-      { id: "m15", senderId: SHOP_ID, content: "Claro! Monto o orçamento completo até amanhã e te envio por aqui e por e-mail. 📦", createdAt: "2026-05-17T12:05:00Z", readAt: "2026-05-17T12:10:00Z" },
-    ],
-  },
-  {
-    contact: {
-      id: "cust-006",
-      name: "Marcos Figueiredo",
-      avatar: "🥩",
-      orderRef: "#KORE-2041",
-    },
-    messages: [
-      { id: "m16", senderId: "cust-006", content: "E aí, a pré-treino berry blast vai voltar? Tá esgotado no site!", createdAt: "2026-05-18T08:00:00Z", readAt: "2026-05-18T08:20:00Z" },
-      { id: "m17", senderId: SHOP_ID, content: "Marcos, estamos com previsão de reposição para quarta-feira! Assim que entrar no estoque te aviso aqui. 🔔", createdAt: "2026-05-18T08:25:00Z", readAt: "2026-05-18T08:30:00Z" },
-      { id: "m18", senderId: "cust-006", content: "Beleza, pode reservar 2 potes pra mim? Já quero garantir!", createdAt: "2026-05-18T08:32:00Z", readAt: null },
-    ],
-  },
-];
+/* ── Types ──────────────────────────────────────────────────── */
+// Reusing ChatContact and ChatMessage from chat-actions.ts
 
 /* ── Helpers ────────────────────────────────────────────────── */
 
@@ -177,39 +69,133 @@ function formatDateSeparator(iso: string): string {
 
 /* ── Component ──────────────────────────────────────────────── */
 
-export function MessagesPageClient() {
-  const [selectedId, setSelectedId] = useState<string | null>(null);
+export function MessagesPageClient({
+  currentUserId,
+  initialInstanceStatus,
+  initialQrCode,
+  initialContacts,
+}: {
+  currentUserId: string;
+  initialInstanceStatus: string;
+  initialQrCode: string | null;
+  initialContacts: ChatContact[];
+}) {
+  const supabase = createSupabaseBrowserClient();
+  const [contacts, setContacts] = useState<ChatContact[]>(initialContacts);
+
+  const [instanceStatus, setInstanceStatus] = useState(initialInstanceStatus);
+  const [qrCode, setQrCode] = useState<string | null>(initialQrCode);
+  const [isConnecting, setIsConnecting] = useState(false);
+  const [isSending, setIsSending] = useState(false);
+
+  const [selectedContactId, setSelectedContactId] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
-  const [inputValue, setInputValue] = useState("");
-  const [localConversations, setLocalConversations] = useState(MOCK_CONVERSATIONS);
+  const [newMessage, setNewMessage] = useState("");
+  const [localMessages, setLocalMessages] = useState<ChatMessage[]>([]);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  // Build contact list with metadata
-  const contacts: ChatContact[] = useMemo(() => {
-    return localConversations.map((conv) => {
-      const msgs = conv.messages;
-      const last = msgs[msgs.length - 1];
-      const unread = msgs.filter(
-        (m) => m.senderId !== SHOP_ID && m.readAt === null,
-      ).length;
-      return {
-        ...conv.contact,
-        lastMessage: last?.content ?? "Nenhuma mensagem",
-        lastMessageTime: last?.createdAt ?? "",
-        unreadCount: unread,
-      };
-    });
-  }, [localConversations]);
+  // Carrega as mensagens ao selecionar um contato
+  useEffect(() => {
+    if (selectedContactId) {
+      getChatMessages(selectedContactId).then(msgs => {
+        setLocalMessages(msgs);
+        markMessagesAsRead(selectedContactId).then(() => {
+          setContacts(prev => prev.map(c => 
+            c.id === selectedContactId ? { ...c, unreadCount: 0 } : c
+          ));
+        });
+      });
+    } else {
+      setLocalMessages([]);
+    }
+  }, [selectedContactId]);
 
-  // Filter contacts
+  // Realtime Supabase Setup
+  useEffect(() => {
+    const messagesChannel = supabase
+      .channel("realtime:messages")
+      .on(
+        "postgres_changes",
+        { event: "INSERT", schema: "public", table: "messages" },
+        (payload) => {
+          const newMsg = payload.new as ChatMessage;
+          
+          if (newMsg.sender_id === currentUserId || newMsg.receiver_id === currentUserId) {
+            const otherId = newMsg.sender_id === currentUserId ? newMsg.receiver_id : newMsg.sender_id;
+            
+            // Atualiza mensagens abertas se for desta conversa
+            setLocalMessages((prev) => {
+              if (selectedContactId === otherId && !prev.some(m => m.id === newMsg.id)) {
+                return [...prev, newMsg];
+              }
+              return prev;
+            });
+
+            // Se for do contato atual, marca como lida
+            if (selectedContactId === otherId && newMsg.receiver_id === currentUserId) {
+              markMessagesAsRead(otherId);
+            }
+
+            // Atualiza contato
+            setContacts(prev => prev.map(c => {
+              if (c.id === otherId) {
+                return {
+                  ...c,
+                  lastMessage: newMsg.content,
+                  lastMessageTime: newMsg.created_at,
+                  unreadCount: (newMsg.receiver_id === currentUserId && selectedContactId !== otherId && !newMsg.read_at) 
+                    ? c.unreadCount + 1 : c.unreadCount
+                };
+              }
+              return c;
+            }));
+          }
+        }
+      )
+      .subscribe();
+
+    const instanceChannel = supabase
+      .channel("realtime:whatsapp_instances")
+      .on(
+        "postgres_changes",
+        { event: "UPDATE", schema: "public", table: "whatsapp_instances", filter: `professional_id=eq.${currentUserId}` },
+        (payload) => {
+          const newData = payload.new;
+          if (newData.status) setInstanceStatus(newData.status);
+          if (newData.qr_code_base64) setQrCode(newData.qr_code_base64);
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(messagesChannel);
+      supabase.removeChannel(instanceChannel);
+    };
+  }, [currentUserId, supabase, selectedContactId]);
+
+  const handleConnectWhatsApp = async () => {
+    setIsConnecting(true);
+    try {
+      const res = await connectWhatsAppInstance();
+      if (res.qrCode) {
+        setQrCode(res.qrCode);
+      }
+      setInstanceStatus("connecting");
+    } catch (err: any) {
+      const { toast } = require("@/store/useToastStore");
+      toast.error("Erro ao conectar: " + err.message);
+    } finally {
+      setIsConnecting(false);
+    }
+  };
+
   const filteredContacts = useMemo(() => {
     if (!searchQuery.trim()) return contacts;
     const q = searchQuery.toLowerCase();
     return contacts.filter(
       (c) =>
-        c.name.toLowerCase().includes(q) ||
-        c.orderRef.toLowerCase().includes(q),
+        (c.full_name || "").toLowerCase().includes(q)
     );
   }, [contacts, searchQuery]);
 
@@ -222,75 +208,84 @@ export function MessagesPageClient() {
     });
   }, [filteredContacts]);
 
-  // Selected conversation messages
-  const selectedConv = useMemo(
-    () => localConversations.find((c) => c.contact.id === selectedId) ?? null,
-    [localConversations, selectedId],
-  );
-
   const selectedContact = useMemo(
-    () => contacts.find((c) => c.id === selectedId) ?? null,
-    [contacts, selectedId],
+    () => contacts.find((c) => c.id === selectedContactId) ?? null,
+    [contacts, selectedContactId],
   );
 
   // Group messages by date
   const messagesByDate = useMemo(() => {
-    if (!selectedConv) return [];
-    const groups: { date: string; messages: Message[] }[] = [];
+    const groups: { date: string; messages: ChatMessage[] }[] = [];
     let currentDate = "";
-    selectedConv.messages.forEach((msg) => {
-      const d = new Date(msg.createdAt);
+    localMessages.forEach((msg) => {
+      const d = new Date(msg.created_at);
       const dateKey = `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`;
       if (dateKey !== currentDate) {
         currentDate = dateKey;
-        groups.push({ date: msg.createdAt, messages: [msg] });
+        groups.push({ date: msg.created_at, messages: [msg] });
       } else {
         const last = groups[groups.length - 1];
         if (last) last.messages.push(msg);
       }
     });
     return groups;
-  }, [selectedConv]);
+  }, [localMessages]);
 
   // Auto-scroll
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [selectedConv?.messages.length]);
+  }, [localMessages.length]);
 
   // Focus input on select
   useEffect(() => {
-    if (selectedId && window.innerWidth >= 1024) {
+    if (selectedContactId && window.innerWidth >= 1024) {
       inputRef.current?.focus();
     }
-  }, [selectedId]);
+  }, [selectedContactId]);
 
-  const handleSend = useCallback(() => {
-    if (!inputValue.trim() || !selectedId) return;
-    const newMsg: Message = {
+  const handleSendMessage = useCallback(async () => {
+    if (!newMessage.trim() || !selectedContactId || isSending) return;
+
+    const contact = contacts.find(c => c.id === selectedContactId);
+    if (!contact) return;
+
+    const textToSend = newMessage.trim();
+    const tempMsg: ChatMessage = {
       id: `local-${Date.now()}`,
-      senderId: SHOP_ID,
-      content: inputValue.trim(),
-      createdAt: new Date().toISOString(),
-      readAt: null,
+      sender_id: currentUserId,
+      receiver_id: selectedContactId,
+      content: textToSend,
+      created_at: new Date().toISOString(),
+      read_at: null,
     };
-    setLocalConversations((prev) =>
-      prev.map((conv) =>
-        conv.contact.id === selectedId
-          ? { ...conv, messages: [...conv.messages, newMsg] }
-          : conv,
-      ),
-    );
-    setInputValue("");
-  }, [inputValue, selectedId]);
+
+    setLocalMessages((prev) => [...prev, tempMsg]);
+    setNewMessage("");
+    setIsSending(true);
+
+    try {
+      if (instanceStatus === "open") {
+         await sendWhatsAppMessage(selectedContactId, contact.phone || "", textToSend);
+      } else {
+         await sendInternalMessage(selectedContactId, textToSend);
+      }
+    } catch (error: any) {
+      const { toast } = require("@/store/useToastStore");
+      toast.error("Falha ao enviar mensagem: " + error.message);
+      setLocalMessages((prev) => prev.filter((m) => m.id !== tempMsg.id));
+    } finally {
+      setIsSending(false);
+    }
+  }, [newMessage, selectedContactId, currentUserId, contacts, isSending, instanceStatus]);
 
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent) => {
       if (e.key === "Enter" && !e.shiftKey) {
         e.preventDefault();
-        handleSend();
+        handleSendMessage();
       }
     },
-    [handleSend],
+    [handleSendMessage],
   );
 
   return (
@@ -326,7 +321,7 @@ export function MessagesPageClient() {
             {/* ── Left: Contact List ─────────────────────── */}
             <div
               className={`w-full lg:w-[340px] xl:w-[380px] flex-shrink-0 border-r border-kore-border flex flex-col ${
-                selectedId ? "hidden lg:flex" : "flex"
+                selectedContactId ? "hidden lg:flex" : "flex"
               }`}
             >
               {/* Search */}
@@ -353,16 +348,16 @@ export function MessagesPageClient() {
                     <button
                       key={contact.id}
                       type="button"
-                      onClick={() => setSelectedId(contact.id)}
+                      onClick={() => setSelectedContactId(contact.id)}
                       className={`w-full flex items-center gap-3 px-4 py-3.5 text-left transition border-b border-kore-border/50 hover:bg-kore-bg/80 ${
-                        selectedId === contact.id
+                        selectedContactId === contact.id
                           ? "bg-kore-emerald-soft border-l-[3px] border-l-kore-emerald"
                           : "border-l-[3px] border-l-transparent"
                       }`}
                     >
                       {/* Avatar */}
-                      <div className="w-12 h-12 rounded-full bg-kore-emerald/10 grid place-items-center flex-shrink-0 text-xl">
-                        {contact.avatar}
+                      <div className="w-12 h-12 rounded-full bg-kore-emerald/10 grid place-items-center flex-shrink-0 text-xl font-bold text-kore-emerald">
+                        {getInitials(contact.name)}
                       </div>
 
                       {/* Info */}
@@ -423,34 +418,32 @@ export function MessagesPageClient() {
             {/* ── Right: Chat Window ────────────────────── */}
             <div
               className={`flex-1 flex flex-col min-w-0 ${
-                !selectedId ? "hidden lg:flex" : "flex"
+                !selectedContactId ? "hidden lg:flex" : "flex"
               }`}
             >
-              {selectedContact && selectedConv ? (
+              {selectedContact ? (
                 <>
                   {/* Chat header */}
                   <div className="flex items-center gap-3 px-4 py-3 border-b border-kore-border bg-kore-card/40">
                     <button
                       type="button"
-                      onClick={() => setSelectedId(null)}
+                      onClick={() => setSelectedContactId(null)}
                       className="lg:hidden w-9 h-9 grid place-items-center rounded-xl hover:bg-kore-bg transition text-kore-muted hover:text-kore-ink"
                     >
                       <ArrowLeft size={18} />
                     </button>
 
-                    <div className="w-10 h-10 rounded-full bg-kore-emerald/10 grid place-items-center flex-shrink-0 text-lg">
-                      {selectedContact.avatar}
+                    <div className="w-10 h-10 rounded-full bg-kore-emerald/10 grid place-items-center flex-shrink-0 text-sm font-bold text-kore-emerald">
+                      {getInitials(selectedContact.full_name)}
                     </div>
 
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm font-bold text-kore-ink truncate">
-                        {selectedContact.name}
-                      </p>
-                      <div className="flex items-center gap-1.5 mt-0.5">
-                        <Package size={12} className="text-kore-emerald-deep" />
-                        <span className="text-[11px] font-bold text-kore-emerald-deep">
-                          Pedido {selectedContact.orderRef}
-                        </span>
+                    <div className="flex-1">
+                      <h3 className="font-semibold text-foreground leading-none mb-1">
+                        {selectedContact.full_name}
+                      </h3>
+                      <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                        <span className="w-2 h-2 rounded-full bg-green-500"></span>
+                        Cliente
                       </div>
                     </div>
 
@@ -474,7 +467,7 @@ export function MessagesPageClient() {
                         </div>
 
                         {group.messages.map((msg, idx) => {
-                          const isMine = msg.senderId === SHOP_ID;
+                          const isMine = msg.sender_id === currentUserId;
                           return (
                             <div
                               key={msg.id}
@@ -482,7 +475,7 @@ export function MessagesPageClient() {
                             >
                               {!isMine && (
                                 <div className="w-7 h-7 rounded-full bg-kore-muted/20 grid place-items-center flex-shrink-0 mr-2 text-xs">
-                                  {selectedContact.avatar}
+                                  {getInitials(selectedContact.full_name)}
                                 </div>
                               )}
                               <div className={`max-w-[75%] sm:max-w-[65%] ${isMine ? "ml-auto" : ""}`}>
@@ -499,9 +492,9 @@ export function MessagesPageClient() {
                                   className={`flex items-center gap-1 mt-0.5 ${isMine ? "justify-end" : "justify-start"}`}
                                 >
                                   <span className="text-[10px] text-kore-muted tabular-nums">
-                                    {formatTime(msg.createdAt)}
+                                    {formatTime(msg.created_at)}
                                   </span>
-                                  {isMine && msg.readAt && <ReadCheck />}
+                                  {isMine && msg.read_at && <ReadCheck />}
                                 </div>
                               </div>
                             </div>
@@ -533,15 +526,15 @@ export function MessagesPageClient() {
                         ref={inputRef}
                         type="text"
                         placeholder="Digite sua mensagem…"
-                        value={inputValue}
-                        onChange={(e) => setInputValue(e.target.value)}
+                        value={newMessage}
+                        onChange={(e) => setNewMessage(e.target.value)}
                         onKeyDown={handleKeyDown}
                         className="flex-1 min-w-0 px-4 py-2.5 rounded-xl bg-kore-bg border border-kore-border text-sm font-medium text-kore-ink placeholder-kore-muted focus:outline-none focus:ring-2 focus:ring-kore-emerald/40 focus:border-kore-emerald transition"
                       />
                       <button
                         type="button"
-                        onClick={handleSend}
-                        disabled={!inputValue.trim()}
+                        onClick={handleSendMessage}
+                        disabled={!newMessage.trim()}
                         aria-label="Enviar"
                         className={`w-10 h-10 grid place-items-center rounded-xl transition flex-shrink-0 ${
                           inputValue.trim()

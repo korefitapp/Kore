@@ -3,6 +3,7 @@
 import { useEffect, useState, useTransition } from "react";
 import { Modal } from "@/components/ui/modal";
 import { getStudentDetails, updateStudentWorkoutStatus, getPersonalWorkoutsDropdown } from "@/app/actions/personal-actions";
+import { getStudentAdherence } from "@/app/actions/adherence-actions";
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
 import { Activity, Dumbbell, Calendar, Info, Target, CreditCard, ChevronRight } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -13,17 +14,7 @@ interface StudentDetailsSheetProps {
   student: any; // The minimal student object passed from the table row
 }
 
-// Mock data for the adherence chart (in a real app, this would be computed from check-in logs)
-const MOCK_ADHERENCE_DATA = [
-  { name: "Sem 1", value: 65 },
-  { name: "Sem 2", value: 70 },
-  { name: "Sem 3", value: 60 },
-  { name: "Sem 4", value: 85 },
-  { name: "Sem 5", value: 90 },
-  { name: "Sem 6", value: 80 },
-  { name: "Sem 7", value: 95 },
-  { name: "Sem 8", value: 100 },
-];
+
 
 export function StudentDetailsSheet({ open, onOpenChange, student }: StudentDetailsSheetProps) {
   const router = useRouter();
@@ -35,6 +26,7 @@ export function StudentDetailsSheet({ open, onOpenChange, student }: StudentDeta
   const [workoutInput, setWorkoutInput] = useState("");
 
   const [availableWorkouts, setAvailableWorkouts] = useState<any[]>([]);
+  const [adherenceData, setAdherenceData] = useState<{ name: string; value: number }[]>([]);
 
   // Fetch full details when the modal opens
   useEffect(() => {
@@ -42,14 +34,23 @@ export function StudentDetailsSheet({ open, onOpenChange, student }: StudentDeta
       setIsLoading(true);
       Promise.all([
         getStudentDetails(student.id),
-        getPersonalWorkoutsDropdown()
-      ]).then(([resDetails, resWorkouts]) => {
+        getPersonalWorkoutsDropdown(),
+        getStudentAdherence(student.id)
+      ]).then(([resDetails, resWorkouts, resAdherence]) => {
         if (resDetails.ok) {
           setDetails(resDetails.data);
           setWorkoutInput(resDetails.data?.metadata?.current_workout || "");
         }
         if (resWorkouts.ok) {
           setAvailableWorkouts(resWorkouts.data || []);
+        }
+        if (resAdherence) {
+          // Reverte o array para que o mês mais antigo fique na esquerda do gráfico
+          const chartData = [...resAdherence.monthlyAdherence].reverse().map(item => ({
+            name: item.month,
+            value: item.progress
+          }));
+          setAdherenceData(chartData);
         }
         setIsLoading(false);
       });
@@ -188,11 +189,11 @@ export function StudentDetailsSheet({ open, onOpenChange, student }: StudentDeta
                 <div className="p-5 rounded-xl border border-kore-border bg-kore-card">
                   <h4 className="text-sm font-bold text-kore-ink mb-4 flex items-center gap-2">
                     <Activity size={16} className="text-kore-emerald" />
-                    Aderência (Últimas 8 Semanas)
+                    Aderência (Últimos 6 Meses)
                   </h4>
-                  <div className="h-40 w-full">
+                  <div className="h-[200px] mt-4 -ml-4">
                     <ResponsiveContainer width="100%" height="100%">
-                      <LineChart data={MOCK_ADHERENCE_DATA} margin={{ top: 5, right: 5, bottom: 5, left: -20 }}>
+                      <LineChart data={adherenceData} margin={{ top: 5, right: 5, bottom: 5, left: -20 }}>
                         <XAxis 
                           dataKey="name" 
                           axisLine={false}

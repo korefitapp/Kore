@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { FinancialPageClient } from "./_components/FinancialPageClient";
+import { getProfessionalTransactions, getProfessionalPayouts } from "@/app/actions/financial-actions";
 
 export const metadata = {
   title: "Financeiro · Lojista",
@@ -16,5 +17,8 @@ export default async function FinancialPage() {
 
   if (!user) redirect("/login?next=/dashboard/shop/financial");
 
-  return <FinancialPageClient />;
+  const transactions = await getProfessionalTransactions();
+  const payouts = await getProfessionalPayouts();
+
+  return <FinancialPageClient initialTransactions={transactions} initialPayouts={payouts} />;
 }

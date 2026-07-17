@@ -196,7 +196,7 @@ export async function createWorkoutPlan(clientId: string, name: string, descript
       user_id: clientId,
       title: "Nova atualizaÃ§Ã£o!",
       message: `${coachName} criou um novo treino para vocÃª.`,
-      type: "workout_update"
+      type: "info"
     });
 
     // 4. AutomaÃ§Ã£o de WhatsApp (Evolution API)
@@ -731,6 +731,7 @@ export async function getPersonalWorkoutsDropdown(): Promise<ActionResult> {
       .from("workouts")
       .select("id, name, professional_id")
       .or(`professional_id.eq.${user.id},professional_id.is.null`)
+      .not("name", "ilike", "%(Personalizado%")
       .order("created_at", { ascending: false });
 
     if (error) throw error;

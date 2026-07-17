@@ -13,7 +13,12 @@ import {
 } from "lucide-react";
 import { MobileSidebar, Sidebar } from "../../_components/Sidebar";
 import { Topbar } from "../../_components/Topbar";
-import type { DailyRevenue, TransactionRow } from "../page";
+import type { TransactionRow } from "../page";
+
+export type DailyRevenue = {
+  day: string;
+  revenue: number;
+};
 
 /* ── Status helpers ──────────────────────────────────────────── */
 const STATUS_LABEL: Record<string, string> = {
@@ -112,10 +117,8 @@ function RevenueChart({ data }: { data: DailyRevenue[] }) {
 /* ── Component ───────────────────────────────────────────────── */
 export function FinancialClient({
   transactions,
-  dailyRevenue,
 }: {
   transactions: TransactionRow[];
-  dailyRevenue: DailyRevenue[];
 }) {
   const [search, setSearch] = useState("");
 
@@ -123,6 +126,29 @@ export function FinancialClient({
   const totalGross = transactions.reduce((s, t) => s + t.gross_amount, 0);
   const totalFee = transactions.reduce((s, t) => s + t.platform_fee, 0);
   const totalNet = transactions.reduce((s, t) => s + t.net_amount, 0);
+
+  const dailyRevenue = useMemo(() => {
+    const days = 7;
+    const result: DailyRevenue[] = [];
+    const now = new Date();
+    
+    for (let i = days - 1; i >= 0; i--) {
+      const d = new Date(now.getFullYear(), now.getMonth(), now.getDate() - i);
+      const dayStr = d.toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit" });
+      result.push({ day: dayStr, revenue: 0, _date: d });
+    }
+
+    transactions.forEach(t => {
+      const tDate = new Date(t.date);
+      const tDayStr = tDate.toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit" });
+      const target = result.find(r => r.day === tDayStr);
+      if (target) {
+        target.revenue += t.platform_fee; // Faturamento da plataforma = taxas
+      }
+    });
+
+    return result.map(({ day, revenue }) => ({ day, revenue }));
+  }, [transactions]);
 
   const metrics = [
     {

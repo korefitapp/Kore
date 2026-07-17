@@ -181,60 +181,26 @@ function DiscoverProfessionals() {
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">(
     "idle",
   );
-
-  const MOCK_TRAINERS = [
-    {
-      id: "1",
-      name: "Ricardo Almeida",
-      specialty: "Hipertrofia & Força",
-      distance: "0.8 km",
-      rating: 4.9,
-      avatarInitials: "RA",
-    },
-    {
-      id: "2",
-      name: "Juliana Silva",
-      specialty: "Emagrecimento & HIIT",
-      distance: "1.2 km",
-      rating: 4.8,
-      avatarInitials: "JS",
-    },
-    {
-      id: "3",
-      name: "Marcos Torres",
-      specialty: "Reabilitação & Core",
-      distance: "2.1 km",
-      rating: 5.0,
-      avatarInitials: "MT",
-    },
-    {
-      id: "4",
-      name: "Camila Rocha",
-      specialty: "Crossfit & LPO",
-      distance: "3.5 km",
-      rating: 4.7,
-      avatarInitials: "CR",
-    },
-    {
-      id: "5",
-      name: "André Ferraz",
-      specialty: "Preparação Física",
-      distance: "4.0 km",
-      rating: 4.9,
-      avatarInitials: "AF",
-    },
-  ];
+  const [trainers, setTrainers] = useState<any[]>([]);
 
   useEffect(() => {
     setStatus("loading");
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(
-        (position) => {
-          setLocation({
-            lat: position.coords.latitude,
-            lng: position.coords.longitude,
-          });
-          setStatus("success");
+        async (position) => {
+          const lat = position.coords.latitude;
+          const lng = position.coords.longitude;
+          setLocation({ lat, lng });
+          
+          try {
+            const { getNearbyProfessionals } = await import("@/app/actions/discovery-actions");
+            const data = await getNearbyProfessionals(lat, lng, "trainer");
+            setTrainers(data);
+            setStatus("success");
+          } catch (error) {
+            console.error("Failed to fetch trainers:", error);
+            setStatus("error");
+          }
         },
         (error) => {
           console.error("Geolocation error:", error);
@@ -298,7 +264,7 @@ function DiscoverProfessionals() {
             style={{ border: 0 }}
             loading="lazy"
             allowFullScreen
-            src={`https://www.openstreetmap.org/export/embed.html?bbox=${location.lng - 0.01}%2C${location.lat - 0.01}%2C${location.lng + 0.01}%2C${location.lat + 0.01}&layer=mapnik&marker=${location.lat}%2C${location.lng}`}
+            src={`https://maps.google.com/maps?q=${location.lat},${location.lng}&z=15&output=embed`}
           />
         ) : (
           <div className="absolute inset-0 flex flex-col items-center justify-center text-slate-500 dark:text-zinc-400">
@@ -308,46 +274,54 @@ function DiscoverProfessionals() {
         )}
       </section>
 
-      <section className="space-y-4">
-        <h2 className="text-lg font-bold text-slate-900 dark:text-white">
-          Personais Próximos
-        </h2>
-        <div className="space-y-3">
-          {MOCK_TRAINERS.map((pro) => (
-            <div
-              key={pro.id}
-              className="flex w-full flex-col gap-4 rounded-[24px] border border-slate-200 bg-white p-4 shadow-sm dark:border-white/10 dark:bg-white/5"
-            >
-              <div className="flex items-center gap-4">
-                <div className="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-[18px] border border-emerald-200 bg-emerald-100 text-lg font-extrabold text-emerald-600 dark:border-emerald-500/30 dark:bg-emerald-500/20 dark:text-emerald-400">
-                  {pro.avatarInitials}
-                </div>
-                <div className="min-w-0 flex-1">
-                  <div className="flex items-center justify-between">
-                    <h3 className="truncate text-base font-bold text-slate-900 dark:text-white">
-                      {pro.name}
-                    </h3>
-                    <span className="flex items-center gap-1 rounded-full bg-amber-100 px-2 py-0.5 text-xs font-bold text-amber-500 dark:bg-amber-400/10 dark:text-amber-400">
-                      <Star size={12} fill="currentColor" /> {pro.rating}
-                    </span>
-                  </div>
-                  <p className="mt-0.5 truncate text-xs font-medium text-slate-500 dark:text-zinc-400">
-                    {pro.specialty}
-                  </p>
-                  <p className="mt-1 text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-zinc-500">
-                    {pro.distance}
-                  </p>
-                </div>
-              </div>
-
-              <button className="flex w-full items-center justify-center gap-2 rounded-2xl border border-emerald-200 bg-emerald-50 py-2.5 font-bold text-emerald-600 transition-colors hover:bg-emerald-100 dark:border-emerald-500/20 dark:bg-emerald-500/10 dark:text-emerald-400 dark:hover:bg-emerald-500/20">
-                <MessageCircle size={16} />
-                ENTRAR EM CONTATO
-              </button>
-            </div>
-          ))}
+      {status === "success" && trainers.length === 0 && (
+        <div className="text-center py-6 text-kore-muted">
+          Nenhum treinador encontrado na sua região.
         </div>
-      </section>
+      )}
+
+      {status === "success" && trainers.length > 0 && (
+        <section className="space-y-4">
+          <h2 className="text-lg font-bold text-slate-900 dark:text-white">
+            Personais Próximos
+          </h2>
+          <div className="space-y-3">
+            {trainers.map((pro) => (
+              <div
+                key={pro.id}
+                className="flex w-full flex-col gap-4 rounded-[24px] border border-slate-200 bg-white p-4 shadow-sm dark:border-white/10 dark:bg-white/5"
+              >
+                <div className="flex items-center gap-4">
+                  <div className="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-[18px] border border-emerald-200 bg-emerald-100 text-lg font-extrabold text-emerald-600 dark:border-emerald-500/30 dark:bg-emerald-500/20 dark:text-emerald-400">
+                    {pro.avatarInitials}
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-center justify-between">
+                      <h3 className="truncate text-base font-bold text-slate-900 dark:text-white">
+                        {pro.name}
+                      </h3>
+                      <span className="flex items-center gap-1 rounded-full bg-amber-100 px-2 py-0.5 text-xs font-bold text-amber-500 dark:bg-amber-400/10 dark:text-amber-400">
+                        <Star size={12} fill="currentColor" /> {pro.rating}
+                      </span>
+                    </div>
+                    <p className="mt-0.5 truncate text-xs font-medium text-slate-500 dark:text-zinc-400">
+                      {pro.specialty}
+                    </p>
+                    <p className="mt-1 text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-zinc-500">
+                      {pro.distance}
+                    </p>
+                  </div>
+                </div>
+
+                <button className="flex w-full items-center justify-center gap-2 rounded-2xl border border-emerald-200 bg-emerald-50 py-2.5 font-bold text-emerald-600 transition-colors hover:bg-emerald-100 dark:border-emerald-500/20 dark:bg-emerald-500/10 dark:text-emerald-400 dark:hover:bg-emerald-500/20">
+                  <MessageCircle size={16} />
+                  ENTRAR EM CONTATO
+                </button>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
     </motion.div>
   );
 }

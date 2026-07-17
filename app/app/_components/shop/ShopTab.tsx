@@ -10,8 +10,10 @@ import {
   ShoppingCart,
   Sparkles,
   Star,
+  Loader2,
+  Store as StoreIcon,
 } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { selectCartCount, useKore } from "../store";
 import { AddressModal } from "./AddressModal";
 
@@ -19,33 +21,62 @@ const currency = (n: number) =>
   n.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 
 const filters: {
-  key: "all" | "supplements" | "fresh" | "pharmacy";
+  key: "all" | "suplementos" | "frescos" | "farmacia";
   label: string;
   Icon: typeof Sparkles;
 }[] = [
   { key: "all", label: "Todos", Icon: Sparkles },
-  { key: "supplements", label: "Suplementos", Icon: Sparkles },
-  { key: "fresh", label: "Frescos", Icon: Apple },
-  { key: "pharmacy", label: "Farmácia", Icon: Pill },
+  { key: "suplementos", label: "Suplementos", Icon: Sparkles },
+  { key: "frescos", label: "Frescos", Icon: Apple },
+  { key: "farmacia", label: "Farmácia", Icon: Pill },
 ];
 
 export function ShopTab() {
   const address = useKore((s) => s.address);
   const setAddress = useKore((s) => s.setAddress);
-  const stores = useKore((s) => s.stores);
-  const products = useKore((s) => s.products);
   const cart = useKore((s) => s.cart);
   const cartCount = useKore(selectCartCount);
   const addToCart = useKore((s) => s.addToCart);
   const setCartOpen = useKore((s) => s.setCartOpen);
-  const shopFilter = useKore((s) => s.shopFilter);
-  const setShopFilter = useKore((s) => s.setShopFilter);
 
   const [addressOpen, setAddressOpen] = useState(false);
-  const filteredStores =
-    shopFilter === "all"
-      ? stores
-      : stores.filter((s) => s.category === shopFilter);
+  const [shopFilter, setShopFilter] = useState<string>("all");
+  const [products, setProducts] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function loadProducts() {
+      try {
+        const { getMarketplaceProducts } = await import("@/app/actions/shop-actions");
+        const data = await getMarketplaceProducts();
+        setProducts(data);
+      } catch (err) {
+        console.error("Failed to load products", err);
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadProducts();
+  }, []);
+
+  const filteredProducts = products.filter((p) => {
+    if (shopFilter === "all") return true;
+    return p.tag?.toLowerCase().includes(shopFilter.toLowerCase());
+  });
+
+  // Agrupar produtos por sellerId
+  const storesMap = new Map<string, { id: string; name: string; products: any[] }>();
+  for (const p of filteredProducts) {
+    if (!storesMap.has(p.sellerId)) {
+      storesMap.set(p.sellerId, {
+        id: p.sellerId,
+        name: p.sellerName,
+        products: [],
+      });
+    }
+    storesMap.get(p.sellerId)!.products.push(p);
+  }
+  const groupedStores = Array.from(storesMap.values());
 
   const qtyOf = (productId: string) =>
     cart.find((l) => l.productId === productId)?.qty ?? 0;
@@ -97,10 +128,18 @@ export function ShopTab() {
         })}
       </div>
 
-      <div className="space-y-8">
-        {filteredStores.map((store) => {
-          const storeProducts = products.filter((p) => p.storeId === store.id);
-          return (
+      {loading ? (
+        <div className="flex flex-col items-center justify-center py-12 text-kore-muted">
+          <Loader2 className="w-8 h-8 animate-spin mb-4" />
+          <p className="text-sm font-bold">Carregando catálogo...</p>
+        </div>
+      ) : groupedStores.length === 0 ? (
+        <div className="text-center py-12 text-kore-muted">
+          <p className="text-sm font-bold">Nenhum produto encontrado.</p>
+        </div>
+      ) : (
+        <div className="space-y-8">
+          {groupedStores.map((store) => (
             <motion.section
               key={store.id}
               layout
@@ -109,30 +148,24 @@ export function ShopTab() {
               className="space-y-4"
             >
               <div className="flex items-center gap-3">
-                <div className="w-14 h-14 rounded-[20px] bg-kore-bg border border-kore flex items-center justify-center text-3xl flex-shrink-0 shadow-inner">
-                  {store.logo}
+                <div className="w-14 h-14 rounded-[20px] bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-500 flex-shrink-0 shadow-inner">
+                  <StoreIcon size={24} />
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="font-extrabold text-kore text-lg truncate">{store.name}</p>
                   <p className="text-[11px] text-muted flex items-center gap-2 flex-wrap font-medium mt-0.5">
                     <span className="inline-flex items-center gap-1 text-amber-400 font-bold bg-amber-400/10 px-1.5 py-0.5 rounded-md">
                       <Star size={10} className="fill-amber-400 text-amber-400" />
-                      {store.rating.toFixed(1)}
+                      4.9
                     </span>
                     <span className="text-zinc-600">•</span>
-                    <span>{store.distanceKm.toFixed(1)} km</span>
-                    <span className="text-zinc-600">•</span>
-                    <span className="text-emerald-400 font-bold">
-                      {currency(store.deliveryFee)}
-                    </span>
-                    <span className="text-zinc-600">•</span>
-                    <span>{store.etaMin} min</span>
+                    <span>Parceiro Kore</span>
                   </p>
                 </div>
               </div>
 
               <div className="flex gap-4 overflow-x-auto scrollbar-hide -mx-5 px-5 pb-2">
-                {storeProducts.map((p) => {
+                {store.products.map((p) => {
                   const qty = qtyOf(p.id);
                   return (
                     <motion.div
@@ -141,12 +174,11 @@ export function ShopTab() {
                       whileHover={{ y: -2 }}
                       className="flex-shrink-0 w-[160px] rounded-[24px] bg-kore-bg border border-kore p-3 relative shadow-sm"
                     >
-                      <div className="relative aspect-square rounded-[18px] bg-kore-card flex items-center justify-center text-6xl shadow-inner mb-3">
-                        {p.image}
-                        {p.promo && (
-                          <span className="absolute top-2 left-2 text-[10px] font-extrabold rounded-lg bg-emerald-500 text-black px-2 py-1 shadow-md">
-                            {p.promo}
-                          </span>
+                      <div className="relative aspect-square rounded-[18px] bg-kore-card flex items-center justify-center overflow-hidden shadow-inner mb-3">
+                        {p.thumb.startsWith("http") ? (
+                          <img src={p.thumb} alt={p.name} className="w-full h-full object-cover" />
+                        ) : (
+                          <span className="text-6xl">{p.thumb}</span>
                         )}
                         <button
                           onClick={() => addToCart(p.id)}
@@ -181,20 +213,15 @@ export function ShopTab() {
                         <span className="text-[15px] font-extrabold text-kore tabular-nums">
                           {currency(p.price)}
                         </span>
-                        {p.oldPrice && (
-                          <span className="text-[11px] font-bold text-zinc-500 line-through tabular-nums">
-                            {currency(p.oldPrice)}
-                          </span>
-                        )}
                       </div>
                     </motion.div>
                   );
                 })}
               </div>
             </motion.section>
-          );
-        })}
-      </div>
+          ))}
+        </div>
+      )}
 
       <AnimatePresence>
         {cartCount > 0 && (

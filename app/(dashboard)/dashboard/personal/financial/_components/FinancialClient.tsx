@@ -15,139 +15,11 @@ import {
 import { MobileSidebar, Sidebar } from "../../_components/Sidebar";
 import { Topbar } from "../../_components/Topbar";
 
-/* ── Types ──────────────────────────────────────────────────── */
-export type TransactionStatus = "concluido" | "pendente" | "estornado";
+import type { Transaction } from "@/app/actions/financial-actions";
 
-export interface Transaction {
-  id: string;
-  created_at: string;
-  student_name: string;
-  service: string;
-  gross_amount: number;
-  net_amount: number;
-  status: TransactionStatus;
-}
+export type TransactionStatus = "concluido" | "pendente" | "estornado" | "completed" | "failed";
 
-/* ── Mock Data ──────────────────────────────────────────────── */
-const MOCK_TRANSACTIONS: Transaction[] = [
-  {
-    id: "txn-001",
-    created_at: "2026-05-19T14:30:00Z",
-    student_name: "Ana Beatriz Silva",
-    service: "Plano Trimestral",
-    gross_amount: 897.0,
-    net_amount: 807.3,
-    status: "concluido",
-  },
-  {
-    id: "txn-002",
-    created_at: "2026-05-18T10:15:00Z",
-    student_name: "Carlos Eduardo Santos",
-    service: "Plano Mensal",
-    gross_amount: 349.0,
-    net_amount: 314.1,
-    status: "concluido",
-  },
-  {
-    id: "txn-003",
-    created_at: "2026-05-18T09:00:00Z",
-    student_name: "Fernanda Oliveira",
-    service: "Plano Semestral",
-    gross_amount: 1494.0,
-    net_amount: 1344.6,
-    status: "pendente",
-  },
-  {
-    id: "txn-004",
-    created_at: "2026-05-17T16:45:00Z",
-    student_name: "Gabriel Costa",
-    service: "Consulta Avulsa",
-    gross_amount: 150.0,
-    net_amount: 135.0,
-    status: "concluido",
-  },
-  {
-    id: "txn-005",
-    created_at: "2026-05-16T11:20:00Z",
-    student_name: "Isabela Rodrigues",
-    service: "Plano Mensal",
-    gross_amount: 349.0,
-    net_amount: 314.1,
-    status: "concluido",
-  },
-  {
-    id: "txn-006",
-    created_at: "2026-05-15T08:00:00Z",
-    student_name: "Lucas Mendes",
-    service: "Plano Trimestral",
-    gross_amount: 897.0,
-    net_amount: 807.3,
-    status: "estornado",
-  },
-  {
-    id: "txn-007",
-    created_at: "2026-05-14T15:30:00Z",
-    student_name: "Mariana Ferreira",
-    service: "Plano Mensal",
-    gross_amount: 349.0,
-    net_amount: 314.1,
-    status: "concluido",
-  },
-  {
-    id: "txn-008",
-    created_at: "2026-05-13T12:00:00Z",
-    student_name: "Pedro Henrique Almeida",
-    service: "Plano Anual",
-    gross_amount: 3588.0,
-    net_amount: 3229.2,
-    status: "concluido",
-  },
-  {
-    id: "txn-009",
-    created_at: "2026-05-12T09:45:00Z",
-    student_name: "Juliana Costa",
-    service: "Consulta Avulsa",
-    gross_amount: 150.0,
-    net_amount: 135.0,
-    status: "concluido",
-  },
-  {
-    id: "txn-010",
-    created_at: "2026-05-10T17:00:00Z",
-    student_name: "Rafael Souza",
-    service: "Plano Mensal",
-    gross_amount: 349.0,
-    net_amount: 314.1,
-    status: "pendente",
-  },
-  {
-    id: "txn-011",
-    created_at: "2026-05-08T14:10:00Z",
-    student_name: "Camila Santos",
-    service: "Plano Trimestral",
-    gross_amount: 897.0,
-    net_amount: 807.3,
-    status: "concluido",
-  },
-  {
-    id: "txn-012",
-    created_at: "2026-05-05T10:30:00Z",
-    student_name: "Bruno Lima",
-    service: "Plano Mensal",
-    gross_amount: 349.0,
-    net_amount: 314.1,
-    status: "concluido",
-  },
-];
-
-const MOCK_REVENUE_BY_MONTH: { month: string; gross: number; net: number }[] = [
-  { month: "Dez", gross: 8200, net: 7380 },
-  { month: "Jan", gross: 9400, net: 8460 },
-  { month: "Fev", gross: 8800, net: 7920 },
-  { month: "Mar", gross: 11200, net: 10080 },
-  { month: "Abr", gross: 10500, net: 9450 },
-  { month: "Mai", gross: 12800, net: 11520 },
-];
+/* ── Removed Mock Data ──────────────────────────────────────────────── */
 
 /* ── Helpers ────────────────────────────────────────────────── */
 function formatBRL(value: number): string {
@@ -170,8 +42,9 @@ function formatShortId(id: string): string {
   return id.toUpperCase();
 }
 
-function getStatusConfig(status: TransactionStatus) {
+function getStatusConfig(status: string) {
   switch (status) {
+    case "completed":
     case "concluido":
       return {
         label: "Concluído",
@@ -179,6 +52,7 @@ function getStatusConfig(status: TransactionStatus) {
         text: "text-emerald-700 dark:text-emerald-400",
         dot: "bg-emerald-500",
       };
+    case "pending":
     case "pendente":
       return {
         label: "Pendente",
@@ -187,11 +61,19 @@ function getStatusConfig(status: TransactionStatus) {
         dot: "bg-amber-500",
       };
     case "estornado":
+    case "failed":
       return {
-        label: "Estornado",
+        label: "Falhou/Estornado",
         bg: "bg-rose-50 dark:bg-rose-900/20",
         text: "text-rose-700 dark:text-rose-400",
         dot: "bg-rose-500",
+      };
+    default:
+      return {
+        label: "Desconhecido",
+        bg: "bg-slate-50 dark:bg-slate-900/20",
+        text: "text-slate-700 dark:text-slate-400",
+        dot: "bg-slate-500",
       };
   }
 }
@@ -320,11 +202,33 @@ export function FinancialClient({
 }: {
   transactions: Transaction[];
 }) {
-  const transactions = serverTransactions.length > 0 ? serverTransactions : MOCK_TRANSACTIONS;
-  const revenueData = MOCK_REVENUE_BY_MONTH;
-
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState<TransactionStatus | "all">("all");
+
+  // Calculate dynamic revenue data
+  const revenueData = useMemo(() => {
+    const months = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
+    const now = new Date();
+    
+    // Ultimos 6 meses
+    const last6Months = Array.from({ length: 6 }).map((_, i) => {
+      const d = new Date(now.getFullYear(), now.getMonth() - (5 - i), 1);
+      return { month: months[d.getMonth()], year: d.getFullYear(), gross: 0, net: 0 };
+    });
+
+    transactions.forEach(t => {
+      if (t.type === 'income') {
+        const d = new Date(t.created_at);
+        const targetMonth = last6Months.find(m => m.month === months[d.getMonth()] && m.year === d.getFullYear());
+        if (targetMonth) {
+          targetMonth.gross += Number(t.amount);
+          targetMonth.net += Number(t.amount) * 0.9; // Simulando 10% de taxa no net
+        }
+      }
+    });
+
+    return last6Months.map(m => ({ month: m.month, gross: m.gross, net: m.net }));
+  }, [transactions]);
 
   // Calculate metrics
   const metrics = useMemo(() => {
@@ -334,15 +238,15 @@ export function FinancialClient({
 
     const monthTransactions = transactions.filter((t) => {
       const d = new Date(t.created_at);
-      return d.getMonth() === currentMonth && d.getFullYear() === currentYear && t.status !== "estornado";
+      return d.getMonth() === currentMonth && d.getFullYear() === currentYear && t.status !== "estornado" && t.status !== "failed" && t.type === 'income';
     });
 
-    const grossRevenue = monthTransactions.reduce((acc, t) => acc + t.gross_amount, 0);
-    const netRevenue = monthTransactions.reduce((acc, t) => acc + t.net_amount, 0);
+    const grossRevenue = monthTransactions.reduce((acc, t) => acc + Number(t.amount), 0);
+    const netRevenue = monthTransactions.reduce((acc, t) => acc + (Number(t.amount) * 0.9), 0); // Exemplo de fee
 
     const pendingAmount = transactions
-      .filter((t) => t.status === "pendente")
-      .reduce((acc, t) => acc + t.net_amount, 0);
+      .filter((t) => t.status === "pendente" || t.status === "pending")
+      .reduce((acc, t) => acc + (Number(t.amount) * 0.9), 0);
 
     return { grossRevenue, netRevenue, pendingAmount };
   }, [transactions]);
@@ -350,13 +254,16 @@ export function FinancialClient({
   // Filter transactions
   const filteredTransactions = useMemo(() => {
     return transactions.filter((t) => {
+      const studentName = (t as any).client?.full_name || "Cliente Desconhecido";
+      const service = t.description || "Serviço";
+      
       const matchesSearch =
         !searchQuery.trim() ||
-        t.student_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        t.service.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        studentName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        service.toLowerCase().includes(searchQuery.toLowerCase()) ||
         t.id.toLowerCase().includes(searchQuery.toLowerCase());
 
-      const matchesStatus = statusFilter === "all" || t.status === statusFilter;
+      const matchesStatus = statusFilter === "all" || t.status === statusFilter || (statusFilter === "concluido" && t.status === "completed") || (statusFilter === "pendente" && t.status === "pending");
 
       return matchesSearch && matchesStatus;
     });
@@ -591,23 +498,23 @@ export function FinancialClient({
                             <td className="px-5 py-3.5">
                               <div>
                                 <p className="text-sm font-bold text-kore-ink">
-                                  {t.student_name}
+                                  {(t as any).client?.full_name || "Cliente Avulso"}
                                 </p>
                                 <p className="text-[11px] text-kore-muted mt-0.5">
-                                  {t.service}
+                                  {t.description || "Transação"}
                                 </p>
                               </div>
                             </td>
                             <td className="px-5 py-3.5 text-right">
                               <span
                                 className={`text-sm font-bold tabular-nums ${
-                                  t.status === "estornado"
+                                  t.status === "estornado" || t.status === "failed" || t.type === 'expense'
                                     ? "text-rose-500"
                                     : "text-kore-ink"
                                 }`}
                               >
-                                {t.status === "estornado" ? "- " : ""}
-                                {formatBRL(t.net_amount)}
+                                {t.status === "estornado" || t.status === "failed" || t.type === 'expense' ? "- " : ""}
+                                {formatBRL(Number(t.amount))}
                               </span>
                             </td>
                             <td className="px-5 py-3.5 text-center">
@@ -650,21 +557,21 @@ export function FinancialClient({
                         <div className="flex items-start justify-between gap-3 mb-2">
                           <div className="flex-1 min-w-0">
                             <p className="text-sm font-bold text-kore-ink truncate">
-                              {t.student_name}
+                              {(t as any).client?.full_name || "Cliente Avulso"}
                             </p>
                             <p className="text-[11px] text-kore-muted mt-0.5">
-                              {t.service}
+                              {t.description || "Transação"}
                             </p>
                           </div>
                           <span
                             className={`text-sm font-bold tabular-nums flex-shrink-0 ${
-                              t.status === "estornado"
+                              t.status === "estornado" || t.status === "failed" || t.type === 'expense'
                                 ? "text-rose-500"
                                 : "text-kore-ink"
                             }`}
                           >
-                            {t.status === "estornado" ? "- " : ""}
-                            {formatBRL(t.net_amount)}
+                            {t.status === "estornado" || t.status === "failed" || t.type === 'expense' ? "- " : ""}
+                            {formatBRL(Number(t.amount))}
                           </span>
                         </div>
                         <div className="flex items-center justify-between">
@@ -704,7 +611,7 @@ export function FinancialClient({
                   Total:{" "}
                   <span className="font-bold text-kore-ink">
                     {formatBRL(
-                      filteredTransactions.reduce((acc, t) => acc + t.net_amount, 0),
+                      filteredTransactions.reduce((acc, t) => acc + (t.type === 'expense' ? -Number(t.amount) : Number(t.amount)), 0),
                     )}
                   </span>
                 </p>

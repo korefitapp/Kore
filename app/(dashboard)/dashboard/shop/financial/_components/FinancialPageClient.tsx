@@ -15,84 +15,10 @@ import {
 } from "lucide-react";
 import { MobileSidebar, Sidebar } from "../../_components/Sidebar";
 import { Topbar } from "../../_components/Topbar";
+import type { Transaction, Payout } from "@/app/actions/financial-actions";
 
 /* ── Types ──────────────────────────────────────────────────── */
 export type PayoutStatus = "concluido" | "pendente" | "processando" | "falhou";
-
-export interface Payout {
-  id: string;
-  created_at: string;
-  amount: number;
-  destination_account: string;
-  status: PayoutStatus;
-}
-
-/* ── Mock Data ──────────────────────────────────────────────── */
-const MOCK_WEEKLY_REVENUE: { week: string; revenue: number }[] = [
-  { week: "Sem 1", revenue: 8450 },
-  { week: "Sem 2", revenue: 12300 },
-  { week: "Sem 3", revenue: 9870 },
-  { week: "Sem 4", revenue: 14200 },
-];
-
-const MOCK_PAYOUTS: Payout[] = [
-  {
-    id: "pay-001",
-    created_at: "2026-05-19T10:00:00Z",
-    amount: 5230.4,
-    destination_account: "Banco Inter ****7891",
-    status: "concluido",
-  },
-  {
-    id: "pay-002",
-    created_at: "2026-05-12T10:00:00Z",
-    amount: 4810.75,
-    destination_account: "Nubank ****3456",
-    status: "concluido",
-  },
-  {
-    id: "pay-003",
-    created_at: "2026-05-05T10:00:00Z",
-    amount: 3920.0,
-    destination_account: "Banco Inter ****7891",
-    status: "concluido",
-  },
-  {
-    id: "pay-004",
-    created_at: "2026-05-02T14:00:00Z",
-    amount: 6150.3,
-    destination_account: "Nubank ****3456",
-    status: "processando",
-  },
-  {
-    id: "pay-005",
-    created_at: "2026-04-28T10:00:00Z",
-    amount: 2780.9,
-    destination_account: "Banco Inter ****7891",
-    status: "pendente",
-  },
-  {
-    id: "pay-006",
-    created_at: "2026-04-21T10:00:00Z",
-    amount: 4500.0,
-    destination_account: "Itaú ****1234",
-    status: "falhou",
-  },
-  {
-    id: "pay-007",
-    created_at: "2026-04-14T10:00:00Z",
-    amount: 5670.2,
-    destination_account: "Nubank ****3456",
-    status: "concluido",
-  },
-  {
-    id: "pay-008",
-    created_at: "2026-04-07T10:00:00Z",
-    amount: 3210.5,
-    destination_account: "Banco Inter ****7891",
-    status: "concluido",
-  },
-];
 
 /* ── Helpers ────────────────────────────────────────────────── */
 function formatBRL(value: number): string {
@@ -264,9 +190,33 @@ function BarChart({
 }
 
 /* ── Main Component ─────────────────────────────────────────── */
-export function FinancialPageClient() {
-  const weeklyRevenue = MOCK_WEEKLY_REVENUE;
-  const payouts = MOCK_PAYOUTS;
+export function FinancialPageClient({
+  initialTransactions,
+  initialPayouts,
+}: {
+  initialTransactions: Transaction[];
+  initialPayouts: Payout[];
+}) {
+  const payouts = initialPayouts;
+  
+  // Calculate dynamic weekly revenue from transactions for the last 4 weeks
+  const weeklyRevenue = useMemo(() => {
+    const now = new Date();
+    const weeks = Array.from({ length: 4 }).map((_, i) => {
+      const weekStart = new Date(now.getTime() - (3 - i) * 7 * 24 * 60 * 60 * 1000);
+      return { week: `Sem ${i + 1}`, start: weekStart.getTime(), revenue: 0 };
+    });
+
+    initialTransactions.forEach(t => {
+      if (t.type === 'income') {
+        const tTime = new Date(t.created_at).getTime();
+        const week = weeks.find(w => tTime >= w.start && tTime < w.start + 7 * 24 * 60 * 60 * 1000);
+        if (week) week.revenue += Number(t.amount);
+      }
+    });
+
+    return weeks.map(w => ({ week: w.week, revenue: w.revenue }));
+  }, [initialTransactions]);
 
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState<PayoutStatus | "all">("all");
@@ -293,8 +243,7 @@ export function FinancialPageClient() {
     return payouts.filter((p) => {
       const matchesSearch =
         !searchQuery.trim() ||
-        p.id.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        p.destination_account.toLowerCase().includes(searchQuery.toLowerCase());
+        p.id.toLowerCase().includes(searchQuery.toLowerCase());
 
       const matchesStatus =
         statusFilter === "all" || p.status === statusFilter;
@@ -565,7 +514,7 @@ export function FinancialPageClient() {
                                   className="text-kore-muted flex-shrink-0"
                                 />
                                 <span className="text-xs font-medium text-kore-subink">
-                                  {p.destination_account}
+                                  {p.bank_details?.account || "Conta Bancária"}
                                 </span>
                               </div>
                             </td>
@@ -614,7 +563,7 @@ export function FinancialPageClient() {
                                 className="text-kore-muted flex-shrink-0"
                               />
                               <p className="text-sm font-bold text-kore-ink truncate">
-                                {p.destination_account}
+                                {p.bank_details?.account || "Conta Bancária"}
                               </p>
                             </div>
                             <p className="text-[11px] text-kore-muted mt-0.5 ml-5">

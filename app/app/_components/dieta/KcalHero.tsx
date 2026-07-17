@@ -21,9 +21,9 @@ export function KcalHero({ meals = [] }: { meals?: Meal[] }) {
   const streak = useKore((s) => s.streak);
 
   return (
-    <section className="mb-8">
+    <section className="mb-6">
       {/* Container principal para Chart e Macros */}
-      <div className="flex items-center justify-between gap-6 mb-6 px-2">
+      <div className="bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-[24px] p-4 shadow-sm flex items-center justify-between gap-6 mb-4">
         {/* Gráfico Circular Esquerda */}
         <div className="relative w-[150px] h-[150px] flex-shrink-0 flex items-center justify-center">
           {/* Conic Gradient para o anel principal */}

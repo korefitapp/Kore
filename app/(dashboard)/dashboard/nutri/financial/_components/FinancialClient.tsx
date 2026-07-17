@@ -16,30 +16,11 @@ import {
 import { MobileSidebar, Sidebar } from "../../_components/Sidebar";
 import { Topbar } from "../../_components/Topbar";
 
-/* ── Types ──────────────────────────────────────────────────── */
-export type TransactionStatus = "concluido" | "pendente" | "recusado";
+import type { Transaction } from "@/app/actions/financial-actions";
 
-export interface Transaction {
-  id: string;
-  created_at: string;
-  patient_name: string;
-  description: string;
-  gross_amount: number;
-  net_amount: number;
-  status: TransactionStatus;
-}
+export type TransactionStatus = "concluido" | "pendente" | "recusado" | "completed" | "failed";
 
-export interface MetricsData {
-  grossRevenue: number;
-  netRevenue: number;
-  pendingAmount: number;
-  pendingCount: number;
-}
 
-export interface ChartData {
-  month: string;
-  value: number;
-}
 
 /* ── Helpers ────────────────────────────────────────────────── */
 function formatBRL(value: number): string {
@@ -62,16 +43,16 @@ function formatShortId(id: string): string {
   return id.startsWith("#") ? id.toUpperCase() : `#${id.toUpperCase()}`;
 }
 
-function getStatusConfig(status: TransactionStatus) {
+function getStatusConfig(status: string) {
   const normalizedStatus = String(status).toLowerCase();
-  if (["concluido", "approved", "completed"].includes(normalizedStatus)) {
+  if ["concluido", "approved", "completed"].includes(normalizedStatus) {
     return {
       label: "Concluído",
       bg: "bg-emerald-50 dark:bg-emerald-900/20",
       text: "text-emerald-700 dark:text-emerald-400",
       dot: "bg-emerald-500",
     };
-  } else if (["pendente", "pending"].includes(normalizedStatus)) {
+  } else if ["pendente", "pending"].includes(normalizedStatus) {
     return {
       label: "Pendente",
       bg: "bg-amber-50 dark:bg-amber-900/20",
@@ -80,7 +61,7 @@ function getStatusConfig(status: TransactionStatus) {
     };
   } else {
     return {
-      label: "Recusado",
+      label: "Recusado/Falhou",
       bg: "bg-rose-50 dark:bg-rose-900/20",
       text: "text-rose-700 dark:text-rose-400",
       dot: "bg-rose-500",
@@ -211,23 +192,68 @@ function BarChart({
 /* ── Main Component ─────────────────────────────────────────── */
 export function FinancialClient({
   transactions,
-  metrics,
-  chartData,
 }: {
   transactions: Transaction[];
-  metrics: MetricsData;
-  chartData: ChartData[];
 }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("all");
 
+  // Calculate dynamic revenue data (chartData)
+  const chartData = useMemo(() => {
+    const months = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
+    const now = new Date();
+    
+    // Ultimos 6 meses
+    const last6Months = Array.from({ length: 6 }).map((_, i) => {
+      const d = new Date(now.getFullYear(), now.getMonth() - (5 - i), 1);
+      return { month: months[d.getMonth()], year: d.getFullYear(), value: 0 };
+    });
+
+    transactions.forEach(t => {
+      if (t.type === 'income') {
+        const d = new Date(t.created_at);
+        const targetMonth = last6Months.find(m => m.month === months[d.getMonth()] && m.year === d.getFullYear());
+        if (targetMonth) {
+          targetMonth.value += Number(t.amount);
+        }
+      }
+    });
+
+    return last6Months.map(m => ({ month: m.month, value: m.value }));
+  }, [transactions]);
+
+  // Calculate metrics
+  const metrics = useMemo(() => {
+    const now = new Date();
+    const currentMonth = now.getMonth();
+    const currentYear = now.getFullYear();
+
+    const monthTransactions = transactions.filter((t) => {
+      const d = new Date(t.created_at);
+      return d.getMonth() === currentMonth && d.getFullYear() === currentYear && t.status !== "estornado" && t.status !== "failed" && t.status !== "recusado" && t.type === 'income';
+    });
+
+    const grossRevenue = monthTransactions.reduce((acc, t) => acc + Number(t.amount), 0);
+    const netRevenue = monthTransactions.reduce((acc, t) => acc + (Number(t.amount) * 0.9), 0); // Simulando fee
+
+    const pendingTransactions = transactions.filter((t) => ["pendente", "pending"].includes(String(t.status).toLowerCase()));
+    
+    const pendingAmount = pendingTransactions.reduce((acc, t) => acc + (Number(t.amount) * 0.9), 0);
+    const pendingCount = pendingTransactions.length;
+
+    return { grossRevenue, netRevenue, pendingAmount, pendingCount };
+  }, [transactions]);
+
   // Filter transactions
   const filteredTransactions = useMemo(() => {
     return transactions.filter((t) => {
+      const patientName = (t as any).client?.full_name || "Paciente Desconhecido";
+      const description = t.description || "Consulta/Plano";
+      
       const matchesSearch =
         !searchQuery.trim() ||
-        t.patient_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        t.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        patientName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        description.toLowerCase().includes(searchQuery.toLowerCase()) ||
         t.id.toLowerCase().includes(searchQuery.toLowerCase());
 
       const matchesStatus =
@@ -509,28 +535,28 @@ export function FinancialClient({
                             <td className="px-5 py-3.5">
                               <div>
                                 <p className="text-sm font-bold text-kore-ink">
-                                  {t.patient_name}
+                                  {(t as any).client?.full_name || "Paciente Avulso"}
                                 </p>
                                 <p className="text-[11px] text-kore-muted mt-0.5">
-                                  {t.description}
+                                  {t.description || "Transação"}
                                 </p>
                               </div>
                             </td>
                             <td className="px-5 py-3.5 text-right">
                               <span className="text-sm font-medium tabular-nums text-kore-muted">
-                                {formatBRL(t.gross_amount)}
+                                {formatBRL(Number(t.amount))}
                               </span>
                             </td>
                             <td className="px-5 py-3.5 text-right">
                               <span
                                 className={`text-sm font-bold tabular-nums ${
-                                  t.status === "recusado"
+                                  ["recusado", "failed", "estornado"].includes(String(t.status).toLowerCase()) || t.type === 'expense'
                                     ? "text-rose-500"
                                     : "text-kore-ink"
                                 }`}
                               >
-                                {t.status === "recusado" ? "- " : ""}
-                                {formatBRL(t.net_amount)}
+                                {["recusado", "failed", "estornado"].includes(String(t.status).toLowerCase()) || t.type === 'expense' ? "- " : ""}
+                                {formatBRL(Number(t.amount) * 0.9)}
                               </span>
                             </td>
                             <td className="px-5 py-3.5 text-center">
@@ -573,25 +599,25 @@ export function FinancialClient({
                         <div className="flex items-start justify-between gap-3 mb-2">
                           <div className="flex-1 min-w-0">
                             <p className="text-sm font-bold text-kore-ink truncate">
-                              {t.patient_name}
+                              {(t as any).client?.full_name || "Paciente Avulso"}
                             </p>
                             <p className="text-[11px] text-kore-muted mt-0.5">
-                              {t.description}
+                              {t.description || "Transação"}
                             </p>
                           </div>
                           <div className="text-right flex-shrink-0">
                             <p
                               className={`text-sm font-bold tabular-nums ${
-                                t.status === "recusado"
+                                ["recusado", "failed", "estornado"].includes(String(t.status).toLowerCase()) || t.type === 'expense'
                                   ? "text-rose-500"
                                   : "text-kore-ink"
                               }`}
                             >
-                              {t.status === "recusado" ? "- " : ""}
-                              {formatBRL(t.net_amount)}
+                              {["recusado", "failed", "estornado"].includes(String(t.status).toLowerCase()) || t.type === 'expense' ? "- " : ""}
+                              {formatBRL(Number(t.amount) * 0.9)}
                             </p>
                             <p className="text-[10px] text-kore-muted tabular-nums">
-                              Bruto: {formatBRL(t.gross_amount)}
+                              Bruto: {formatBRL(Number(t.amount))}
                             </p>
                           </div>
                         </div>
@@ -633,7 +659,7 @@ export function FinancialClient({
                   <span className="font-bold text-kore-ink">
                     {formatBRL(
                       filteredTransactions.reduce(
-                        (acc, t) => acc + t.net_amount,
+                        (acc, t) => acc + (t.type === 'expense' ? -Number(t.amount) * 0.9 : Number(t.amount) * 0.9),
                         0,
                       ),
                     )}

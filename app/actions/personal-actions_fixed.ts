@@ -203,7 +203,7 @@ export async function createWorkoutPlan(clientId: string, name: string, descript
       user_id: clientId,
       title: "Nova atualização!",
       message: `${coachName} criou um novo treino para você.`,
-      type: "workout_update"
+      type: "info"
     });
 
     // 4. Automação de WhatsApp (Evolution API)
@@ -627,6 +627,38 @@ export async function updateStudentProfile(patientId: string, formData: FormData
   revalidatePath("/dashboard/nutri/patients");
   revalidatePath(`/dashboard/nutri/patients/${patientId}`);
   return { success: true };
+}
+
+export async function updatePersonalStudentData(studentId: string, formData: FormData): Promise<ActionResult> {
+  try {
+    const supabase = createSupabaseServerClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return { ok: false, error: "Não autenticado." };
+
+    const name = formData.get("name") as string;
+    const phone = formData.get("phone") as string;
+    const weight = formData.get("weight") as string;
+
+    const updates: any = {};
+    if (name !== null) updates.full_name = name;
+    if (phone !== null) updates.phone = phone;
+    
+    // Some profiles tables have weight, some don't. Since updateStudentProfile uses it, we will too.
+    if (weight !== null) updates.weight = weight ? parseFloat(weight) : null;
+
+    const { error } = await supabase
+      .from("profiles")
+      .update(updates)
+      .eq("id", studentId)
+      .eq("coach_id", user.id); // security check
+
+    if (error) throw error;
+
+    revalidatePath("/dashboard/personal");
+    return { ok: true, data: null };
+  } catch (error: any) {
+    return { ok: false, error: error.message };
+  }
 }
 
 export async function getStudentDetails(studentId: string): Promise<ActionResult> {

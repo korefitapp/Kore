@@ -3,7 +3,8 @@
 import { useState, useTransition, useEffect } from "react";
 import { X, User, Save, LibraryBig, Plus, Activity, Mail } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { getPersonalWorkoutsDropdown, createWorkoutPlan } from "@/app/actions/personal-actions_fixed";
+import { getPersonalWorkoutsDropdown, createWorkoutPlan, updatePersonalStudentData } from "@/app/actions/personal-actions_fixed";
+import { Scale } from "lucide-react";
 
 export function StudentProfileModal({
   isOpen,
@@ -26,11 +27,14 @@ export function StudentProfileModal({
   // States para Dados (Mock simples por enquanto, salvar não fará muito além do visual se não houver backend)
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [weight, setWeight] = useState("");
+  const [isSavingData, setIsSavingData] = useState(false);
 
   useEffect(() => {
     if (student) {
       setName(student.full_name || student.display_name || "");
       setEmail(student.email || "");
+      setWeight(student.weight ? student.weight.toString() : "");
     }
   }, [student]);
 
@@ -70,6 +74,23 @@ export function StudentProfileModal({
     onClose();
     // Redireciona para o WorkoutBuilder passando o aluno para criarmos um do zero
     router.push(`/dashboard/personal/workouts?new=true&studentId=${student.id}`);
+  };
+
+  const handleSaveData = async () => {
+    if (!student) return;
+    setIsSavingData(true);
+    const fd = new FormData();
+    fd.append("name", name);
+    fd.append("weight", weight);
+    const res = await updatePersonalStudentData(student.id, fd);
+    setIsSavingData(false);
+    
+    if (res.ok) {
+      router.refresh();
+      onClose();
+    } else {
+      alert("Erro ao salvar: " + res.error);
+    }
   };
 
   if (!isOpen || !student) return null;
@@ -159,9 +180,30 @@ export function StudentProfileModal({
                 <p className="text-[10px] text-kore-muted mt-1">O e-mail é vinculado à conta e não pode ser alterado por aqui.</p>
               </div>
 
-              <button className="w-full mt-4 bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-500/20 hover:bg-emerald-100 dark:hover:bg-emerald-500/20 rounded-xl font-bold py-2.5 flex items-center justify-center gap-2 transition-colors">
+              <div>
+                <label className="block text-xs font-bold text-kore-muted uppercase tracking-wider mb-1">
+                  Peso (kg)
+                </label>
+                <div className="relative">
+                  <Scale size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-kore-muted" />
+                  <input
+                    type="number"
+                    step="0.1"
+                    value={weight}
+                    onChange={(e) => setWeight(e.target.value)}
+                    placeholder="Ex: 75.5"
+                    className="w-full bg-white dark:bg-[#1a1a1a] border border-kore-border rounded-xl pl-9 pr-3 py-2.5 text-sm font-medium focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 outline-none transition"
+                  />
+                </div>
+              </div>
+
+              <button 
+                onClick={handleSaveData}
+                disabled={isSavingData}
+                className="w-full mt-4 bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-500/20 hover:bg-emerald-100 dark:hover:bg-emerald-500/20 disabled:opacity-50 rounded-xl font-bold py-2.5 flex items-center justify-center gap-2 transition-colors"
+              >
                 <Save size={16} />
-                SALVAR ALTERAÇÕES
+                {isSavingData ? "SALVANDO..." : "SALVAR ALTERAÇÕES"}
               </button>
             </div>
           )}

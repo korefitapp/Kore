@@ -1,293 +1,15 @@
 "use client";
 
 import { useMemo, useState, useRef, useEffect, useCallback } from "react";
-import {
-  ArrowLeft,
-  MoreVertical,
-  Phone,
-  Paperclip,
-  Search,
-  Send,
-  Smile,
-  Video,
-  QrCode,
-  Smartphone,
-  RefreshCw,
-} from "lucide-react";
+import { ArrowLeft, MoreVertical, Phone, Paperclip, Search, Send, Smile, Video, QrCode, Smartphone, RefreshCw } from "lucide-react";
 import { createSupabaseBrowserClient } from "@/lib/supabase/client";
 import { connectWhatsAppInstance, sendWhatsAppMessage } from "@/app/actions/whatsapp-actions";
+import { getChatMessages, markMessagesAsRead, sendMessage as sendInternalMessage, type ChatContact, type ChatMessage } from "@/app/actions/chat-actions";
 import { MobileSidebar, Sidebar } from "../../_components/Sidebar";
 import { Topbar } from "../../_components/Topbar";
 
 /* ── Types ──────────────────────────────────────────────────── */
-interface Profile {
-  id: string;
-  full_name: string | null;
-  avatar_url: string | null;
-  phone?: string | null;
-}
-
-interface Message {
-  id: string;
-  sender_id: string;
-  receiver_id: string;
-  content: string;
-  created_at: string;
-  read_at: string | null;
-}
-
-interface ContactWithMeta extends Profile {
-  lastMessage: string;
-  lastMessageTime: string;
-  unreadCount: number;
-  isOnline: boolean;
-}
-
-/* ── Mock Data ──────────────────────────────────────────────── */
-const MOCK_PROFILES: Profile[] = [
-  {
-    id: "aluno-1",
-    full_name: "Ana Beatriz Silva",
-    avatar_url: null,
-  },
-  {
-    id: "aluno-2",
-    full_name: "Carlos Eduardo Santos",
-    avatar_url: null,
-  },
-  {
-    id: "aluno-3",
-    full_name: "Fernanda Oliveira",
-    avatar_url: null,
-  },
-  {
-    id: "aluno-4",
-    full_name: "Gabriel Costa",
-    avatar_url: null,
-  },
-  {
-    id: "aluno-5",
-    full_name: "Isabela Rodrigues",
-    avatar_url: null,
-  },
-  {
-    id: "aluno-6",
-    full_name: "Lucas Mendes",
-    avatar_url: null,
-  },
-  {
-    id: "aluno-7",
-    full_name: "Mariana Ferreira",
-    avatar_url: null,
-  },
-  {
-    id: "aluno-8",
-    full_name: "Pedro Henrique Almeida",
-    avatar_url: null,
-  },
-];
-
-const MOCK_MESSAGES: Message[] = [
-  // Conversa com Ana Beatriz
-  {
-    id: "m1",
-    sender_id: "personal-main",
-    receiver_id: "aluno-1",
-    content:
-      "Bom dia, Ana! Vi que você completou o treino de pernas ontem. Como foi a sensação no agachamento livre?",
-    created_at: "2026-05-19T08:30:00Z",
-    read_at: "2026-05-19T08:32:00Z",
-  },
-  {
-    id: "m2",
-    sender_id: "aluno-1",
-    receiver_id: "personal-main",
-    content:
-      "Bom dia, professor! Foi ótimo! Consegui aumentar 5kg no agachamento sem sentir dor no joelho. A técnica que você me ensinou fez toda diferença! 💪",
-    created_at: "2026-05-19T08:33:00Z",
-    read_at: "2026-05-19T08:34:00Z",
-  },
-  {
-    id: "m3",
-    sender_id: "personal-main",
-    receiver_id: "aluno-1",
-    content:
-      "Excelente! Isso mostra que o fortalecimento do glúteo médio está funcionando. Na próxima sessão vamos testar o leg press com carga progressiva.",
-    created_at: "2026-05-19T08:35:00Z",
-    read_at: "2026-05-19T08:36:00Z",
-  },
-  {
-    id: "m4",
-    sender_id: "aluno-1",
-    receiver_id: "personal-main",
-    content:
-      "Perfeito! Estou super motivada. Posso tirar uma dúvida sobre o suplemento que você recomendou?",
-    created_at: "2026-05-19T09:10:00Z",
-    read_at: null,
-  },
-  {
-    id: "m5",
-    sender_id: "aluno-1",
-    receiver_id: "personal-main",
-    content:
-      "É sobre a creatina, devo tomar todos os dias ou só nos dias de treino?",
-    created_at: "2026-05-19T09:11:00Z",
-    read_at: null,
-  },
-  // Conversa com Carlos Eduardo
-  {
-    id: "m6",
-    sender_id: "aluno-2",
-    receiver_id: "personal-main",
-    content:
-      "Professor, não consegui ir treinar hoje. Pode me passar um treino para fazer em casa?",
-    created_at: "2026-05-19T07:00:00Z",
-    read_at: "2026-05-19T07:15:00Z",
-  },
-  {
-    id: "m7",
-    sender_id: "personal-main",
-    receiver_id: "aluno-2",
-    content:
-      "Claro, Carlos! Vou montar um treino funcional com o que você tem disponível. Você tem elástico em casa?",
-    created_at: "2026-05-19T07:20:00Z",
-    read_at: "2026-05-19T07:25:00Z",
-  },
-  {
-    id: "m8",
-    sender_id: "aluno-2",
-    receiver_id: "personal-main",
-    content:
-      "Tenho sim! Tenho elástico e uma barra de pull-up na porta.",
-    created_at: "2026-05-19T07:26:00Z",
-    read_at: "2026-05-19T07:30:00Z",
-  },
-  {
-    id: "m9",
-    sender_id: "personal-main",
-    receiver_id: "aluno-2",
-    content:
-      "Perfeito! Te enviei o treino completo no app. Foco em upper body, 4 séries de cada exercício. Não esquece o aquecimento! 🏋️",
-    created_at: "2026-05-19T07:45:00Z",
-    read_at: "2026-05-19T08:00:00Z",
-  },
-  // Conversa com Fernanda
-  {
-    id: "m10",
-    sender_id: "personal-main",
-    receiver_id: "aluno-3",
-    content:
-      "Fernanda, seus resultados da avaliação de ontem estão ótimos! Perdeu 2% de gordura corporal no último mês.",
-    created_at: "2026-05-18T18:00:00Z",
-    read_at: "2026-05-18T18:10:00Z",
-  },
-  {
-    id: "m11",
-    sender_id: "aluno-3",
-    receiver_id: "personal-main",
-    content:
-      "Nossa, que notícia boa! Estou muito feliz com o progresso! 🎉",
-    created_at: "2026-05-18T18:12:00Z",
-    read_at: "2026-05-18T18:15:00Z",
-  },
-  // Conversa com Gabriel
-  {
-    id: "m12",
-    sender_id: "aluno-4",
-    receiver_id: "personal-main",
-    content:
-      "Coach, senti uma pontada no ombro direito fazendo desenvolvimento militar. Devo parar?",
-    created_at: "2026-05-19T10:00:00Z",
-    read_at: "2026-05-19T10:05:00Z",
-  },
-  {
-    id: "m13",
-    sender_id: "personal-main",
-    receiver_id: "aluno-4",
-    content:
-      "Sim, Gabriel! Pare imediatamente esse exercício. Pode ser uma tendinite. Vamos trocar por exercícios que não sobrecarreguem o ombro por enquanto. Me manda um áudio descrevendo a dor.",
-    created_at: "2026-05-19T10:10:00Z",
-    read_at: "2026-05-19T10:15:00Z",
-  },
-  {
-    id: "m14",
-    sender_id: "aluno-4",
-    receiver_id: "personal-main",
-    content:
-      "Ok, vou evitar. É uma dor pontual, só quando levanto o braço acima da cabeça. Vou mandar o áudio agora.",
-    created_at: "2026-05-19T10:18:00Z",
-    read_at: null,
-  },
-  // Conversa com Isabela
-  {
-    id: "m15",
-    sender_id: "aluno-5",
-    receiver_id: "personal-main",
-    content:
-      "Oi! Queria saber se posso trocar o treino de amanhã para quinta-feira, tenho uma reunião no horário.",
-    created_at: "2026-05-19T11:00:00Z",
-    read_at: "2026-05-19T11:20:00Z",
-  },
-  {
-    id: "m16",
-    sender_id: "personal-main",
-    receiver_id: "aluno-5",
-    content:
-      "Sem problemas, Isabela! Vou reagendar para quinta às 7h. Confirma pra mim?",
-    created_at: "2026-05-19T11:25:00Z",
-    read_at: "2026-05-19T11:30:00Z",
-  },
-  // Conversa com Lucas
-  {
-    id: "m17",
-    sender_id: "personal-main",
-    receiver_id: "aluno-6",
-    content:
-      "Lucas, parabéns pela consistência! 30 dias seguidos de treino. Isso é impressionante! 🔥",
-    created_at: "2026-05-18T20:00:00Z",
-    read_at: "2026-05-18T20:30:00Z",
-  },
-  // Conversa com Mariana
-  {
-    id: "m18",
-    sender_id: "aluno-7",
-    receiver_id: "personal-main",
-    content:
-      "Professor, qual a melhor forma de aquecer antes do treino de HIIT?",
-    created_at: "2026-05-17T14:00:00Z",
-    read_at: "2026-05-17T14:30:00Z",
-  },
-  {
-    id: "m19",
-    sender_id: "personal-main",
-    receiver_id: "aluno-7",
-    content:
-      "Ótima pergunta! 5-10 min de bike ou corrida leve, seguido de mobilidade articular e alongamentos dinâmicos. Nunca pule o aquecimento!",
-    created_at: "2026-05-17T14:35:00Z",
-    read_at: "2026-05-17T14:40:00Z",
-  },
-  // Conversa com Pedro
-  {
-    id: "m20",
-    sender_id: "aluno-8",
-    receiver_id: "personal-main",
-    content:
-      "Vou faltar amanhã, estou com febre. Me desculpa pelo aviso em cima da hora.",
-    created_at: "2026-05-19T06:00:00Z",
-    read_at: "2026-05-19T06:10:00Z",
-  },
-  {
-    id: "m21",
-    sender_id: "personal-main",
-    receiver_id: "aluno-8",
-    content:
-      "Fica tranquilo, Pedro! Saúde em primeiro lugar. Descanse bastante e beba muita água. Quando se sentir melhor a gente reagenda. Melhoras! 🙏",
-    created_at: "2026-05-19T06:15:00Z",
-    read_at: "2026-05-19T06:20:00Z",
-  },
-];
-
-const MOCK_ONLINE_IDS = new Set(["aluno-1", "aluno-4", "aluno-5"]);
+// Reusing ChatContact and ChatMessage from chat-actions.ts
 
 /* ── Helpers ────────────────────────────────────────────────── */
 function getInitials(name: string | null): string {
@@ -361,19 +83,15 @@ export function MessagesClient({
   currentUserId,
   initialInstanceStatus,
   initialQrCode,
-  profiles: serverProfiles,
-  messages: serverMessages,
+  initialContacts,
 }: {
   currentUserId: string;
   initialInstanceStatus: string;
   initialQrCode: string | null;
-  profiles: Profile[];
-  messages: Message[];
+  initialContacts: ChatContact[];
 }) {
-  // Use actual data
-  const profiles = serverProfiles;
-  const allMessages = serverMessages;
-  const onlineIds = MOCK_ONLINE_IDS;
+  const supabase = createSupabaseBrowserClient();
+  const [contacts, setContacts] = useState<ChatContact[]>(initialContacts);
 
   const supabase = createSupabaseBrowserClient();
   const [instanceStatus, setInstanceStatus] = useState<string>(initialInstanceStatus);
@@ -381,14 +99,28 @@ export function MessagesClient({
   const [isConnecting, setIsConnecting] = useState(false);
   const [isSending, setIsSending] = useState(false);
 
-  const [selectedContactId, setSelectedContactId] = useState<string | null>(
-    null,
-  );
+  const [selectedContactId, setSelectedContactId] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [newMessage, setNewMessage] = useState("");
-  const [localMessages, setLocalMessages] = useState<Message[]>(allMessages);
+  const [localMessages, setLocalMessages] = useState<ChatMessage[]>([]);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  // Carrega as mensagens ao selecionar um contato
+  useEffect(() => {
+    if (selectedContactId) {
+      getChatMessages(selectedContactId).then(msgs => {
+        setLocalMessages(msgs);
+        markMessagesAsRead(selectedContactId).then(() => {
+          setContacts(prev => prev.map(c => 
+            c.id === selectedContactId ? { ...c, unreadCount: 0 } : c
+          ));
+        });
+      });
+    } else {
+      setLocalMessages([]);
+    }
+  }, [selectedContactId]);
 
   // Realtime Supabase Setup
   useEffect(() => {
@@ -398,12 +130,37 @@ export function MessagesClient({
         "postgres_changes",
         { event: "INSERT", schema: "public", table: "messages" },
         (payload) => {
-          const newMsg = payload.new as Message;
+          const newMsg = payload.new as ChatMessage;
+          
           if (newMsg.sender_id === currentUserId || newMsg.receiver_id === currentUserId) {
+            const otherId = newMsg.sender_id === currentUserId ? newMsg.receiver_id : newMsg.sender_id;
+            
+            // Atualiza mensagens abertas se for desta conversa
             setLocalMessages((prev) => {
-              if (prev.some((m) => m.id === newMsg.id || (m.content === newMsg.content && m.created_at === newMsg.created_at))) return prev;
-              return [...prev, newMsg];
+              if (selectedContactId === otherId && !prev.some(m => m.id === newMsg.id)) {
+                return [...prev, newMsg];
+              }
+              return prev;
             });
+
+            // Se for do contato atual, marca como lida
+            if (selectedContactId === otherId && newMsg.receiver_id === currentUserId) {
+              markMessagesAsRead(otherId);
+            }
+
+            // Atualiza contato
+            setContacts(prev => prev.map(c => {
+              if (c.id === otherId) {
+                return {
+                  ...c,
+                  lastMessage: newMsg.content,
+                  lastMessageTime: newMsg.created_at,
+                  unreadCount: (newMsg.receiver_id === currentUserId && selectedContactId !== otherId && !newMsg.read_at) 
+                    ? c.unreadCount + 1 : c.unreadCount
+                };
+              }
+              return c;
+            }));
           }
         }
       )
@@ -444,33 +201,6 @@ export function MessagesClient({
     }
   };
 
-  // Build contacts with metadata
-  const contacts: ContactWithMeta[] = useMemo(() => {
-    return profiles.map((p) => {
-      const convMessages = localMessages.filter(
-        (m) =>
-          (m.sender_id === currentUserId && m.receiver_id === p.id) ||
-          (m.sender_id === p.id && m.receiver_id === currentUserId),
-      );
-
-      const lastMsg =
-        convMessages.length > 0
-          ? convMessages[convMessages.length - 1]
-          : null;
-
-      const unreadCount = convMessages.filter(
-        (m) => m.sender_id === p.id && m.read_at === null,
-      ).length;
-
-      return {
-        ...p,
-        lastMessage: lastMsg?.content ?? "Nenhuma mensagem ainda",
-        lastMessageTime: lastMsg?.created_at ?? "",
-        unreadCount,
-        isOnline: onlineIds.has(p.id),
-      };
-    });
-  }, [profiles, localMessages, currentUserId, onlineIds]);
 
   // Filter contacts
   const filteredContacts = useMemo(() => {
@@ -497,20 +227,11 @@ export function MessagesClient({
   }, [filteredContacts]);
 
   // Get messages for selected conversation
-  const conversationMessages = useMemo(() => {
-    if (!selectedContactId) return [];
-    return localMessages.filter(
-      (m) =>
-        (m.sender_id === currentUserId &&
-          m.receiver_id === selectedContactId) ||
-        (m.sender_id === selectedContactId &&
-          m.receiver_id === currentUserId),
-    );
-  }, [localMessages, selectedContactId, currentUserId]);
+  const conversationMessages = localMessages;
 
   // Group messages by date
   const messagesByDate = useMemo(() => {
-    const groups: { date: string; messages: Message[] }[] = [];
+    const groups: { date: string; messages: ChatMessage[] }[] = [];
     let currentDate = "";
 
     conversationMessages.forEach((msg) => {
@@ -550,15 +271,11 @@ export function MessagesClient({
   const handleSendMessage = useCallback(async () => {
     if (!newMessage.trim() || !selectedContactId || isSending) return;
 
-    const contact = profiles.find(p => p.id === selectedContactId);
-    if (!contact || !contact.phone) {
-      const { toast } = require("@/store/useToastStore");
-      toast.error("Este aluno não tem um número de telefone registado.");
-      return;
-    }
+    const contact = contacts.find(c => c.id === selectedContactId);
+    if (!contact) return;
 
     const textToSend = newMessage.trim();
-    const tempMsg: Message = {
+    const tempMsg: ChatMessage = {
       id: `local-${Date.now()}`,
       sender_id: currentUserId,
       receiver_id: selectedContactId,
@@ -572,16 +289,25 @@ export function MessagesClient({
     setIsSending(true);
 
     try {
-      await sendWhatsAppMessage(selectedContactId, contact.phone, textToSend);
+      // Se a instância estiver conectada, enviamos via whatsapp
+      if (instanceStatus === "open") {
+         // O whatsapp-actions envia a mensagem e TAMBÉM grava no banco public.messages.
+         // Mas como já temos o sendMessage() que apenas salva, e o web-hook salva também?
+         // O ideal é chamar sendWhatsAppMessage SE estiver conectado. O sendWhatsAppMessage JÁ salva no banco.
+         // Vamos apenas chamar sendWhatsAppMessage para simplificar, já que ele insere na tabela 'messages'.
+         await sendWhatsAppMessage(selectedContactId, contact.phone || "", textToSend);
+      } else {
+         // Não tem whatsapp conectado, apenas envia internamente
+         await sendInternalMessage(selectedContactId, textToSend);
+      }
     } catch (error: any) {
       const { toast } = require("@/store/useToastStore");
       toast.error("Falha ao enviar mensagem: " + error.message);
-      // Rollback otimista
       setLocalMessages((prev) => prev.filter((m) => m.id !== tempMsg.id));
     } finally {
       setIsSending(false);
     }
-  }, [newMessage, selectedContactId, currentUserId, profiles, isSending]);
+  }, [newMessage, selectedContactId, currentUserId, contacts, isSending, instanceStatus]);
 
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent) => {

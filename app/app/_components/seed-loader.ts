@@ -33,7 +33,7 @@ export async function loadAppSeed(): Promise<AppSeed> {
      return d.toISOString().split("T")[0];
   });
 
-  const [{ data: dash }, { data: water }, { data: rawLogs }, { data: coachData }, { data: trainersData }, { data: workoutPlan, error: wpError }, { data: weeklyWater }, { data: weeklyMeals }, { data: weeklyWorkouts }, { data: waterHistory }] =
+  const [{ data: dash }, { data: water }, { data: rawLogs }, { data: coachData }, { data: trainersData }, { data: workoutPlan, error: wpError }, { data: weeklyWater }, { data: weeklyMeals }, { data: weeklyWorkouts }, { data: waterHistory }, { data: rawWorkoutHistory }] =
     await Promise.all([
       supabase
         .from("v_user_dashboard")
@@ -77,6 +77,7 @@ export async function loadAppSeed(): Promise<AppSeed> {
       supabase.from("meal_logs").select("log_date, consumed").in("log_date", weekDates),
       supabase.from("workout_logs").select("completed_at").eq("client_id", user.id),
       supabase.from("water_logs").select("log_date").eq("user_id", user.id).order("log_date", { ascending: false }).limit(30),
+      supabase.from("workout_logs").select("completed_at").eq("client_id", user.id).order("completed_at", { ascending: false }).limit(30)
     ]);
 
   if (wpError) {
@@ -250,9 +251,11 @@ export async function loadAppSeed(): Promise<AppSeed> {
     };
   });
 
-  // Calculate real streak based on water logs for the last 30 days
+  const workoutHistory = rawWorkoutHistory || [];
+
+  // Calculate real streak based on workout logs for the last 30 days
   let realStreak = 0;
-  if (waterHistory && waterHistory.length > 0) {
+  if (workoutHistory && workoutHistory.length > 0) {
     const todayStr = todayISO();
     const yesterday = new Date(today);
     yesterday.setDate(today.getDate() - 1);
@@ -260,13 +263,18 @@ export async function loadAppSeed(): Promise<AppSeed> {
 
     // Check if the streak is currently active (logged today or yesterday)
     let currentDate = new Date(today);
-    const firstLogStr = waterHistory[0]?.log_date;
-    if (firstLogStr && (firstLogStr === todayStr || firstLogStr === yesterdayStr)) {
-      if (firstLogStr === yesterdayStr) {
+    
+    // Extract dates
+    const trainedDates = new Set(workoutHistory.map((l: any) => l.completed_at?.split("T")[0]).filter(Boolean));
+    
+    if (trainedDates.has(todayStr) || trainedDates.has(yesterdayStr)) {
+      if (!trainedDates.has(todayStr) && trainedDates.has(yesterdayStr)) {
         currentDate = yesterday;
       }
-      for (const log of waterHistory) {
-        if (log.log_date === currentDate.toISOString().split("T")[0]) {
+      
+      for (let i = 0; i < 30; i++) {
+        const dStr = currentDate.toISOString().split("T")[0];
+        if (trainedDates.has(dStr)) {
           realStreak++;
           currentDate.setDate(currentDate.getDate() - 1);
         } else {

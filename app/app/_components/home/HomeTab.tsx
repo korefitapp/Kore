@@ -6,25 +6,6 @@ import { motion } from "framer-motion";
 import { Flame, Activity, Droplets, ArrowUpRight, Check, Bell, User, Sun, Moon, Plus, Minus } from "lucide-react";
 import { useKore, selectBurnedWorkoutKcal } from "../store";
 
-// --- Mock Data ---
-const MOCK_CALENDAR = [
-  { day: "Dom", date: 12, progress: 100, isToday: false },
-  { day: "Seg", date: 13, progress: 66, isToday: false },
-  { day: "Ter", date: 14, progress: 33, isToday: false },
-  { day: "Qua", date: 15, progress: 66, isToday: true }, // Today
-  { day: "Qui", date: 16, progress: 0, isToday: false },
-  { day: "Sex", date: 17, progress: 0, isToday: false },
-  { day: "Sáb", date: 18, progress: 0, isToday: false },
-];
-
-const MOCK_METRICS = {
-  caloriesIn: 1850,
-  caloriesOut: 650,
-  water: 1.5,
-};
-
-const MOCK_STREAK = 12;
-
 // --- Subcomponents ---
 
 function WeeklyCalendar() {
@@ -44,7 +25,7 @@ function WeeklyCalendar() {
   if (workoutCompleted) todayProgress += 33.34;
   todayProgress = Math.round(todayProgress);
 
-  const displayCalendar = weeklyCalendar && weeklyCalendar.length > 0 ? weeklyCalendar : MOCK_CALENDAR;
+  const displayCalendar = weeklyCalendar || [];
 
   return (
     <section className="mb-4">
@@ -86,6 +67,10 @@ function DailyMetrics() {
   const waterMl = useKore((s) => s.waterMl);
   const caloriesOut = useKore(selectBurnedWorkoutKcal);
   const streak = useKore((s) => s.streak);
+  const meals = useKore((s) => s.meals);
+
+  const caloriesIn = Math.round(meals.filter((m) => m.consumed).flatMap((m) => m.items).reduce((acc, it) => acc + it.kcal, 0));
+
   return (
     <section className="mb-4">
       <div className="flex items-center justify-between mb-2">
@@ -101,7 +86,7 @@ function DailyMetrics() {
           <div className="w-10 h-10 rounded-full bg-emerald-100 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mb-3 shadow-[0_0_15px_rgba(52,211,153,0.2)]">
             <Flame size={20} />
           </div>
-          <span className="text-slate-900 dark:text-white font-extrabold text-xl">{MOCK_METRICS.caloriesIn}</span>
+          <span className="text-slate-900 dark:text-white font-extrabold text-xl">{caloriesIn}</span>
           <span className="text-slate-400 dark:text-zinc-400 text-[10px] uppercase font-bold tracking-wider mt-1">Kcal Ing.</span>
         </div>
 

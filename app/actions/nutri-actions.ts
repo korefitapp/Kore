@@ -482,9 +482,24 @@ export async function saveMealBuilderGraph(planId: string, meals: any[], planTot
     is_template: isTemplate
   }).eq("id", planId);
 
-  // 5. Notificações In-App & WhatsApp
   const { data: plan } = await supabase.from("meal_plans").select("patient_id").eq("id", planId).single();
   const patientId = plan?.patient_id;
+
+  // Sincroniza com as metas do paciente se houver paciente vinculado
+  if (patientId && !isTemplate) {
+    const adminClient = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.SUPABASE_SERVICE_ROLE_KEY!
+    );
+    await adminClient.from("user_daily_targets").update({
+      kcal: Math.round(planTotals.kcal),
+      protein_g: Math.round(planTotals.protein),
+      carbs_g: Math.round(planTotals.carbs),
+      fat_g: Math.round(planTotals.fat)
+    }).eq("user_id", patientId);
+  }
+
+  // 5. Notificações In-App & WhatsApp
 
   if (patientId && !isTemplate) {
     const { data: nutri } = await supabase.from('profiles').select('full_name').eq('id', user.id).single();
@@ -921,7 +936,7 @@ export async function recalculateMealPlanMacros(planId: string) {
   }
 
   // 2. Atualizar o meal_plan pai
-  const { error: updateError } = await supabase
+  const { data: planData, error: updateError } = await supabase
     .from("meal_plans")
     .update({
       daily_kcal_goal: Math.round(totalKcal),
@@ -929,10 +944,26 @@ export async function recalculateMealPlanMacros(planId: string) {
       carbs_g: Math.round(totalCarbs),
       fat_g: Math.round(totalFat)
     })
-    .eq("id", planId);
+    .eq("id", planId)
+    .select("patient_id")
+    .single();
 
   if (updateError) {
     console.error("Erro ao atualizar macros do meal_plan:", updateError);
+  }
+
+  // 3. Sincronizar com as metas diárias do paciente
+  if (planData && planData.patient_id) {
+    const adminClient = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.SUPABASE_SERVICE_ROLE_KEY!
+    );
+    await adminClient.from("user_daily_targets").update({
+      kcal: Math.round(totalKcal),
+      protein_g: Math.round(totalProtein),
+      carbs_g: Math.round(totalCarbs),
+      fat_g: Math.round(totalFat)
+    }).eq("user_id", planData.patient_id);
   }
 }
 
