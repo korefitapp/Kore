@@ -30,7 +30,7 @@ export default async function ProductsPage() {
     sku: p.id.split("-")[0].toUpperCase(),
     price: Number(p.price),
     category: p.category || "Outros",
-    status: p.stock > 0 ? "ativo" : "inativo",
+    status: (p.stock > 0 ? "ativo" : "inativo") as "ativo" | "inativo",
   }));
 
   return <ProductsPageClient products={mappedProducts} />;
