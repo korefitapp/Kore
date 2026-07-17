@@ -30,6 +30,7 @@ export function NotificationsSheet({ isOpen, onClose }: Props) {
     if (isOpen) {
       fetchNotifications();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen]);
 
   async function fetchNotifications() {

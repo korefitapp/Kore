@@ -8,7 +8,7 @@ export function StreakCalendar() {
   const week = useKore((s) => s.week);
   const streak = useKore((s) => s.streak);
 
-  const doneCount = week.filter((d) => d.done).length;
+  const doneCount = week.filter((d) => d.progress === 100).length;
   const totalDays = week.length;
 
   return (
@@ -41,7 +41,7 @@ export function StreakCalendar() {
           const base =
             "flex-shrink-0 w-[56px] h-[88px] rounded-2xl flex flex-col items-center justify-between py-2.5 px-2 transition-colors";
           let stateClasses: string;
-          if (d.done) {
+          if (d.progress === 100) {
             stateClasses = "bg-emerald-500 text-white";
           } else if (d.isToday) {
             stateClasses =
@@ -58,13 +58,13 @@ export function StreakCalendar() {
             >
               <span
                 className={`text-[11px] font-semibold uppercase tracking-wide ${
-                  d.done ? "text-white/90" : ""
+                  d.progress === 100 ? "text-white/90" : ""
                 }`}
               >
-                {d.label}
+                {d.day}
               </span>
 
-              {d.done ? (
+              {d.progress === 100 ? (
                 <motion.div
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}

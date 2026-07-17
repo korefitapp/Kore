@@ -21,6 +21,16 @@ interface WorkoutBuilderModalProps {
   studentId?: string | null;
 }
 
+const INITIAL_DAYS = [
+  { id: "mon", name: "Segunda-feira", isActive: true, exercises: [] as any[] },
+  { id: "tue", name: "Terça-feira", isActive: false, exercises: [] as any[] },
+  { id: "wed", name: "Quarta-feira", isActive: false, exercises: [] as any[] },
+  { id: "thu", name: "Quinta-feira", isActive: false, exercises: [] as any[] },
+  { id: "fri", name: "Sexta-feira", isActive: false, exercises: [] as any[] },
+  { id: "sat", name: "Sábado", isActive: false, exercises: [] as any[] },
+  { id: "sun", name: "Domingo", isActive: false, exercises: [] as any[] },
+];
+
 export function WorkoutBuilderModal({ isOpen, onClose, exercises, editBaseId, studentId }: WorkoutBuilderModalProps) {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -33,16 +43,6 @@ export function WorkoutBuilderModal({ isOpen, onClose, exercises, editBaseId, st
     level: "Iniciante",
     description: "",
   });
-
-  const INITIAL_DAYS = [
-    { id: "mon", name: "Segunda-feira", isActive: true, exercises: [] as any[] },
-    { id: "tue", name: "Terça-feira", isActive: false, exercises: [] as any[] },
-    { id: "wed", name: "Quarta-feira", isActive: false, exercises: [] as any[] },
-    { id: "thu", name: "Quinta-feira", isActive: false, exercises: [] as any[] },
-    { id: "fri", name: "Sexta-feira", isActive: false, exercises: [] as any[] },
-    { id: "sat", name: "Sábado", isActive: false, exercises: [] as any[] },
-    { id: "sun", name: "Domingo", isActive: false, exercises: [] as any[] },
-  ];
 
   const [days, setDays] = useState(INITIAL_DAYS);
   const [activeDayId, setActiveDayId] = useState("mon");
