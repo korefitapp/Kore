@@ -68,6 +68,7 @@ export function CreateMealPlanModal({
         setRecommendedKcal("");
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedPatientId, patients]); // Corre apenas ao mudar paciente
 
   // Permite recalcular se o nutricionista mudar manualmente o objetivo na combo-box
@@ -88,6 +89,7 @@ export function CreateMealPlanModal({
         setRecommendedKcal(result.finalTargetKcal.toString());
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [objective]);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {

@@ -154,7 +154,7 @@ function ActiveWorkout() {
         {days.map((day, index) => {
           const exercises = allExercises.filter((e) => e.day === day);
           const todayStr = new Intl.DateTimeFormat("pt-BR", { weekday: "long" }).format(new Date());
-          const todayBase = todayStr.toLowerCase().split("-")[0];
+          const todayBase = todayStr.toLowerCase().split("-")[0] || "";
           const isToday = day.toLowerCase().includes(todayBase);
           const hasAnyToday = days.some(d => d.toLowerCase().includes(todayBase));
 

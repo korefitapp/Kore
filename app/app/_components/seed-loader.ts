@@ -260,8 +260,8 @@ export async function loadAppSeed(): Promise<AppSeed> {
 
     // Check if the streak is currently active (logged today or yesterday)
     let currentDate = new Date(today);
-    const firstLogStr = waterHistory[0].log_date;
-    if (firstLogStr === todayStr || firstLogStr === yesterdayStr) {
+    const firstLogStr = waterHistory[0]?.log_date;
+    if (firstLogStr && (firstLogStr === todayStr || firstLogStr === yesterdayStr)) {
       if (firstLogStr === yesterdayStr) {
         currentDate = yesterday;
       }
