@@ -78,7 +78,7 @@ export async function connectWhatsAppInstance() {
   }
 }
 
-export async function sendWhatsAppMessage(patientId: string, phone: string, text: string) {
+export async function sendWhatsAppMessage(patientId: string | null, phone: string, text: string) {
   const supabase = createSupabaseServerClient();
   const { data: { user } } = await supabase.auth.getUser();
 
@@ -86,7 +86,7 @@ export async function sendWhatsAppMessage(patientId: string, phone: string, text
     throw new Error("Não autorizado");
   }
 
-  // 1. Vai buscar a instância ativa do nutricionista
+  // 1. Vai buscar a instância ativa do nutricionista/trainer
   const { data: instance, error: instanceError } = await supabase
     .from("whatsapp_instances")
     .select("instance_name, status")
@@ -101,8 +101,39 @@ export async function sendWhatsAppMessage(patientId: string, phone: string, text
     throw new Error("Credenciais da Evolution API ausentes.");
   }
 
+  // 2. Tenta encontrar ou criar o chat_contact
+  let { data: contact } = await supabase
+    .from("chat_contacts")
+    .select("id")
+    .eq("professional_id", user.id)
+    .eq("phone", phone)
+    .single();
+
+  if (!contact) {
+    const { data: newContact, error: contactError } = await supabase
+      .from("chat_contacts")
+      .insert({
+        professional_id: user.id,
+        patient_id: patientId,
+        phone: phone,
+        name: phone, // Nome padrao
+        last_message_at: new Date().toISOString(),
+        last_message_preview: text
+      })
+      .select("id")
+      .single();
+
+    if (contactError) throw new Error("Erro ao criar contato");
+    contact = newContact;
+  } else {
+    await supabase.from("chat_contacts").update({
+      last_message_at: new Date().toISOString(),
+      last_message_preview: text
+    }).eq("id", contact.id);
+  }
+
   try {
-    // 2. Envia para a Evolution API
+    // 3. Envia para a Evolution API
     const sendRes = await fetch(`${EVO_URL}/message/sendText/${instance.instance_name}`, {
       method: "POST",
       headers: {
@@ -126,13 +157,19 @@ export async function sendWhatsAppMessage(patientId: string, phone: string, text
       throw new Error(`Evolution API erro: ${JSON.stringify(errData)}`);
     }
 
-    // 3. Grava no banco de dados para o histórico do chat
+    const responseData = await sendRes.json();
+    const messageId = responseData.key?.id || `temp_${Date.now()}`;
+
+    // 4. Grava no banco de dados para o histórico do chat
     const { error: insertError } = await supabase
-      .from("messages")
+      .from("chat_messages")
       .insert({
+        contact_id: contact.id,
+        message_id: messageId,
         sender_id: user.id,
-        receiver_id: patientId,
-        content: text,
+        text: text,
+        is_from_me: true,
+        status: "sent"
       });
 
     if (insertError) {
@@ -145,3 +182,32 @@ export async function sendWhatsAppMessage(patientId: string, phone: string, text
     throw new Error(error.message || "Falha ao enviar mensagem.");
   }
 }
+
+export async function disconnectWhatsAppInstance() {
+  const supabase = createSupabaseServerClient();
+  const { data: { user } } = await supabase.auth.getUser();
+
+  if (!user) throw new Error("Não autorizado");
+
+  const { data: instance } = await supabase
+    .from("whatsapp_instances")
+    .select("instance_name")
+    .eq("professional_id", user.id)
+    .single();
+
+  if (instance && EVO_URL && EVO_KEY) {
+    // Logout from Evolution API
+    await fetch(`${EVO_URL}/instance/logout/${instance.instance_name}`, {
+      method: "DELETE",
+      headers: { apikey: EVO_KEY }
+    });
+  }
+
+  await supabase
+    .from("whatsapp_instances")
+    .update({ status: "disconnected", qr_code_base64: null })
+    .eq("professional_id", user.id);
+
+  return { success: true };
+}
+

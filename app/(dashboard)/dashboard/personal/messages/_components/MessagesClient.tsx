@@ -124,43 +124,40 @@ export function MessagesClient({
   // Realtime Supabase Setup
   useEffect(() => {
     const messagesChannel = supabase
-      .channel("realtime:messages")
+      .channel("realtime:chat_messages")
       .on(
         "postgres_changes",
-        { event: "INSERT", schema: "public", table: "messages" },
+        {
+          event: "INSERT",
+          schema: "public",
+          table: "chat_messages",
+        },
         (payload) => {
           const newMsg = payload.new as ChatMessage;
           
-          if (newMsg.sender_id === currentUserId || newMsg.receiver_id === currentUserId) {
-            const otherId = newMsg.sender_id === currentUserId ? newMsg.receiver_id : newMsg.sender_id;
-            
-            // Atualiza mensagens abertas se for desta conversa
-            setLocalMessages((prev) => {
-              if (selectedContactId === otherId && !prev.some(m => m.id === newMsg.id)) {
-                return [...prev, newMsg];
-              }
-              return prev;
-            });
-
-            // Se for do contato atual, marca como lida
-            if (selectedContactId === otherId && newMsg.receiver_id === currentUserId) {
-              markMessagesAsRead(otherId);
+          setLocalMessages((prev) => {
+            if (selectedContactId === newMsg.contact_id && !prev.some(m => m.id === newMsg.id)) {
+              return [...prev, newMsg];
             }
+            return prev;
+          });
 
-            // Atualiza contato
-            setContacts(prev => prev.map(c => {
-              if (c.id === otherId) {
-                return {
-                  ...c,
-                  lastMessage: newMsg.content,
-                  lastMessageTime: newMsg.created_at,
-                  unreadCount: (newMsg.receiver_id === currentUserId && selectedContactId !== otherId && !newMsg.read_at) 
-                    ? c.unreadCount + 1 : c.unreadCount
-                };
-              }
-              return c;
-            }));
+          if (selectedContactId === newMsg.contact_id && !newMsg.is_from_me) {
+            markMessagesAsRead(newMsg.contact_id);
           }
+
+          setContacts(prev => prev.map(c => {
+            if (c.id === newMsg.contact_id) {
+              return {
+                ...c,
+                lastMessage: newMsg.text,
+                lastMessageTime: newMsg.created_at,
+                unreadCount: (!newMsg.is_from_me && selectedContactId !== newMsg.contact_id && newMsg.status !== "read") 
+                  ? c.unreadCount + 1 : c.unreadCount
+              };
+            }
+            return c;
+          }));
         }
       )
       .subscribe();
@@ -276,11 +273,13 @@ export function MessagesClient({
     const textToSend = newMessage.trim();
     const tempMsg: ChatMessage = {
       id: `local-${Date.now()}`,
+      contact_id: selectedContactId,
+      message_id: `temp-${Date.now()}`,
       sender_id: currentUserId,
-      receiver_id: selectedContactId,
-      content: textToSend,
+      text: textToSend,
+      is_from_me: true,
+      status: "sending",
       created_at: new Date().toISOString(),
-      read_at: null,
     };
 
     setLocalMessages((prev) => [...prev, tempMsg]);
@@ -606,7 +605,7 @@ export function MessagesClient({
 
                         {/* Messages */}
                         {group.messages.map((msg, idx) => {
-                          const isMine = msg.sender_id === currentUserId;
+                          const isMine = msg.is_from_me;
                           const prevMsg = idx > 0 ? group.messages[idx - 1] : undefined;
                           const showAvatar =
                             !isMine &&
@@ -650,7 +649,7 @@ export function MessagesClient({
                                       : "bg-kore-bg border border-kore-border/60 text-kore-ink rounded-2xl rounded-bl-md"
                                   }`}
                                 >
-                                  {msg.content}
+                                  {msg.text}
                                 </div>
                                 <div
                                   className={`flex items-center gap-1 mt-0.5 ${isMine ? "justify-end" : "justify-start"}`}

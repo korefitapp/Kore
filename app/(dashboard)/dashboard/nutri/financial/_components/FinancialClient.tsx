@@ -45,14 +45,14 @@ function formatShortId(id: string): string {
 
 function getStatusConfig(status: string) {
   const normalizedStatus = String(status).toLowerCase();
-  if ["concluido", "approved", "completed"].includes(normalizedStatus) {
+  if (["concluido", "approved", "completed"].includes(normalizedStatus)) {
     return {
       label: "Concluído",
       bg: "bg-emerald-50 dark:bg-emerald-900/20",
       text: "text-emerald-700 dark:text-emerald-400",
       dot: "bg-emerald-500",
     };
-  } else if ["pendente", "pending"].includes(normalizedStatus) {
+  } else if (["pendente", "pending"].includes(normalizedStatus)) {
     return {
       label: "Pendente",
       bg: "bg-amber-50 dark:bg-amber-900/20",
