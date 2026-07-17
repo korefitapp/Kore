@@ -78,9 +78,9 @@ export function DietaTab() {
   };
 
   const user = useKore((s) => s.user);
-  // Se o aluno tiver nutriId, consideramos que ele tem "ActivePlan" para essa aba,
+  // Se o aluno tiver coachId, consideramos que ele tem "ActivePlan" para essa aba,
   // ou se não, cai na UI de descobrir.
-  const hasActivePlan = !!user.nutriId;
+  const hasActivePlan = !!user.coachId;
 
   return (
     <AnimatePresence mode="wait" initial={false}>

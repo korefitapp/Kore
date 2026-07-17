@@ -11,9 +11,9 @@ import { formatBrl } from "../../_components/data";
 /* ------------------------------------------------------------------ */
 
 type ProductStatus = "ativo" | "inativo";
-type ProductCategory = "Suplementos" | "Vestuário" | "Acessórios" | "Vitaminas" | "Pré-treino";
+type ProductCategory = "Suplementos" | "Vestuário" | "Acessórios" | "Vitaminas" | "Pré-treino" | string;
 
-interface Product {
+export interface Product {
   id: string;
   name: string;
   emoji: string;
@@ -22,148 +22,6 @@ interface Product {
   category: ProductCategory;
   status: ProductStatus;
 }
-
-/* ------------------------------------------------------------------ */
-/*  Mock data – fitness niche                                          */
-/* ------------------------------------------------------------------ */
-
-const PRODUCTS: Product[] = [
-  {
-    id: "prod-001",
-    name: "Whey Protein Blend 900g",
-    emoji: "🥛",
-    sku: "WHEY-BLD-900",
-    price: 149.9,
-    category: "Suplementos",
-    status: "ativo",
-  },
-  {
-    id: "prod-002",
-    name: "Creatina Monohidratada 300g",
-    emoji: "💪",
-    sku: "CREA-MONO-300",
-    price: 79.9,
-    category: "Suplementos",
-    status: "ativo",
-  },
-  {
-    id: "prod-003",
-    name: "Whey Protein Isolado 1kg",
-    emoji: "🍫",
-    sku: "WHEY-ISO-1000",
-    price: 219.9,
-    category: "Suplementos",
-    status: "ativo",
-  },
-  {
-    id: "prod-004",
-    name: "BCAA 2:1:1 · 300g",
-    emoji: "💊",
-    sku: "BCAA-300",
-    price: 64.9,
-    category: "Suplementos",
-    status: "inativo",
-  },
-  {
-    id: "prod-005",
-    name: "Pré-Treino Citrus 300g",
-    emoji: "⚡",
-    sku: "PRE-CIT-300",
-    price: 89.9,
-    category: "Pré-treino",
-    status: "ativo",
-  },
-  {
-    id: "prod-006",
-    name: "Pré-Treino Berry Blast 300g",
-    emoji: "🫐",
-    sku: "PRE-BRY-300",
-    price: 89.9,
-    category: "Pré-treino",
-    status: "ativo",
-  },
-  {
-    id: "prod-007",
-    name: "Multivitamínico 90 cápsulas",
-    emoji: "🟠",
-    sku: "MULTI-90CAP",
-    price: 59.9,
-    category: "Vitaminas",
-    status: "ativo",
-  },
-  {
-    id: "prod-008",
-    name: "Vitamina D3 2000UI 60 caps",
-    emoji: "☀️",
-    sku: "VIT-D3-2000",
-    price: 39.9,
-    category: "Vitaminas",
-    status: "ativo",
-  },
-  {
-    id: "prod-009",
-    name: "Camiseta Dry-Fit · Preta M",
-    emoji: "👕",
-    sku: "TEE-BLK-M",
-    price: 89.9,
-    category: "Vestuário",
-    status: "ativo",
-  },
-  {
-    id: "prod-010",
-    name: "Camiseta Dry-Fit · Branca M",
-    emoji: "👕",
-    sku: "TEE-WHT-M",
-    price: 89.9,
-    category: "Vestuário",
-    status: "inativo",
-  },
-  {
-    id: "prod-011",
-    name: "Legging Compressão · Preta P",
-    emoji: "🩳",
-    sku: "LEG-BLK-P",
-    price: 129.9,
-    category: "Vestuário",
-    status: "ativo",
-  },
-  {
-    id: "prod-012",
-    name: "Shaker 450ml · KORE",
-    emoji: "🥤",
-    sku: "SHK-KORE-450",
-    price: 29.9,
-    category: "Acessórios",
-    status: "ativo",
-  },
-  {
-    id: "prod-013",
-    name: "Faixa Elástica Resistência",
-    emoji: "🏋️",
-    sku: "BAND-RES-SET",
-    price: 49.9,
-    category: "Acessórios",
-    status: "ativo",
-  },
-  {
-    id: "prod-014",
-    name: "Luva de Treino Pro · Preta",
-    emoji: "🧤",
-    sku: "GLV-PRO-BLK",
-    price: 69.9,
-    category: "Acessórios",
-    status: "ativo",
-  },
-  {
-    id: "prod-015",
-    name: "Garrafa Térmica 1L · KORE",
-    emoji: "🧊",
-    sku: "BOT-KORE-1000",
-    price: 59.9,
-    category: "Acessórios",
-    status: "ativo",
-  },
-];
 
 /* ------------------------------------------------------------------ */
 /*  Filter & style config                                              */
@@ -189,12 +47,12 @@ const STATUS_STYLES: Record<ProductStatus, string> = {
 /*  Component                                                          */
 /* ------------------------------------------------------------------ */
 
-export function ProductsPageClient() {
+export function ProductsPageClient({ products = [] }: { products?: Product[] }) {
   const [category, setCategory] = useState<"Todos" | ProductCategory>("Todos");
   const [query, setQuery] = useState("");
 
   const filtered = useMemo(() => {
-    return PRODUCTS.filter((p) => {
+    return products.filter((p) => {
       if (category !== "Todos" && p.category !== category) return false;
       if (query.trim()) {
         const q = query.trim().toLowerCase();
@@ -207,7 +65,7 @@ export function ProductsPageClient() {
       }
       return true;
     });
-  }, [category, query]);
+  }, [category, query, products]);
 
   return (
     <div className="min-h-screen flex bg-kore-bg text-kore-ink">
@@ -390,7 +248,7 @@ export function ProductsPageClient() {
             {/* Footer */}
             <div className="px-5 py-3 border-t border-kore-border flex items-center justify-between text-xs text-kore-muted">
               <span>
-                {PRODUCTS.length} produtos no total · {filtered.length} exibidos
+                {products.length} produtos no total · {filtered.length} exibidos
               </span>
               <span className="font-medium">Página 1 de 1</span>
             </div>

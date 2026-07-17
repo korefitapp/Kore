@@ -486,7 +486,7 @@ export function FinancialPageClient({
                   <tbody>
                     {filteredPayouts.length > 0 ? (
                       filteredPayouts.map((p) => {
-                        const statusConf = getPayoutStatusConfig(p.status);
+                        const statusConf = getPayoutStatusConfig(p.status as any);
                         return (
                           <tr
                             key={p.id}
@@ -549,7 +549,7 @@ export function FinancialPageClient({
               <div className="md:hidden">
                 {filteredPayouts.length > 0 ? (
                   filteredPayouts.map((p) => {
-                    const statusConf = getPayoutStatusConfig(p.status);
+                    const statusConf = getPayoutStatusConfig(p.status as any);
                     return (
                       <div
                         key={p.id}

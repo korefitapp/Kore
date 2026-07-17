@@ -34,7 +34,7 @@ function getInitials(name: string): string {
   return (first.charAt(0) + last.charAt(0)).toUpperCase();
 }
 
-export async function getNearbyProfessionals(userLat: number, userLng: number, role: "trainer" | "nutri" | "shop" = "trainer"): Promise<NearbyTrainer[]> {
+export async function getNearbyProfessionals(userLat: number, userLng: number, role: "trainer" | "nutritionist" | "merchant" = "trainer"): Promise<NearbyTrainer[]> {
   const supabase = createSupabaseServerClient();
 
   // Buscar todos os perfis com a role desejada
@@ -64,8 +64,8 @@ export async function getNearbyProfessionals(userLat: number, userLng: number, r
     if (dist <= 50) {
       nearbyProfessionals.push({
         id: pro.id,
-        name: pro.full_name || (role === "nutri" ? "Nutricionista" : "Treinador"),
-        specialty: meta.specialty || (role === "nutri" ? "Nutrição Clínica & Esportiva" : "Personal Trainer"),
+        name: pro.full_name || (role === "nutritionist" ? "Nutricionista" : "Treinador"),
+        specialty: meta.specialty || (role === "nutritionist" ? "Nutrição Clínica & Esportiva" : "Personal Trainer"),
         rating: meta.rating || 5.0,
         avatarInitials: meta.avatarInitials || getInitials(pro.full_name || ""),
         distRaw: dist,

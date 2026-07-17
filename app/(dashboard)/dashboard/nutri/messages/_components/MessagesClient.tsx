@@ -69,6 +69,17 @@ function isSameDay(a: Date, b: Date): boolean {
   );
 }
 
+function formatDateSeparator(iso: string): string {
+  if(!iso) return "";
+  const d = new Date(iso);
+  const now = new Date();
+  if (isSameDay(d, now)) return "Hoje";
+  const yesterday = new Date(now);
+  yesterday.setDate(now.getDate() - 1);
+  if (isSameDay(d, yesterday)) return "Ontem";
+  return d.toLocaleDateString("pt-BR", { weekday: "long", day: "2-digit", month: "long" });
+}
+
 /* ── Component ──────────────────────────────────────────────── */
 export function MessagesClient({
   currentUserId,
@@ -92,6 +103,7 @@ export function MessagesClient({
   const [searchQuery, setSearchQuery] = useState("");
   const [newMessage, setNewMessage] = useState("");
   const [isSending, setIsSending] = useState(false);
+  const selectedContact = contacts.find((c) => c.id === selectedContactId);
   const [localMessages, setLocalMessages] = useState<ChatMessage[]>([]);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -613,7 +625,7 @@ export function MessagesClient({
                                   <span className="text-[10px] text-kore-muted tabular-nums">
                                     {formatMessageTime(msg.created_at)}
                                   </span>
-                                  {isMine && msg.read_at && (
+                                  {isMine && msg.status === "read" && (
                                     <ReadCheck />
                                   )}
                                 </div>

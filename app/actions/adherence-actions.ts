@@ -66,7 +66,7 @@ export async function getStudentAdherence(clientId?: string): Promise<StudentAdh
   for (let i = 5; i >= 0; i--) {
     const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
     monthlyAdherence.push({
-      month: monthNames[d.getMonth()],
+      month: monthNames[d.getMonth()]!,
       year: d.getFullYear(),
       progress: 0,
     });

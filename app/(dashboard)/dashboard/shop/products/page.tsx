@@ -16,5 +16,22 @@ export default async function ProductsPage() {
 
   if (!user) redirect("/login?next=/dashboard/shop/products");
 
-  return <ProductsPageClient />;
+  const { data: products } = await supabase
+    .from("products")
+    .select("*")
+    .eq("store_id", user.id)
+    .order("created_at", { ascending: false });
+
+  // Mapear para o formato do client
+  const mappedProducts = (products || []).map((p: any) => ({
+    id: p.id,
+    name: p.title,
+    emoji: "📦", // Default
+    sku: p.id.split("-")[0].toUpperCase(),
+    price: Number(p.price),
+    category: p.category || "Outros",
+    status: p.stock > 0 ? "ativo" : "inativo",
+  }));
+
+  return <ProductsPageClient products={mappedProducts} />;
 }

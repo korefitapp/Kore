@@ -53,7 +53,11 @@ function getAdherence(student: StudentRow): number | string {
     .sort((a: any, b: any) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()) || [];
   if (plans.length === 0) return "-";
 
-  // TODO: calcular a partir de workout_logs quando existir
+  if (student.metadata?.realAdherence !== undefined) {
+    return student.metadata.realAdherence as number | string;
+  }
+  
+  // TODO: remover fallback no futuro
   const seed = student.id.charCodeAt(0) % 10;
   return Math.min(100, Math.max(30, 55 + seed * 5));
 }
@@ -65,7 +69,11 @@ function getLastWorkout(_student: StudentRow): string {
     .sort((a: any, b: any) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()) || [];
   if (plans.length === 0) return "Sem registo";
 
-  // TODO: buscar da tabela workout_logs quando existir
+  if (_student.metadata?.realLastWorkout !== undefined) {
+    return String(_student.metadata.realLastWorkout);
+  }
+
+  // TODO: remover fallback no futuro
   const options = [
     "Hoje",
     "Ontem",
@@ -95,6 +103,10 @@ function getPlan(student: StudentRow): React.ReactNode | string {
 
 /** Status de pagamento mock */
 function getPaymentStatus(student: StudentRow): "em-dia" | "atrasado" | "pendente" {
+  if (student.metadata?.realPaymentStatus !== undefined) {
+    return student.metadata.realPaymentStatus as "em-dia" | "atrasado" | "pendente";
+  }
+
   const ps = String(student.metadata?.payment_status ?? "");
   if (ps === "atrasado" || ps === "pendente") return ps;
   if (student.status === "active") return "em-dia";

@@ -657,7 +657,7 @@ export function MessagesClient({
                                   <span className="text-[10px] text-kore-muted tabular-nums">
                                     {formatMessageTime(msg.created_at)}
                                   </span>
-                                  {isMine && msg.read_at && (
+                                  {isMine && msg.status === "read" && (
                                     <ReadCheck />
                                   )}
                                 </div>

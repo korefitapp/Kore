@@ -206,7 +206,7 @@ export function FinancialClient({
     // Ultimos 6 meses
     const last6Months = Array.from({ length: 6 }).map((_, i) => {
       const d = new Date(now.getFullYear(), now.getMonth() - (5 - i), 1);
-      return { month: months[d.getMonth()], year: d.getFullYear(), value: 0 };
+      return { month: months[d.getMonth()]!, year: d.getFullYear(), value: 0 };
     });
 
     transactions.forEach(t => {

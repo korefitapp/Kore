@@ -129,13 +129,13 @@ export function FinancialClient({
 
   const dailyRevenue = useMemo(() => {
     const days = 7;
-    const result: DailyRevenue[] = [];
+    const result: { day: string; revenue: number; _date: Date }[] = [];
     const now = new Date();
     
     for (let i = days - 1; i >= 0; i--) {
       const d = new Date(now.getFullYear(), now.getMonth(), now.getDate() - i);
       const dayStr = d.toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit" });
-      result.push({ day: dayStr, revenue: 0, _date: d });
+      result.push({ day: dayStr, revenue: 0, _date: d } as any);
     }
 
     transactions.forEach(t => {

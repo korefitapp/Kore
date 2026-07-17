@@ -58,6 +58,7 @@ function isSameDay(a: Date, b: Date): boolean {
 }
 
 function formatDateSeparator(iso: string): string {
+  if(!iso) return "";
   const d = new Date(iso);
   const now = new Date();
   if (isSameDay(d, now)) return "Hoje";
@@ -66,8 +67,6 @@ function formatDateSeparator(iso: string): string {
   if (isSameDay(d, yesterday)) return "Ontem";
   return d.toLocaleDateString("pt-BR", { weekday: "long", day: "2-digit", month: "long" });
 }
-
-/* ── Component ──────────────────────────────────────────────── */
 
 export function MessagesPageClient({
   currentUserId,
@@ -114,43 +113,40 @@ export function MessagesPageClient({
   // Realtime Supabase Setup
   useEffect(() => {
     const messagesChannel = supabase
-      .channel("realtime:messages")
+      .channel("realtime:chat_messages")
       .on(
         "postgres_changes",
-        { event: "INSERT", schema: "public", table: "messages" },
+        {
+          event: "INSERT",
+          schema: "public",
+          table: "chat_messages",
+        },
         (payload) => {
           const newMsg = payload.new as ChatMessage;
           
-          if (newMsg.sender_id === currentUserId || newMsg.receiver_id === currentUserId) {
-            const otherId = newMsg.sender_id === currentUserId ? newMsg.receiver_id : newMsg.sender_id;
-            
-            // Atualiza mensagens abertas se for desta conversa
-            setLocalMessages((prev) => {
-              if (selectedContactId === otherId && !prev.some(m => m.id === newMsg.id)) {
-                return [...prev, newMsg];
-              }
-              return prev;
-            });
-
-            // Se for do contato atual, marca como lida
-            if (selectedContactId === otherId && newMsg.receiver_id === currentUserId) {
-              markMessagesAsRead(otherId);
+          setLocalMessages((prev) => {
+            if (selectedContactId === newMsg.contact_id && !prev.some(m => m.id === newMsg.id)) {
+              return [...prev, newMsg];
             }
+            return prev;
+          });
 
-            // Atualiza contato
-            setContacts(prev => prev.map(c => {
-              if (c.id === otherId) {
-                return {
-                  ...c,
-                  lastMessage: newMsg.content,
-                  lastMessageTime: newMsg.created_at,
-                  unreadCount: (newMsg.receiver_id === currentUserId && selectedContactId !== otherId && !newMsg.read_at) 
-                    ? c.unreadCount + 1 : c.unreadCount
-                };
-              }
-              return c;
-            }));
+          if (selectedContactId === newMsg.contact_id && !newMsg.is_from_me) {
+            markMessagesAsRead(newMsg.contact_id);
           }
+
+          setContacts(prev => prev.map(c => {
+            if (c.id === newMsg.contact_id) {
+              return {
+                ...c,
+                lastMessage: newMsg.text,
+                lastMessageTime: newMsg.created_at,
+                unreadCount: (!newMsg.is_from_me && selectedContactId !== newMsg.contact_id && newMsg.status !== "read") 
+                  ? c.unreadCount + 1 : c.unreadCount
+              };
+            }
+            return c;
+          }));
         }
       )
       .subscribe();
@@ -252,11 +248,13 @@ export function MessagesPageClient({
     const textToSend = newMessage.trim();
     const tempMsg: ChatMessage = {
       id: `local-${Date.now()}`,
+      contact_id: selectedContactId,
+      message_id: `temp-${Date.now()}`,
       sender_id: currentUserId,
-      receiver_id: selectedContactId,
-      content: textToSend,
+      text: textToSend,
+      is_from_me: true,
+      status: "sending",
       created_at: new Date().toISOString(),
-      read_at: null,
     };
 
     setLocalMessages((prev) => [...prev, tempMsg]);
@@ -265,7 +263,7 @@ export function MessagesPageClient({
 
     try {
       if (instanceStatus === "open") {
-         await sendWhatsAppMessage(selectedContactId, contact.phone || "", textToSend);
+         await sendWhatsAppMessage(selectedContactId, (contact.phone || "") || "", textToSend);
       } else {
          await sendInternalMessage(selectedContactId, textToSend);
       }
@@ -357,7 +355,7 @@ export function MessagesPageClient({
                     >
                       {/* Avatar */}
                       <div className="w-12 h-12 rounded-full bg-kore-emerald/10 grid place-items-center flex-shrink-0 text-xl font-bold text-kore-emerald">
-                        {getInitials(contact.name)}
+                        {getInitials(contact.full_name)}
                       </div>
 
                       {/* Info */}
@@ -368,7 +366,7 @@ export function MessagesPageClient({
                               contact.unreadCount > 0 ? "text-kore-ink" : "text-kore-ink/80"
                             }`}
                           >
-                            {contact.name}
+                            {contact.full_name}
                           </p>
                           {contact.lastMessageTime && (
                             <span
@@ -383,7 +381,7 @@ export function MessagesPageClient({
 
                         {/* Order ref */}
                         <p className="text-[10px] font-bold text-kore-emerald-deep mt-0.5">
-                          Pedido {contact.orderRef}
+                          Pedido {""}
                         </p>
 
                         <div className="flex items-center justify-between gap-2 mt-0.5">
@@ -434,7 +432,7 @@ export function MessagesPageClient({
                     </button>
 
                     <div className="w-10 h-10 rounded-full bg-kore-emerald/10 grid place-items-center flex-shrink-0 text-sm font-bold text-kore-emerald">
-                      {getInitials(selectedContact.full_name)}
+                      {getInitials(selectedContact.full_name || "")}
                     </div>
 
                     <div className="flex-1">
@@ -467,7 +465,7 @@ export function MessagesPageClient({
                         </div>
 
                         {group.messages.map((msg, idx) => {
-                          const isMine = msg.sender_id === currentUserId;
+                          const isMine = msg.is_from_me;
                           return (
                             <div
                               key={msg.id}
@@ -475,7 +473,7 @@ export function MessagesPageClient({
                             >
                               {!isMine && (
                                 <div className="w-7 h-7 rounded-full bg-kore-muted/20 grid place-items-center flex-shrink-0 mr-2 text-xs">
-                                  {getInitials(selectedContact.full_name)}
+                                  {getInitials(selectedContact.full_name || "")}
                                 </div>
                               )}
                               <div className={`max-w-[75%] sm:max-w-[65%] ${isMine ? "ml-auto" : ""}`}>
@@ -486,7 +484,7 @@ export function MessagesPageClient({
                                       : "bg-kore-bg border border-kore-border/60 text-kore-ink rounded-2xl rounded-bl-md"
                                   }`}
                                 >
-                                  {msg.content}
+                                  {msg.text}
                                 </div>
                                 <div
                                   className={`flex items-center gap-1 mt-0.5 ${isMine ? "justify-end" : "justify-start"}`}
@@ -494,7 +492,7 @@ export function MessagesPageClient({
                                   <span className="text-[10px] text-kore-muted tabular-nums">
                                     {formatTime(msg.created_at)}
                                   </span>
-                                  {isMine && msg.read_at && <ReadCheck />}
+                                  {isMine && msg.status === "read" && <ReadCheck />}
                                 </div>
                               </div>
                             </div>
@@ -537,7 +535,7 @@ export function MessagesPageClient({
                         disabled={!newMessage.trim()}
                         aria-label="Enviar"
                         className={`w-10 h-10 grid place-items-center rounded-xl transition flex-shrink-0 ${
-                          inputValue.trim()
+                          newMessage.trim()
                             ? "bg-kore-emerald text-white hover:brightness-110 shadow-kore-emerald"
                             : "bg-kore-bg border border-kore-border text-kore-muted cursor-not-allowed"
                         }`}
