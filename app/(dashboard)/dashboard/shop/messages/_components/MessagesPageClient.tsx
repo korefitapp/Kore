@@ -355,7 +355,7 @@ export function MessagesPageClient({
                     >
                       {/* Avatar */}
                       <div className="w-12 h-12 rounded-full bg-kore-emerald/10 grid place-items-center flex-shrink-0 text-xl font-bold text-kore-emerald">
-                        {getInitials(contact.full_name)}
+                        {getInitials(contact.full_name || "")}
                       </div>
 
                       {/* Info */}
