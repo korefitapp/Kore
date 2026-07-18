@@ -15,6 +15,7 @@ export interface StudentAdherenceData {
     date: number;
     progress: number;
     isToday: boolean;
+    dateStr?: string;
   }[];
   monthlyAdherence: MonthlyAdherence[];
 }
@@ -51,7 +52,7 @@ export async function getStudentAdherence(clientId?: string): Promise<StudentAdh
     const d = new Date(now);
     d.setDate(now.getDate() - i);
     weeklyCalendar.push({
-      day: days[d.getDay()],
+      day: days[d.getDay()] || "Dom",
       date: d.getDate(),
       progress: 0,
       isToday: i === 0,

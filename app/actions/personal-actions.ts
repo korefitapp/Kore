@@ -98,8 +98,8 @@ export async function getStudents(): Promise<ActionResult> {
       // Calculate Last Workout
       let lastWorkoutStr = "Sem registo";
       if (pLogs.length > 0) {
-        pLogs.sort((a, b) => new Date(b.completed_at).getTime() - new Date(a.completed_at).getTime());
-        const lastDate = new Date(pLogs[0].completed_at);
+        pLogs.sort((a, b) => new Date(b.completed_at!).getTime() - new Date(a.completed_at!).getTime());
+        const lastDate = new Date(pLogs[0]!.completed_at!);
         if (formatYMD(lastDate) === formatYMD(now)) lastWorkoutStr = "Hoje";
         else {
           const yesterday = new Date(now);

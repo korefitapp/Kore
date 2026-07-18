@@ -146,7 +146,7 @@ function DiscoverNutris() {
           
           try {
             const { getNearbyProfessionals } = await import("@/app/actions/discovery-actions");
-            const data = await getNearbyProfessionals(lat, lng, "nutri");
+            const data = await getNearbyProfessionals(lat, lng, "nutritionist");
             setNutris(data.slice(0, 5)); // Apenas os 5 mais próximos
             setStatus("success");
           } catch (error) {
