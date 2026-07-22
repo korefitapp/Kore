@@ -11,9 +11,16 @@ export function ActiveMode({ exerciseId }: { exerciseId: string }) {
   const exercise = useKore((s) =>
     s.exercises.find((e) => e.id === exerciseId),
   );
+  const dayExercises = useKore((s) =>
+    s.exercises.filter((e) => e.day === exercise?.day),
+  );
   const updateSet = useKore((s) => s.updateSet);
   const setActive = useKore((s) => s.setActive);
   const [playing, setPlaying] = useState(true);
+
+  const isAllDone = exercise?.sets.every((st) => st.done);
+  const currentIndex = dayExercises.findIndex((e) => e.id === exerciseId);
+  const nextExercise = dayExercises[currentIndex + 1];
 
   // Screen Wake Lock API
   useEffect(() => {
@@ -191,6 +198,35 @@ export function ActiveMode({ exerciseId }: { exerciseId: string }) {
           ))}
         </div>
       </section>
+
+      <AnimatePresence>
+        {isAllDone && (
+          <motion.div
+            initial={{ opacity: 0, y: 20, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            className="pt-4"
+          >
+            <button
+              onClick={() => {
+                if (nextExercise) {
+                  setActive(nextExercise.id);
+                } else {
+                  setActive(null);
+                  triggerHaptic();
+                  playSuccessSound(); // Extra celebration for finishing workout
+                }
+              }}
+              className="w-full relative overflow-hidden group bg-emerald-500 rounded-[20px] p-4 flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(52,211,153,0.3)] active:scale-95 transition-all"
+            >
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]" />
+              <Check className="text-white" size={20} strokeWidth={3} />
+              <span className="text-white font-extrabold text-base tracking-wide">
+                {nextExercise ? "Próximo Exercício" : "Concluir Treino 🎉"}
+              </span>
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
     </motion.div>
   );

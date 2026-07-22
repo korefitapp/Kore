@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 import { buildFallbackSeed, buildWeek } from "./initial-data";
 import type {
   AppSeed,
@@ -24,6 +25,7 @@ export interface KoreState {
   online: boolean;
   user: UserProfile;
   hydrated: boolean;
+  pendingSync: boolean;
 
   tab: Tab;
   setTab: (t: Tab) => void;
@@ -80,6 +82,7 @@ export interface KoreState {
   setCartOpen: (b: boolean) => void;
 
   hydrateFromSeed: (seed: AppSeed) => void;
+  syncOfflineData: () => Promise<void>;
 }
 
 function macrosFromMeals(meals: Meal[]): MacrosTriplet {
@@ -96,12 +99,23 @@ function macrosFromMeals(meals: Meal[]): MacrosTriplet {
     );
 }
 
+function getLocalYYYYMMDD() {
+  const date = new Date();
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
 const fallback = buildFallbackSeed();
 
-export const useKore = create<KoreState>((set) => ({
-  online: fallback.online,
-  user: fallback.user,
-  hydrated: false,
+export const useKore = create<KoreState>()(
+  persist(
+    (set, get) => ({
+      online: fallback.online,
+      user: fallback.user,
+      hydrated: false,
+      pendingSync: false,
 
   tab: "home",
   setTab: (t) => set({ tab: t }),
@@ -137,7 +151,9 @@ export const useKore = create<KoreState>((set) => ({
       const newVal = Math.max(0, Math.min(s.waterGoalMl, s.waterMl + ml));
       // Fire and forget server action sync
       import("../actions").then(({ logWater }) => {
-        logWater(newVal, new Date().toISOString().split("T")[0] ?? "").catch(console.error);
+        logWater(newVal, getLocalYYYYMMDD()).catch(() => {
+          set({ pendingSync: true });
+        });
       });
       return { waterMl: newVal };
     });
@@ -146,7 +162,9 @@ export const useKore = create<KoreState>((set) => ({
     set((s) => {
       const newVal = Math.max(0, Math.min(s.waterGoalMl, ml));
       import("../actions").then(({ logWater }) => {
-        logWater(newVal, new Date().toISOString().split("T")[0] ?? "").catch(console.error);
+        logWater(newVal, getLocalYYYYMMDD()).catch(() => {
+          set({ pendingSync: true });
+        });
       });
       return { waterMl: newVal };
     });
@@ -168,6 +186,7 @@ export const useKore = create<KoreState>((set) => ({
           items: m.items.map((it) => ({ ...it, consumed: nextConsumed })),
         };
       });
+      set({ pendingSync: true });
       return { meals, macros: macrosFromMeals(meals) };
     }),
   toggleMealItem: (mealId, itemId) =>
@@ -180,6 +199,7 @@ export const useKore = create<KoreState>((set) => ({
         const allConsumed = updatedItems.length > 0 && updatedItems.every((it) => it.consumed);
         return { ...m, items: updatedItems, consumed: allConsumed };
       });
+      set({ pendingSync: true });
       return { meals, macros: macrosFromMeals(meals) };
     }),
 
@@ -200,11 +220,7 @@ export const useKore = create<KoreState>((set) => ({
               ),
             },
       );
-      if (typeof window !== "undefined") {
-        const dateKey = new Date().toISOString().split("T")[0];
-        const progress = exercises.map(ex => ({ id: ex.id, sets: ex.sets.map(s => ({ done: s.done, load: s.load, reps: s.reps })) }));
-        localStorage.setItem("kore_workout_" + dateKey, JSON.stringify(progress));
-      }
+      set({ pendingSync: true });
       return { exercises };
     }),
 
@@ -251,30 +267,18 @@ export const useKore = create<KoreState>((set) => ({
   setCartOpen: (b) => set({ cartOpen: b }),
 
   hydrateFromSeed: (seed) =>
-    set(() => {
-      let hydratedExercises = seed.exercises;
-      if (typeof window !== "undefined") {
-        const dateKey = new Date().toISOString().split("T")[0];
-        const saved = localStorage.getItem("kore_workout_" + dateKey);
-        if (saved) {
-          try {
-            const progress = JSON.parse(saved);
-            hydratedExercises = seed.exercises.map(ex => {
-              const savedEx = progress.find((p: any) => p.id === ex.id);
-              if (savedEx && savedEx.sets) {
-                return {
-                  ...ex,
-                  sets: ex.sets.map((st, i) => {
-                    const savedSet = savedEx.sets[i];
-                    return savedSet ? { ...st, done: savedSet.done, load: savedSet.load ?? st.load, reps: savedSet.reps ?? st.reps } : st;
-                  })
-                };
-              }
-              return ex;
-            });
-          } catch(e) {}
-        }
+    set((s) => {
+      // Se há dados aguardando sincronia offline, priorizamos o estado local
+      // sobre o seed para não resetar a tela do usuário que fez check offline.
+      if (s.pendingSync) {
+        return {
+          online: seed.online,
+          user: seed.user,
+          hydrated: true,
+          // Mantemos meals, exercises e waterMl locais
+        };
       }
+      
       return {
         online: seed.online,
         user: seed.user,
@@ -286,7 +290,7 @@ export const useKore = create<KoreState>((set) => ({
         macros: macrosFromMeals(seed.meals),
         macrosGoal: seed.macrosGoal,
         meals: seed.meals,
-        exercises: hydratedExercises,
+        exercises: seed.exercises,
         weeklyCalendar: seed.weeklyCalendar || [],
         stores: seed.stores,
         products: seed.products,
@@ -294,7 +298,27 @@ export const useKore = create<KoreState>((set) => ({
         topTrainers: seed.topTrainers || [],
       };
     }),
-}));
+    
+  syncOfflineData: async () => {
+    // Implementaremos a chamada pesada depois, por enquanto desliga a flag
+    set({ pendingSync: false });
+  }
+    }),
+    {
+      name: "kore-storage",
+      partialize: (state) => ({
+        theme: state.theme,
+        tab: state.tab,
+        waterMl: state.waterMl,
+        meals: state.meals,
+        exercises: state.exercises,
+        streak: state.streak,
+        weeklyCalendar: state.weeklyCalendar,
+        pendingSync: state.pendingSync,
+      }),
+    }
+  )
+);
 
 /**
  * Hook que aplica o seed do Server Component ao store na 1ª montagem.
