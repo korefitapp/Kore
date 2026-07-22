@@ -7,8 +7,8 @@ if (fs.existsSync(envPath)) {
   const envConfig = fs.readFileSync(envPath, 'utf-8');
   envConfig.split(/\r?\n/).forEach((line) => {
     const match = line.match(/^([^=]+)=(.*)$/);
-    if (match) {
-      process.env[match[1]] = match[2].trim().replace(/^"|"$/g, '').replace(/^'|'$/g, '');
+    if (match && match[1]) {
+      process.env[match[1]] = match[2]?.trim().replace(/^"|"$/g, '').replace(/^'|'$/g, '') || '';
     }
   });
 }

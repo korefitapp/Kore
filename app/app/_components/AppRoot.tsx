@@ -9,6 +9,7 @@ import { TreinoTab } from "./treino/TreinoTab";
 import { ShopTab } from "./shop/ShopTab";
 import { PerfilTab } from "./perfil/PerfilTab";
 import { CartDrawer } from "./shop/CartDrawer";
+import { InstallPrompt } from "./InstallPrompt";
 import type { AppSeed } from "./types";
 
 export function AppRoot({ seed }: { seed: AppSeed }) {
@@ -17,6 +18,7 @@ export function AppRoot({ seed }: { seed: AppSeed }) {
 
   return (
     <div className="min-h-screen flex flex-col bg-slate-50 dark:bg-[#121212] text-slate-900 dark:text-white transition-colors selection:bg-emerald-500/30">
+      <InstallPrompt />
       <main className="flex-1 mx-auto w-full max-w-md px-4 pt-5 pb-4">
         <AnimatePresence mode="wait" initial={false}>
           <motion.div
