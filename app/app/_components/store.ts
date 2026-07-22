@@ -208,10 +208,10 @@ export const useKore = create<KoreState>((set) => ({
       return { exercises };
     }),
 
-  address: fallback.address,
+  address: fallback.address || "Endereço não definido",
   setAddress: (a) => set({ address: a }),
-  stores: fallback.stores,
-  products: fallback.products,
+  stores: fallback.stores || [],
+  products: fallback.products || [],
   topTrainers: fallback.topTrainers || [],
   shopFilter: "all",
   setShopFilter: (f) => set({ shopFilter: f }),

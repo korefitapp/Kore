@@ -69,33 +69,33 @@ function getProductThumb(category: string, name: string): string {
 export async function getMarketplaceProducts(): Promise<(ShopProduct & { sellerName: string })[]> {
   const supabase = createSupabaseServerClient();
 
-  const { data: listings, error } = await supabase
-    .from("listings")
+  const { data: productsData, error } = await supabase
+    .from("products")
     .select(`
       id, 
-      product_name, 
+      title, 
       category, 
       price, 
-      seller_id,
-      profiles!seller_id (
+      store_id,
+      profiles!store_id (
         full_name
       )
     `)
-    .eq("status", "published")
+    .gt("stock", 0)
     .order("created_at", { ascending: false });
 
-  if (error || !listings) {
+  if (error || !productsData) {
     console.error("Erro ao buscar produtos da loja:", error);
     return [];
   }
 
-  return listings.map((item: any) => ({
+  return productsData.map((item: any) => ({
     id: item.id,
-    name: item.product_name,
+    name: item.title,
     price: Number(item.price),
     tag: item.category,
-    thumb: getProductThumb(item.category, item.product_name),
-    sellerId: item.seller_id,
+    thumb: getProductThumb(item.category || "Outros", item.title),
+    sellerId: item.store_id,
     sellerName: item.profiles?.full_name || "Loja Parceira",
   }));
 }

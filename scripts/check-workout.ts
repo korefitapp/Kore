@@ -10,8 +10,7 @@ async function main() {
   const { data: plans } = await supabase
     .from("workout_plans")
     .select("*")
-    .order("created_at", { ascending: false })
-    .limit(1);
+    .order("created_at", { ascending: false });
 
   console.log("Latest plan:", plans);
 

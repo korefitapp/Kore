@@ -58,6 +58,7 @@ export function LibraryClient({ exercises, currentUserId, isAdmin = false }: { e
   const [searchTerm, setSearchTerm] = useState("");
   const [activeTab, setActiveTab] = useState("Todos");
   const [isExerciseModalOpen, setIsExerciseModalOpen] = useState(false);
+  const [editingExercise, setEditingExercise] = useState<Exercise | null>(null);
 
   const filteredExercises = exercises.filter((ex) => {
     // 1. Filtrar pela aba
@@ -153,7 +154,13 @@ export function LibraryClient({ exercises, currentUserId, isAdmin = false }: { e
           {filteredExercises.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 mt-6">
               {filteredExercises.map((ex) => (
-                <ExerciseCard key={ex.id} exercise={ex} currentUserId={currentUserId} isAdmin={isAdmin} />
+                <ExerciseCard 
+                  key={ex.id} 
+                  exercise={ex} 
+                  currentUserId={currentUserId} 
+                  isAdmin={isAdmin} 
+                  onEdit={() => setEditingExercise(ex)}
+                />
               ))}
             </div>
           ) : (
@@ -162,12 +169,18 @@ export function LibraryClient({ exercises, currentUserId, isAdmin = false }: { e
         </main>
       </div>
       <CreateExerciseModal isOpen={isExerciseModalOpen} onClose={() => setIsExerciseModalOpen(false)} />
+      {editingExercise && (
+        <EditExerciseModal 
+          isOpen={true} 
+          onClose={() => setEditingExercise(null)} 
+          exercise={editingExercise as any} 
+        />
+      )}
     </div>
   );
 }
 
-function ExerciseCard({ exercise, currentUserId, isAdmin = false }: { exercise: Exercise, currentUserId: string, isAdmin?: boolean }) {
-  const [isEditOpen, setIsEditOpen] = useState(false);
+function ExerciseCard({ exercise, currentUserId, isAdmin = false, onEdit }: { exercise: Exercise, currentUserId: string, isAdmin?: boolean, onEdit: () => void }) {
   const canEdit = exercise.professional_id === currentUserId || isAdmin;
 
   return (
@@ -212,7 +225,7 @@ function ExerciseCard({ exercise, currentUserId, isAdmin = false }: { exercise: 
         {canEdit && (
           <button
             type="button"
-            onClick={() => setIsEditOpen(true)}
+            onClick={onEdit}
             className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-[11px] font-bold text-kore-subink hover:text-kore-ink bg-kore-bg hover:bg-kore-border/50 transition"
           >
             <Edit3 size={12} />
@@ -220,8 +233,6 @@ function ExerciseCard({ exercise, currentUserId, isAdmin = false }: { exercise: 
           </button>
         )}
       </div>
-
-      <EditExerciseModal isOpen={isEditOpen} onClose={() => setIsEditOpen(false)} exercise={exercise as any} />
     </article>
   );
 }

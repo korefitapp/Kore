@@ -11,6 +11,11 @@ export const metadata: Metadata = {
   description:
     "KORE Super App: nutrição, treino, marketplace local e gamificação em um só ecossistema.",
   applicationName: "KORE",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "KORE",
+  },
 };
 
 export const viewport: Viewport = {

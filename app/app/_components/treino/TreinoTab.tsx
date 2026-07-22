@@ -195,7 +195,7 @@ function DiscoverProfessionals() {
           try {
             const { getNearbyProfessionals } = await import("@/app/actions/discovery-actions");
             const data = await getNearbyProfessionals(lat, lng, "trainer");
-            setTrainers(data);
+            setTrainers(data.slice(0, 5)); // Apenas os 5 mais próximos
             setStatus("success");
           } catch (error) {
             console.error("Failed to fetch trainers:", error);
@@ -329,10 +329,10 @@ function DiscoverProfessionals() {
 export function TreinoTab() {
   const activeId = useKore((s) => s.activeExerciseId);
   const user = useKore((s) => s.user);
+  const exercises = useKore((s) => s.exercises);
 
-  // Se o aluno tiver coachId, consideramos que ele tem "ActivePlan" para essa aba,
-  // ou se não, cai na UI de descobrir.
-  const hasActivePlan = !!user.coachId;
+  // Se o aluno tiver coachId ou se tiver exercícios carregados, consideramos que ele tem "ActivePlan"
+  const hasActivePlan = !!user.coachId || exercises.length > 0;
 
   return (
     <AnimatePresence mode="wait" initial={false}>
