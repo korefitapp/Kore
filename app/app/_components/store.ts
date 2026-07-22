@@ -26,6 +26,7 @@ export interface KoreState {
   user: UserProfile;
   hydrated: boolean;
   pendingSync: boolean;
+  syncQueue: any[];
 
   tab: Tab;
   setTab: (t: Tab) => void;
@@ -116,6 +117,7 @@ export const useKore = create<KoreState>()(
       user: fallback.user,
       hydrated: false,
       pendingSync: false,
+      syncQueue: [],
 
   tab: "home",
   setTab: (t) => set({ tab: t }),
@@ -152,7 +154,10 @@ export const useKore = create<KoreState>()(
       // Fire and forget server action sync
       import("../actions").then(({ logWater }) => {
         logWater(newVal, getLocalYYYYMMDD()).catch(() => {
-          set({ pendingSync: true });
+          set((state) => ({ 
+            pendingSync: true,
+            syncQueue: [...state.syncQueue, { type: 'WATER_CHECK', payload: { ml: newVal, dateISO: getLocalYYYYMMDD() } }]
+          }));
         });
       });
       return { waterMl: newVal };
@@ -163,7 +168,10 @@ export const useKore = create<KoreState>()(
       const newVal = Math.max(0, Math.min(s.waterGoalMl, ml));
       import("../actions").then(({ logWater }) => {
         logWater(newVal, getLocalYYYYMMDD()).catch(() => {
-          set({ pendingSync: true });
+          set((state) => ({ 
+            pendingSync: true,
+            syncQueue: [...state.syncQueue, { type: 'WATER_CHECK', payload: { ml: newVal, dateISO: getLocalYYYYMMDD() } }]
+          }));
         });
       });
       return { waterMl: newVal };
@@ -300,8 +308,35 @@ export const useKore = create<KoreState>()(
     }),
     
   syncOfflineData: async () => {
-    // Implementaremos a chamada pesada depois, por enquanto desliga a flag
-    set({ pendingSync: false });
+    const state = get();
+    if (!state.syncQueue || state.syncQueue.length === 0) {
+      set({ pendingSync: false });
+      return;
+    }
+    
+    try {
+      const { logWater } = await import("../actions");
+      const itemsToKeep = [];
+      let hasFailures = false;
+      
+      for (const item of state.syncQueue) {
+        try {
+          if (item.type === 'WATER_CHECK') {
+            await logWater(item.payload.ml, item.payload.dateISO);
+          }
+        } catch (err) {
+          hasFailures = true;
+          itemsToKeep.push(item);
+        }
+      }
+      
+      set({
+        syncQueue: itemsToKeep,
+        pendingSync: hasFailures
+      });
+    } catch (e) {
+      // If the import fails or we are completely offline
+    }
   }
     }),
     {
@@ -315,6 +350,7 @@ export const useKore = create<KoreState>()(
         streak: state.streak,
         weeklyCalendar: state.weeklyCalendar,
         pendingSync: state.pendingSync,
+        syncQueue: state.syncQueue,
       }),
     }
   )

@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useKore, useKoreHydrate } from "./store";
 import { BottomNav } from "./BottomNav";
@@ -17,6 +18,20 @@ export function AppRoot({ seed }: { seed: AppSeed }) {
   useKoreHydrate(seed);
   const hydrated = useKore((s) => s.hydrated);
   const tab = useKore((s) => s.tab);
+
+  useEffect(() => {
+    const handleOnline = () => {
+      useKore.getState().syncOfflineData();
+    };
+
+    window.addEventListener("online", handleOnline);
+    // Tenta sincronizar logo na montagem caso tenha pendências e internet
+    if (navigator.onLine) {
+      handleOnline();
+    }
+
+    return () => window.removeEventListener("online", handleOnline);
+  }, []);
 
   if (!hydrated) {
     return (
