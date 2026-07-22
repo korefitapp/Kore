@@ -58,6 +58,17 @@ export async function updateSession(request: NextRequest) {
     return NextResponse.redirect(redirectUrl);
   }
 
+  // Redirecionamento de mobile da landing page (/) para o web app (/app)
+  if (pathname === "/") {
+    const userAgent = request.headers.get("user-agent") || "";
+    const isMobile = /mobile|android|iphone|ipad|ipod/i.test(userAgent);
+    if (isMobile) {
+      const redirectUrl = request.nextUrl.clone();
+      redirectUrl.pathname = "/app";
+      return NextResponse.redirect(redirectUrl);
+    }
+  }
+
   // Pós-login + RBAC cruzado + status pending
   if (user && (isAuthPage || isProtectedApp || isDashboard || isPendingPage)) {
     type RoleStatusRow = {
