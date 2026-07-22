@@ -5,6 +5,7 @@ import { Check, ChevronDown, Clock } from "lucide-react";
 import { useState } from "react";
 import { useKore } from "../store";
 import type { Meal } from "../types";
+import { triggerHaptic, playSuccessSound } from "../feedback";
 
 export function MealAccordion({
   meal,
@@ -21,6 +22,12 @@ export function MealAccordion({
   const toggleMeal = useKore((s) => s.toggleMeal);
 
   const handleToggle = () => {
+    // If the meal is not 100% consumed yet, it will become consumed
+    if (pct < 100) {
+      triggerHaptic();
+      playSuccessSound();
+    }
+    
     if (onToggle) {
       onToggle();
     } else {
@@ -53,7 +60,7 @@ export function MealAccordion({
         <button
           onClick={(e) => {
             e.stopPropagation();
-            if (onToggle) onToggle();
+            handleToggle();
           }}
           className="relative flex-shrink-0 w-12 h-12 flex items-center justify-center transition-transform active:scale-90"
           aria-label="Marcar todos"
@@ -133,7 +140,14 @@ export function MealAccordion({
               {meal.items.map((it) => (
                 <li
                   key={it.id}
-                  onClick={() => onToggleItem && onToggleItem(it.id, !!it.consumed)}
+                  onClick={() => {
+                    const willConsume = !it.consumed;
+                    if (willConsume) {
+                      triggerHaptic();
+                      playSuccessSound();
+                    }
+                    if (onToggleItem) onToggleItem(it.id, !!it.consumed);
+                  }}
                   className={`flex items-center gap-3 rounded-2xl bg-slate-50 dark:bg-white/[0.03] border border-slate-200 dark:border-white/5 px-3 py-2.5 cursor-pointer transition-all active:scale-[0.98] ${
                     it.consumed ? "opacity-50" : ""
                   }`}

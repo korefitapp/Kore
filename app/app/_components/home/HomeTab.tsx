@@ -33,7 +33,9 @@ function WeeklyCalendar() {
         {displayCalendar.map((item, idx) => {
           // 33.3% para cada etapa (Água, Treino, Dieta)
           const progress = item.isToday ? todayProgress : item.progress;
-          const progressDeg = (progress / 100) * 360;
+          const radius = 19;
+          const circumference = 2 * Math.PI * radius;
+          const strokeDashoffset = circumference - (progress / 100) * circumference;
           
           return (
             <div key={idx} className="flex flex-col items-center gap-2">
@@ -44,12 +46,26 @@ function WeeklyCalendar() {
                 className={`relative w-[42px] h-[42px] rounded-full flex items-center justify-center ${
                   item.isToday ? 'shadow-[0_0_15px_rgba(52,211,153,0.3)]' : ''
                 }`}
-                style={{
-                  background: `conic-gradient(#34d399 ${progressDeg}deg, rgba(150,150,150,0.1) ${progressDeg}deg)`
-                }}
               >
+                <svg className="absolute inset-0 w-full h-full -rotate-90 text-slate-200 dark:text-white/5" viewBox="0 0 42 42">
+                  <circle cx="21" cy="21" r={radius} stroke="currentColor" strokeWidth="3" fill="none" />
+                  <motion.circle
+                    cx="21"
+                    cy="21"
+                    r={radius}
+                    stroke="currentColor"
+                    strokeWidth="3"
+                    fill="none"
+                    strokeDasharray={circumference}
+                    initial={{ strokeDashoffset: circumference }}
+                    animate={{ strokeDashoffset }}
+                    transition={{ duration: 1, ease: "easeOut", delay: idx * 0.1 }}
+                    className="text-emerald-500"
+                    strokeLinecap="round"
+                  />
+                </svg>
                 {/* Inner circle for the "border" effect */}
-                <div className={`w-[36px] h-[36px] rounded-full flex items-center justify-center ${item.isToday ? 'bg-slate-100 dark:bg-zinc-800' : 'bg-white dark:bg-[#1a1a1a]'}`}>
+                <div className={`relative z-10 w-[36px] h-[36px] rounded-full flex items-center justify-center ${item.isToday ? 'bg-slate-100 dark:bg-zinc-800' : 'bg-white dark:bg-[#121212]'}`}>
                   <span className={`text-sm ${item.isToday ? 'text-slate-900 dark:text-white font-bold' : 'text-slate-500 dark:text-zinc-400'}`}>
                     {item.date}
                   </span>

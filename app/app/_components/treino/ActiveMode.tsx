@@ -2,9 +2,10 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowLeft, Check, Pause, Play } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useKore } from "../store";
 import { CircularTimer } from "./CircularTimer";
+import { triggerHaptic, playSuccessSound } from "../feedback";
 
 export function ActiveMode({ exerciseId }: { exerciseId: string }) {
   const exercise = useKore((s) =>
@@ -13,6 +14,26 @@ export function ActiveMode({ exerciseId }: { exerciseId: string }) {
   const updateSet = useKore((s) => s.updateSet);
   const setActive = useKore((s) => s.setActive);
   const [playing, setPlaying] = useState(true);
+
+  // Screen Wake Lock API
+  useEffect(() => {
+    let wakeLock: any = null;
+    const requestWakeLock = async () => {
+      try {
+        if ("wakeLock" in navigator) {
+          wakeLock = await (navigator as any).wakeLock.request("screen");
+        }
+      } catch (err) {
+        console.warn("Wake Lock error:", err);
+      }
+    };
+    requestWakeLock();
+    return () => {
+      if (wakeLock) {
+        wakeLock.release().catch(() => {});
+      }
+    };
+  }, []);
 
   if (!exercise) return null;
 
@@ -136,7 +157,14 @@ export function ActiveMode({ exerciseId }: { exerciseId: string }) {
               </div>
 
               <button
-                onClick={() => updateSet(exercise.id, i, { done: !st.done })}
+                onClick={() => {
+                  const willBeDone = !st.done;
+                  if (willBeDone) {
+                    triggerHaptic();
+                    playSuccessSound();
+                  }
+                  updateSet(exercise.id, i, { done: willBeDone });
+                }}
                 className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all active:scale-90 ${
                   st.done
                     ? "bg-purple-500 text-white shadow-md shadow-purple-500/20"

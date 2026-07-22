@@ -275,9 +275,31 @@ function DiscoverProfessionals() {
       </section>
 
       {status === "success" && trainers.length === 0 && (
-        <div className="text-center py-6 text-kore-muted">
+        <div className="text-center py-6 text-slate-500 dark:text-zinc-400">
           Nenhum treinador encontrado na sua região.
         </div>
+      )}
+
+      {(status === "loading" || status === "idle") && (
+        <section className="space-y-4 mt-6">
+          <h2 className="text-lg font-bold text-slate-900 dark:text-white">
+            Personais Próximos
+          </h2>
+          <div className="space-y-3">
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="flex w-full flex-col gap-4 rounded-[24px] border border-slate-200 bg-white p-4 shadow-sm dark:border-white/10 dark:bg-white/5 animate-pulse">
+                <div className="flex items-center gap-4">
+                  <div className="h-14 w-14 rounded-[18px] bg-slate-200 dark:bg-white/10"></div>
+                  <div className="flex-1 space-y-2">
+                    <div className="h-4 w-2/3 rounded bg-slate-200 dark:bg-white/10"></div>
+                    <div className="h-3 w-1/3 rounded bg-slate-200 dark:bg-white/10"></div>
+                  </div>
+                </div>
+                <div className="h-10 w-full rounded-2xl bg-slate-200 dark:bg-white/10"></div>
+              </div>
+            ))}
+          </div>
+        </section>
       )}
 
       {status === "success" && trainers.length > 0 && (
