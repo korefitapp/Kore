@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Clock4, Sparkles, TrendingUp } from "lucide-react";
 import { OWNER } from "./data";
@@ -41,9 +42,12 @@ export function Overview({
 }
 
 function Header({ adminName, pendingCount, disputesCount }: { adminName: string; pendingCount: number; disputesCount: number; }) {
-  const hour = new Date().getHours();
-  const greeting =
-    hour < 12 ? "Bom dia" : hour < 18 ? "Boa tarde" : "Boa noite";
+  const [greeting, setGreeting] = useState("Olá");
+
+  useEffect(() => {
+    const hour = new Date().getHours();
+    setGreeting(hour < 12 ? "Bom dia" : hour < 18 ? "Boa tarde" : "Boa noite");
+  }, []);
   const firstName = adminName.split(" ")[0] ?? OWNER.name.split(" ")[0];
 
   return (

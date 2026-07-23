@@ -287,7 +287,7 @@ export function MessagesClient({
     } finally {
       setIsSending(false);
     }
-  }, [newMessage, selectedContactId, currentUserId, contacts, isSending]);
+  }, [newMessage, selectedContactId, currentUserId, contacts, isSending, instanceStatus]);
 
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent) => {

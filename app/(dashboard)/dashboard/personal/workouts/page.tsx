@@ -43,6 +43,7 @@ export default async function WorkoutsPage() {
       workouts={workouts || []} 
       exercises={exercises || []}
       userId={user.id} 
+      error={error?.message || null}
     />
   );
 }

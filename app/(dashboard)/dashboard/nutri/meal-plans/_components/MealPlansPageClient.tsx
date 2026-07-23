@@ -24,6 +24,9 @@ import { useTransition } from "react";
 import { Modal } from "@/components/ui/modal";
 import { MealBuilderModal } from "./MealBuilderModal";
 import { CreateMealPlanModal } from "../../_components/CreateMealPlanModal";
+import { EmptyState } from "@/app/(dashboard)/_components/EmptyState";
+import { useToastStore } from "@/store/useToastStore";
+import { AlertTriangle } from "lucide-react";
 
 /* ── Types ──────────────────────────────────────────────────── */
 type Objective =
@@ -98,15 +101,25 @@ export function MealPlansPageClient({
   nutritionistId: _nutritionistId,
   initialPlans = [],
   patients = [],
+  error,
 }: {
   nutritionistId: string;
   initialPlans?: any[];
   patients?: any[];
+  error?: string | null;
 }) {
   const [filter, setFilter] = useState<Objective | "all">("all");
   const [query, setQuery] = useState("");
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const router = useRouter();
+
+  const addToast = useToastStore((state) => state.addToast);
+
+  useEffect(() => {
+    if (error) {
+      addToast("error", "Erro ao carregar cardápios: " + error);
+    }
+  }, [error, addToast]);
 
   const plans = initialPlans;
 
@@ -203,25 +216,28 @@ export function MealPlansPageClient({
 
           {/* ── Grid de Cardápios ────────────────────────────── */}
           {filtered.length === 0 ? (
-            <div className="py-20 text-center flex flex-col items-center justify-center border-2 border-dashed border-kore-border rounded-2xl bg-kore-bg">
-              <div className="w-16 h-16 bg-kore-card rounded-full grid place-items-center mb-4 text-kore-muted shadow-sm">
-                <Utensils size={24} />
-              </div>
-              <h3 className="text-lg font-bold text-kore-ink mb-1">
-                Nenhum modelo encontrado
-              </h3>
-              <p className="text-sm text-kore-muted max-w-sm mb-6">
-                Não existem cardápios criados para a categoria selecionada. Você pode tentar buscar por outro termo ou criar um novo agora mesmo.
-              </p>
-              <button
-                type="button"
-                onClick={() => setIsCreateModalOpen(true)}
-                className="btn-kore px-4 py-2 text-sm inline-flex items-center gap-2"
-              >
-                <Plus size={16} />
-                Criar Novo Cardápio
-              </button>
-            </div>
+            error ? (
+              <EmptyState
+                icon={AlertTriangle}
+                title="Erro ao carregar"
+                description="Houve um problema ao conectar com o banco de dados."
+                isError
+              />
+            ) : query.trim() || filter !== "all" ? (
+              <EmptyState
+                icon={Search}
+                title="Nenhum modelo encontrado"
+                description="Sua busca não retornou nenhum modelo. Tente limpar os filtros."
+                secondaryAction={{ label: "Limpar Filtros", onClick: () => { setQuery(""); setFilter("all"); } }}
+              />
+            ) : (
+              <EmptyState
+                icon={Utensils}
+                title="Nenhum modelo criado"
+                description="Não existem cardápios criados. Crie um novo agora mesmo."
+                action={{ label: "Criar Cardápio", icon: Plus, onClick: () => setIsCreateModalOpen(true) }}
+              />
+            )
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
               {filtered.map((plan) => (

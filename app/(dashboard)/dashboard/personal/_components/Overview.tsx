@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { AgendaToday } from "./AgendaToday";
 import { OWNER } from "./data";
@@ -29,9 +30,13 @@ export function Overview({ personalName, metrics, dashboardData }: { personalNam
 }
 
 function Header({ personalName, metrics }: { personalName: string, metrics: any }) {
-  const hour = new Date().getHours();
-  const greeting =
-    hour < 12 ? "Bom dia" : hour < 18 ? "Boa tarde" : "Boa noite";
+  const [greeting, setGreeting] = useState("Olá");
+
+  useEffect(() => {
+    const hour = new Date().getHours();
+    setGreeting(hour < 12 ? "Bom dia" : hour < 18 ? "Boa tarde" : "Boa noite");
+  }, []);
+
   const firstName = personalName.split(" ")[0] ?? OWNER.name.split(" ")[0];
 
   return (

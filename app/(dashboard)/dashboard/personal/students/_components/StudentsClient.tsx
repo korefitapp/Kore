@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import {
   ChevronRight,
@@ -8,12 +8,15 @@ import {
   Edit,
   Search,
   Users,
+  AlertTriangle,
+  UserPlus
 } from "lucide-react";
 import { MobileSidebar, Sidebar } from "../../_components/Sidebar";
 import { Topbar } from "../../_components/Topbar";
 import { StudentProfileModal } from "./StudentProfileModal";
 import { useToastStore } from "@/store/useToastStore";
 import { WorkoutBuilderModal } from "../../workouts/_components/WorkoutBuilderModal";
+import { EmptyState } from "@/app/(dashboard)/_components/EmptyState";
 
 /* ── Types ──────────────────────────────────────────────────── */
 interface StudentRow {
@@ -133,9 +136,11 @@ function statusLabel(s: string) {
 export function StudentsClient({
   students,
   exercises,
+  error,
 }: {
   students: StudentRow[] | null;
   exercises: any[];
+  error?: string | null;
 }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [query, setQuery] = useState("");
@@ -147,6 +152,14 @@ export function StudentsClient({
   const [builderOpen, setBuilderOpen] = useState(false);
   const [builderEditBaseId, setBuilderEditBaseId] = useState<string | null>(null);
   const [builderStudentId, setBuilderStudentId] = useState<string | null>(null);
+
+  const addToast = useToastStore((state) => state.addToast);
+
+  useEffect(() => {
+    if (error) {
+      addToast("error", "Erro ao carregar alunos: " + error);
+    }
+  }, [error, addToast]);
 
   const handleEditWorkoutClick = (student: StudentRow, baseWorkoutId: string) => {
     setBuilderEditBaseId(baseWorkoutId);
@@ -285,11 +298,29 @@ export function StudentsClient({
                   ))}
                   {filtered.length === 0 && (
                     <tr>
-                      <td
-                        colSpan={6}
-                        className="py-12 px-5 text-center text-sm text-kore-muted"
-                      >
-                        Nenhum aluno corresponde ao filtro atual.
+                      <td colSpan={6} className="p-0">
+                        {error ? (
+                          <EmptyState
+                            icon={AlertTriangle}
+                            title="Erro ao carregar"
+                            description="Houve um problema ao conectar com o banco de dados."
+                            isError
+                          />
+                        ) : query.trim() || filter !== "all" ? (
+                          <EmptyState
+                            icon={Search}
+                            title="Nenhum aluno encontrado"
+                            description="Não encontramos resultados para a sua busca ou filtro atual."
+                            secondaryAction={{ label: "Limpar Filtros", onClick: () => { setQuery(""); setFilter("all"); } }}
+                          />
+                        ) : (
+                          <EmptyState
+                            icon={UserPlus}
+                            title="Nenhum aluno ainda"
+                            description="Sua carteira de alunos está vazia. Adicione seu primeiro aluno para começar."
+                            action={{ label: "Adicionar Aluno", icon: UserPlus, onClick: () => addToast("info", "Em breve: Novo Aluno") }}
+                          />
+                        )}
                       </td>
                     </tr>
                   )}

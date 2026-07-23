@@ -60,8 +60,8 @@ export default async function PatientsPage({
         status: p.status,
         created_at: p.created_at,
         metadata: p.metadata as Record<string, unknown> | null,
-        auth_user_id: p.auth_user_id,
       }))}
+      error={error?.message || null}
     />
   );
 }

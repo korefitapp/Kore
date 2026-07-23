@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { AgendaToday } from "./AgendaToday";
 import { OWNER } from "./data";
@@ -27,9 +28,12 @@ export function Overview({ nutriName, dashboardData }: { nutriName: string, dash
 }
 
 function Header({ nutriName, patientsCount }: { nutriName: string, patientsCount: number }) {
-  const hour = new Date().getHours();
-  const greeting =
-    hour < 12 ? "Bom dia" : hour < 18 ? "Boa tarde" : "Boa noite";
+  const [greeting, setGreeting] = useState("Olá");
+
+  useEffect(() => {
+    const hour = new Date().getHours();
+    setGreeting(hour < 12 ? "Bom dia" : hour < 18 ? "Boa tarde" : "Boa noite");
+  }, []);
   const firstName = nutriName.split(" ")[0] ?? OWNER.name.split(" ")[0];
 
   return (

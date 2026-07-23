@@ -1,13 +1,15 @@
 "use client";
 
 import { useState } from "react";
-import { Dumbbell, Plus, Search, MoreVertical, Edit3, Copy, Trash2, Eye, Target, Activity, Zap } from "lucide-react";
+import { Dumbbell, Plus, Search, MoreVertical, Edit3, Copy, Trash2, Eye, Target, Activity, Zap, AlertTriangle } from "lucide-react";
 import { MobileSidebar, Sidebar } from "../../_components/Sidebar";
 import { Topbar } from "../../_components/Topbar";
 import { WorkoutBuilderModal } from "./WorkoutBuilderModal";
 import { WorkoutViewerModal } from "./WorkoutViewerModal";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
+import { EmptyState } from "@/app/(dashboard)/_components/EmptyState";
+import { useToastStore } from "@/store/useToastStore";
 
 interface Workout {
   id: string;
@@ -30,10 +32,12 @@ export function WorkoutsClient({
   workouts,
   exercises,
   userId,
+  error,
 }: {
   workouts: Workout[];
   exercises: Exercise[];
   userId: string;
+  error?: string | null;
 }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("Todos");
@@ -64,6 +68,14 @@ export function WorkoutsClient({
       router.replace("/dashboard/personal/workouts");
     }
   }, [searchParams, router]);
+
+  const addToast = useToastStore((state) => state.addToast);
+
+  useEffect(() => {
+    if (error) {
+      addToast("error", "Erro ao carregar treinos: " + error);
+    }
+  }, [error, addToast]);
 
   const filteredWorkouts = workouts.filter((w) => {
     const matchesSearch = w.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
@@ -239,15 +251,28 @@ export function WorkoutsClient({
           </div>
 
           {filteredWorkouts.length === 0 && (
-            <div className="py-20 flex flex-col items-center justify-center text-center">
-              <div className="w-16 h-16 rounded-2xl bg-kore-bg flex items-center justify-center mb-4">
-                <Dumbbell size={28} className="text-kore-muted" />
-              </div>
-              <h3 className="text-lg font-bold text-kore-ink mb-1">Nenhum treino encontrado</h3>
-              <p className="text-sm text-kore-muted max-w-sm">
-                Sua busca não retornou nenhum treino. Tente termos diferentes ou crie uma nova ficha.
-              </p>
-            </div>
+            error ? (
+              <EmptyState
+                icon={AlertTriangle}
+                title="Erro ao carregar"
+                description="Houve um problema ao conectar com o banco de dados."
+                isError
+              />
+            ) : searchTerm.trim() || selectedCategory !== "Todos" ? (
+              <EmptyState
+                icon={Search}
+                title="Nenhum treino encontrado"
+                description="Sua busca não retornou nenhum treino. Tente termos ou filtros diferentes."
+                secondaryAction={{ label: "Limpar Filtros", onClick: () => { setSearchTerm(""); setSelectedCategory("Todos"); } }}
+              />
+            ) : (
+              <EmptyState
+                icon={Dumbbell}
+                title="Nenhum treino criado"
+                description="Sua biblioteca está vazia. Crie a primeira ficha base para começar a prescrever para seus alunos."
+                action={{ label: "Criar Treino", icon: Plus, onClick: () => setIsBuilderOpen(true) }}
+              />
+            )
           )}
         </main>
       </div>

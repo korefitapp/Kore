@@ -179,7 +179,7 @@ export function MessagesClient({
       supabase.removeChannel(messagesChannel);
       supabase.removeChannel(instanceChannel);
     };
-  }, [currentUserId, supabase]);
+  }, [currentUserId, supabase, selectedContactId]);
 
   const handleConnectWhatsApp = async () => {
     setIsConnecting(true);

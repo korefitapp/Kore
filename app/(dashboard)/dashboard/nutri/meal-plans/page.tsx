@@ -28,5 +28,5 @@ export default async function MealPlansPage() {
 
   const patients = await getNutriPatients();
 
-  return <MealPlansPageClient nutritionistId={user.id} initialPlans={plans || []} patients={patients || []} />;
+  return <MealPlansPageClient nutritionistId={user.id} initialPlans={plans || []} patients={patients || []} error={error?.message || null} />;
 }

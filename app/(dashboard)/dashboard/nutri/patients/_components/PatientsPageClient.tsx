@@ -16,6 +16,10 @@ import { Modal } from "@/components/ui/modal";
 import { EditPatientModal } from "../../_components/EditPatientModal";
 import { deletePatient } from "@/app/actions/nutri-actions";
 import { PatientFilters } from "./PatientFilters";
+import { EmptyState } from "@/app/(dashboard)/_components/EmptyState";
+import { useToastStore } from "@/store/useToastStore";
+import { useEffect } from "react";
+import { AlertTriangle, UserPlus } from "lucide-react";
 
 /* ── Types ──────────────────────────────────────────────────── */
 interface PatientRow {
@@ -95,10 +99,20 @@ function statusLabel(s: string) {
 /* ── Component ──────────────────────────────────────────────── */
 export function PatientsPageClient({
   patients,
+  error,
 }: {
   patients: PatientRow[];
+  error?: string | null;
 }) {
   const [query, setQuery] = useState("");
+  
+  const addToast = useToastStore((state) => state.addToast);
+
+  useEffect(() => {
+    if (error) {
+      addToast("error", "Erro ao carregar pacientes: " + error);
+    }
+  }, [error, addToast]);
 
   const filtered = patients.filter((p) => {
     // Search logic
@@ -187,11 +201,29 @@ export function PatientsPageClient({
                   ))}
                   {filtered.length === 0 && (
                     <tr>
-                      <td
-                        colSpan={6}
-                        className="py-12 px-5 text-center text-sm text-kore-muted"
-                      >
-                        Nenhum paciente encontrado com o status selecionado.
+                      <td colSpan={6} className="p-0">
+                        {error ? (
+                          <EmptyState
+                            icon={AlertTriangle}
+                            title="Erro ao carregar"
+                            description="Houve um problema ao conectar com o banco de dados."
+                            isError
+                          />
+                        ) : query.trim() ? (
+                          <EmptyState
+                            icon={Search}
+                            title="Nenhum paciente encontrado"
+                            description="Não encontramos pacientes para a sua busca ou filtro atual."
+                            secondaryAction={{ label: "Limpar Filtros", onClick: () => { setQuery(""); } }}
+                          />
+                        ) : (
+                          <EmptyState
+                            icon={UserPlus}
+                            title="Nenhum paciente ainda"
+                            description="Sua lista de pacientes está vazia. Adicione o seu primeiro paciente para começar."
+                            action={{ label: "Novo Paciente", icon: UserPlus, onClick: () => addToast("info", "Em breve: Novo Paciente") }}
+                          />
+                        )}
                       </td>
                     </tr>
                   )}

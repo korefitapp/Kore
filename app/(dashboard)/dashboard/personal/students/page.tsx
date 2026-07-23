@@ -55,6 +55,7 @@ export default async function StudentsPage() {
         workout_plans: s.workout_plans as any[],
       }))}
       exercises={exercises || []}
+      error={error?.message || null}
     />
   );
 }

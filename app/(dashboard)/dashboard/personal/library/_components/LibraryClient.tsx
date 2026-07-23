@@ -12,6 +12,10 @@ import { MobileSidebar, Sidebar } from "../../_components/Sidebar";
 import { Topbar } from "../../_components/Topbar";
 import { CreateExerciseModal } from "../../_components/CreateExerciseModal";
 import { EditExerciseModal } from "../../_components/EditExerciseModal";
+import { EmptyState } from "@/app/(dashboard)/_components/EmptyState";
+import { useToastStore } from "@/store/useToastStore";
+import { useEffect } from "react";
+import { AlertTriangle } from "lucide-react";
 
 interface Exercise {
   id: string;
@@ -54,11 +58,19 @@ function Badge({ children, variant = "primary" }: { children: React.ReactNode, v
   );
 }
 
-export function LibraryClient({ exercises, currentUserId, isAdmin = false }: { exercises: Exercise[], currentUserId: string, isAdmin?: boolean }) {
+export function LibraryClient({ exercises, currentUserId, isAdmin = false, error }: { exercises: Exercise[], currentUserId: string, isAdmin?: boolean, error?: string | null }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [activeTab, setActiveTab] = useState("Todos");
   const [isExerciseModalOpen, setIsExerciseModalOpen] = useState(false);
   const [editingExercise, setEditingExercise] = useState<Exercise | null>(null);
+  
+  const addToast = useToastStore((state) => state.addToast);
+
+  useEffect(() => {
+    if (error) {
+      addToast("error", "Erro ao carregar exercícios: " + error);
+    }
+  }, [error, addToast]);
 
   const filteredExercises = exercises.filter((ex) => {
     // 1. Filtrar pela aba
@@ -164,7 +176,28 @@ export function LibraryClient({ exercises, currentUserId, isAdmin = false }: { e
               ))}
             </div>
           ) : (
-            <EmptyState hasExercises={exercises.length > 0} onOpenModal={() => setIsExerciseModalOpen(true)} />
+            error ? (
+              <EmptyState
+                icon={AlertTriangle}
+                title="Erro ao carregar"
+                description="Houve um problema ao conectar com o banco de dados."
+                isError
+              />
+            ) : exercises.length > 0 ? (
+              <EmptyState
+                icon={Search}
+                title="Nenhum exercício encontrado"
+                description="Não encontramos resultados para a sua busca ou filtro."
+                secondaryAction={{ label: "Limpar Filtros", onClick: () => { setSearchTerm(""); setActiveTab("Todos"); } }}
+              />
+            ) : (
+              <EmptyState
+                icon={Dumbbell}
+                title="Biblioteca vazia"
+                description="Não há exercícios cadastrados. Crie seu primeiro exercício agora."
+                action={{ label: "Novo Exercício", icon: Plus, onClick: () => setIsExerciseModalOpen(true) }}
+              />
+            )
           )}
         </main>
       </div>
@@ -234,42 +267,5 @@ function ExerciseCard({ exercise, currentUserId, isAdmin = false, onEdit }: { ex
         )}
       </div>
     </article>
-  );
-}
-
-function EmptyState({ hasExercises, onOpenModal }: { hasExercises: boolean; onOpenModal: () => void }) {
-  return (
-    <div className="rounded-2xl border-2 border-dashed border-kore-border bg-kore-card/30 px-6 py-16 text-center">
-      <div className="mx-auto w-14 h-14 rounded-2xl bg-violet-50 dark:bg-violet-900/20 grid place-items-center mb-4">
-        <Dumbbell size={28} className="text-violet-500" />
-      </div>
-      {hasExercises ? (
-        <>
-          <h3 className="text-base font-extrabold text-kore-ink">
-            Nenhum exercício encontrado
-          </h3>
-          <p className="text-sm text-kore-muted mt-1 max-w-sm mx-auto">
-            Tente ajustar os filtros ou o termo de busca para encontrar o que procura.
-          </p>
-        </>
-      ) : (
-        <>
-          <h3 className="text-base font-extrabold text-kore-ink">
-            Sua biblioteca está vazia
-          </h3>
-          <p className="text-sm text-kore-muted mt-1 max-w-sm mx-auto">
-            Comece cadastrando o primeiro exercício para montar seus treinos de hipertrofia.
-          </p>
-          <button
-            type="button"
-            onClick={onOpenModal}
-            className="mt-5 inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-bold text-white bg-kore-emerald hover:brightness-110 transition shadow-kore-emerald"
-          >
-            <Plus size={16} strokeWidth={2.5} />
-            Cadastrar primeiro exercício
-          </button>
-        </>
-      )}
-    </div>
   );
 }
